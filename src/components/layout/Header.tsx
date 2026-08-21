@@ -37,30 +37,30 @@ export const Header: React.FC = () => {
 
   const topActions = [
     {
-      label: t('nav.bookNow'),
+      label: 'Reserva',
       icon: Ticket,
       action: () => navigate('/reservar'),
     },
     {
-      label: currentUser ? currentUser.name.split(' ')[0] : t('nav.clientArea'),
-      icon: User,
-      action: () => setIsPortalOpen(true),
+      label: 'Frota VIP',
+      icon: Car,
+      action: () => navigate('/frota'),
     },
     {
-      label: t('nav.support247'),
-      icon: Phone,
-      action: () => window.location.href = 'tel:+244923719090',
+      label: currentUser ? currentUser.name.split(' ')[0] : 'Área Cliente',
+      icon: User,
+      action: () => setIsPortalOpen(true),
     },
   ];
 
   const navLinks = [
-    { to: '/', label: t('nav.home'), icon: Building2 },
-    { to: '/frota', label: t('nav.fleet'), icon: Car },
-    { to: '/servicos', label: t('nav.services'), icon: Briefcase },
-    { to: '/clientes', label: t('nav.corporate'), icon: Users },
-    { to: '/rotas', label: t('nav.routes'), icon: Compass },
-    { to: '/quem-somos', label: t('nav.about'), icon: Award },
-    { to: '/contactos', label: t('nav.contact'), icon: Phone },
+    { to: '/', label: 'Início', icon: Building2 },
+    { to: '/quem-somos', label: 'Quem Somos', icon: Award },
+    { to: '/servicos', label: 'Serviços', icon: Briefcase },
+    { to: '/frota', label: 'Frota', icon: Car },
+    { to: '/clientes', label: 'Clientes', icon: Users },
+    { to: '/rotas', label: 'Rotas', icon: Compass },
+    { to: '/contactos', label: 'Fale Conosco', icon: Phone },
   ];
 
   return (

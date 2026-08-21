@@ -59,6 +59,9 @@ expect(paymentSource.includes('MB WAY / Portugal'), 'Canal Portugal MB WAY ausen
 const demoUsersSource = fs.readFileSync('src/data/demoUsers.ts', 'utf8');
 const demoUserIds = [...demoUsersSource.matchAll(/id:\s*'demo_[^']+'/g)];
 expect(demoUserIds.length === 9, `Esperados 9 utilizadores demo; encontrados ${demoUserIds.length}`);
+const demoLoginIds = [...demoUsersSource.matchAll(/'[^']+\.demo':\s*'[^']+'/g)];
+expect(demoLoginIds.length === 9, `Esperados 9 logins demo; encontrados ${demoLoginIds.length}`);
+expect(demoUsersSource.includes("DEMO_PASSWORD = 'PepekDemo2026!'"), 'Senha comum de demonstração não está configurada');
 
 if (failures.length) {
   console.error(failures.map(item => `- ${item}`).join('\n'));

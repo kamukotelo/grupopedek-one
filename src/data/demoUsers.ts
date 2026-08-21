@@ -1,5 +1,19 @@
 import { UserProfile, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
 
+export const DEMO_PASSWORD = 'PepekDemo2026!';
+
+export const DEMO_LOGIN_ROLES = {
+  'vip.demo': 'cliente_vip',
+  'cliente.demo': 'cliente_normal',
+  'vendedor.demo': 'vendedor',
+  'reservas.demo': 'gestor_reservas',
+  'frotas.demo': 'diretor_frotas',
+  'motorista.demo': 'motorista',
+  'contabilidade.demo': 'contabilista',
+  'portugal.demo': 'gestor_portugal',
+  'direcao.demo': 'direcao',
+} as const;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // DEMO PERSONAS — Ambiente de Staging / Desenvolvimento APENAS
 // TODOS os dados abaixo são FICTÍCIOS para fins de demonstração.

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
-import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
+import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC, DEMO_LOGIN_ROLES, DEMO_PASSWORD } from '../data/demoUsers';
 import { supabase } from '../lib/supabase';
 
 // Demo can be enabled explicitly in an isolated staging deployment. Keep the
@@ -23,6 +23,17 @@ const ROLE_LABELS: Record<UserRole, string> = {
 const safeRole = (value: unknown): UserRole => {
   const roles = Object.keys(ROLE_LABELS) as UserRole[];
   return roles.includes(value as UserRole) ? value as UserRole : 'cliente_normal';
+};
+
+const getStoredDemoUser = (): UserProfile | null => {
+  const saved = localStorage.getItem('pepek_demo_user');
+  if (!saved) return null;
+  try {
+    const parsed = JSON.parse(saved) as UserProfile;
+    return Object.values(DEMO_USERS).find((user) => user.id === parsed.id) ?? null;
+  } catch {
+    return null;
+  }
 };
 
 const mapAuthUser = (user: User): UserProfile => {
@@ -66,10 +77,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
-    if (!IS_DEMO_MODE) return null;
-    const saved = localStorage.getItem('pepek_demo_user');
-    if (!saved) return null;
-    try { return JSON.parse(saved); } catch { return null; }
+    return getStoredDemoUser();
   });
   const [isAuthReady, setIsAuthReady] = useState(IS_DEMO_MODE);
   const [isPortalOpen, setIsPortalOpen] = useState(false);
@@ -84,9 +92,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     pendingQuotesCount: 0,
   });
   const [selectedPaymentInvoice, setSelectedPaymentInvoice] = useState<InvoiceItem | null>(null);
+  const isDemoSession = currentUser?.id.startsWith('demo_') ?? false;
 
   useEffect(() => {
-    if (IS_DEMO_MODE) return;
+    if (IS_DEMO_MODE || getStoredDemoUser()) {
+      setIsAuthReady(true);
+      return;
+    }
     let mounted = true;
     supabase.auth.getSession().then(({ data }) => {
       if (!mounted) return;
@@ -105,10 +117,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
-    if (IS_DEMO_MODE || !currentUser) {
+    if (IS_DEMO_MODE || isDemoSession || !currentUser) {
+      if (IS_DEMO_MODE || isDemoSession) {
+        setInvoices(DEMO_INVOICES);
+        setFleetTelemetry(DEMO_FLEET_TELEMETRY);
+        setOdooSync(DEMO_ODOO_SYNC);
+      }
       if (!IS_DEMO_MODE) {
-        setInvoices([]);
-        setFleetTelemetry([]);
+        if (!isDemoSession) {
+          setInvoices([]);
+          setFleetTelemetry([]);
+        }
       }
       return;
     }
@@ -144,7 +163,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       })));
     };
     void loadProtectedData();
-  }, [currentUser]);
+  }, [currentUser, isDemoSession]);
 
   const loginAs = (role: UserRole) => {
     if (!IS_DEMO_MODE) return;
@@ -156,18 +175,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signIn = async (email: string, password: string) => {
+    const demoLogin = email.trim().toLowerCase() as keyof typeof DEMO_LOGIN_ROLES;
+    const demoRole = DEMO_LOGIN_ROLES[demoLogin];
+    if (demoRole) {
+      if (password !== DEMO_PASSWORD) return { error: 'Credenciais de demonstração inválidas' };
+      const user = DEMO_USERS[demoRole];
+      setCurrentUser(user);
+      setInvoices(DEMO_INVOICES);
+      setFleetTelemetry(DEMO_FLEET_TELEMETRY);
+      setOdooSync(DEMO_ODOO_SYNC);
+      localStorage.setItem('pepek_demo_user', JSON.stringify(user));
+      return {};
+    }
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     return error ? { error: error.message } : {};
   };
 
   const requestPasswordReset = async (email: string) => {
+    if (email.trim().toLowerCase() in DEMO_LOGIN_ROLES) {
+      return { error: 'As contas demo não utilizam recuperação de senha' };
+    }
     const redirectTo = `${window.location.origin}/painel`;
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
     return error ? { error: error.message } : {};
   };
 
   const logout = async () => {
-    if (!IS_DEMO_MODE) await supabase.auth.signOut();
+    if (!IS_DEMO_MODE && !isDemoSession) await supabase.auth.signOut();
     setCurrentUser(null);
     localStorage.removeItem('pepek_demo_user');
     setInvoices(IS_DEMO_MODE ? DEMO_INVOICES : []);
@@ -176,14 +210,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const payInvoice = (invoiceId: string, gateway: string) => {
-    if (!IS_DEMO_MODE) return;
+    if (!IS_DEMO_MODE && !isDemoSession) return;
     setInvoices(prev => prev.map(inv => inv.id === invoiceId
       ? { ...inv, status: 'paid' as const, paymentGateway: gateway as InvoiceItem['paymentGateway'] }
       : inv));
   };
 
   const refreshOdooSync = async () => {
-    if (IS_DEMO_MODE) {
+    if (IS_DEMO_MODE || isDemoSession) {
       setOdooSync(prev => ({ ...prev, serverStatus: 'syncing' }));
       await new Promise(resolve => setTimeout(resolve, 800));
       setOdooSync({ ...DEMO_ODOO_SYNC, lastSync: `Demo actualizado (${new Date().toLocaleTimeString('pt-AO')})` });

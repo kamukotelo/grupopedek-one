@@ -2,7 +2,19 @@
 
 ## Preparação segura
 
-Use o ambiente local ou uma implantação de staging isolada com `VITE_DEMO_MODE=true`. Não active esta variável no domínio público de produção. Todos os nomes, matrículas, faturas e movimentos apresentados no modo demo são fictícios.
+Os nove acessos demonstrativos podem ser utilizados directamente na Área Cliente. A barra livre de troca de perfis continua reservada ao ambiente local ou a uma implantação de staging com `VITE_DEMO_MODE=true`. Todos os nomes, matrículas, faturas e movimentos apresentados no modo demo são fictícios.
+
+Senha comum dos perfis: `PepekDemo2026!`
+
+- `vip.demo`
+- `cliente.demo`
+- `vendedor.demo`
+- `reservas.demo`
+- `frotas.demo`
+- `motorista.demo`
+- `contabilidade.demo`
+- `portugal.demo`
+- `direcao.demo`
 
 ## Jornada principal do cliente
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, Building2, User, Lock, Mail, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
+import { X, Building2, User, Lock, Mail, ArrowRight, ShieldCheck, Loader2, FlaskConical } from 'lucide-react';
+import { DEMO_LOGIN_ROLES, DEMO_PASSWORD } from '../../data/demoUsers';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [resetMessage, setResetMessage] = useState('');
+  const [showDemoAccess, setShowDemoAccess] = useState(false);
 
   if (!isOpen) return null;
 
@@ -102,6 +104,35 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
         {/* Body Content */}
         <div className="p-6 sm:p-8">
           <>
+            <div className="mb-5 overflow-hidden rounded-2xl border border-[#D2A820]/35 bg-[#FFF9E7]">
+              <button
+                type="button"
+                onClick={() => setShowDemoAccess((visible) => !visible)}
+                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-[#07133F]"
+                aria-expanded={showDemoAccess}
+              >
+                <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider"><FlaskConical className="h-4 w-4 text-[#B68D13]" />Acessos de demonstração</span>
+                <span className="text-[10px] font-bold text-[#B68D13]">{showDemoAccess ? 'Ocultar' : 'Ver perfis'}</span>
+              </button>
+              {showDemoAccess && (
+                <div className="border-t border-[#D2A820]/25 px-3 pb-3 pt-2">
+                  <p className="mb-2 px-1 text-[10px] font-semibold text-slate-600">Senha comum: <strong className="text-[#07133F]">{DEMO_PASSWORD}</strong></p>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {Object.keys(DEMO_LOGIN_ROLES).map((login) => (
+                      <button
+                        key={login}
+                        type="button"
+                        onClick={() => { setEmailOrNif(login); setPassword(DEMO_PASSWORD); setErrorMessage(''); }}
+                        className="rounded-lg border border-[#D2A820]/20 bg-white px-2 py-2 text-left text-[10px] font-extrabold text-[#07133F] transition hover:border-[#B68D13] hover:bg-[#FFF4C7]"
+                      >
+                        {login}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 px-1 text-[9px] leading-relaxed text-slate-500">Dados totalmente fictícios. Nenhuma cobrança ou operação real será executada.</p>
+                </div>
+              )}
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
