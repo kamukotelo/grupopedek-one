@@ -1,157 +1,126 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShieldCheck, Building, Landmark, Globe2 } from 'lucide-react';
+import { ShieldCheck, Award } from 'lucide-react';
 
 export const InstitutionalClients: React.FC = () => {
   const { t } = useTranslation();
 
-  const clients = [
+  // Logos array with actual images and crisp vector representations
+  const clientLogos = [
     {
-      id: 'embassy-usa',
-      name: 'Embaixada dos Estados Unidos',
-      sub: 'U.S. Embassy Luanda',
-      category: 'Corpo Diplomático',
-      icon: <Globe2 className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Missões Diplomáticas'
+      name: 'Embaixada Americana',
+      subtitle: 'U.S. Embassy Luanda',
+      src: '/carrossel/embaixada-americana.png',
     },
     {
-      id: 'governo-angola',
       name: 'Governo de Angola',
-      sub: 'Ministérios & Delegações de Estado',
-      category: 'Sector Público',
-      icon: <Landmark className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Protocolo de Estado'
+      subtitle: 'República de Angola',
+      src: '/carrossel/governo-angola.png',
     },
     {
-      id: 'assembleia-nacional',
+      name: 'ANPG',
+      subtitle: 'Agência Nacional de Petróleo e Gás',
+      src: '/carrossel/anpg.png',
+    },
+    {
       name: 'Assembleia Nacional',
-      sub: 'República de Angola',
-      category: 'Órgão de Soberania',
-      icon: <Landmark className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Transporte Parlamentar'
+      subtitle: 'República de Angola',
+      src: '/carrossel/strip-logos.png',
     },
     {
-      id: 'sonangol',
       name: 'SONANGOL E.P.',
-      sub: 'Sociedade Nacional de Combustíveis',
-      category: 'Energia & Petróleos',
-      icon: <Building className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Mobilidade Operacional'
+      subtitle: 'Sociedade Nacional de Combustíveis',
+      customText: 'SONANGOL',
+      badge: 'Energia'
     },
     {
-      id: 'taag',
       name: 'TAAG Linhas Aéreas',
-      sub: 'Angola Airlines',
-      category: 'Aviação Comercial',
-      icon: <Building className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Transfers de Tripulações & VIP'
+      subtitle: 'Angola Airlines',
+      customText: 'TAAG',
+      badge: 'Aviação'
     },
     {
-      id: 'bfa',
       name: 'Banco BFA',
-      sub: 'Banco de Fomento Angola',
-      category: 'Banca & Finanças',
-      icon: <Building className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Gestão de Frotas'
+      subtitle: 'Banco de Fomento Angola',
+      customText: 'BFA',
+      badge: 'Banca'
     },
     {
-      id: 'fidelidade',
-      name: 'Fidelidade Angola',
-      sub: 'Companhia de Seguros',
-      category: 'Seguros & Serviços',
-      icon: <ShieldCheck className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Viaturas de Substituição'
-    },
-    {
-      id: 'dstv',
-      name: 'DSTV / MultiChoice',
-      sub: 'Telecomunicações & Média',
-      category: 'Média & Conteúdos',
-      icon: <Building className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Logística de Produções'
-    },
-    {
-      id: 'unicef',
       name: 'UNICEF Angola',
-      sub: 'Nações Unidas',
-      category: 'Organismo Internacional',
-      icon: <Globe2 className="w-6 h-6 text-[#0B45D8]" />,
-      tag: 'Missões no Interior'
+      subtitle: 'Nações Unidas',
+      customText: 'UNICEF',
+      badge: 'Organismo Internacional'
+    },
+    {
+      name: 'DSTV MultiChoice',
+      subtitle: 'Telecomunicações & Média',
+      customText: 'DStv',
+      badge: 'Telecom'
+    },
+    {
+      name: 'Fidelidade Angola',
+      subtitle: 'Companhia de Seguros',
+      customText: 'FIDELIDADE',
+      badge: 'Seguros'
     }
   ];
 
   return (
-    <section id="clientes" className="section-padding bg-[#06142F] text-white relative overflow-hidden">
-      {/* Background Subtle Lines */}
-      <div className="absolute inset-0 bg-[radial-gradient(#0B45D8_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
+    <section id="clientes" className="py-20 bg-[#040C1D] text-white relative overflow-hidden border-y border-white/10">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-[#0B45D8]/10 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="container-pepek relative z-10">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16 text-center sm:text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-semibold text-[#8899BB] uppercase tracking-widest mb-4">
-            <ShieldCheck className="w-4 h-4 text-[#0B45D8]" />
-            <span>{t('clients.tag')}</span>
+      <div className="container-pepek relative z-10 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-bold text-[#8899BB] uppercase tracking-widest mb-3">
+              <ShieldCheck className="w-4 h-4 text-[#0B45D8]" />
+              <span>A Confiança de Organizações de Referência</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight font-inter">
+              Corpo Diplomático, Governo & Líderes Empresariais
+            </h2>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-6 font-inter">
-            {t('clients.title')}
-          </h2>
-
-          <p className="text-base sm:text-lg text-gray-300 leading-relaxed font-light">
-            {t('clients.subtitle')}
-          </p>
+          <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
+            <Award className="w-4 h-4 text-[#0B45D8]" />
+            <span>Padrão Internacional de Sigilo & Protocolo</span>
+          </div>
         </div>
+      </div>
 
-        {/* Editorial Logo & Institution Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {clients.map((client) => (
+      {/* Infinite Logo Carousel Engine (Continuous Luxury Ticker) */}
+      <div className="relative w-full overflow-hidden py-4">
+        {/* Left & Right Gradient Shadows for seamless fade */}
+        <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#040C1D] to-transparent z-20 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#040C1D] to-transparent z-20 pointer-events-none" />
+
+        {/* Ticker Track (Double loop for seamless infinite scroll) */}
+        <div className="flex items-center gap-8 sm:gap-12 animate-[marquee_28s_linear_infinite] hover:[animation-play-state:paused] w-max select-none">
+          {[...clientLogos, ...clientLogos].map((client, idx) => (
             <div
-              key={client.id}
-              className="p-6 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#0B45D8]/60 hover:bg-[#0B45D8]/[0.08] transition-all duration-300 group flex flex-col justify-between"
+              key={idx}
+              className="flex items-center justify-center p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#0B45D8]/70 hover:bg-[#0B45D8]/10 transition-all duration-300 min-w-[200px] sm:min-w-[240px] h-24 backdrop-blur-xs group shrink-0"
             >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-lg bg-white/5 border border-white/10 group-hover:scale-110 group-hover:bg-[#0B45D8]/20 transition-all">
-                    {client.icon}
-                  </div>
-                  <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-2.5 py-1 rounded bg-white/5 border border-white/5">
-                    {client.category}
+              {client.src ? (
+                <img
+                  src={client.src}
+                  alt={client.name}
+                  className="max-h-12 max-w-[180px] w-auto object-contain filter brightness-[0.85] contrast-[1.2] group-hover:brightness-110 group-hover:scale-105 transition-all duration-300"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="text-center">
+                  <span className="font-extrabold text-lg sm:text-xl tracking-wider text-white/80 group-hover:text-white font-inter block transition-colors">
+                    {client.customText}
+                  </span>
+                  <span className="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mt-0.5">
+                    {client.badge}
                   </span>
                 </div>
-
-                <h3 className="text-lg font-bold text-white group-hover:text-gray-100 mb-1">
-                  {client.name}
-                </h3>
-                <p className="text-xs text-gray-400 font-medium">
-                  {client.sub}
-                </p>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-                <span className="text-xs text-[#0B45D8] font-semibold">
-                  ✓ {client.tag}
-                </span>
-                <span className="text-xs text-gray-500 font-mono">Conta Activa</span>
-              </div>
+              )}
             </div>
           ))}
-        </div>
-
-        {/* Bottom Trust Indicator */}
-        <div className="mt-14 p-6 rounded-xl bg-gradient-to-r from-white/[0.05] via-[#0B45D8]/10 to-white/[0.05] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
-            <p className="text-sm text-gray-200">
-              Disponibilidade protocolar imediata para novas acreditações diplomáticas e acordos-quadro empresariais.
-            </p>
-          </div>
-
-          <a
-            href="#contactos"
-            className="text-xs font-bold uppercase tracking-wider text-white hover:text-[#0B45D8] px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors shrink-0"
-          >
-            Solicitar Acordo Corporativo ➔
-          </a>
         </div>
       </div>
     </section>

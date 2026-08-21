@@ -93,6 +93,16 @@
 ::-webkit-scrollbar-thumb { background: var(--royal); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--royal-dark); }
 
+/* ── Keyframes & Animations ── */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(200%); }
+}
+
 /* ── Utility classes ── */
 @layer utilities {
   .text-navy    { color: var(--navy); }

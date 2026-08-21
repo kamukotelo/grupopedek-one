@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
 import { Hero } from './components/sections/Hero';
 import { BookingWidget } from './components/sections/BookingWidget';
@@ -25,23 +26,26 @@ export const App: React.FC = () => {
 
   return (
     <HelmetProvider>
+      {/* Lightweight, zero-lag luxury splash screen */}
+      <SplashScreen />
+
       <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#0B45D8] selection:text-white pb-14 lg:pb-0">
-        {/* Sticky Header Navigation */}
+        {/* Sticky Header Navigation with Client Area */}
         <Header />
 
         {/* Main Application Flow */}
         <main className="flex-1">
-          {/* 1. Hero Section (Slogan & KPIs) */}
+          {/* 1. Hero Section (Slogan & 4 Pillars) */}
           <Hero />
 
-          {/* 2. Smart Booking Widget & Dynamic WhatsApp */}
+          {/* 2. Interactive VIP Concierge & Smart Booking */}
           <BookingWidget initialVehicle={selectedVehicleForBooking} />
 
-          {/* 3. Executive Route Estimator & Fare Calculator */}
-          <RouteEstimator />
-
-          {/* 4. Institutional Clients Grid (Embassies, Gov, Sonangol, TAAG, BFA, etc.) */}
+          {/* 3. Infinite Institutional Client Logo Carousel */}
           <InstitutionalClients />
+
+          {/* 4. Executive Route Estimator & Fare Calculator */}
+          <RouteEstimator />
 
           {/* 5. Core Services (4 Interactive Cards) */}
           <Services />
@@ -80,7 +84,7 @@ export const App: React.FC = () => {
         {/* Floating AI Executive Assistant with Quick Chips */}
         <ChatBot />
 
-        {/* Mobile Quick Action Bar (1-Tap Call, Booking & WhatsApp) */}
+        {/* Mobile Quick Action Bar */}
         <MobileQuickBar />
       </div>
     </HelmetProvider>
