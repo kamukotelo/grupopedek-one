@@ -32,7 +32,7 @@ for (const component of [
   expect(fs.readFileSync(component, 'utf8').includes('/rent_car_hd/'), `Componente sem imagens HD: ${component}`);
 }
 
-for (const path of ['api/reservations.js', 'api/availability.js', 'api/ai.js', 'api/odoo-status.js']) {
+for (const path of ['api/reservations.js', 'api/availability.js', 'api/ai.js', 'api/odoo-status.js', 'api/odoo-sync.js']) {
   expect(fs.existsSync(path), `Endpoint obrigatório ausente: ${path}`);
 }
 
@@ -65,6 +65,9 @@ expect(demoUsersSource.includes("DEMO_PASSWORD = 'PepekDemo2026!'"), 'Senha comu
 const clientAreaSource = fs.readFileSync('src/components/ui/ClientAreaModal.tsx', 'utf8');
 expect(clientAreaSource.includes('loginAs(role)'), 'Os perfis demo não possuem acesso direto sem senha');
 expect(clientAreaSource.includes('Login de conta real'), 'O login real não está separado dos perfis demonstrativos');
+expect(demoUsersSource.includes('DEMO_OPERATIONAL_RECORDS'), 'Agenda operacional demonstrativa ausente');
+expect(demoUsersSource.includes('DEMO_ODOO_EVENTS'), 'Eventos demonstrativos Odoo ausentes');
+expect(demoUsersSource.includes('totalVehiclesSynced: 47'), 'Frota oficial não está representada no estado Odoo demo');
 
 if (failures.length) {
   console.error(failures.map(item => `- ${item}`).join('\n'));

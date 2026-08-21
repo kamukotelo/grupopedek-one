@@ -230,6 +230,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
       if (!token) throw new Error('Sessão necessária');
+      const syncResponse = await fetch('/api/odoo-sync', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+      if (!syncResponse.ok && syncResponse.status !== 202) throw new Error('Sincronização recusada');
       const response = await fetch('/api/odoo-status', { headers: { Authorization: `Bearer ${token}` } });
       if (!response.ok) throw new Error('Odoo indisponível');
       setOdooSync(await response.json());

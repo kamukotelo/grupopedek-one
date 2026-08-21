@@ -1,4 +1,4 @@
-import { UserProfile, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
+import { UserProfile, InvoiceItem, FleetTelemetryItem, OdooSyncStatus, OperationalRecord, OdooSyncEvent } from '../types/auth';
 
 export const DEMO_PASSWORD = 'PepekDemo2026!';
 
@@ -155,6 +155,31 @@ export const DEMO_INVOICES: InvoiceItem[] = [
     description: 'Aluguer Semanal Mercedes-Benz V300 Class VIP — Comitiva Técnica (Demo)',
     paymentGateway: 'MB WAY',
     odooInvoiceId: 'INV/DEMO/00003' // TODO: PLACEHOLDER
+  },
+  {
+    id: 'inv_004', invoiceNumber: 'FT-PEPEK-DEMO/0004', date: '22/08/2026', dueDate: '05/09/2026',
+    amountAOA: 675000, amountUSD: 725, status: 'paid', description: 'Transfer executivo AIAAN — Talatona, com motorista bilingue (Demo)',
+    paymentGateway: 'BAI Direto', odooInvoiceId: 'INV/DEMO/00004'
+  },
+  {
+    id: 'inv_005', invoiceNumber: 'FT-PEPEK-DEMO/0005', date: '23/08/2026', dueDate: '23/09/2026',
+    amountAOA: 7850000, amountUSD: 8435, status: 'pending', description: 'Contrato mensal de mobilidade corporativa — 5 viaturas executivas (Demo)',
+    paymentGateway: 'Transferência SWIFT', odooInvoiceId: 'INV/DEMO/00005'
+  },
+  {
+    id: 'inv_006', invoiceNumber: 'FT-PEPEK-DEMO/0006', date: '24/08/2026', dueDate: '31/08/2026',
+    amountAOA: 1295000, amountUSD: 1390, status: 'pending', description: 'Comitiva internacional — Mercedes V300 VIP e apoio protocolar (Demo)',
+    paymentGateway: 'Stripe', odooInvoiceId: 'INV/DEMO/00006'
+  },
+  {
+    id: 'inv_007', invoiceNumber: 'FT-PEPEK-DEMO/0007', date: '25/08/2026', dueDate: '25/09/2026',
+    amountAOA: 3480000, amountUSD: 3740, status: 'paid', description: 'Missão técnica Luanda–Huambo com frota 4x4 (Demo)',
+    paymentGateway: 'Multicaixa Express', odooInvoiceId: 'INV/DEMO/00007'
+  },
+  {
+    id: 'inv_008', invoiceNumber: 'FT-PEPEK-DEMO/0008', date: '26/08/2026', dueDate: '26/09/2026',
+    amountAOA: 960000, amountUSD: 1032, status: 'overdue', description: 'Aluguer semanal Toyota Prado — conta corporativa (Demo)',
+    paymentGateway: 'MB WAY', odooInvoiceId: 'INV/DEMO/00008'
   }
 ];
 
@@ -215,7 +240,54 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
     location: 'Oficina Técnica Oficial Talatona',
     fuelLevel: 60,   // TODO: PLACEHOLDER
     mileageKm: 20050  // TODO: PLACEHOLDER
+  },
+  {
+    id: 'flt_06', vehicleName: 'Range Rover Novo Modelo', plateNumber: 'LD-XX-10-AA', assignedTo: 'Direcção Executiva (Demo)',
+    status: 'em_reserva', location: 'Talatona — Preparação VIP', fuelLevel: 100, mileageKm: 5400, driverName: 'Motorista Executivo Alfa (Demo)', driverPhone: '+244 9XX XXX XXX'
+  },
+  {
+    id: 'flt_07', vehicleName: 'Toyota Hilux Dupla Cabine', plateNumber: 'LD-XX-11-BB', assignedTo: 'Projecto Industrial Bengo (Demo)',
+    status: 'em_circulacao', location: 'Caxito — Bengo (Demo)', fuelLevel: 64, mileageKm: 42780, driverName: 'Motorista Operacional Bravo (Demo)', driverPhone: '+244 9XX XXX XXX'
+  },
+  {
+    id: 'flt_08', vehicleName: 'Hyundai Staria Executiva', plateNumber: 'LD-XX-12-CC', assignedTo: 'Transfer AIAAN (Demo)',
+    status: 'em_circulacao', location: 'AIAAN — Terminal Internacional', fuelLevel: 91, mileageKm: 12640, driverName: 'Motorista Protocolar Charlie (Demo)', driverPhone: '+244 9XX XXX XXX'
+  },
+  {
+    id: 'flt_09', vehicleName: 'Mercedes Sprinter 21L', plateNumber: 'LD-XX-13-DD', assignedTo: 'Conferência Internacional (Demo)',
+    status: 'em_reserva', location: 'Sede Talatona — Higienização', fuelLevel: 100, mileageKm: 23800, driverName: 'Equipa de Escala Delta (Demo)', driverPhone: '+244 9XX XXX XXX'
+  },
+  {
+    id: 'flt_10', vehicleName: 'Suzuki Swift', plateNumber: 'LD-XX-14-EE', assignedTo: 'Disponível para Entrega (Demo)',
+    status: 'disponivel_talatona', location: 'Hub Central Talatona', fuelLevel: 100, mileageKm: 18820
+  },
+  {
+    id: 'flt_11', vehicleName: 'Nissan Patrol V8', plateNumber: 'LD-XX-15-FF', assignedTo: 'Revisão Programada (Demo)',
+    status: 'em_manutencao', location: 'Oficina Técnica Talatona', fuelLevel: 48, mileageKm: 36210
+  },
+  {
+    id: 'flt_12', vehicleName: 'Toyota Coaster 30L', plateNumber: 'LD-XX-16-GG', assignedTo: 'Delegação Institucional (Demo)',
+    status: 'em_circulacao', location: 'Marginal de Luanda (Demo)', fuelLevel: 77, mileageKm: 55420, driverName: 'Motorista de Pesados Eco (Demo)', driverPhone: '+244 9XX XXX XXX'
   }
+];
+
+export const DEMO_OPERATIONAL_RECORDS: OperationalRecord[] = [
+  { id: 'op_01', type: 'reserva', reference: 'RSV-2026-1048', title: 'Transfer VIP AIAAN — Miramar', owner: 'Gestão de Reservas', location: 'Luanda', scheduledAt: '27/08/2026 · 08:30', status: 'confirmado', odooModel: 'sale.order', odooId: 'SO/DEMO/1048' },
+  { id: 'op_02', type: 'despacho', reference: 'DSP-2026-0381', title: 'Comitiva executiva — 4 SUVs', owner: 'Central de Despacho', location: 'Talatona', scheduledAt: '27/08/2026 · 10:00', status: 'em_execucao', odooModel: 'fleet.vehicle.assignment', odooId: 'FVA/DEMO/0381' },
+  { id: 'op_03', type: 'motorista', reference: 'DRV-2026-0217', title: 'Escala protocolar PT/EN', owner: 'Coordenação de Motoristas', location: 'AIAAN', scheduledAt: '27/08/2026 · 14:15', status: 'confirmado', odooModel: 'hr.employee', odooId: 'EMP/DEMO/0217' },
+  { id: 'op_04', type: 'manutencao', reference: 'MNT-2026-0094', title: 'Revisão preventiva Nissan Patrol', owner: 'Oficina PEPEK', location: 'Talatona', scheduledAt: '28/08/2026 · 07:30', status: 'atencao', odooModel: 'fleet.vehicle.log.services', odooId: 'MNT/DEMO/0094' },
+  { id: 'op_05', type: 'contrato', reference: 'CTR-2026-0062', title: 'Renovação de mobilidade corporativa', owner: 'Vendas & CRM', location: 'Luanda', scheduledAt: '29/08/2026 · 11:00', status: 'pendente', odooModel: 'sale.subscription', odooId: 'SUB/DEMO/0062' },
+  { id: 'op_06', type: 'reserva', reference: 'RSV-2026-1052', title: 'Missão técnica Luanda — Huambo', owner: 'Gestão de Reservas', location: 'Huambo', scheduledAt: '30/08/2026 · 05:45', status: 'confirmado', odooModel: 'sale.order', odooId: 'SO/DEMO/1052' },
+  { id: 'op_07', type: 'despacho', reference: 'DSP-2026-0388', title: 'Entrega executiva Toyota Prado', owner: 'Central de Despacho', location: 'Maianga', scheduledAt: '30/08/2026 · 09:20', status: 'concluido', odooModel: 'stock.picking', odooId: 'PICK/DEMO/0388' },
+  { id: 'op_08', type: 'motorista', reference: 'DRV-2026-0223', title: 'Formação em condução defensiva', owner: 'Recursos Humanos', location: 'Talatona', scheduledAt: '31/08/2026 · 08:00', status: 'pendente', odooModel: 'hr.appraisal', odooId: 'APP/DEMO/0223' }
+];
+
+export const DEMO_ODOO_EVENTS: OdooSyncEvent[] = [
+  { id: 'sync_01', model: 'res.partner', direction: 'PEPEK → Odoo', reference: 'Cliente corporativo DEMO-0291', timestamp: '16:18:04', status: 'success' },
+  { id: 'sync_02', model: 'sale.order', direction: 'PEPEK → Odoo', reference: 'SO/DEMO/1052', timestamp: '16:17:42', status: 'success' },
+  { id: 'sync_03', model: 'account.move', direction: 'Odoo → PEPEK', reference: 'INV/DEMO/0008', timestamp: '16:16:55', status: 'warning' },
+  { id: 'sync_04', model: 'fleet.vehicle', direction: 'Odoo → PEPEK', reference: '12 estados actualizados', timestamp: '16:16:21', status: 'success' },
+  { id: 'sync_05', model: 'fleet.vehicle.log.services', direction: 'PEPEK → Odoo', reference: 'MNT/DEMO/0094', timestamp: '16:15:48', status: 'success' }
 ];
 
 // NOTA DE SEGURANÇA: nunca expor nome da BD real, protocolo ou contagens exactas ao front-end público.
@@ -225,7 +297,14 @@ export const DEMO_ODOO_SYNC: OdooSyncStatus = {
   lastSync: 'Sincronizado há 2 minutos (Demo)',
   odooDb: 'pepek_erp_demo',  // TODO: PLACEHOLDER — nunca usar nome de BD de produção aqui
   serverStatus: 'connected',
-  totalVehiclesSynced: 0, // TODO: PLACEHOLDER — substituir com valor real da API Odoo
-  openInvoicesCount: 0,   // TODO: PLACEHOLDER
-  pendingQuotesCount: 0   // TODO: PLACEHOLDER
+  totalVehiclesSynced: 47,
+  openInvoicesCount: 4,
+  pendingQuotesCount: 7,
+  partnersSynced: 186,
+  reservationsSynced: 34,
+  driversSynced: 28,
+  maintenanceOrdersOpen: 3,
+  latencyMs: 184,
+  environment: 'demo',
+  lastJobStatus: 'success'
 };

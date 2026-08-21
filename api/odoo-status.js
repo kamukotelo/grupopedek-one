@@ -1,4 +1,8 @@
 export default async function handler(_req, res) {
+  if (_req.method !== 'GET') {
+    res.setHeader('Allow', 'GET');
+    return res.status(405).json({ error: 'Método não permitido' });
+  }
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
   const authHeader = _req.headers.authorization || '';
@@ -12,14 +16,19 @@ export default async function handler(_req, res) {
   if (!process.env.ODOO_STATUS_URL || !process.env.ODOO_API_TOKEN) {
     return res.status(503).json({ error: 'Odoo não configurado' });
   }
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
   try {
     const response = await fetch(process.env.ODOO_STATUS_URL, {
       headers: { Authorization: `Bearer ${process.env.ODOO_API_TOKEN}` },
+      signal: controller.signal,
     });
     if (!response.ok) throw new Error('Odoo indisponível');
     const data = await response.json();
     return res.status(200).json(data);
   } catch {
     return res.status(503).json({ error: 'Odoo indisponível' });
+  } finally {
+    clearTimeout(timeout);
   }
 }

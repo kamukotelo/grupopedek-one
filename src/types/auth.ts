@@ -31,6 +31,35 @@ export interface OdooSyncStatus {
   totalVehiclesSynced: number;
   openInvoicesCount: number;
   pendingQuotesCount: number;
+  partnersSynced?: number;
+  reservationsSynced?: number;
+  driversSynced?: number;
+  maintenanceOrdersOpen?: number;
+  latencyMs?: number;
+  environment?: 'demo' | 'staging' | 'production';
+  lastJobStatus?: 'success' | 'warning' | 'failed';
+}
+
+export interface OperationalRecord {
+  id: string;
+  type: 'reserva' | 'despacho' | 'motorista' | 'manutencao' | 'contrato';
+  reference: string;
+  title: string;
+  owner: string;
+  location: string;
+  scheduledAt: string;
+  status: 'confirmado' | 'em_execucao' | 'pendente' | 'concluido' | 'atencao';
+  odooModel: string;
+  odooId: string;
+}
+
+export interface OdooSyncEvent {
+  id: string;
+  model: string;
+  direction: 'PEPEK → Odoo' | 'Odoo → PEPEK';
+  reference: string;
+  timestamp: string;
+  status: 'success' | 'warning';
 }
 
 export interface InvoiceItem {

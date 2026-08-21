@@ -20,13 +20,18 @@ import {
   Sparkles,
   ShieldAlert,
   BarChart3,
-  Server
+  Server,
+  Activity,
+  CalendarCheck,
+  Database,
+  Wrench
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types/auth';
 import { PaymentSimulatorModal } from './PaymentSimulatorModal';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { ClientAreaModal } from '../ui/ClientAreaModal';
+import { DEMO_OPERATIONAL_RECORDS, DEMO_ODOO_EVENTS } from '../../data/demoUsers';
 
 export const ClientPortalModal: React.FC = () => {
   const {
@@ -45,7 +50,7 @@ export const ClientPortalModal: React.FC = () => {
     payInvoice
   } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'fleet' | 'invoices' | 'odoo' | 'admin' | 'request'>('fleet');
+  const [activeTab, setActiveTab] = useState<'fleet' | 'invoices' | 'operations' | 'odoo' | 'request'>('fleet');
   const [isSyncing, setIsSyncing] = useState(false);
 
   if (!isPortalOpen) return null;
@@ -63,8 +68,9 @@ export const ClientPortalModal: React.FC = () => {
   // Role categorization: Client vs Staff/Admin
   const isAdminOrStaff = !!currentUser && !['cliente_vip', 'cliente_normal'].includes(currentUser.role);
   const isVipOrClient = currentUser?.role === 'cliente_vip' || currentUser?.role === 'cliente_normal';
+  const isDemoSession = currentUser?.id.startsWith('demo_') ?? false;
   const canViewFinances = isVipOrClient || ['contabilista', 'gestor_portugal', 'direcao'].includes(currentUser?.role || '');
-  const canViewOdoo = ['gestor_reservas', 'diretor_frotas', 'contabilista', 'gestor_portugal', 'direcao'].includes(currentUser?.role || '');
+  const canViewOdoo = isAdminOrStaff;
 
   const demoRoles: Array<{ role: UserRole; label: string; icon: string; category: 'Cliente' | 'Administrativo' }> = [
     { role: 'cliente_vip', label: 'Cliente VIP Diplomático', icon: '👑', category: 'Cliente' },
@@ -81,7 +87,7 @@ export const ClientPortalModal: React.FC = () => {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn select-none overflow-y-auto">
-        <div className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden z-10 my-auto border border-gray-200 animate-scaleUp flex flex-col max-h-[92vh]">
+        <div className="relative w-full max-w-7xl bg-white rounded-3xl shadow-2xl overflow-hidden z-10 my-auto border border-gray-200 animate-scaleUp flex flex-col max-h-[94vh]">
           {/* Barra de Troca de Personas Demo — APENAS em ambiente de desenvolvimento */}
           {isDemoMode && (
             <div className="bg-[#030D1F] text-white px-4 py-2.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
@@ -184,6 +190,21 @@ export const ClientPortalModal: React.FC = () => {
                 )}
               </button>
 
+              {isAdminOrStaff && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('operations')}
+                  className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+                    activeTab === 'operations'
+                      ? 'border-[#0B45D8] text-[#0B45D8]'
+                      : 'border-transparent text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <Activity className="w-4 h-4 text-emerald-600" />
+                  <span>Centro de Operações</span>
+                </button>
+              )}
+
               {/* Odoo ERP & Admin Controls: ONLY for Admins / Staff */}
               {canViewOdoo && (
                 <button
@@ -196,7 +217,7 @@ export const ClientPortalModal: React.FC = () => {
                   }`}
                 >
                   <RefreshCw className="w-4 h-4 text-amber-600" />
-                  <span>ERP Odoo v17 (Admin)</span>
+                  <span>ERP Odoo (Admin)</span>
                 </button>
               )}
 
@@ -268,10 +289,11 @@ export const ClientPortalModal: React.FC = () => {
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                           flt.status === 'em_circulacao' ? 'bg-emerald-100 text-emerald-800' :
                           flt.status === 'disponivel_talatona' ? 'bg-blue-100 text-blue-800' :
-                          'bg-amber-100 text-amber-800'
+                          flt.status === 'em_reserva' ? 'bg-violet-100 text-violet-800' : 'bg-amber-100 text-amber-800'
                         }`}>
                           {flt.status === 'em_circulacao' ? 'Em Circulação' :
-                           flt.status === 'disponivel_talatona' ? 'Em Talatona' : 'Em Manutenção'}
+                           flt.status === 'disponivel_talatona' ? 'Em Talatona' :
+                           flt.status === 'em_reserva' ? 'Em Preparação' : 'Em Manutenção'}
                         </span>
                       </div>
 
@@ -333,9 +355,9 @@ export const ClientPortalModal: React.FC = () => {
                           <div className="flex items-center gap-2">
                             <span className="font-mono font-bold text-gray-900">{inv.invoiceNumber}</span>
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              inv.status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                              inv.status === 'paid' ? 'bg-emerald-100 text-emerald-800' : inv.status === 'overdue' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
                             }`}>
-                              {inv.status === 'paid' ? 'Liquidada' : 'Pendente de Pagamento'}
+                              {inv.status === 'paid' ? 'Liquidada' : inv.status === 'overdue' ? 'Vencida' : 'Pendente de Pagamento'}
                             </span>
                             {inv.odooInvoiceId && (
                               <span className="text-[10px] text-gray-400 font-mono">Odoo: {inv.odooInvoiceId}</span>
@@ -379,13 +401,59 @@ export const ClientPortalModal: React.FC = () => {
               </div>
             )}
 
+            {activeTab === 'operations' && isAdminOrStaff && (
+              <div className="space-y-5">
+                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.16em] text-[#B68D13]">Excelência operacional PEPEK</span>
+                    <h4 className="mt-1 text-lg font-extrabold text-[#06142F]">Centro Nacional de Mobilidade & Despacho</h4>
+                    <p className="text-xs text-gray-500">Reserva, protocolo, motorista, manutenção e contrato numa única linha de controlo.</p>
+                  </div>
+                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-black text-emerald-800">Operação 24/7 · Demo</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
+                  {[
+                    ['Reservas activas', '34', CalendarCheck, 'text-blue-700 bg-blue-50'],
+                    ['Em execução', '6', Activity, 'text-emerald-700 bg-emerald-50'],
+                    ['Motoristas escalados', '28', User, 'text-violet-700 bg-violet-50'],
+                    ['Manutenções abertas', '3', Wrench, 'text-amber-700 bg-amber-50'],
+                    ['SLA no prazo', '96,8%', ShieldCheck, 'text-[#07133F] bg-[#FFF7D6]'],
+                  ].map(([label, value, Icon, tone]) => (
+                    <div key={label as string} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+                      <div className={`mb-3 grid h-9 w-9 place-items-center rounded-xl ${tone}`}><Icon className="h-4 w-4" /></div>
+                      <strong className="block text-xl font-black text-[#07133F]">{value as string}</strong>
+                      <span className="text-[10px] font-bold text-gray-500">{label as string}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+                  <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+                    <strong className="text-xs text-[#07133F]">Agenda operacional integrada</strong>
+                    <span className="text-[10px] text-gray-400">Referências sincronizáveis com Odoo</span>
+                  </div>
+                  <div className="divide-y divide-gray-100">
+                    {DEMO_OPERATIONAL_RECORDS.map((record) => (
+                      <div key={record.id} className="grid gap-3 px-4 py-3 hover:bg-gray-50 sm:grid-cols-[150px_1fr_150px_130px] sm:items-center">
+                        <div><span className="font-mono text-[10px] font-black text-[#0B45D8]">{record.reference}</span><span className="block text-[9px] uppercase text-gray-400">{record.type}</span></div>
+                        <div><strong className="block text-xs text-[#07133F]">{record.title}</strong><span className="text-[10px] text-gray-500">{record.owner} · {record.location}</span></div>
+                        <div><Clock className="mr-1 inline h-3 w-3 text-gray-400" /><span className="text-[10px] text-gray-600">{record.scheduledAt}</span></div>
+                        <div className="text-right"><span className={`rounded-full px-2 py-1 text-[9px] font-black ${record.status === 'concluido' ? 'bg-emerald-100 text-emerald-800' : record.status === 'atencao' ? 'bg-red-100 text-red-700' : record.status === 'em_execucao' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-800'}`}>{record.status.replace('_', ' ')}</span><span className="mt-1 block font-mono text-[8px] text-gray-400">{record.odooId}</span></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Tab 3: Odoo ERP Integration (Admin / Staff Exclusive) */}
             {activeTab === 'odoo' && canViewOdoo && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-base font-extrabold text-[#06142F]">
-                      Conector Odoo v17 Enterprise (Produção)
+                      Ponte Operacional Odoo Enterprise
                     </h4>
                     <p className="text-gray-500 text-xs">
                       Sincronização bidirecional de reservas, clientes (res.partner), frotas e contabilidade.
@@ -403,7 +471,7 @@ export const ClientPortalModal: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
                     <span className="text-gray-400 text-[11px] block">Viaturas no Odoo Fleet:</span>
                     <strong className="text-xl font-bold text-[#06142F]">
@@ -427,10 +495,53 @@ export const ClientPortalModal: React.FC = () => {
                     </strong>
                     <span className="text-[10px] text-amber-600 block">Módulo sale.order</span>
                   </div>
+
+                  <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
+                    <span className="text-gray-400 text-[11px] block">Clientes & Entidades:</span>
+                    <strong className="text-xl font-bold text-[#06142F]">{odooSync.partnersSynced ?? 0}</strong>
+                    <span className="text-[10px] text-violet-600 block">Módulo res.partner</span>
+                  </div>
+
+                  <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
+                    <span className="text-gray-400 text-[11px] block">Reservas Sincronizadas:</span>
+                    <strong className="text-xl font-bold text-[#06142F]">{odooSync.reservationsSynced ?? 0}</strong>
+                    <span className="text-[10px] text-emerald-600 block">sale.order / calendar.event</span>
+                  </div>
+
+                  <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
+                    <span className="text-gray-400 text-[11px] block">Motoristas:</span>
+                    <strong className="text-xl font-bold text-[#06142F]">{odooSync.driversSynced ?? 0}</strong>
+                    <span className="text-[10px] text-cyan-600 block">Módulo hr.employee</span>
+                  </div>
+
+                  <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
+                    <span className="text-gray-400 text-[11px] block">Ordens de Manutenção:</span>
+                    <strong className="text-xl font-bold text-[#06142F]">{odooSync.maintenanceOrdersOpen ?? 0}</strong>
+                    <span className="text-[10px] text-red-600 block">fleet.vehicle.log.services</span>
+                  </div>
                 </div>
 
+                {isDemoSession && (
+                  <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+                    <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+                      <span className="flex items-center gap-2 text-xs font-black text-[#07133F]"><Database className="h-4 w-4 text-[#0B45D8]" />Fila de integração demonstrativa</span>
+                      <span className="text-[10px] font-bold text-emerald-600">Latência {odooSync.latencyMs ?? 0} ms</span>
+                    </div>
+                    <div className="divide-y divide-gray-100">
+                      {DEMO_ODOO_EVENTS.map((event) => (
+                        <div key={event.id} className="grid grid-cols-[95px_1fr_90px] items-center gap-3 px-4 py-2.5 text-[10px] sm:grid-cols-[150px_130px_1fr_90px]">
+                          <span className="font-mono font-bold text-[#0B45D8]">{event.model}</span>
+                          <span className="hidden text-gray-500 sm:block">{event.direction}</span>
+                          <span className="truncate text-gray-700">{event.reference}</span>
+                          <span className={`text-right font-bold ${event.status === 'success' ? 'text-emerald-600' : 'text-amber-600'}`}>{event.timestamp} · {event.status}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Detalhes técnicos: apenas em modo demo para a equipa */}
-                {isDemoMode && (
+                {(isDemoMode || isDemoSession) && (
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 text-[11px] space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-gray-500">Última Sincronização:</span>
