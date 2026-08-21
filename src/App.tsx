@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { AuthProvider } from './context/AuthContext';
 import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
 import { Hero } from './components/sections/Hero';
@@ -16,6 +17,7 @@ import { Contact } from './components/sections/Contact';
 import { Footer } from './components/layout/Footer';
 import { ChatBot } from './components/ui/ChatBot';
 import { MobileQuickBar } from './components/layout/MobileQuickBar';
+import { ClientPortalModal } from './components/portal/ClientPortalModal';
 import './i18n';
 
 export const App: React.FC = () => {
@@ -23,58 +25,63 @@ export const App: React.FC = () => {
 
   return (
     <HelmetProvider>
-      {/* Lightweight, zero-lag luxury splash screen */}
-      <SplashScreen />
+      <AuthProvider>
+        {/* Lightweight, zero-lag luxury splash screen */}
+        <SplashScreen />
 
-      <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#0B45D8] selection:text-white pb-14 lg:pb-0">
-        {/* Sticky Header Navigation with Client Area */}
-        <Header />
+        <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#0B45D8] selection:text-white pb-14 lg:pb-0">
+          {/* Sticky Header Navigation with Client Area */}
+          <Header />
 
-        {/* Main Application Flow */}
-        <main className="flex-1">
-          {/* Chapter 1: Hero & Embedded Top 5-by-5 Client Logos */}
-          <Hero />
+          {/* Main Application Flow */}
+          <main className="flex-1">
+            {/* Chapter 1: Hero & Embedded Top 5-by-5 Client Logos */}
+            <Hero />
 
-          {/* Chapter 2: Interactive Visual Simulator & Directorate Dossier Registration */}
-          <BookingWidget initialVehicle={selectedVehicleForBooking} />
+            {/* Chapter 2: Interactive Visual Simulator & Directorate Dossier Registration */}
+            <BookingWidget initialVehicle={selectedVehicleForBooking} />
 
-          {/* Chapter 3: Executive Services & Diplomatic Protocol */}
-          <Services />
+            {/* Chapter 3: Executive Services & Diplomatic Protocol */}
+            <Services />
 
-          {/* Chapter 4: Fleet Showcase with High-Res Technical Specs Modal */}
-          <Fleet onSelectVehicle={(v) => setSelectedVehicleForBooking(v)} />
+            {/* Chapter 4: Fleet Showcase with High-Res Technical Specs Modal */}
+            <Fleet onSelectVehicle={(v) => setSelectedVehicleForBooking(v)} />
 
-          {/* Chapter 5: Corporate & Diplomatic Portal */}
-          <CorporatePortal />
+            {/* Chapter 5: Corporate & Diplomatic Portal */}
+            <CorporatePortal />
 
-          {/* Chapter 6: Operational Coverage Map (18 Provinces & Technical Bases) */}
-          <CoverageMap />
+            {/* Chapter 6: Operational Coverage Map (18 Provinces & Technical Bases) */}
+            <CoverageMap />
 
-          {/* Chapter 7: Operational Process 'Da Reserva ao Destino' */}
-          <Process />
+            {/* Chapter 7: Operational Process 'Da Reserva ao Destino' */}
+            <Process />
 
-          {/* Chapter 8: Corporate History & Heritage since 2014 */}
-          <About />
+            {/* Chapter 8: Corporate History & Heritage since 2014 */}
+            <About />
 
-          {/* Chapter 9: AGT Compliance, Invoicing & Payment Security */}
-          <PaymentSecurity />
+            {/* Chapter 9: AGT Compliance, Invoicing & Payment Security */}
+            <PaymentSecurity />
 
-          {/* Chapter 10: Frequently Asked Questions (FAQ) */}
-          <FAQ />
+            {/* Chapter 10: Frequently Asked Questions (FAQ) */}
+            <FAQ />
 
-          {/* Chapter 11: 24/7 Operations Hub & Direct Contacts */}
-          <Contact />
-        </main>
+            {/* Chapter 11: 24/7 Operations Hub & Direct Contacts */}
+            <Contact />
+          </main>
 
-        {/* Corporate Footer */}
-        <Footer />
+          {/* Corporate Footer */}
+          <Footer />
 
-        {/* Floating AI Executive Assistant with Quick Chips */}
-        <ChatBot />
+          {/* Floating AI Executive Assistant with User Awareness */}
+          <ChatBot />
 
-        {/* Mobile Quick Action Bar */}
-        <MobileQuickBar />
-      </div>
+          {/* Mobile Quick Action Bar */}
+          <MobileQuickBar />
+
+          {/* Luxury Client & Management Portal with 1-Click Demo Personas & Odoo Sync */}
+          <ClientPortalModal />
+        </div>
+      </AuthProvider>
     </HelmetProvider>
   );
 };

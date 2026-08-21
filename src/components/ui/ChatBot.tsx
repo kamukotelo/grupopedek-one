@@ -3,16 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { MessageSquare, X, Send, User, Sparkles, HelpCircle, Phone, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { askPepekExecutiveAI, AssistantResponse } from '../../lib/ai';
 import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
+import { useAuth } from '../../context/AuthContext';
 
 export const ChatBot: React.FC = () => {
   const { t } = useTranslation();
+  const { currentUser, setIsPortalOpen } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
-    {
-      role: 'assistant',
-      content: 'Exmo(a). Senhor(a), bem-vindo à PEPEK GRUPO RENT-A-CAR. Sou o responsável de atendimento da Central de Operações. Em que posso apoiar a sua mobilidade ou a da sua instituição hoje?'
-    }
-  ]);
+  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [quickReplies, setQuickReplies] = useState<string[]>([
@@ -23,6 +20,32 @@ export const ChatBot: React.FC = () => {
     'Contrato de Frota para Empresa'
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Proactively detect user login and send custom tailored greeting
+  useEffect(() => {
+    if (currentUser) {
+      const greeting = `Exmo(a). ${currentUser.name}, bem-vindo à sua área de gestão da PEPEK GRUPO. Detectámos a sua credencial (${currentUser.roleLabel} · ${currentUser.company || 'Talatona'}). As suas viaturas e faturas Odoo encontram-se em prontidão. Em que posso apoiar a sua operação hoje?`;
+      setMessages([
+        {
+          role: 'assistant',
+          content: greeting
+        }
+      ]);
+      setQuickReplies([
+        'Ver Frotas em Circulação',
+        'Faturas AGT Pendentes',
+        'Pedir Viatura Adicional',
+        'Sincronização Odoo ERP'
+      ]);
+    } else {
+      setMessages([
+        {
+          role: 'assistant',
+          content: 'Exmo(a). Senhor(a), bem-vindo à PEPEK GRUPO RENT-A-CAR. Sou o responsável de atendimento da Central de Operações. Em que posso apoiar a sua mobilidade ou a da sua instituição hoje?'
+        }
+      ]);
+    }
+  }, [currentUser]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -37,6 +60,10 @@ export const ChatBot: React.FC = () => {
   const handleSendMessage = async (customText?: string) => {
     const textToSend = customText || inputMessage;
     if (!textToSend.trim() || isTyping) return;
+
+    if (textToSend === 'Ver Frotas em Circulação' || textToSend === 'Faturas AGT Pendentes' || textToSend === 'Sincronização Odoo ERP') {
+      setIsPortalOpen(true);
+    }
 
     const newMessages = [...messages, { role: 'user' as const, content: textToSend }];
     setMessages(newMessages);
@@ -64,7 +91,7 @@ export const ChatBot: React.FC = () => {
 
   const generateWhatsAppDirectLink = () => {
     const lastUserMessage = messages.filter((m) => m.role === 'user').slice(-1)[0]?.content || 'Atendimento Geral';
-    const text = `*SOLICITAÇÃO À CENTRAL DE OPERAÇÕES PEPEK*\nAssunto: ${lastUserMessage}\n\n_Solicito apoio de um despachante de frota._`;
+    const text = `*SOLICITAÇÃO À CENTRAL DE OPERAÇÕES PEPEK*\nCliente: ${currentUser?.name || 'Não identificado'}\nAssunto: ${lastUserMessage}\n\n_Solicito apoio de um despachante de frota._`;
     return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
@@ -82,7 +109,7 @@ export const ChatBot: React.FC = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 block animate-pulse"></span>
             </div>
             <span className="hidden sm:inline font-bold text-xs">
-              Atendimento de Frota 24/7
+              {currentUser ? `Olá, ${currentUser.name.split(' ')[0]}` : 'Atendimento de Frota 24/7'}
             </span>
             <MessageSquare className="w-5 h-5 text-[#0B45D8] group-hover:text-white transition-colors" />
           </button>
@@ -91,7 +118,7 @@ export const ChatBot: React.FC = () => {
 
       {/* Floating Interactive Chat Modal */}
       {isOpen && (
-        <div className="fixed bottom-20 lg:bottom-7 right-5 sm:right-7 z-50 w-[92vw] sm:w-[400px] h-[540px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden animate-scaleUp">
+        <div className="fixed bottom-20 lg:bottom-7 right-5 sm:right-7 z-50 w-[92vw] sm:w-[420px] h-[560px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden animate-scaleUp">
           {/* Top Header */}
           <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-4 text-white flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -104,7 +131,7 @@ export const ChatBot: React.FC = () => {
                 </h4>
                 <p className="text-[10px] text-emerald-400 flex items-center gap-1 font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Central Talatona · Operador Online
+                  {currentUser ? `${currentUser.roleLabel} Detectado` : 'Central Talatona · Online'}
                 </p>
               </div>
             </div>
@@ -177,7 +204,7 @@ export const ChatBot: React.FC = () => {
                 type="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Escreva a sua dúvida ou itinerário..."
+                placeholder="Escreva ao despachante..."
                 className="flex-1 py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-800 focus:outline-none focus:border-[#0B45D8]"
               />
               <button
@@ -190,9 +217,9 @@ export const ChatBot: React.FC = () => {
               </button>
             </form>
 
-            {/* Optional WhatsApp Escalate Link */}
+            {/* Direct WhatsApp link */}
             <div className="flex items-center justify-between text-[10px] text-gray-500 pt-1">
-              <span>Atendimento formal gravado</span>
+              <span>Atendimento com histórico</span>
               <a
                 href={generateWhatsAppDirectLink()}
                 target="_blank"
