@@ -1,88 +1,158 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Shield, Clock, EyeOff, Headphones, CheckCircle2 } from 'lucide-react';
+import {
+  ArrowRight,
+  CheckCircle2,
+  Clock3,
+  Eye,
+  Headphones,
+  HeartHandshake,
+  Languages,
+  Leaf,
+  MapPin,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  Users,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const leadership = [
+  ['Pedro Kilombo', 'CEO'],
+  ['Elizet Kilombo', 'about.roleAdministration'],
+  ['Valeriano Venâncio', 'about.roleGeneralDirector'],
+  ['Hélio Gorgel', 'about.roleFleet'],
+  ['Nair Paim', 'about.roleSouth'],
+  ['Luísa Cangalelo', 'about.rolePeople'],
+  ['Ruth Chilembo', 'about.roleMarketing'],
+  ['Maria Luísa Capingano', 'about.roleExecutiveAssistant'],
+] as const;
 
 export const About: React.FC = () => {
   const { t } = useTranslation();
 
-  const values = [
-    {
-      icon: <Shield className="w-6 h-6 text-[#0B45D8]" />,
-      title: t('about.val1Title'),
-      desc: t('about.val1Desc'),
-    },
-    {
-      icon: <Clock className="w-6 h-6 text-[#0B45D8]" />,
-      title: t('about.val2Title'),
-      desc: t('about.val2Desc'),
-    },
-    {
-      icon: <EyeOff className="w-6 h-6 text-[#0B45D8]" />,
-      title: t('about.val3Title'),
-      desc: t('about.val3Desc'),
-    },
-    {
-      icon: <Headphones className="w-6 h-6 text-[#0B45D8]" />,
-      title: t('about.val4Title'),
-      desc: t('about.val4Desc'),
-    },
-  ];
+  const principles = [
+    ['about.principle1Title', 'about.principle1Desc', HeartHandshake],
+    ['about.principle2Title', 'about.principle2Desc', Eye],
+    ['about.principle3Title', 'about.principle3Desc', ShieldCheck],
+    ['about.principle4Title', 'about.principle4Desc', Leaf],
+  ] as const;
+
+  const support = [
+    ['about.support1Title', 'about.support1Desc', Languages],
+    ['about.support2Title', 'about.support2Desc', Headphones],
+    ['about.support3Title', 'about.support3Desc', Clock3],
+  ] as const;
 
   return (
-    <section id="sobre" className="section-padding bg-white relative">
-      <div className="container-pepek">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column: Narrative & Founding */}
-          <div>
-            <div className="tag-label mb-4">
-              <span>{t('about.tag')}</span>
+    <section id="sobre" className="bg-white">
+      <div className="relative overflow-hidden bg-[#06142F] text-white">
+        <div className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_78%_28%,#0B45D8_0,transparent_34%),linear-gradient(120deg,transparent_45%,#D9A514_140%)]" />
+        <div className="container-pepek relative py-20 sm:py-28 lg:py-32">
+          <div className="max-w-4xl">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#D9A514]/40 bg-[#D9A514]/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[#F2C94C]">
+              <Sparkles className="h-4 w-4" /> {t('about.tag')}
             </div>
-
-            <h2 className="section-title mb-6">
-              {t('about.title')}
-            </h2>
-
-            <p className="text-base text-gray-700 leading-relaxed mb-4">
-              {t('about.p1')}
+            <h1 style={{ color: '#fff' }} className="max-w-3xl text-4xl font-black leading-[1.04] sm:text-6xl lg:text-7xl">
+              {t('about.heroTitle')}
+            </h1>
+            <p className="mt-7 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
+              {t('about.heroDesc')}
             </p>
-
-            <p className="text-base text-gray-600 leading-relaxed mb-8">
-              {t('about.p2')}
-            </p>
-
-            {/* Quick Checkpoints */}
-            <div className="space-y-3 pt-4 border-t border-gray-100">
-              <div className="flex items-center gap-3 text-sm font-semibold text-[#06142F]">
-                <CheckCircle2 className="w-5 h-5 text-[#0B45D8] shrink-0" />
-                <span>Empresa de Direito Angolano constituída e certificada</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm font-semibold text-[#06142F]">
-                <CheckCircle2 className="w-5 h-5 text-[#0B45D8] shrink-0" />
-                <span>Apólices de seguro de cobertura total em todas as viaturas</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm font-semibold text-[#06142F]">
-                <CheckCircle2 className="w-5 h-5 text-[#0B45D8] shrink-0" />
-                <span>Base operacional com oficinas e equipa técnica própria</span>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link to="/reservar" className="inline-flex items-center gap-2 rounded-full bg-[#D9A514] px-6 py-3.5 text-sm font-black text-[#06142F] transition hover:bg-[#F2C94C]">
+                {t('about.cta')} <ArrowRight className="h-4 w-4" />
+              </Link>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-bold text-white/85">
+                <MapPin className="h-4 w-4 text-[#F2C94C]" /> {t('about.coverage')}
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Right Column: Values Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {values.map((v, i) => (
-              <div
-                key={i}
-                className="p-6 rounded-2xl bg-gray-50 border border-gray-200 hover:border-[#0B45D8]/50 hover:bg-blue-50/30 transition-all duration-300"
-              >
-                <div className="p-3 rounded-xl bg-white shadow-sm w-fit mb-4 border border-gray-100">
-                  {v.icon}
+      <div className="container-pepek py-16 sm:py-24">
+        <div className="grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
+          <div>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-[#0B45D8]">{t('about.storyTag')}</span>
+            <h2 className="mt-4 max-w-2xl text-3xl font-black leading-tight text-[#06142F] sm:text-5xl">{t('about.title')}</h2>
+          </div>
+          <div className="space-y-5 text-base leading-8 text-slate-600">
+            <p>{t('about.p1')}</p>
+            <p>{t('about.p2')}</p>
+            <div className="grid gap-3 pt-3 sm:grid-cols-2">
+              {[t('about.check1'), t('about.check2')].map((item) => (
+                <div key={item} className="flex gap-3 rounded-2xl bg-slate-50 p-4 text-sm font-bold text-[#06142F]">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#0B45D8]" /> {item}
                 </div>
-                <h3 className="text-base font-bold text-[#06142F] mb-2">
-                  {v.title}
-                </h3>
-                <p className="text-xs text-gray-600 leading-relaxed">
-                  {v.desc}
-                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-20 grid overflow-hidden rounded-[2rem] border border-slate-200 lg:grid-cols-3">
+          {[
+            ['about.mission', 'about.missionDesc', Target],
+            ['about.vision', 'about.visionDesc', Eye],
+            ['about.promise', 'about.promiseDesc', ShieldCheck],
+          ].map(([title, desc, Icon], index) => (
+            <article key={title as string} className={`p-8 sm:p-10 ${index === 1 ? 'bg-[#06142F] text-white' : 'bg-slate-50 text-[#06142F]'}`}>
+              <Icon className={`h-8 w-8 ${index === 1 ? 'text-[#F2C94C]' : 'text-[#0B45D8]'}`} />
+              <h3 style={index === 1 ? { color: '#fff' } : undefined} className="mt-8 text-2xl font-black">{t(title as string)}</h3>
+              <p className={`mt-4 text-sm leading-7 ${index === 1 ? 'text-white/70' : 'text-slate-600'}`}>{t(desc as string)}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-slate-50 py-16 sm:py-24">
+        <div className="container-pepek">
+          <div className="max-w-3xl">
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-[#0B45D8]">{t('about.principlesTag')}</span>
+            <h2 className="mt-4 text-3xl font-black text-[#06142F] sm:text-5xl">{t('about.principlesTitle')}</h2>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {principles.map(([title, desc, Icon]) => (
+              <article key={title} className="rounded-3xl border border-slate-200 bg-white p-7 transition hover:-translate-y-1 hover:border-[#0B45D8]/30 hover:shadow-xl hover:shadow-blue-950/5">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0B45D8]"><Icon className="h-6 w-6" /></div>
+                <h3 className="mt-6 text-lg font-black text-[#06142F]">{t(title)}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{t(desc)}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="container-pepek py-16 sm:py-24">
+        <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
+          <div>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-[#0B45D8]">{t('about.supportTag')}</span>
+            <h2 className="mt-4 text-3xl font-black text-[#06142F] sm:text-5xl">{t('about.supportTitle')}</h2>
+            <p className="mt-5 text-base leading-8 text-slate-600">{t('about.supportIntro')}</p>
+          </div>
+          <div className="grid gap-4">
+            {support.map(([title, desc, Icon]) => (
+              <div key={title} className="flex gap-5 rounded-3xl border border-slate-200 p-6">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#06142F] text-[#F2C94C]"><Icon className="h-6 w-6" /></div>
+                <div><h3 className="font-black text-[#06142F]">{t(title)}</h3><p className="mt-1 text-sm leading-6 text-slate-600">{t(desc)}</p></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-[#06142F] py-16 text-white sm:py-24">
+        <div className="container-pepek">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div><span className="text-xs font-black uppercase tracking-[0.2em] text-[#F2C94C]">{t('about.teamTag')}</span><h2 style={{ color: '#fff' }} className="mt-4 text-3xl font-black sm:text-5xl">{t('about.teamTitle')}</h2></div>
+            <p className="max-w-xl text-sm leading-7 text-white/65">{t('about.teamIntro')}</p>
+          </div>
+          <div className="mt-10 grid gap-px overflow-hidden rounded-3xl bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            {leadership.map(([name, role]) => (
+              <div key={name} className="bg-[#091A39] p-6">
+                <Users className="h-5 w-5 text-[#F2C94C]" />
+                <h3 style={{ color: '#fff' }} className="mt-5 font-black">{name}</h3>
+                <p className="mt-1 text-xs font-bold uppercase tracking-wider text-white/50">{role === 'CEO' ? role : t(role)}</p>
               </div>
             ))}
           </div>
