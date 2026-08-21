@@ -6,29 +6,22 @@ export interface AssistantResponse {
   handoffSummary?: string;
 }
 
-const PEPEK_KNOWLEDGE = `
-Você é o Assistente Virtual Executivo da PEPEK GRUPO RENT-A-CAR (Angola).
+const PEPEK_EXECUTIVE_SYSTEM_PROMPT = `
+Você é o Concierge Executivo da PEPEK GRUPO RENT-A-CAR (Angola).
 Slogan: "Movemos quem move Angola."
-Fundada: 2014 (Mais de 10 anos de liderança em mobilidade corporativa e institucional).
-Áreas de actuação: Luanda (Sede e Aeroporto Internacional), Huambo, Bengo e cobertura em todo o território nacional angolano.
-Contacto directo: +244 923 719 090 / geral@pepekgrupo.com
+Perfil: Altamente discreto, conciso, refinado, directo e orientado a soluções imediatas para diplomatas, empresários, executivos de topo e embaixadas.
 
-SERVIÇOS OFERECIDOS:
-1. Rent-a-Car: Aluguer diário, semanal ou mensal com ou sem motorista executivo.
-2. Mobilidade Executiva: Viaturas de luxo com motoristas qualificados em condução defensiva, protocolo e discrição total.
-3. Transfers Aeroporto: Recepção personalizada "Meet & Greet" no Aeroporto Internacional 4 de Fevereiro / Novo Aeroporto de Luanda e transfers interprovinciais.
-4. Soluções Corporativas & Gestão de Frotas: Aluguer de longa duração para empresas, delegações diplomáticas, embaixadas e instituições de estado.
+INSTRUÇÕES DE TOM E RESPOSTA:
+1. Seja directo e conciso. Máximo 2 a 3 frases por resposta. Evite rodeios, saudações excessivas ou textos longos.
+2. Trate o interlocutor com elegância executiva ("Exmo(a). Senhor(a)", "Com certeza", "À sua inteira disposição").
+3. Apresente prontamente a viatura ou serviço adequado (Land Cruiser Prado, LC300, Hilux 4x4, Hiace VIP, Chauffeur de protocolo, Transfer Aeroporto 4 de Fevereiro / AIAAN).
+4. Ofereça de forma natural e discreta a finalização imediata através do canal oficial de despacho no WhatsApp (+244 923 719 090).
 
-CLIENTES DE REFERÊNCIA (CONFIANÇA INSTITUCIONAL):
-- Embaixadas (incluindo Embaixada dos Estados Unidos da América)
-- Governo de Angola & Assembleia Nacional
-- SONANGOL, TAAG Linhas Aéreas de Angola, Banco BFA, Fidelidade Seguros, DSTV Angola, UNICEF.
-
-FROTA:
-- SUV Executiva (Toyota Land Cruiser Prado, Land Cruiser 300, Lexus LX)
-- 4x4 Off-Road & Pick-ups (Toyota Hilux, Fortuner para operações industriais e campo)
-- Vans VIP & Minibus (Toyota Hiace VIP, Coaster para comitivas e delegações)
-- Frotas especiais para eventos de estado e conferências internacionais.
+DADOS DA EMPRESA:
+- Sede: Talatona, Rua Reino do Bailundo, Luanda.
+- Pólos: Huambo e Bengo, com cobertura e assistência nas 18 províncias.
+- Contactos: +244 923 719 090 / 923 000 010 | geral@pepekgrupo.com
+- Clientes oficiais: Embaixadas (incluindo EUA), Governo de Angola, Assembleia Nacional, SONANGOL, TAAG, BFA, Fidelidade, DSTV, UNICEF.
 `;
 
 export async function askPepekAssistant(userPrompt: string, history: Array<{ role: 'user' | 'assistant'; content: string }>): Promise<AssistantResponse> {
@@ -43,7 +36,7 @@ export async function askPepekAssistant(userPrompt: string, history: Array<{ rol
           contents: [
             {
               role: 'user',
-              parts: [{ text: `${PEPEK_KNOWLEDGE}\n\nHistórico da conversa: ${JSON.stringify(history)}\n\nPergunta do cliente: "${userPrompt}"\n\nResponda em tom formal, executivo, focado e prestativo em português de Angola. Seja conciso e ofereça fechar a proposta ou transferir para WhatsApp executivo.` }]
+              parts: [{ text: `${PEPEK_EXECUTIVE_SYSTEM_PROMPT}\n\nHistórico recente: ${JSON.stringify(history)}\n\nSolicitação: "${userPrompt}"\n\nResponda em português formal angolano, em 2 a 3 frases precisas e discretas.` }]
             }
           ]
         })
@@ -54,8 +47,8 @@ export async function askPepekAssistant(userPrompt: string, history: Array<{ rol
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (text) {
           return {
-            message: text,
-            suggestedAction: text.toLowerCase().includes('whatsapp') ? 'whatsapp_handoff' : 'quote'
+            message: text.trim(),
+            suggestedAction: 'whatsapp_handoff'
           };
         }
       }
@@ -64,64 +57,64 @@ export async function askPepekAssistant(userPrompt: string, history: Array<{ rol
     }
   }
 
-  // Fallback Inteligente de Qualificação Automática
+  // Respostas Directas, Executivas & Discretas (Fallback de Alta Precisão)
   const lower = userPrompt.toLowerCase();
-  
-  if (lower.includes('preço') || lower.includes('valor') || lower.includes('custo') || lower.includes('orçamento')) {
+
+  if (lower.includes('preço') || lower.includes('valor') || lower.includes('custo') || lower.includes('orçamento') || lower.includes('prado') || lower.includes('suv')) {
     return {
-      message: 'As nossas propostas são personalizadas de acordo com o tipo de viatura (SUV, 4x4, Van VIP), modalidade (com ou sem motorista) e tempo de aluguer. Posso preparar a sua solicitação prioritária ou encaminhar agora mesmo para o nosso gestor de contas executivo no WhatsApp.',
+      message: 'Dispomos de SUVs Executivas (Land Cruiser Prado e LC300) em regime diário, semanal ou mensal, com ou sem motorista protocolar. O nosso gestor comercial envia-lhe a proposta detalhada em 5 minutos.',
       suggestedAction: 'whatsapp_handoff',
-      handoffSummary: 'Solicitação de cotação de valores'
+      handoffSummary: 'Cotação Imediata SUV Executiva / Prado'
     };
   }
 
-  if (lower.includes('aeroporto') || lower.includes('transfer') || lower.includes('voo')) {
+  if (lower.includes('aeroporto') || lower.includes('transfer') || lower.includes('voo') || lower.includes('desembarque')) {
     return {
-      message: 'Oferecemos o serviço completo de Transfer Executivo com recepção "Meet & Greet" no Aeroporto Internacional de Luanda. O nosso motorista aguarda devidamente identificado no desembarque com viatura climatizada e água a bordo.',
+      message: 'Realizamos o Transfer VIP Meet & Greet nos Aeroportos 4 de Fevereiro e AIAAN, com recepção personalizada na área de desembarque e viatura climatizada de alta gama. Podemos registar o número do seu voo?',
       suggestedAction: 'quote',
-      handoffSummary: 'Reserva de Transfer Aeroporto'
+      handoffSummary: 'Transfer VIP Aeroporto Internacional'
     };
   }
 
-  if (lower.includes('motorista') || lower.includes('chófer') || lower.includes('executiva') || lower.includes('protocolo')) {
+  if (lower.includes('motorista') || lower.includes('chauffeur') || lower.includes('protocolo') || lower.includes('diplomát')) {
     return {
-      message: 'Os nossos motoristas executivos possuem rigoroso treino em condução defensiva, etiqueta protocolar e discrição absoluta. Serviço ideal para diplomatas, empresários e delegações oficiais.',
-      suggestedAction: 'quote',
-      handoffSummary: 'Mobilidade Executiva com Motorista'
-    };
-  }
-
-  if (lower.includes('huambo') || lower.includes('bengo') || lower.includes('província') || lower.includes('fora de luanda')) {
-    return {
-      message: 'A PEPEK GRUPO possui capacidade operacional comprovada para viagens interprovinciais com assistência técnica 24/7 e frotas 4x4 preparadas para qualquer itinerário em Angola.',
-      suggestedAction: 'quote',
-      handoffSummary: 'Operação Interprovincial (Huambo/Bengo/Interior)'
-    };
-  }
-
-  if (lower.includes('empresa') || lower.includes('corporativo') || lower.includes('fatura') || lower.includes('embaixada')) {
-    return {
-      message: 'Trabalhamos com faturação formal, contratos de aluguer corporativo de média e longa duração para embaixadas, empresas multinacionais e entidades governamentais com gestor de conta dedicado.',
+      message: 'Os nossos motoristas possuem certificação em condução defensiva, etiqueta diplomática e sigilo absoluto, adequados para chefias de estado e comitivas empresariais.',
       suggestedAction: 'whatsapp_handoff',
-      handoffSummary: 'Contacto Corporativo / Institucional'
+      handoffSummary: 'Motorista Protocolar & Segurança'
+    };
+  }
+
+  if (lower.includes('empresa') || lower.includes('contrato') || lower.includes('mensal') || lower.includes('fatura') || lower.includes('frotas')) {
+    return {
+      message: 'Estruturamos contratos de outsourcing e gestão de frota com faturação formal AGT e viatura de substituição imediata. Posso ligar-lhe a um gestor institucional.',
+      suggestedAction: 'whatsapp_handoff',
+      handoffSummary: 'Acordo Corporativo / Gestão de Frota'
+    };
+  }
+
+  if (lower.includes('huambo') || lower.includes('bengo') || lower.includes('província') || lower.includes('interior')) {
+    return {
+      message: 'Garantimos apoio operacional e viaturas 4x4 equipadas para viagens interprovinciais (Huambo, Bengo e todo o território) com assistência móvel 24/7.',
+      suggestedAction: 'quote',
+      handoffSummary: 'Operação Interprovincial Angola'
     };
   }
 
   return {
-    message: 'Bem-vindo à PEPEK GRUPO RENT-A-CAR. Estamos à disposição para organizar o seu aluguer de viaturas de luxo, transfers ou mobilidade corporativa em Angola com total segurança e pontualidade. Em que posso ajudar hoje?',
+    message: 'À sua inteira disposição na PEPEK GRUPO RENT-A-CAR. Em que podemos apoiar a sua mobilidade ou a da sua instituição em Angola hoje?',
     suggestedAction: 'quote'
   };
 }
 
 export function generateHandoffUrl(summary?: string, historyTranscript?: string): string {
-  let text = `*TRANSFERÊNCIA DE ATENDIMENTO — ASSISTENTE IA PEPEK*\n`;
+  let text = `*SOLICITAÇÃO EXECUTIVA — PEPEK GRUPO RENT-A-CAR*\n`;
   text += `-----------------------------------------\n`;
   if (summary) {
     text += `*Assunto:* ${summary}\n`;
   }
   if (historyTranscript) {
-    text += `*Contexto:* ${historyTranscript.slice(-250)}\n`;
+    text += `*Notas:* ${historyTranscript.slice(-250)}\n`;
   }
-  text += `\n_Gostaria de continuar o atendimento com um gestor comercial da PEPEK GRUPO._`;
+  text += `\n_Solicito atendimento prioritário com um gestor de operações PEPEK._`;
   return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }

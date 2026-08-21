@@ -2,84 +2,83 @@ import React from 'react';
 
 interface LogoProps {
   className?: string;
-  variant?: 'light' | 'dark' | 'auto';
+  variant?: 'light' | 'dark';
   height?: number | string;
 }
 
-export const Logo: React.FC<LogoProps> = ({ className = '', variant = 'light', height = 48 }) => {
+export const Logo: React.FC<LogoProps> = ({ className = '', variant = 'light', height = 52 }) => {
   const isDark = variant === 'dark';
-  const textColor = isDark ? '#06142F' : '#FFFFFF';
-  const accentColor = '#0B45D8';
+  const fillColor = isDark ? '#06142F' : '#FFFFFF';
 
   return (
     <div className={`inline-flex items-center select-none ${className}`} style={{ height }}>
       <svg
-        viewBox="0 0 420 120"
+        viewBox="0 0 540 160"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="w-auto h-full"
         aria-label="PEPEK GRUPO RENT-A-CAR"
       >
-        {/* Curved Road / Wave Icon between PE and EK */}
-        <g id="pepek-icon">
-          <path
-            d="M175 110 C185 85, 175 45, 150 25 C190 25, 225 35, 255 45 C225 70, 205 95, 175 110 Z"
-            fill={textColor}
-          />
-          <path
-            d="M165 110 C180 85, 170 50, 145 35 C175 35, 205 45, 230 55 C205 78, 190 98, 165 110 Z"
-            fill={accentColor}
-            opacity="0.15"
-          />
-          <path
-            d="M185 95 C195 75, 185 40, 160 22 C185 22, 215 30, 240 40 C215 65, 200 85, 185 95 Z"
-            fill={textColor}
-          />
-        </g>
-
-        {/* Wordmark: PE PEK */}
+        {/* Wordmark: PE on Left */}
         {/* Letter P */}
         <path
-          d="M 20 28 L 52 28 C 68 28, 78 36, 78 48 C 78 60, 68 68, 52 68 L 36 68 L 36 88 L 20 88 Z M 36 42 L 36 54 L 50 54 C 57 54, 61 51, 61 48 C 61 45, 57 42, 50 42 Z"
-          fill={textColor}
+          d="M 28 26 L 82 26 C 112 26, 126 40, 126 62 C 126 84, 110 98, 82 98 L 56 98 L 56 128 L 28 128 Z M 56 48 L 56 76 L 80 76 C 94 76, 100 70, 100 62 C 100 54, 94 48, 80 48 Z"
+          fill={fillColor}
         />
         {/* Letter E */}
         <path
-          d="M 88 28 L 138 28 L 138 42 L 104 42 L 104 51 L 134 51 L 134 64 L 104 64 L 104 74 L 140 74 L 140 88 L 88 88 Z"
-          fill={textColor}
+          d="M 140 26 L 222 26 L 222 48 L 168 48 L 168 64 L 214 64 L 214 84 L 168 84 L 168 106 L 224 106 L 224 128 L 140 128 Z"
+          fill={fillColor}
         />
-        {/* Letter E (Second) */}
+
+        {/* Center Stylized Road / Curved Waves Icon */}
+        <g id="pepek-highway-curves">
+          {/* Main forward-curving highway ribbon */}
+          <path
+            d="M 248 142 C 265 105, 255 58, 222 30 C 275 30, 320 44, 355 56 C 315 88, 288 120, 248 142 Z"
+            fill={fillColor}
+          />
+          {/* Accent inner curve */}
+          <path
+            d="M 264 122 C 276 96, 268 52, 235 28 C 268 28, 305 38, 335 48 C 300 78, 280 102, 264 122 Z"
+            fill={fillColor}
+          />
+        </g>
+
+        {/* Wordmark: EK on Right */}
+        {/* Letter E */}
         <path
-          d="M 262 28 L 312 28 L 312 42 L 278 42 L 278 51 L 308 51 L 308 64 L 278 64 L 278 74 L 314 74 L 314 88 L 262 88 Z"
-          fill={textColor}
+          d="M 370 26 L 452 26 L 452 48 L 398 48 L 398 64 L 444 64 L 444 84 L 398 84 L 398 106 L 454 106 L 454 128 L 370 128 Z"
+          fill={fillColor}
         />
         {/* Letter K */}
         <path
-          d="M 326 28 L 342 28 L 342 52 L 372 28 L 394 28 L 358 56 L 396 88 L 374 88 L 342 61 L 342 88 L 326 88 Z"
-          fill={textColor}
+          d="M 470 26 L 498 26 L 498 62 L 536 26 L 572 26 L 522 68 L 574 128 L 538 128 L 498 78 L 498 128 L 470 128 Z"
+          fill={fillColor}
         />
 
-        {/* Subtitles: GRUPO (Left) and RENT-A-CAR (Right) */}
+        {/* Sub-label Left: GRUPO */}
         <text
-          x="20"
-          y="108"
-          fill={textColor}
+          x="30"
+          y="152"
+          fill={fillColor}
           fontFamily="'Inter', 'Arial Black', sans-serif"
           fontWeight="900"
-          fontSize="17"
-          letterSpacing="0.32em"
+          fontSize="24"
+          letterSpacing="0.34em"
         >
           GRUPO
         </text>
 
+        {/* Sub-label Right: RENT-A-CAR */}
         <text
-          x="262"
-          y="108"
-          fill={textColor}
+          x="368"
+          y="152"
+          fill={fillColor}
           fontFamily="'Inter', 'Arial Black', sans-serif"
           fontWeight="900"
-          fontSize="17"
-          letterSpacing="0.22em"
+          fontSize="23"
+          letterSpacing="0.20em"
         >
           RENT-A-CAR
         </text>
