@@ -22,7 +22,8 @@ const manifest = { generatedAt: new Date().toISOString(), source: 'Wikimedia Com
 for (const vehicle of vehicles) {
   const directory = path.join(output, vehicle.id);
   const files = (await fs.readdir(directory)).filter((file) => /\.(jpe?g|png|webp)$/i.test(file)).sort();
-  if (files.length < 3) throw new Error(`${vehicle.id}: apenas ${files.length} imagens`);
+  // Uma pasta pode ficar vazia após a auditoria; nesses casos o site usa a
+  // fotografia original da própria ficha, sem recorrer a imagens erradas.
   lines.push(`  '${vehicle.id}': [`);
   const images = [];
   for (const [index, file] of files.entries()) {
@@ -35,7 +36,7 @@ for (const vehicle of vehicles) {
     images.push({ file: url, label });
   }
   lines.push('  ],');
-  manifest.vehicles[vehicle.id] = { name: vehicle.name, imageCount: files.length, images };
+  manifest.vehicles[vehicle.id] = { name: vehicle.name, imageCount: files.length, images, reviewStatus: files.length ? 'curated' : 'fallback_to_original' };
 }
 
 lines.push('};', '');

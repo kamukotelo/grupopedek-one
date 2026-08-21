@@ -42,7 +42,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const touchStartX = useRef<number | null>(null);
   const upgradeGallery = vehicle ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
   const curatedGallery = vehicle ? FLEET_CAROUSEL[vehicle.id] ?? [] : [];
-  const verifiedGallery = [...upgradeGallery, ...curatedGallery, ...(vehicle?.gallery ?? [])].map((image) => ({
+  const originalLocalGallery = (vehicle?.gallery ?? []).filter((image) => image.url.startsWith('/rent_car/'));
+  const verifiedGallery = [...upgradeGallery, ...curatedGallery, ...originalLocalGallery].map((image) => ({
     ...image,
     url: image.url.startsWith('/rent_car/')
       ? image.url.replace('/rent_car/', '/rent_car_hd/')

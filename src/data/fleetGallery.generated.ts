@@ -26,8 +26,6 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
   'mercedes-g63-2023': [
     { url: '/fleet-carousel/mercedes-g63-2023/01-front.webp', caption: 'Vista exterior — Mercedes-AMG G63 2026', altText: 'Mercedes-AMG G63 2026 — vista exterior', type: 'exterior_side' },
     { url: '/fleet-carousel/mercedes-g63-2023/02-front.webp', caption: 'Vista frontal — Mercedes-AMG G63 2026', altText: 'Mercedes-AMG G63 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/mercedes-g63-2023/03-front.webp', caption: 'Vista traseira — Mercedes-AMG G63 2026', altText: 'Mercedes-AMG G63 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-g63-2023/04-exterior.webp', caption: 'Interior e detalhes — Mercedes-AMG G63 2026', altText: 'Mercedes-AMG G63 2026 — interior e detalhes', type: 'interior' },
   ],
   'lexus-600': [
     { url: '/fleet-carousel/lexus-600/01-front.webp', caption: 'Vista exterior — Lexus LX 600 VIP 2026', altText: 'Lexus LX 600 VIP 2026 — vista exterior', type: 'exterior_side' },
@@ -45,7 +43,6 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/mercedes-g63/01-interior.webp', caption: 'Vista exterior — Mercedes G63 AMG 2025/2026', altText: 'Mercedes G63 AMG 2025/2026 — vista exterior', type: 'exterior_side' },
     { url: '/fleet-carousel/mercedes-g63/02-front.webp', caption: 'Vista frontal — Mercedes G63 AMG 2025/2026', altText: 'Mercedes G63 AMG 2025/2026 — vista frontal', type: 'exterior_front' },
     { url: '/fleet-carousel/mercedes-g63/03-front.webp', caption: 'Vista traseira — Mercedes G63 AMG 2025/2026', altText: 'Mercedes G63 AMG 2025/2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-g63/04-rear.webp', caption: 'Interior e detalhes — Mercedes G63 AMG 2025/2026', altText: 'Mercedes G63 AMG 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'toyota-lc300-2023': [
     { url: '/fleet-carousel/toyota-lc300-2023/01-front.webp', caption: 'Vista exterior — Toyota Land Cruiser 300 V6 2026', altText: 'Toyota Land Cruiser 300 V6 2026 — vista exterior', type: 'exterior_side' },
@@ -60,10 +57,6 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/lexus-570/04-front.webp', caption: 'Interior e detalhes — Lexus LX 570 Luxury 2025/2026', altText: 'Lexus LX 570 Luxury 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'range-rover': [
-    { url: '/fleet-carousel/range-rover/01-front.webp', caption: 'Vista exterior — Range Rover Vogue 2025/2026', altText: 'Range Rover Vogue 2025/2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/range-rover/02-front.webp', caption: 'Vista frontal — Range Rover Vogue 2025/2026', altText: 'Range Rover Vogue 2025/2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/range-rover/03-front.webp', caption: 'Vista traseira — Range Rover Vogue 2025/2026', altText: 'Range Rover Vogue 2025/2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/range-rover/04-front.webp', caption: 'Interior e detalhes — Range Rover Vogue 2025/2026', altText: 'Range Rover Vogue 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'toyota-lc-v8-2021': [
     { url: '/fleet-carousel/toyota-lc-v8-2021/01-front.webp', caption: 'Vista exterior — Toyota LC V8 2025/2026', altText: 'Toyota LC V8 2025/2026 — vista exterior', type: 'exterior_side' },
@@ -72,16 +65,11 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/toyota-lc-v8-2021/04-front.webp', caption: 'Interior e detalhes — Toyota LC V8 2025/2026', altText: 'Toyota LC V8 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'mercedes-cls63': [
-    { url: '/fleet-carousel/mercedes-cls63/01-front.webp', caption: 'Vista exterior — Mercedes CLS63 AMG 2025/2026', altText: 'Mercedes CLS63 AMG 2025/2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-cls63/02-front.webp', caption: 'Vista frontal — Mercedes CLS63 AMG 2025/2026', altText: 'Mercedes CLS63 AMG 2025/2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/mercedes-cls63/03-front.webp', caption: 'Vista traseira — Mercedes CLS63 AMG 2025/2026', altText: 'Mercedes CLS63 AMG 2025/2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-cls63/04-front.webp', caption: 'Interior e detalhes — Mercedes CLS63 AMG 2025/2026', altText: 'Mercedes CLS63 AMG 2025/2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/mercedes-cls63/02-front.webp', caption: 'Vista exterior — Mercedes CLS63 AMG 2025/2026', altText: 'Mercedes CLS63 AMG 2025/2026 — vista exterior', type: 'exterior_side' },
+    { url: '/fleet-carousel/mercedes-cls63/03-front.webp', caption: 'Vista frontal — Mercedes CLS63 AMG 2025/2026', altText: 'Mercedes CLS63 AMG 2025/2026 — vista frontal', type: 'exterior_front' },
+    { url: '/fleet-carousel/mercedes-cls63/04-front.webp', caption: 'Vista traseira — Mercedes CLS63 AMG 2025/2026', altText: 'Mercedes CLS63 AMG 2025/2026 — vista traseira', type: 'exterior_side' },
   ],
   'mercedes-brabus': [
-    { url: '/fleet-carousel/mercedes-brabus/01-front.webp', caption: 'Vista exterior — Mercedes Brabus Edition 2026', altText: 'Mercedes Brabus Edition 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-brabus/02-front.webp', caption: 'Vista frontal — Mercedes Brabus Edition 2026', altText: 'Mercedes Brabus Edition 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/mercedes-brabus/03-rear.webp', caption: 'Vista traseira — Mercedes Brabus Edition 2026', altText: 'Mercedes Brabus Edition 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-brabus/04-rear.webp', caption: 'Interior e detalhes — Mercedes Brabus Edition 2026', altText: 'Mercedes Brabus Edition 2026 — interior e detalhes', type: 'interior' },
   ],
   'volvo-xc-60': [
     { url: '/fleet-carousel/volvo-xc-60/01-front.webp', caption: 'Vista exterior — Volvo XC60 Ultimate 2026', altText: 'Volvo XC60 Ultimate 2026 — vista exterior', type: 'exterior_side' },
@@ -108,16 +96,10 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/toyota-prado-atual/04-front.webp', caption: 'Interior e detalhes — Toyota Prado TXL 2025/2026', altText: 'Toyota Prado TXL 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'toyota-fortuner-atual': [
-    { url: '/fleet-carousel/toyota-fortuner-atual/01-front.webp', caption: 'Vista exterior — Toyota Fortuner VX 2026', altText: 'Toyota Fortuner VX 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-fortuner-atual/02-front.webp', caption: 'Vista frontal — Toyota Fortuner VX 2026', altText: 'Toyota Fortuner VX 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/toyota-fortuner-atual/03-front.webp', caption: 'Vista traseira — Toyota Fortuner VX 2026', altText: 'Toyota Fortuner VX 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-fortuner-atual/04-front.webp', caption: 'Interior e detalhes — Toyota Fortuner VX 2026', altText: 'Toyota Fortuner VX 2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/toyota-fortuner-atual/04-front.webp', caption: 'Vista exterior — Toyota Fortuner VX 2026', altText: 'Toyota Fortuner VX 2026 — vista exterior', type: 'exterior_side' },
   ],
   'toyota-fortuner-2023': [
-    { url: '/fleet-carousel/toyota-fortuner-2023/01-front.webp', caption: 'Vista exterior — Toyota Fortuner 2025/2026', altText: 'Toyota Fortuner 2025/2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-fortuner-2023/02-front.webp', caption: 'Vista frontal — Toyota Fortuner 2025/2026', altText: 'Toyota Fortuner 2025/2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/toyota-fortuner-2023/03-front.webp', caption: 'Vista traseira — Toyota Fortuner 2025/2026', altText: 'Toyota Fortuner 2025/2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-fortuner-2023/04-front.webp', caption: 'Interior e detalhes — Toyota Fortuner 2025/2026', altText: 'Toyota Fortuner 2025/2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/toyota-fortuner-2023/04-front.webp', caption: 'Vista exterior — Toyota Fortuner 2025/2026', altText: 'Toyota Fortuner 2025/2026 — vista exterior', type: 'exterior_side' },
   ],
   'mercedes-benz-v300-class': [
     { url: '/fleet-carousel/mercedes-benz-v300-class/01-rear.webp', caption: 'Vista exterior — Mercedes-Benz V300d Exclusive 2026', altText: 'Mercedes-Benz V300d Exclusive 2026 — vista exterior', type: 'exterior_side' },
@@ -140,8 +122,6 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
   'mercedes-sprinter-atual': [
     { url: '/fleet-carousel/mercedes-sprinter-atual/01-front.webp', caption: 'Vista exterior — Mercedes Sprinter VIP Shuttle 2026', altText: 'Mercedes Sprinter VIP Shuttle 2026 — vista exterior', type: 'exterior_side' },
     { url: '/fleet-carousel/mercedes-sprinter-atual/02-front.webp', caption: 'Vista frontal — Mercedes Sprinter VIP Shuttle 2026', altText: 'Mercedes Sprinter VIP Shuttle 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/mercedes-sprinter-atual/03-front.webp', caption: 'Vista traseira — Mercedes Sprinter VIP Shuttle 2026', altText: 'Mercedes Sprinter VIP Shuttle 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-sprinter-atual/04-front.webp', caption: 'Interior e detalhes — Mercedes Sprinter VIP Shuttle 2026', altText: 'Mercedes Sprinter VIP Shuttle 2026 — interior e detalhes', type: 'interior' },
   ],
   'hyundai-staria-atual': [
     { url: '/fleet-carousel/hyundai-staria-atual/01-front.webp', caption: 'Vista exterior — Hyundai Staria Minibus 2026', altText: 'Hyundai Staria Minibus 2026 — vista exterior', type: 'exterior_side' },
@@ -162,10 +142,6 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/hyundai-h1/04-front.webp', caption: 'Interior e detalhes — Hyundai H-1 Royale 2025/2026', altText: 'Hyundai H-1 Royale 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'toyota-hiace': [
-    { url: '/fleet-carousel/toyota-hiace/01-front.webp', caption: 'Vista exterior — Toyota HiAce Commuter 2025/2026', altText: 'Toyota HiAce Commuter 2025/2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-hiace/02-front.webp', caption: 'Vista frontal — Toyota HiAce Commuter 2025/2026', altText: 'Toyota HiAce Commuter 2025/2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/toyota-hiace/03-front.webp', caption: 'Vista traseira — Toyota HiAce Commuter 2025/2026', altText: 'Toyota HiAce Commuter 2025/2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-hiace/04-front.webp', caption: 'Interior e detalhes — Toyota HiAce Commuter 2025/2026', altText: 'Toyota HiAce Commuter 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'jetour-x70': [
     { url: '/fleet-carousel/jetour-x70/01-front.webp', caption: 'Vista exterior — Jetour X70 Plus / T2 2026', altText: 'Jetour X70 Plus / T2 2026 — vista exterior', type: 'exterior_side' },
@@ -192,39 +168,23 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/chery-tiggo-7/04-rear.webp', caption: 'Interior e detalhes — Chery Tiggo 7 Pro Max 2026', altText: 'Chery Tiggo 7 Pro Max 2026 — interior e detalhes', type: 'interior' },
   ],
   'chery-tiggo-2': [
-    { url: '/fleet-carousel/chery-tiggo-2/01-front.webp', caption: 'Vista exterior — Chery Tiggo 2 Pro 2025/2026', altText: 'Chery Tiggo 2 Pro 2025/2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/chery-tiggo-2/02-front.webp', caption: 'Vista frontal — Chery Tiggo 2 Pro 2025/2026', altText: 'Chery Tiggo 2 Pro 2025/2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/chery-tiggo-2/03-front.webp', caption: 'Vista traseira — Chery Tiggo 2 Pro 2025/2026', altText: 'Chery Tiggo 2 Pro 2025/2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/chery-tiggo-2/04-front.webp', caption: 'Interior e detalhes — Chery Tiggo 2 Pro 2025/2026', altText: 'Chery Tiggo 2 Pro 2025/2026 — interior e detalhes', type: 'interior' },
   ],
   'hyundai-creta': [
-    { url: '/fleet-carousel/hyundai-creta/01-front.webp', caption: 'Vista exterior — Hyundai Creta Smart 2026', altText: 'Hyundai Creta Smart 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/hyundai-creta/02-front.webp', caption: 'Vista frontal — Hyundai Creta Smart 2026', altText: 'Hyundai Creta Smart 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/hyundai-creta/03-front.webp', caption: 'Vista traseira — Hyundai Creta Smart 2026', altText: 'Hyundai Creta Smart 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/hyundai-creta/04-front.webp', caption: 'Interior e detalhes — Hyundai Creta Smart 2026', altText: 'Hyundai Creta Smart 2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/hyundai-creta/03-front.webp', caption: 'Vista exterior — Hyundai Creta Smart 2026', altText: 'Hyundai Creta Smart 2026 — vista exterior', type: 'exterior_side' },
+    { url: '/fleet-carousel/hyundai-creta/04-front.webp', caption: 'Vista frontal — Hyundai Creta Smart 2026', altText: 'Hyundai Creta Smart 2026 — vista frontal', type: 'exterior_front' },
   ],
   'toyota-lc-hz': [
     { url: '/fleet-carousel/toyota-lc-hz/01-exterior.webp', caption: 'Vista exterior — Toyota Land Cruiser HZJ79 2026', altText: 'Toyota Land Cruiser HZJ79 2026 — vista exterior', type: 'exterior_side' },
     { url: '/fleet-carousel/toyota-lc-hz/02-exterior.webp', caption: 'Vista frontal — Toyota Land Cruiser HZJ79 2026', altText: 'Toyota Land Cruiser HZJ79 2026 — vista frontal', type: 'exterior_front' },
     { url: '/fleet-carousel/toyota-lc-hz/03-exterior.webp', caption: 'Vista traseira — Toyota Land Cruiser HZJ79 2026', altText: 'Toyota Land Cruiser HZJ79 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-lc-hz/04-front.webp', caption: 'Interior e detalhes — Toyota Land Cruiser HZJ79 2026', altText: 'Toyota Land Cruiser HZJ79 2026 — interior e detalhes', type: 'interior' },
   ],
   'toyota-lc-hz-18p': [
-    { url: '/fleet-carousel/toyota-lc-hz-18p/01-exterior.webp', caption: 'Vista exterior — Toyota Land Cruiser 70 Troopy 2026', altText: 'Toyota Land Cruiser 70 Troopy 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-lc-hz-18p/02-exterior.webp', caption: 'Vista frontal — Toyota Land Cruiser 70 Troopy 2026', altText: 'Toyota Land Cruiser 70 Troopy 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/toyota-lc-hz-18p/03-exterior.webp', caption: 'Vista traseira — Toyota Land Cruiser 70 Troopy 2026', altText: 'Toyota Land Cruiser 70 Troopy 2026 — vista traseira', type: 'exterior_side' },
   ],
   'mitsubishi-canter': [
     { url: '/fleet-carousel/mitsubishi-canter/01-front.webp', caption: 'Vista exterior — Mitsubishi Fuso Canter 2026', altText: 'Mitsubishi Fuso Canter 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/mitsubishi-canter/02-front.webp', caption: 'Vista frontal — Mitsubishi Fuso Canter 2026', altText: 'Mitsubishi Fuso Canter 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/mitsubishi-canter/03-front.webp', caption: 'Vista traseira — Mitsubishi Fuso Canter 2026', altText: 'Mitsubishi Fuso Canter 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/mitsubishi-canter/04-front.webp', caption: 'Interior e detalhes — Mitsubishi Fuso Canter 2026', altText: 'Mitsubishi Fuso Canter 2026 — interior e detalhes', type: 'interior' },
   ],
   'mitsubishi-l200': [
-    { url: '/fleet-carousel/mitsubishi-l200/01-front.webp', caption: 'Vista exterior — Nova Mitsubishi L200 Triton Athlete 2026', altText: 'Nova Mitsubishi L200 Triton Athlete 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/mitsubishi-l200/02-rear.webp', caption: 'Vista frontal — Nova Mitsubishi L200 Triton Athlete 2026', altText: 'Nova Mitsubishi L200 Triton Athlete 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/mitsubishi-l200/03-exterior.webp', caption: 'Vista traseira — Nova Mitsubishi L200 Triton Athlete 2026', altText: 'Nova Mitsubishi L200 Triton Athlete 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/mitsubishi-l200/04-exterior.webp', caption: 'Interior e detalhes — Nova Mitsubishi L200 Triton Athlete 2026', altText: 'Nova Mitsubishi L200 Triton Athlete 2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/mitsubishi-l200/04-exterior.webp', caption: 'Vista exterior — Nova Mitsubishi L200 Triton Athlete 2026', altText: 'Nova Mitsubishi L200 Triton Athlete 2026 — vista exterior', type: 'exterior_side' },
   ],
   'toyota-hilux': [
     { url: '/fleet-carousel/toyota-hilux/01-front.webp', caption: 'Vista exterior — Nova Toyota Hilux GR Sport 2026', altText: 'Nova Toyota Hilux GR Sport 2026 — vista exterior', type: 'exterior_side' },
@@ -233,10 +193,7 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/toyota-hilux/04-front.webp', caption: 'Interior e detalhes — Nova Toyota Hilux GR Sport 2026', altText: 'Nova Toyota Hilux GR Sport 2026 — interior e detalhes', type: 'interior' },
   ],
   'suzuki-swift': [
-    { url: '/fleet-carousel/suzuki-swift/01-front.webp', caption: 'Vista exterior — Novo Suzuki Swift GLX 2026', altText: 'Novo Suzuki Swift GLX 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/suzuki-swift/02-front.webp', caption: 'Vista frontal — Novo Suzuki Swift GLX 2026', altText: 'Novo Suzuki Swift GLX 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/suzuki-swift/03-rear.webp', caption: 'Vista traseira — Novo Suzuki Swift GLX 2026', altText: 'Novo Suzuki Swift GLX 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/suzuki-swift/04-front.webp', caption: 'Interior e detalhes — Novo Suzuki Swift GLX 2026', altText: 'Novo Suzuki Swift GLX 2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/suzuki-swift/04-front.webp', caption: 'Vista exterior — Novo Suzuki Swift GLX 2026', altText: 'Novo Suzuki Swift GLX 2026 — vista exterior', type: 'exterior_side' },
   ],
   'suzuki-baleno': [
     { url: '/fleet-carousel/suzuki-baleno/01-front.webp', caption: 'Vista exterior — Suzuki Baleno GLX 2026', altText: 'Suzuki Baleno GLX 2026 — vista exterior', type: 'exterior_side' },
@@ -257,10 +214,6 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/suzuki-spresso/04-interior.webp', caption: 'Interior e detalhes — Suzuki S-Presso GL 2026', altText: 'Suzuki S-Presso GL 2026 — interior e detalhes', type: 'interior' },
   ],
   'toyota-starlet': [
-    { url: '/fleet-carousel/toyota-starlet/01-front.webp', caption: 'Vista exterior — Toyota Starlet Cross 2026', altText: 'Toyota Starlet Cross 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-starlet/02-exterior.webp', caption: 'Vista frontal — Toyota Starlet Cross 2026', altText: 'Toyota Starlet Cross 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/toyota-starlet/03-exterior.webp', caption: 'Vista traseira — Toyota Starlet Cross 2026', altText: 'Toyota Starlet Cross 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-starlet/04-exterior.webp', caption: 'Interior e detalhes — Toyota Starlet Cross 2026', altText: 'Toyota Starlet Cross 2026 — interior e detalhes', type: 'interior' },
   ],
   'hyundai-g-i10': [
     { url: '/fleet-carousel/hyundai-g-i10/01-front.webp', caption: 'Vista exterior — Hyundai Grand i10 Sedan 2026', altText: 'Hyundai Grand i10 Sedan 2026 — vista exterior', type: 'exterior_side' },

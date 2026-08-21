@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T19:05:02.610Z",
+  "generatedAt": "2026-08-21T22:28:37.827Z",
   "source": "Wikimedia Commons; detalhes disponíveis nos manifest-part quando capturados",
   "vehicles": {
     "rangerover-blindado-2025": {
@@ -26,7 +26,8 @@
           "file": "/fleet-carousel/rangerover-blindado-2025/04-rear.webp",
           "label": "Detalhe 5"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mercedes-class-s-2025": {
       "name": "Mercedes Classe S 2026/2027",
@@ -48,7 +49,8 @@
           "file": "/fleet-carousel/mercedes-class-s-2025/04-exterior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "range-rover-novo-modelo": {
       "name": "Range Rover Autobiography 2026",
@@ -70,11 +72,12 @@
           "file": "/fleet-carousel/range-rover-novo-modelo/04-exterior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mercedes-g63-2023": {
       "name": "Mercedes-AMG G63 2026",
-      "imageCount": 4,
+      "imageCount": 2,
       "images": [
         {
           "file": "/fleet-carousel/mercedes-g63-2023/01-front.webp",
@@ -83,16 +86,9 @@
         {
           "file": "/fleet-carousel/mercedes-g63-2023/02-front.webp",
           "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-g63-2023/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-g63-2023/04-exterior.webp",
-          "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "lexus-600": {
       "name": "Lexus LX 600 VIP 2026",
@@ -114,7 +110,8 @@
           "file": "/fleet-carousel/lexus-600/04-rear.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mercedes-vito": {
       "name": "Mercedes Vito Tourer 2026",
@@ -136,11 +133,12 @@
           "file": "/fleet-carousel/mercedes-vito/04-exterior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mercedes-g63": {
       "name": "Mercedes G63 AMG 2025/2026",
-      "imageCount": 4,
+      "imageCount": 3,
       "images": [
         {
           "file": "/fleet-carousel/mercedes-g63/01-interior.webp",
@@ -153,12 +151,9 @@
         {
           "file": "/fleet-carousel/mercedes-g63/03-front.webp",
           "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-g63/04-rear.webp",
-          "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-lc300-2023": {
       "name": "Toyota Land Cruiser 300 V6 2026",
@@ -180,7 +175,8 @@
           "file": "/fleet-carousel/toyota-lc300-2023/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "lexus-570": {
       "name": "Lexus LX 570 Luxury 2025/2026",
@@ -202,29 +198,14 @@
           "file": "/fleet-carousel/lexus-570/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "range-rover": {
       "name": "Range Rover Vogue 2025/2026",
-      "imageCount": 4,
-      "images": [
-        {
-          "file": "/fleet-carousel/range-rover/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/range-rover/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/range-rover/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/range-rover/04-front.webp",
-          "label": "Interior e detalhes"
-        }
-      ]
+      "imageCount": 0,
+      "images": [],
+      "reviewStatus": "fallback_to_original"
     },
     "toyota-lc-v8-2021": {
       "name": "Toyota LC V8 2025/2026",
@@ -246,51 +227,33 @@
           "file": "/fleet-carousel/toyota-lc-v8-2021/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mercedes-cls63": {
       "name": "Mercedes CLS63 AMG 2025/2026",
-      "imageCount": 4,
+      "imageCount": 3,
       "images": [
         {
-          "file": "/fleet-carousel/mercedes-cls63/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
           "file": "/fleet-carousel/mercedes-cls63/02-front.webp",
-          "label": "Vista frontal"
+          "label": "Vista exterior"
         },
         {
           "file": "/fleet-carousel/mercedes-cls63/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-cls63/04-front.webp",
-          "label": "Interior e detalhes"
-        }
-      ]
-    },
-    "mercedes-brabus": {
-      "name": "Mercedes Brabus Edition 2026",
-      "imageCount": 4,
-      "images": [
-        {
-          "file": "/fleet-carousel/mercedes-brabus/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-brabus/02-front.webp",
           "label": "Vista frontal"
         },
         {
-          "file": "/fleet-carousel/mercedes-brabus/03-rear.webp",
+          "file": "/fleet-carousel/mercedes-cls63/04-front.webp",
           "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-brabus/04-rear.webp",
-          "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
+    },
+    "mercedes-brabus": {
+      "name": "Mercedes Brabus Edition 2026",
+      "imageCount": 0,
+      "images": [],
+      "reviewStatus": "fallback_to_original"
     },
     "volvo-xc-60": {
       "name": "Volvo XC60 Ultimate 2026",
@@ -312,7 +275,8 @@
           "file": "/fleet-carousel/volvo-xc-60/04-exterior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "new-toyota-prado": {
       "name": "Novo Toyota Land Cruiser Prado 250 (2026)",
@@ -334,7 +298,8 @@
           "file": "/fleet-carousel/new-toyota-prado/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "nissan-patrol": {
       "name": "Novo Nissan Patrol Y63 (2026/2027)",
@@ -356,7 +321,8 @@
           "file": "/fleet-carousel/nissan-patrol/04-interior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-prado-atual": {
       "name": "Toyota Prado TXL 2025/2026",
@@ -378,51 +344,30 @@
           "file": "/fleet-carousel/toyota-prado-atual/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-fortuner-atual": {
       "name": "Toyota Fortuner VX 2026",
-      "imageCount": 4,
+      "imageCount": 1,
       "images": [
         {
-          "file": "/fleet-carousel/toyota-fortuner-atual/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/toyota-fortuner-atual/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/toyota-fortuner-atual/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
           "file": "/fleet-carousel/toyota-fortuner-atual/04-front.webp",
-          "label": "Interior e detalhes"
+          "label": "Vista exterior"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-fortuner-2023": {
       "name": "Toyota Fortuner 2025/2026",
-      "imageCount": 4,
+      "imageCount": 1,
       "images": [
         {
-          "file": "/fleet-carousel/toyota-fortuner-2023/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/toyota-fortuner-2023/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/toyota-fortuner-2023/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
           "file": "/fleet-carousel/toyota-fortuner-2023/04-front.webp",
-          "label": "Interior e detalhes"
+          "label": "Vista exterior"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mercedes-benz-v300-class": {
       "name": "Mercedes-Benz V300d Exclusive 2026",
@@ -444,7 +389,8 @@
           "file": "/fleet-carousel/mercedes-benz-v300-class/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "hyundai-staria-executiva": {
       "name": "Hyundai Staria Lounge VIP 2026",
@@ -466,7 +412,8 @@
           "file": "/fleet-carousel/hyundai-staria-executiva/04-interior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-coaster": {
       "name": "Toyota Coaster Executive 2026",
@@ -488,11 +435,12 @@
           "file": "/fleet-carousel/toyota-coaster/04-interior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mercedes-sprinter-atual": {
       "name": "Mercedes Sprinter VIP Shuttle 2026",
-      "imageCount": 4,
+      "imageCount": 2,
       "images": [
         {
           "file": "/fleet-carousel/mercedes-sprinter-atual/01-front.webp",
@@ -501,16 +449,9 @@
         {
           "file": "/fleet-carousel/mercedes-sprinter-atual/02-front.webp",
           "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-sprinter-atual/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/mercedes-sprinter-atual/04-front.webp",
-          "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "hyundai-staria-atual": {
       "name": "Hyundai Staria Minibus 2026",
@@ -532,7 +473,8 @@
           "file": "/fleet-carousel/hyundai-staria-atual/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "new-toyota-hiace": {
       "name": "Toyota HiAce Super Grandia 2026",
@@ -554,7 +496,8 @@
           "file": "/fleet-carousel/new-toyota-hiace/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "hyundai-h1": {
       "name": "Hyundai H-1 Royale 2025/2026",
@@ -576,29 +519,14 @@
           "file": "/fleet-carousel/hyundai-h1/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-hiace": {
       "name": "Toyota HiAce Commuter 2025/2026",
-      "imageCount": 4,
-      "images": [
-        {
-          "file": "/fleet-carousel/toyota-hiace/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/toyota-hiace/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/toyota-hiace/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/toyota-hiace/04-front.webp",
-          "label": "Interior e detalhes"
-        }
-      ]
+      "imageCount": 0,
+      "images": [],
+      "reviewStatus": "fallback_to_original"
     },
     "jetour-x70": {
       "name": "Jetour X70 Plus / T2 2026",
@@ -620,7 +548,8 @@
           "file": "/fleet-carousel/jetour-x70/04-interior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "hyundai-santa-fe": {
       "name": "Novo Hyundai Santa Fe Calligraphy 2026",
@@ -642,7 +571,8 @@
           "file": "/fleet-carousel/hyundai-santa-fe/04-rear.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "hyundai-tucson": {
       "name": "Hyundai Tucson N-Line 2026",
@@ -664,7 +594,8 @@
           "file": "/fleet-carousel/hyundai-tucson/04-rear.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "chery-tiggo-7": {
       "name": "Chery Tiggo 7 Pro Max 2026",
@@ -686,55 +617,33 @@
           "file": "/fleet-carousel/chery-tiggo-7/04-rear.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "chery-tiggo-2": {
       "name": "Chery Tiggo 2 Pro 2025/2026",
-      "imageCount": 4,
-      "images": [
-        {
-          "file": "/fleet-carousel/chery-tiggo-2/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/chery-tiggo-2/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/chery-tiggo-2/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/chery-tiggo-2/04-front.webp",
-          "label": "Interior e detalhes"
-        }
-      ]
+      "imageCount": 0,
+      "images": [],
+      "reviewStatus": "fallback_to_original"
     },
     "hyundai-creta": {
       "name": "Hyundai Creta Smart 2026",
-      "imageCount": 4,
+      "imageCount": 2,
       "images": [
         {
-          "file": "/fleet-carousel/hyundai-creta/01-front.webp",
+          "file": "/fleet-carousel/hyundai-creta/03-front.webp",
           "label": "Vista exterior"
         },
         {
-          "file": "/fleet-carousel/hyundai-creta/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/hyundai-creta/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
           "file": "/fleet-carousel/hyundai-creta/04-front.webp",
-          "label": "Interior e detalhes"
+          "label": "Vista frontal"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-lc-hz": {
       "name": "Toyota Land Cruiser HZJ79 2026",
-      "imageCount": 4,
+      "imageCount": 3,
       "images": [
         {
           "file": "/fleet-carousel/toyota-lc-hz/01-exterior.webp",
@@ -747,74 +656,37 @@
         {
           "file": "/fleet-carousel/toyota-lc-hz/03-exterior.webp",
           "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/toyota-lc-hz/04-front.webp",
-          "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-lc-hz-18p": {
       "name": "Toyota Land Cruiser 70 Troopy 2026",
-      "imageCount": 3,
-      "images": [
-        {
-          "file": "/fleet-carousel/toyota-lc-hz-18p/01-exterior.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/toyota-lc-hz-18p/02-exterior.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/toyota-lc-hz-18p/03-exterior.webp",
-          "label": "Vista traseira"
-        }
-      ]
+      "imageCount": 0,
+      "images": [],
+      "reviewStatus": "fallback_to_original"
     },
     "mitsubishi-canter": {
       "name": "Mitsubishi Fuso Canter 2026",
-      "imageCount": 4,
+      "imageCount": 1,
       "images": [
         {
           "file": "/fleet-carousel/mitsubishi-canter/01-front.webp",
           "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/mitsubishi-canter/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/mitsubishi-canter/03-front.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/mitsubishi-canter/04-front.webp",
-          "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "mitsubishi-l200": {
       "name": "Nova Mitsubishi L200 Triton Athlete 2026",
-      "imageCount": 4,
+      "imageCount": 1,
       "images": [
         {
-          "file": "/fleet-carousel/mitsubishi-l200/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/mitsubishi-l200/02-rear.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/mitsubishi-l200/03-exterior.webp",
-          "label": "Vista traseira"
-        },
-        {
           "file": "/fleet-carousel/mitsubishi-l200/04-exterior.webp",
-          "label": "Interior e detalhes"
+          "label": "Vista exterior"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-hilux": {
       "name": "Nova Toyota Hilux GR Sport 2026",
@@ -836,29 +708,19 @@
           "file": "/fleet-carousel/toyota-hilux/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "suzuki-swift": {
       "name": "Novo Suzuki Swift GLX 2026",
-      "imageCount": 4,
+      "imageCount": 1,
       "images": [
         {
-          "file": "/fleet-carousel/suzuki-swift/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/suzuki-swift/02-front.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/suzuki-swift/03-rear.webp",
-          "label": "Vista traseira"
-        },
-        {
           "file": "/fleet-carousel/suzuki-swift/04-front.webp",
-          "label": "Interior e detalhes"
+          "label": "Vista exterior"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "suzuki-baleno": {
       "name": "Suzuki Baleno GLX 2026",
@@ -880,7 +742,8 @@
           "file": "/fleet-carousel/suzuki-baleno/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "hyundai-i-20": {
       "name": "Hyundai i20 Premium 2026",
@@ -902,7 +765,8 @@
           "file": "/fleet-carousel/hyundai-i-20/04-exterior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "suzuki-spresso": {
       "name": "Suzuki S-Presso GL 2026",
@@ -924,29 +788,14 @@
           "file": "/fleet-carousel/suzuki-spresso/04-interior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "toyota-starlet": {
       "name": "Toyota Starlet Cross 2026",
-      "imageCount": 4,
-      "images": [
-        {
-          "file": "/fleet-carousel/toyota-starlet/01-front.webp",
-          "label": "Vista exterior"
-        },
-        {
-          "file": "/fleet-carousel/toyota-starlet/02-exterior.webp",
-          "label": "Vista frontal"
-        },
-        {
-          "file": "/fleet-carousel/toyota-starlet/03-exterior.webp",
-          "label": "Vista traseira"
-        },
-        {
-          "file": "/fleet-carousel/toyota-starlet/04-exterior.webp",
-          "label": "Interior e detalhes"
-        }
-      ]
+      "imageCount": 0,
+      "images": [],
+      "reviewStatus": "fallback_to_original"
     },
     "hyundai-g-i10": {
       "name": "Hyundai Grand i10 Sedan 2026",
@@ -968,7 +817,8 @@
           "file": "/fleet-carousel/hyundai-g-i10/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "kia-morning": {
       "name": "Kia Picanto Morning 2026",
@@ -990,7 +840,8 @@
           "file": "/fleet-carousel/kia-morning/04-front.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "suzuki-celerio": {
       "name": "Suzuki Celerio GL 2026",
@@ -1012,7 +863,8 @@
           "file": "/fleet-carousel/suzuki-celerio/04-exterior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     },
     "limousine": {
       "name": "Limousine Presidencial / Gala 2026",
@@ -1034,7 +886,8 @@
           "file": "/fleet-carousel/limousine/04-exterior.webp",
           "label": "Interior e detalhes"
         }
-      ]
+      ],
+      "reviewStatus": "curated"
     }
   }
 }
