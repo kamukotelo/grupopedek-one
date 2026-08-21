@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Car,
   Scale,
@@ -9,28 +8,52 @@ import {
   X,
   ArrowRight,
   Filter,
-  Layers
+  Search,
+  SlidersHorizontal,
+  MapPin,
+  Calendar,
+  Clock,
+  ShieldCheck,
+  Building2,
+  CreditCard,
+  Truck
 } from 'lucide-react';
-import { FLEET_DATABASE, VehicleDetail } from '../../data/fleetData';
+import { FLEET_DATABASE, VehicleDetail, VehicleCategory } from '../../data/fleetData';
 import { VehicleCard } from '../fleet/VehicleCard';
 import { VehicleGalleryModal } from '../fleet/VehicleGalleryModal';
 import { VehicleComparatorModal } from '../fleet/VehicleComparatorModal';
+import { BookingWizardModal } from '../fleet/BookingWizardModal';
 
 interface FleetProps {
   onSelectVehicle?: (vehicleName: string) => void;
 }
 
 export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
-  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   // Category URL Param Sync
   const categoryParam = searchParams.get('categoria') || 'all';
   const [activeCategory, setActiveCategory] = useState<string>(categoryParam);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'popular' | 'price_asc' | 'price_desc' | 'name'>('popular');
+
+  // Quick Search Bar Inputs
+  const [heroPickupLocation, setHeroPickupLocation] = useState('Aeroporto Internacional 4 de Fevereiro (LAD)');
+  const [heroDropoffLocation, setHeroDropoffLocation] = useState('Hub Central Pepek Talatona');
+  const [heroDifferentDropoff, setHeroDifferentDropoff] = useState(false);
+  const [heroPickupDate, setHeroPickupDate] = useState(() => {
+    return new Date(Date.now() + 86400000).toISOString().split('T')[0];
+  });
+  const [heroDropoffDate, setHeroDropoffDate] = useState(() => {
+    return new Date(Date.now() + 4 * 86400000).toISOString().split('T')[0];
+  });
+
+  // Modals state
   const [selectedVehicleForModal, setSelectedVehicleForModal] = useState<VehicleDetail | null>(null);
   const [comparedVehicles, setComparedVehicles] = useState<VehicleDetail[]>([]);
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const [wizardVehicleName, setWizardVehicleName] = useState<string>('');
 
   // Keep state in sync with URL
   useEffect(() => {
@@ -48,9 +71,42 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
     }
   };
 
-  const filteredFleet = activeCategory === 'all'
-    ? FLEET_DATABASE
-    : FLEET_DATABASE.filter(v => v.category === activeCategory);
+  const categories = [
+    { id: 'all', label: 'Todas as Viaturas', count: FLEET_DATABASE.length },
+    { id: 'luxo', label: 'Luxo e Executivo', count: FLEET_DATABASE.filter(v => v.category === 'luxo').length },
+    { id: 'vans', label: 'Vans e Transporte', count: FLEET_DATABASE.filter(v => v.category === 'vans').length },
+    { id: 'suvs', label: 'SUVs', count: FLEET_DATABASE.filter(v => v.category === 'suvs').length },
+    { id: 'pickups', label: 'Pick-ups e Camiões', count: FLEET_DATABASE.filter(v => v.category === 'pickups').length },
+    { id: 'economicos', label: 'Económicos', count: FLEET_DATABASE.filter(v => v.category === 'economicos').length },
+    { id: 'eventos', label: 'Eventos Especiais', count: FLEET_DATABASE.filter(v => v.category === 'eventos').length },
+  ];
+
+  // Filter and Sort Logic
+  const filteredFleet = useMemo(() => {
+    let result = activeCategory === 'all'
+      ? FLEET_DATABASE
+      : FLEET_DATABASE.filter(v => v.category === activeCategory);
+
+    if (searchTerm.trim()) {
+      const q = searchTerm.toLowerCase();
+      result = result.filter(v =>
+        v.name.toLowerCase().includes(q) ||
+        v.brand.toLowerCase().includes(q) ||
+        v.model.toLowerCase().includes(q) ||
+        v.categoryLabel.toLowerCase().includes(q)
+      );
+    }
+
+    if (sortBy === 'price_asc') {
+      result = [...result].sort((a, b) => a.pricePerDayAOA - b.pricePerDayAOA);
+    } else if (sortBy === 'price_desc') {
+      result = [...result].sort((a, b) => b.pricePerDayAOA - a.pricePerDayAOA);
+    } else if (sortBy === 'name') {
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return result;
+  }, [activeCategory, searchTerm, sortBy]);
 
   const handleToggleCompare = (vehicle: VehicleDetail) => {
     setComparedVehicles(prev => {
@@ -70,136 +126,277 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
     if (onSelectVehicle) {
       onSelectVehicle(vehicleName);
     }
-    // Navigate to booking page with vehicle pre-filled
-    navigate(`/reservar?viatura=${encodeURIComponent(vehicleName)}`);
-    const el = document.getElementById('reserva');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    setWizardVehicleName(vehicleName);
+    setIsWizardOpen(true);
   };
 
-  const categories = [
-    { id: 'all', label: 'Toda a Frota', count: FLEET_DATABASE.length },
-    { id: 'suv', label: 'SUVs Executivas', count: FLEET_DATABASE.filter(v => v.category === 'suv').length },
-    { id: '4x4', label: '4x4 Todo-Terreno', count: FLEET_DATABASE.filter(v => v.category === '4x4').length },
-    { id: 'van', label: 'Vans & Comitivas', count: FLEET_DATABASE.filter(v => v.category === 'van').length },
-    { id: 'protocol', label: 'Segurança & Estado', count: FLEET_DATABASE.filter(v => v.category === 'protocol').length },
-  ];
-
   return (
-    <section id="frota" className="section-padding bg-gray-50/50 relative">
+    <section id="frota" className="section-padding bg-[#F3F5F8] relative">
       <div className="container-pepek">
-        {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
-          <div className="max-w-2xl">
-            <div className="tag-label mb-3.5">
-              <Car className="w-4 h-4" />
-              <span>Frota Certificada de Alta Gama · Talatona Hub</span>
-            </div>
-            <h2 className="section-title mb-3">
-              A Nossa Frota em Destaque
-            </h2>
-            <p className="section-subtitle">
-              Viaturas novas com higienização hospitalar, manutenção preventiva rigorosa e acompanhamento por motoristas bilingues formados em protocolo diplomático.
-            </p>
+        {/* ═══════════════════════════════════════════════════════
+            SECTION HEADER
+           ═══════════════════════════════════════════════════════ */}
+        <div className="max-w-3xl mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#07133F] text-[#D2A820] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
+            <Car className="w-3.5 h-3.5" />
+            <span>Frota Oficial · 47 Viaturas Reais em Luanda</span>
           </div>
-
-          {/* Interactive URL-Synced Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-white border border-gray-200 shadow-xs">
-            {categories.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => handleCategoryChange(tab.id)}
-                className={`px-3.5 py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeCategory === tab.id
-                    ? 'bg-[#06142F] text-white shadow-md'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-              >
-                <span>{tab.label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                  activeCategory === tab.id ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
-                }`}>
-                  {tab.count}
-                </span>
-              </button>
-            ))}
-          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#07133F] tracking-tight mb-3">
+            Conheça a Nossa Frota de Alto Padrão
+          </h2>
+          <p className="text-sm sm:text-base text-[#697080] leading-relaxed">
+            Viaturas inspecionadas com manutenção rigorosa, higienização selada, seguro total e disponibilidade imediata para particulares, empresas e missões diplomáticas em Angola.
+          </p>
         </div>
 
-        {/* Dynamic Category Availability Counter */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200/80 text-xs">
-          <div className="flex items-center gap-2 text-gray-600">
-            <Filter className="w-4 h-4 text-[#0B45D8]" />
-            <span>
-              A mostrar <strong>{filteredFleet.length}</strong> viaturas disponíveis com despacho imediato
-            </span>
+        {/* ═══════════════════════════════════════════════════════
+            QUICK SEARCH HERO BAR
+           ═══════════════════════════════════════════════════════ */}
+        <div className="bg-[#020A2A] text-white p-5 sm:p-7 rounded-3xl shadow-xl border border-white/10 mb-10">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D2A820]">
+              <Sparkles className="w-4 h-4" />
+              <span>Pesquisa Rápida de Disponibilidade</span>
+            </div>
+            <label className="text-xs text-gray-300 flex items-center gap-1.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={heroDifferentDropoff}
+                onChange={(e) => setHeroDifferentDropoff(e.target.checked)}
+                className="rounded text-[#D2A820]"
+              />
+              <span>Entregar noutro local</span>
+            </label>
           </div>
 
-          <div className="text-gray-500 hidden sm:block">
-            <span>Fotos reais de cada viatura com galeria e ficha técnica</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {/* Levantamento */}
+            <div>
+              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-[#D2A820]" />
+                Levantamento
+              </label>
+              <select
+                value={heroPickupLocation}
+                onChange={(e) => setHeroPickupLocation(e.target.value)}
+                className="w-full p-3 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+              >
+                <option value="Aeroporto Internacional 4 de Fevereiro (LAD)" className="text-gray-900">Aeroporto 4 de Fevereiro (LAD)</option>
+                <option value="Hub Central Pepek Talatona" className="text-gray-900">Hub Central Pepek Talatona</option>
+                <option value="Hotel Epic Sana Luanda" className="text-gray-900">Hotel Epic Sana Luanda</option>
+                <option value="Miramar / Embaixadas" className="text-gray-900">Miramar / Embaixadas</option>
+                <option value="Outro Endereço em Luanda" className="text-gray-900">Outro Endereço em Luanda</option>
+              </select>
+            </div>
+
+            {/* Devolução */}
+            <div>
+              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-[#1E8E5A]" />
+                Devolução
+              </label>
+              {heroDifferentDropoff ? (
+                <select
+                  value={heroDropoffLocation}
+                  onChange={(e) => setHeroDropoffLocation(e.target.value)}
+                  className="w-full p-3 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+                >
+                  <option value="Hub Central Pepek Talatona" className="text-gray-900">Hub Central Pepek Talatona</option>
+                  <option value="Aeroporto Internacional 4 de Fevereiro (LAD)" className="text-gray-900">Aeroporto 4 de Fevereiro (LAD)</option>
+                  <option value="Hotel Epic Sana Luanda" className="text-gray-900">Hotel Epic Sana Luanda</option>
+                  <option value="Outro Endereço em Luanda" className="text-gray-900">Outro Endereço em Luanda</option>
+                </select>
+              ) : (
+                <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-xs text-gray-300 truncate">
+                  {heroPickupLocation.split('(')[0]}
+                </div>
+              )}
+            </div>
+
+            {/* Data Levantamento */}
+            <div>
+              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+                <Calendar className="w-3 h-3 text-[#D2A820]" />
+                Data de Levantamento
+              </label>
+              <input
+                type="date"
+                value={heroPickupDate}
+                onChange={(e) => setHeroPickupDate(e.target.value)}
+                className="w-full p-2.5 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white"
+              />
+            </div>
+
+            {/* Data Devolução */}
+            <div>
+              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+                <Calendar className="w-3 h-3 text-[#D2A820]" />
+                Data de Devolução
+              </label>
+              <input
+                type="date"
+                value={heroDropoffDate}
+                onChange={(e) => setHeroDropoffDate(e.target.value)}
+                className="w-full p-2.5 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white"
+              />
+            </div>
           </div>
         </div>
 
         {/* ═══════════════════════════════════════════════════════
-            VIP BOOKING WORKFLOW & SERVICE GUARANTEES BAR
+            CATEGORY TABS (Gold Active, Navy Baseline)
            ═══════════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 mb-10 p-5 rounded-3xl bg-white border border-gray-200/90 shadow-sm text-xs">
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => handleCategoryChange(cat.id)}
+                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  isActive
+                    ? 'bg-[#D2A820] text-[#020A2A] shadow-md scale-102'
+                    : 'bg-white text-[#07133F] border border-[#D9DEE7] hover:border-[#07133F] hover:bg-gray-50'
+                }`}
+              >
+                <span>{cat.label}</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
+                  isActive ? 'bg-[#020A2A] text-[#D2A820]' : 'bg-[#F3F5F8] text-[#697080]'
+                }`}>
+                  {cat.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════
+            SEARCH & SORT TOOLBAR + COUNTER
+           ═══════════════════════════════════════════════════════ */}
+        <div className="bg-white p-4 rounded-2xl border border-[#D9DEE7] shadow-xs mb-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+          {/* Search Input */}
+          <div className="relative w-full md:w-80">
+            <Search className="w-4 h-4 text-[#697080] absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Pesquisar por modelo ou marca..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs text-[#07133F] font-medium outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Counter and Sort Dropdown */}
+          <div className="flex items-center justify-between md:justify-end gap-4 w-full md:w-auto">
+            <span className="font-bold text-[#07133F]">
+              <strong>{filteredFleet.length}</strong> {filteredFleet.length === 1 ? 'viatura encontrada' : 'viaturas encontradas'}
+            </span>
+
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[#697080]" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="p-2 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-semibold text-[#07133F] outline-hidden cursor-pointer"
+              >
+                <option value="popular">Mais Populares</option>
+                <option value="price_asc">Preço: Menor para Maior</option>
+                <option value="price_desc">Preço: Maior para Menor</option>
+                <option value="name">Nome (A-Z)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════
+            4-STEP BOOKING GUIDE BAR
+           ═══════════════════════════════════════════════════════ */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 mb-10 p-5 rounded-3xl bg-white border border-[#D9DEE7] shadow-xs text-xs">
           <div className="flex items-start gap-3 p-2">
-            <div className="w-8 h-8 rounded-xl bg-[#0B45D8]/10 text-[#0B45D8] flex items-center justify-center font-black shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-[#07133F] text-[#D2A820] flex items-center justify-center font-black shrink-0 shadow-xs">
               1
             </div>
             <div>
-              <strong className="block text-gray-900 text-[13px] font-bold">Escolha a Viatura</strong>
-              <p className="text-gray-500 text-[11px] mt-0.5">Explore fotos reais, lotação e especificações técnicas completas.</p>
+              <strong className="block text-[#07133F] text-[13px] font-bold">Escolha a Viatura</strong>
+              <p className="text-[#697080] text-[11px] mt-0.5">Explore fotos reais, lotação e especificações de cada uma das 47 viaturas.</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
-            <div className="w-8 h-8 rounded-xl bg-[#0B45D8]/10 text-[#0B45D8] flex items-center justify-center font-black shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-[#07133F] text-[#D2A820] flex items-center justify-center font-black shrink-0 shadow-xs">
               2
             </div>
             <div>
-              <strong className="block text-gray-900 text-[13px] font-bold">Proposta Formal AGT</strong>
-              <p className="text-gray-500 text-[11px] mt-0.5">Emissão imediata de cotação com NIF da sua empresa ou embaixada.</p>
+              <strong className="block text-[#07133F] text-[13px] font-bold">Adicione Extras</strong>
+              <p className="text-[#697080] text-[11px] mt-0.5">Chauffeur profissional, tanque cheio garantido, cadeiras infantis ou Wi-Fi 5G.</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
-            <div className="w-8 h-8 rounded-xl bg-[#0B45D8]/10 text-[#0B45D8] flex items-center justify-center font-black shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-[#07133F] text-[#D2A820] flex items-center justify-center font-black shrink-0 shadow-xs">
               3
             </div>
             <div>
-              <strong className="block text-gray-900 text-[13px] font-bold">Pagamento Flexível</strong>
-              <p className="text-gray-500 text-[11px] mt-0.5">Multicaixa Express, Transferência BAI/BFA, Stripe Internacional ou Faturação a 30 dias.</p>
+              <strong className="block text-[#07133F] text-[13px] font-bold">Cotação & Fatura AGT</strong>
+              <p className="text-[#697080] text-[11px] mt-0.5">Emissão imediata de cotação formal com NIF para particulares ou empresas.</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-black shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-[#1E8E5A] text-white flex items-center justify-center font-black shrink-0 shadow-xs">
               4
             </div>
             <div>
-              <strong className="block text-emerald-900 text-[13px] font-bold">Despacho & Entrega VIP</strong>
-              <p className="text-gray-500 text-[11px] mt-0.5">Entrega gratuita no Aeroporto 4 de Fevereiro, Talatona ou Miramar com viatura selada.</p>
+              <strong className="block text-[#07133F] text-[13px] font-bold">Entrega VIP em Luanda</strong>
+              <p className="text-[#697080] text-[11px] mt-0.5">Despacho com viatura selada e higienizada no Aeroporto ou Talatona.</p>
             </div>
           </div>
         </div>
 
         {/* ═══════════════════════════════════════════════════════
-            VISUAL-FIRST FLEET GRID (Dominant Images)
+            FLEET GRID (1 col mobile, 2 col tablet/desktop)
            ═══════════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredFleet.map((vehicle) => (
-            <VehicleCard
-              key={vehicle.id}
-              vehicle={vehicle}
-              isCompared={comparedVehicles.some(v => v.id === vehicle.id)}
-              onToggleCompare={handleToggleCompare}
-              onInspect={(v) => setSelectedVehicleForModal(v)}
-              onSelectBooking={handleBookingTrigger}
-            />
-          ))}
-        </div>
+        {filteredFleet.length === 0 ? (
+          <div className="bg-white rounded-3xl p-12 text-center border border-[#D9DEE7] shadow-xs">
+            <Car className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+            <h3 className="text-lg font-bold text-[#07133F] mb-1">Nenhuma viatura encontrada</h3>
+            <p className="text-xs text-[#697080] max-w-md mx-auto mb-4">
+              Não encontramos nenhum modelo que corresponda à sua pesquisa. Tente limpar os filtros ou selecionar outra categoria.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchTerm('');
+                handleCategoryChange('all');
+              }}
+              className="px-5 py-2.5 bg-[#07133F] text-white font-bold text-xs rounded-xl cursor-pointer"
+            >
+              Ver Todas as 47 Viaturas
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {filteredFleet.map((vehicle) => (
+              <VehicleCard
+                key={vehicle.id}
+                vehicle={vehicle}
+                isCompared={comparedVehicles.some(v => v.id === vehicle.id)}
+                onToggleCompare={handleToggleCompare}
+                onInspect={(v) => setSelectedVehicleForModal(v)}
+                onSelectBooking={handleBookingTrigger}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* ═══════════════════════════════════════════════════════
@@ -207,17 +404,17 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
          ═══════════════════════════════════════════════════════ */}
       {comparedVehicles.length > 0 && (
         <div
-          className="fixed left-4 right-4 sm:left-auto sm:right-8 z-40 bg-[#06142F] text-white p-3.5 px-5 rounded-2xl shadow-2xl border border-white/20 flex items-center justify-between gap-4 animate-scaleUp"
+          className="fixed left-4 right-4 sm:left-auto sm:right-8 z-40 bg-[#020A2A] text-white p-3.5 px-5 rounded-2xl shadow-2xl border border-white/20 flex items-center justify-between gap-4 animate-scaleUp"
           style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#0B45D8] flex items-center justify-center text-white font-bold text-xs">
+            <div className="w-8 h-8 rounded-xl bg-[#D2A820] text-[#020A2A] flex items-center justify-center font-black text-xs">
               {comparedVehicles.length}
             </div>
             <div className="text-xs">
               <strong className="block text-white">Viaturas em Comparação</strong>
               <span className="text-gray-300 text-[10px]">
-                {comparedVehicles.map(v => v.name.split(' ')[0] + ' ' + v.name.split(' ')[1]).join(' vs ')}
+                {comparedVehicles.map(v => v.name.split(' ')[0]).join(' vs ')}
               </span>
             </div>
           </div>
@@ -226,17 +423,17 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
             <button
               type="button"
               onClick={() => setIsComparatorOpen(true)}
-              className="btn-primary py-2 px-4 text-xs font-bold flex items-center gap-1.5 shadow-md cursor-pointer"
+              className="py-2 px-4 bg-[#D2A820] hover:bg-[#E1BB38] text-[#020A2A] text-xs font-black rounded-xl flex items-center gap-1.5 shadow-md cursor-pointer"
             >
               <Scale className="w-3.5 h-3.5" />
-              <span>Comparar Agora ({comparedVehicles.length})</span>
+              <span>Comparar ({comparedVehicles.length})</span>
             </button>
 
             <button
               type="button"
               onClick={() => setComparedVehicles([])}
               className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-colors cursor-pointer"
-              title="Limpar selecção"
+              title="Limpar seleção"
             >
               <X className="w-4 h-4" />
             </button>
@@ -259,6 +456,13 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         isOpen={isComparatorOpen}
         onClose={() => setIsComparatorOpen(false)}
         onSelectBooking={handleBookingTrigger}
+      />
+
+      {/* 4-Step Booking Wizard Modal */}
+      <BookingWizardModal
+        initialVehicleName={wizardVehicleName}
+        isOpen={isWizardOpen}
+        onClose={() => setIsWizardOpen(false)}
       />
     </section>
   );

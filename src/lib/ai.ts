@@ -40,13 +40,15 @@ Seu objetivo é conversar de forma calorosa, humana, direta e profissional, ajud
 • Sede: Talatona, Rua Reino do Bailundo, Luanda — Angola.
 • Pólos de Apoio: Huambo (Planalto Central) e Bengo (Caxito).
 • Linha 24/7: +244 923 719 090 / 923 000 010 | geral@pepekgrupo.com
-• Frota Principal:
-  - SUV Executiva: Toyota Land Cruiser Prado TXL & LC300 VXR (7 lugares, 4WD permanente, luxo protocolar). Diária a partir de 185.000 AOA (~€205 EUR).
-  - 4x4 Todo-Terreno: Toyota Hilux Dupla Cabine 4x4 & Fortuner (5-7 lugares, redutoras, ideal para províncias). Diária a partir de 135.000 AOA (~€150 EUR).
-  - Van VIP: Toyota Hiace VIP Executiva (12 lugares individuais em pele, AC traseiro dedicado). Diária a partir de 210.000 AOA (~€230 EUR).
-  - Comboio Protocolar & Escolta: Viaturas pretas coordenadas para comitivas de estado e cimeiras.
-• Pagamentos: Multicaixa e Express em Angola; Cartões, Multibanco e MB WAY para Portugal e Europa; Faturação AGT em AOA/EUR.
-• Seguros: Cobertura total com viatura de substituição em caso de imprevisto.
+• Frota Oficial (47 Viaturas em 6 Categorias):
+  - Luxo e Executivo (19 viaturas): Range Rover Blindado 2025 (1.999.999 Kz/dia), Mercedes Classe S 2025 (1.449.999 Kz/dia), Range Rover Novo Modelo (1.449.999 Kz/dia), Mercedes G63 2023 (999.999 Kz/dia), Lexus 600 (800.000 Kz/dia), Toyota LC300 2023 (599.999 Kz/dia), Toyota LC V8 (449.999 Kz/dia), Volvo XC60 (349.999 Kz/dia), Novo Toyota Prado 2024 (349.999 Kz/dia), Nissan Patrol V8 (349.999 Kz/dia), Toyota Prado Atual (289.999 Kz/dia), Toyota Fortuner (199.999 Kz/dia).
+  - Vans e Transporte (8 viaturas): Mercedes-Benz V300 Class VIP (800.000 Kz/dia), Hyundai Staria Executiva (449.999 Kz/dia), Toyota Coaster 30L (399.999 Kz/dia), Mercedes Sprinter 21L (369.999 Kz/dia), Nova Toyota Hiace 15L (359.999 Kz/dia), Hyundai H1 (349.999 Kz/dia), Toyota Hiace (199.999 Kz/dia).
+  - SUVs (6 viaturas): Jetour X70 7L (189.999 Kz/dia), Hyundai Santa Fé (149.999 Kz/dia), Hyundai Tucson (149.999 Kz/dia), Chery Tiggo 7 (149.999 Kz/dia), Chery Tiggo 2 (129.999 Kz/dia), Hyundai Creta (129.999 Kz/dia).
+  - Pick-ups e Camiões (5 viaturas): Toyota LC HZ (259.999 Kz/dia), Toyota LC HZ 18P (249.999 Kz/dia), Mitsubishi Canter Camião (159.999 Kz/dia), Mitsubishi L200 (159.999 Kz/dia), Toyota Hilux Dupla Cabine (159.999 Kz/dia).
+  - Económicos (8 viaturas): Suzuki Swift (69.999 Kz/dia), Suzuki Baleno (69.999 Kz/dia), Hyundai i20 (59.999 Kz/dia), Suzuki S-Presso (59.999 Kz/dia), Toyota Starlet (59.999 Kz/dia), Hyundai Grand i10 (49.999 Kz/dia), Kia Morning (44.999 Kz/dia), Suzuki Celerio (44.999 Kz/dia).
+  - Eventos Especiais (1 viatura): Limousine Presidencial 20 Lugares (999.999 Kz/dia).
+• Pagamentos: Multicaixa e Express em Angola; Cartões, Multibanco e MB WAY para Portugal e Europa; Faturação AGT em AOA.
+• Seguros & Extras: Cobertura total com viatura de substituição em caso de imprevisto. Motorista profissional (35.000 Kz/dia), Higienização e combustível (35.000 Kz/dia).
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
