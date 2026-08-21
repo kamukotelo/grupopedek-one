@@ -55,20 +55,20 @@ export const Header: React.FC = () => {
           1. TOP UTILITY BAR — Strictly single-line, no-wrap
          ═══════════════════════════════════════════════════════ */}
       <div
-        style={{ height: isScrolled ? 0 : undefined, opacity: isScrolled ? 0 : 1 }}
-        className="hidden lg:flex items-center bg-[#020917] text-gray-300 border-b border-white/5 transition-all duration-300 overflow-hidden whitespace-nowrap"
-        aria-hidden={isScrolled}
+        className={`hidden lg:flex items-center bg-[#020917] text-gray-300 border-b border-white/5 transition-all duration-300 overflow-hidden whitespace-nowrap ${
+          isScrolled ? 'h-0 opacity-0 border-none pointer-events-none' : 'h-9 opacity-100'
+        }`}
       >
-        <div className="w-full flex flex-row flex-nowrap items-center justify-between px-6 xl:px-14 2xl:px-20 h-9">
+        <div className="w-full flex flex-row flex-nowrap items-center justify-between px-6 xl:px-14 2xl:px-20 h-full">
           {/* ── LEFT: Location · Email ── */}
           <div className="flex flex-row flex-nowrap items-center gap-3 shrink-0">
-            <div className="flex items-center gap-1 text-[10.5px] text-gray-400 shrink-0">
-              <MapPin className="w-3 h-3 text-[#0B45D8] shrink-0" />
+            <div className="inline-flex items-center gap-1.5 text-[11px] text-gray-400 shrink-0">
+              <MapPin className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
               <span>Talatona, Luanda — Angola</span>
             </div>
             <span className="text-gray-700 shrink-0 select-none">|</span>
-            <div className="flex items-center gap-1 text-[10.5px] text-gray-400 shrink-0">
-              <Mail className="w-3 h-3 text-[#0B45D8] shrink-0" />
+            <div className="inline-flex items-center gap-1.5 text-[11px] text-gray-400 shrink-0">
+              <Mail className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
               <a href="mailto:geral@pepekgrupo.com" className="hover:text-white transition-colors">
                 geral@pepekgrupo.com
               </a>
@@ -77,22 +77,22 @@ export const Header: React.FC = () => {
 
           {/* ── RIGHT: Phone · Portal ── */}
           <div className="flex flex-row flex-nowrap items-center gap-3 shrink-0">
-            <div className="flex flex-row flex-nowrap items-center gap-1.5 text-[10.5px] shrink-0">
-              <Phone className="w-3 h-3 text-[#0B45D8] shrink-0" />
-              <span className="text-gray-500">24/7:</span>
+            <div className="inline-flex items-center gap-1.5 text-[11px] shrink-0">
+              <Phone className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
+              <span className="text-gray-400 font-medium">Central 24/7:</span>
               <a href="tel:+244923719090" className="text-white font-semibold hover:text-[#0B45D8] transition-colors">
                 +244 923 719 090
               </a>
               <span className="text-gray-600 select-none">/</span>
               <a href="tel:+244923000010" className="text-white font-semibold hover:text-[#0B45D8] transition-colors">
-                923 000 010
+                +244 923 000 010
               </a>
             </div>
             <span className="text-gray-700 shrink-0 select-none">|</span>
             <button
               type="button"
               onClick={() => setIsPortalOpen(true)}
-              className="flex flex-row flex-nowrap items-center gap-1 text-[10px] font-semibold text-gray-300 hover:text-white px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:bg-[#0B45D8] hover:border-[#0B45D8] transition-all cursor-pointer shrink-0"
+              className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-gray-300 hover:text-white px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:bg-[#0B45D8] hover:border-[#0B45D8] transition-all cursor-pointer shrink-0"
             >
               <User className="w-3 h-3 text-[#0B45D8] shrink-0" />
               <span className="shrink-0">{currentUser ? currentUser.name.split(' ')[0] : 'Área do Cliente'}</span>

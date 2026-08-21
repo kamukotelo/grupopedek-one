@@ -58,3 +58,9 @@ export function generateQuickWhatsAppUrl(topic?: string): string {
     : `Olá PEPEK GRUPO RENT-A-CAR. Gostaria de solicitar uma proposta de mobilidade executiva.`;
   return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(defaultText)}`;
 }
+
+export function generateVehicleWhatsAppUrl(vehicleName: string, priceAOA: number): string {
+  const text = `*CONSULTA DE DISPONIBILIDADE — PEPEK GRUPO*\n\nOlá! Gostaria de consultar a disponibilidade da viatura:\n*${vehicleName}* (${priceAOA.toLocaleString('pt-AO')} AOA/dia).\n\nPoderiam informar as datas livres e opções com motorista bilingue / livre condução?`;
+  return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+

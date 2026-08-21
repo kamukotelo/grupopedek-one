@@ -367,5 +367,242 @@ export const FLEET_DATABASE: VehicleDetail[] = [
       'Embaixadores Extraordinários e Plenipotenciários',
       'Cimeiras da SADC, CPLP, União Africana e Visitas Oficiais'
     ]
+  },
+  {
+    id: 'suv-range-rover-autobiography',
+    name: 'Range Rover Autobiography LWB 4.4L V8',
+    subtitle: 'A Quintessência do Luxo Executivo Britânico em Luanda',
+    category: 'suv',
+    categoryLabel: 'Ultra-Luxo & Prestígio',
+    badge: 'Ultra-Luxo',
+    availabilityTag: 'Disponível Agora em Talatona',
+    pricePerDayAOA: 295000,
+    pricePerDayEUR: 320,
+    description: 'Versão Long Wheelbase (LWB) com poltronas traseiras Executive Class Comfort-Plus, massagem com pedras quentes, sistema de som Meridian Signature 1600W com cancelamento ativo de ruído e suspensão pneumática eletrónica adaptativa.',
+    primaryImage: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=1600&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1600&q=85',
+    gallery: [
+      {
+        url: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Design Esculpido — Grelha Autobiography e óticas Digital LED com projeção de imagem',
+        altText: 'Range Rover Autobiography LWB vista frontal executiva — Pepek Grupo',
+        type: 'exterior_front'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Perfil LWB Alongado — Portas com fecho suave assistido (Soft-Close) e vidros duplos acústicos',
+        altText: 'Range Rover perfil lateral executivo Luanda — Pepek Rent-a-Car',
+        type: 'exterior_side'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Salão Traseiro Executive Class — Consola central motorizada com ecrã táctil de 8" e frigorífico para champanhe',
+        altText: 'Interior Range Rover Autobiography poltronas executivas — Pepek VIP',
+        type: 'interior'
+      }
+    ],
+    specs: {
+      passengers: 4,
+      luggage: 5,
+      transmission: 'Automática ZF 8 Velocidades',
+      traction: 'All-Wheel Drive Inteligente (iAWD) com Eixo Traseiro Direcional',
+      fuelType: 'Gasolina Twin-Turbo V8',
+      engine: '4.4L Twin-Turbocharged V8 (530 CV)',
+      armorProtection: 'Vidros de Segurança Laminados Acústicos',
+      airConditioning: 'Climatização Quad-Zone com Purificação de Ar Nanoe X',
+      connectivity: 'Pivi Pro 13.1", Ecrãs Traseiros HD 11.4", Wi-Fi 5G Hotspot'
+    },
+    features: [
+      'Poltronas Executive Class com 24 regulações e função de massagem',
+      'Portas com assistência elétrica e fecho suave Soft-Close',
+      'Ecrãs multimédia traseiros de 11.4" com HDMI e auscultadores sem fios',
+      'Frigorífico de bordo integrado com capacidade para garrafas',
+      'Sistema de som Meridian Signature 35 altifalantes com cancelamento de ruído'
+    ],
+    inclusions: [
+      'Motorista executivo bilingue com uniforme de protocolo e luvas',
+      'Bebidas premium de boas-vindas e snacks gourmet a bordo',
+      'Acesso prioritário e receção personalizada no Aeroporto de Luanda',
+      'Seguro VIP Total sem franquia'
+    ],
+    recommendedFor: [
+      'CEOs de Multinacionais e Investidores Internacionais',
+      'Embaixadores e Recepções Diplomáticas de Gala',
+      'Cerimónias de Estado, Casamentos VIP e Cimeiras Económicas'
+    ]
+  },
+  {
+    id: 'protocol-mercedes-s-class',
+    name: 'Mercedes-Benz Classe S S580 / Maybach Edition',
+    subtitle: 'O Pináculo da Mobilidade Presidencial & Diplomática',
+    category: 'protocol',
+    categoryLabel: 'Sedan Presidencial de Luxo',
+    badge: 'Presidencial',
+    availabilityTag: 'Disponível sob Reserva',
+    pricePerDayAOA: 340000,
+    pricePerDayEUR: 370,
+    description: 'O sedan de luxo mais prestigiado do mundo. Equipado com bancos First-Class Lounge reclináveis a 43.5 graus, suspensão E-Active Body Control que lê a estrada em tempo real e insonorização absoluta.',
+    primaryImage: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1600&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1600&q=85',
+    gallery: [
+      {
+        url: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Frente Presidencial — Estrela Mercedes no capô com grelha cromada Maybach e Digital Light',
+        altText: 'Mercedes-Benz Classe S S580 frente executiva — Pepek Grupo Rent-a-Car',
+        type: 'exterior_front'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Lateral Distinta — Distância entre eixos longa com jantes forjadas e vidros fumados escuros',
+        altText: 'Mercedes Classe S perfil lateral — Aluguer executivo Luanda',
+        type: 'exterior_side'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Cabine First-Class — Pele Nappa Exclusive com costuras diamante e iluminação ambiente ativa de 64 cores',
+        altText: 'Interior bancos traseiros Mercedes Classe S — Pepek VIP Luanda',
+        type: 'interior'
+      }
+    ],
+    specs: {
+      passengers: 4,
+      luggage: 4,
+      transmission: '9G-TRONIC Automática',
+      traction: '4MATIC Tração Integral Permanente',
+      fuelType: 'Gasolina Mild-Hybrid V8 Biturbo',
+      engine: '4.0L V8 Biturbo com EQ Boost (503 CV)',
+      armorProtection: 'Vidros Laminados Reforçados Anti-Intrusão',
+      airConditioning: 'Climatização Automática THERMOTRONIC Traseira',
+      connectivity: 'MBUX High-End Traseiro com 2 Ecrãs OLED de 11.6" e Tablet Central'
+    },
+    features: [
+      'Bancos Executive com apoio de pernas e massagem energizante',
+      'Sistema de som Burmester High-End 4D Surround Sound',
+      'Cortinas elétricas para as janelas traseiras e óculo traseiro',
+      'Pacote Chauffeur com avanço elétrico do banco dianteiro do passageiro',
+      'Suspensão AIRMATIC com amortecimento adaptativo contínuo'
+    ],
+    inclusions: [
+      'Motorista protocolar oficial fardado e credenciado',
+      'Água mineral termal, toalhetes e carregadores rápidos para iPhone/Android',
+      'Despacho VIP porta-a-porta em Talatona, Miramar ou Aeroporto'
+    ],
+    recommendedFor: [
+      'Chefes de Missão Diplomática e Embaixadores',
+      'Ministros de Estado e Dignitários Estrangeiros',
+      'Eventos de Alta Sociedade, Cimeiras e Aberturas Oficiais'
+    ]
+  },
+  {
+    id: 'suv-lexus-lx600-vip',
+    name: 'Lexus LX 600 VIP 4-Lugares Executive Lounge',
+    subtitle: 'Engenharia Japonesa de Ultra-Luxo & Fiabilidade Extrema',
+    category: 'suv',
+    categoryLabel: 'SUV VIP Ultra-Luxo',
+    badge: 'Exclusivo VIP',
+    availabilityTag: 'Disponível Agora em Talatona',
+    pricePerDayAOA: 260000,
+    pricePerDayEUR: 285,
+    description: 'A versão mais luxuosa da gama Lexus. Configuração exclusiva de apenas 4 lugares para espaço infinito na 2ª fila, com bancos Ottoman com reclinação até 48 graus, massagem Shiatsu e suspensão hidráulica ativa AHC.',
+    primaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1600&q=85',
+    gallery: [
+      {
+        url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Grelha Spindle Grille Imponente — Assinatura luminosa Triple-Beam LED',
+        altText: 'Lexus LX600 VIP vista frontal — Pepek Rent a Car Angola',
+        type: 'exterior_front'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Lounge Traseiro Ottoman — Poltronas com massagem Shiatsu e ecrã táctil de controlo central',
+        altText: 'Interior Lexus LX600 bancos Ottoman — Pepek Grupo',
+        type: 'interior'
+      }
+    ],
+    specs: {
+      passengers: 4,
+      luggage: 5,
+      transmission: 'Direct-Shift Automática 10 Velocidades',
+      traction: 'Full-Time 4WD com Torsen LSD e Multi-Terrain Select',
+      fuelType: 'Gasolina Twin-Turbo V6',
+      engine: '3.5L Twin-Turbo V6 (415 CV)',
+      armorProtection: 'Estrutura Reforçada GA-F e Vidros Acústicos Duplos',
+      airConditioning: 'Lexus Climate Concierge com sensor de infravermelhos corporal',
+      connectivity: 'Lexus Interface 12.3", Ecrãs Traseiros 11.6", Mark Levinson 25 Colunas'
+    },
+    features: [
+      'Poltronas Ottoman traseiras com reclinação elétrica de 48° e apoio de pés',
+      'Consola traseira exclusiva em madeira nobre com carregador por indução',
+      'Sistema de áudio Mark Levinson Reference 3D Surround de 2400 Watts',
+      'Suspensão Active Height Control (AHC) com ajuste de altura automático'
+    ],
+    inclusions: [
+      'Motorista executivo bilingue',
+      'Cobertura total de seguro e substituição de viatura em <45 min',
+      'Frigorífico de bordo abastecido com água e refrigerantes'
+    ],
+    recommendedFor: [
+      'Administradores e Presidentes de Conselhos de Administração (PCA)',
+      'Altos Comissários e Representantes de Agências Internacionais',
+      'Deslocações urbanas e interprovinciais com máximo conforto'
+    ]
+  },
+  {
+    id: 'van-vclass-maybach-vip',
+    name: 'Mercedes-Benz Classe V Extra-Longa Maybach Executive',
+    subtitle: 'Escritório Móvel de Primeira Classe para Direcção & Comitivas VIP',
+    category: 'van',
+    categoryLabel: 'Van VIP Maybach',
+    badge: 'Escritório Móvel',
+    availabilityTag: 'Disponível Agora em Talatona',
+    pricePerDayAOA: 280000,
+    pricePerDayEUR: 305,
+    description: 'Transformação executiva de topo para 6 a 7 ocupantes com poltronas individuais face-a-face, mesa de reuniões dobrável, iluminação de teto tipo céu estrelado Rolls-Royce Starlight, TV HD de 32" e cafeteira Nespresso integrada.',
+    primaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1600&q=85',
+    gallery: [
+      {
+        url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Exterior Executivo — Linhas Maybach com jantes polidas e vidros de máxima privacidade',
+        altText: 'Mercedes Classe V Maybach VIP vista exterior — Pepek Grupo',
+        type: 'exterior_front'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
+        caption: 'Salão VIP Executivo — 4 poltronas Maybach reclináveis com mesa dobrável e ecrã de conferência',
+        altText: 'Interior executivo Maybach Classe V — Pepek Rent a Car Luanda',
+        type: 'interior'
+      }
+    ],
+    specs: {
+      passengers: 7,
+      luggage: 8,
+      transmission: '9G-TRONIC Automática',
+      traction: 'Traseira / 4MATIC Integral',
+      fuelType: 'Diesel Turbo OM654',
+      engine: '2.0L Turbo Diesel 300d (239 CV)',
+      armorProtection: 'Vidros Traseiros Escurecidos de Alta Segurança',
+      airConditioning: 'TEMPMATIC Traseiro e Dianteiro com Controlo Automático',
+      connectivity: 'Wi-Fi 5G a bordo, TV 32", Tomadas 220V e HDMI para apresentações'
+    },
+    features: [
+      'Teto iluminado Starlight com constelações em fibra ótica',
+      'Mesa de conferência elétrica retrátil para reuniões em trânsito',
+      'Poltronas de couro capitoné Maybach com aquecimento, ventilação e massagem',
+      'Divisória acústica entre cabine do motorista e salão de passageiros',
+      'Máquina de café e frigorífico para garrafas de champanhe/água'
+    ],
+    inclusions: [
+      'Chauffeur executivo com fato escuro e protocolo de comitiva',
+      'Serviço de bordo com café, água mineral e toalhetes',
+      'Seguro total de ocupantes e bagagens'
+    ],
+    recommendedFor: [
+      'Reuniões de Direção e Roadshows Financeiros em Trânsito',
+      'Transfers de Delegações Estrangeiras e Equipas Ministeriais',
+      'Artistas Internacionais, Produtores e Eventos de Prestígio'
+    ]
   }
 ];
+

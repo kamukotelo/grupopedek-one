@@ -141,6 +141,51 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         </div>
 
         {/* ═══════════════════════════════════════════════════════
+            VIP BOOKING WORKFLOW & SERVICE GUARANTEES BAR
+           ═══════════════════════════════════════════════════════ */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 mb-10 p-5 rounded-3xl bg-white border border-gray-200/90 shadow-sm text-xs">
+          <div className="flex items-start gap-3 p-2">
+            <div className="w-8 h-8 rounded-xl bg-[#0B45D8]/10 text-[#0B45D8] flex items-center justify-center font-black shrink-0">
+              1
+            </div>
+            <div>
+              <strong className="block text-gray-900 text-[13px] font-bold">Escolha a Viatura</strong>
+              <p className="text-gray-500 text-[11px] mt-0.5">Explore fotos reais, lotação e especificações técnicas completas.</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
+            <div className="w-8 h-8 rounded-xl bg-[#0B45D8]/10 text-[#0B45D8] flex items-center justify-center font-black shrink-0">
+              2
+            </div>
+            <div>
+              <strong className="block text-gray-900 text-[13px] font-bold">Proposta Formal AGT</strong>
+              <p className="text-gray-500 text-[11px] mt-0.5">Emissão imediata de cotação com NIF da sua empresa ou embaixada.</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
+            <div className="w-8 h-8 rounded-xl bg-[#0B45D8]/10 text-[#0B45D8] flex items-center justify-center font-black shrink-0">
+              3
+            </div>
+            <div>
+              <strong className="block text-gray-900 text-[13px] font-bold">Pagamento Flexível</strong>
+              <p className="text-gray-500 text-[11px] mt-0.5">Multicaixa Express, Transferência BAI/BFA, Stripe Internacional ou Faturação a 30 dias.</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-black shrink-0">
+              4
+            </div>
+            <div>
+              <strong className="block text-emerald-900 text-[13px] font-bold">Despacho & Entrega VIP</strong>
+              <p className="text-gray-500 text-[11px] mt-0.5">Entrega gratuita no Aeroporto 4 de Fevereiro, Talatona ou Miramar com viatura selada.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════
             VISUAL-FIRST FLEET GRID (Dominant Images)
            ═══════════════════════════════════════════════════════ */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
