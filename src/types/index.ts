@@ -20,6 +20,8 @@ export interface BookingData {
   notes?: string;
   status?: 'pending' | 'contacted' | 'confirmed' | 'cancelled';
   source?: string;
+  estimatedPrice?: string;
+  currency?: 'AOA' | 'USD' | 'EUR';
   createdAt?: string;
 }
 
@@ -34,8 +36,11 @@ export interface VehicleCategory {
   transmission: string;
   traction: string;
   features: string[];
+  gallery?: string[];
+  amenities?: string[];
   image: string;
   badge?: string;
+  securityRating?: string;
 }
 
 export interface InstitutionalClient {
@@ -44,7 +49,19 @@ export interface InstitutionalClient {
   category: 'diplomatic' | 'state' | 'corporate' | 'ngo';
   description: string;
   acronym: string;
+  tag?: string;
   logoSvg?: string;
+}
+
+export interface RouteEstimate {
+  id: string;
+  origin: string;
+  destination: string;
+  distanceKm: number;
+  durationMinutes: number;
+  recommendedVehicle: string;
+  estimatedAOA: string;
+  estimatedUSD: string;
 }
 
 export interface ChatMessage {

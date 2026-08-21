@@ -1,61 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Header } from './components/layout/Header';
 import { Hero } from './components/sections/Hero';
 import { BookingWidget } from './components/sections/BookingWidget';
+import { RouteEstimator } from './components/sections/RouteEstimator';
 import { InstitutionalClients } from './components/sections/InstitutionalClients';
 import { Services } from './components/sections/Services';
 import { Fleet } from './components/sections/Fleet';
+import { CorporatePortal } from './components/sections/CorporatePortal';
+import { CoverageMap } from './components/sections/CoverageMap';
 import { Process } from './components/sections/Process';
 import { About } from './components/sections/About';
 import { Capabilities } from './components/sections/Capabilities';
+import { PaymentSecurity } from './components/sections/PaymentSecurity';
+import { FAQ } from './components/sections/FAQ';
 import { Contact } from './components/sections/Contact';
 import { Footer } from './components/layout/Footer';
 import { ChatBot } from './components/ui/ChatBot';
+import { MobileQuickBar } from './components/layout/MobileQuickBar';
 import './i18n';
 
 export const App: React.FC = () => {
+  const [selectedVehicleForBooking, setSelectedVehicleForBooking] = useState<string>('SUV Executiva — Land Cruiser Prado / LC300');
+
   return (
     <HelmetProvider>
-      <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#0B45D8] selection:text-white">
+      <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#0B45D8] selection:text-white pb-14 lg:pb-0">
         {/* Sticky Header Navigation */}
         <Header />
 
-        {/* Main Application Sections */}
+        {/* Main Application Flow */}
         <main className="flex-1">
-          {/* 1. Hero First Screen */}
+          {/* 1. Hero Section (Slogan & KPIs) */}
           <Hero />
 
-          {/* 2. Smart Booking & Dynamic WhatsApp Engine */}
-          <BookingWidget />
+          {/* 2. Smart Booking Widget & Dynamic WhatsApp */}
+          <BookingWidget initialVehicle={selectedVehicleForBooking} />
 
-          {/* 3. Institutional Clients Grid (Embassies, Gov, Sonangol, TAAG, BFA, etc.) */}
+          {/* 3. Executive Route Estimator & Fare Calculator */}
+          <RouteEstimator />
+
+          {/* 4. Institutional Clients Grid (Embassies, Gov, Sonangol, TAAG, BFA, etc.) */}
           <InstitutionalClients />
 
-          {/* 4. Core Services (4 Cards) */}
+          {/* 5. Core Services (4 Interactive Cards) */}
           <Services />
 
-          {/* 5. Fleet Showcase (SUVs, 4x4, Vans, Protocol) */}
-          <Fleet />
+          {/* 6. Fleet Showcase with High-Res Technical Specs Modal */}
+          <Fleet onSelectVehicle={(v) => setSelectedVehicleForBooking(v)} />
 
-          {/* 6. Process 'Da Reserva à Chegada' (3 Steps) */}
+          {/* 7. Dedicated Corporate & Diplomatic VIP Protocol Section */}
+          <CorporatePortal />
+
+          {/* 8. Operational Coverage Map (18 Provinces & Hubs) */}
+          <CoverageMap />
+
+          {/* 9. Process 'Da Reserva à Chegada' (3 Steps) */}
           <Process />
 
-          {/* 7. Corporate History & Core Values since 2014 */}
+          {/* 10. Corporate History & Core Values since 2014 */}
           <About />
 
-          {/* 8. Operational Capabilities & 18 Provinces */}
+          {/* 11. Operational Capabilities & Special Missions */}
           <Capabilities />
 
-          {/* 9. Contact & 24/7 Operations Hub */}
+          {/* 12. Payment Security & AGT Compliance Bar */}
+          <PaymentSecurity />
+
+          {/* 13. Frequently Asked Questions (FAQ) */}
+          <FAQ />
+
+          {/* 14. Contact & 24/7 Operations Hub */}
           <Contact />
         </main>
 
         {/* Corporate Footer */}
         <Footer />
 
-        {/* Floating AI Executive Assistant & WhatsApp Handoff */}
+        {/* Floating AI Executive Assistant with Quick Chips */}
         <ChatBot />
+
+        {/* Mobile Quick Action Bar (1-Tap Call, Booking & WhatsApp) */}
+        <MobileQuickBar />
       </div>
     </HelmetProvider>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Car, 
@@ -21,7 +21,11 @@ import { db } from '../../lib/dexie';
 import { generateWhatsAppBookingUrl } from '../../lib/whatsapp';
 import { syncBookingToCRM } from '../../lib/odoo';
 
-export const BookingWidget: React.FC = () => {
+interface BookingWidgetProps {
+  initialVehicle?: string;
+}
+
+export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) => {
   const { t } = useTranslation();
 
   const [service, setService] = useState<ServiceType>('rent-a-car');
@@ -37,10 +41,16 @@ export const BookingWidget: React.FC = () => {
   const [flightNumber, setFlightNumber] = useState('');
   const [passengersCount, setPassengersCount] = useState<number>(2);
   const [notes, setNotes] = useState('');
-  const [vehicleCategory, setVehicleCategory] = useState('SUV Executiva');
+  const [vehicleCategory, setVehicleCategory] = useState(initialVehicle || 'SUV Executiva (Prado / LC300)');
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (initialVehicle) {
+      setVehicleCategory(initialVehicle);
+    }
+  }, [initialVehicle]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,7 +118,7 @@ export const BookingWidget: React.FC = () => {
   return (
     <section id="reserva" className="relative -mt-10 z-30 pb-20">
       <div className="container-pepek">
-        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
           {/* Header Bar */}
           <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-6 sm:p-8 text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -148,7 +158,7 @@ export const BookingWidget: React.FC = () => {
                     key={s.id}
                     type="button"
                     onClick={() => setService(s.id as ServiceType)}
-                    className={`p-4 rounded-xl text-left border-2 transition-all flex flex-col justify-between ${
+                    className={`p-4 rounded-2xl text-left border-2 transition-all flex flex-col justify-between cursor-pointer ${
                       service === s.id
                         ? 'border-[#0B45D8] bg-[#0B45D8]/5 shadow-md ring-1 ring-[#0B45D8]'
                         : 'border-gray-200 hover:border-gray-300 bg-white'
@@ -205,12 +215,12 @@ export const BookingWidget: React.FC = () => {
                   onChange={(e) => setVehicleCategory(e.target.value)}
                   className="form-select"
                 >
-                  <option value="SUV Executiva (Prado / LC300)">SUV Executiva (Prado / LC300)</option>
-                  <option value="4x4 Todo-Terreno (Hilux / Fortuner)">4x4 Todo-Terreno (Hilux / Fortuner)</option>
-                  <option value="Van Executiva VIP (Hiace / Quantum)">Van Executiva VIP (Hiace / Quantum)</option>
+                  <option value="SUV Executiva — Land Cruiser Prado / LC300">SUV Executiva (Prado / LC300)</option>
+                  <option value="4x4 Todo-Terreno — Toyota Hilux / Fortuner">4x4 Todo-Terreno (Hilux / Fortuner)</option>
+                  <option value="Van Executiva VIP — Toyota Hiace / Quantum">Van Executiva VIP (Hiace / Quantum)</option>
                   <option value="Minibus Comitiva (Coaster)">Minibus Comitiva (Coaster)</option>
                   <option value="Sedan Executivo de Luxo">Sedan Executivo de Luxo</option>
-                  <option value="Comboio de Protocolo / Escolta">Comboio de Protocolo / Escolta</option>
+                  <option value="Comboio Protocolar & Segurança Especial">Comboio Protocolar & Escolta</option>
                 </select>
               </div>
 
@@ -249,7 +259,7 @@ export const BookingWidget: React.FC = () => {
             </div>
 
             {/* Mode: Driver Option & Transfer Info */}
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-wrap items-center justify-between gap-4">
+            <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-6">
                 <span className="text-xs font-bold uppercase tracking-wider text-gray-700">
                   {t('booking.modalLabel')}:
@@ -298,7 +308,7 @@ export const BookingWidget: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <div className="relative">
-                    <User className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
+                    <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                     <input
                       type="text"
                       placeholder={t('booking.name')}
@@ -312,7 +322,7 @@ export const BookingWidget: React.FC = () => {
 
                 <div>
                   <div className="relative">
-                    <Phone className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
+                    <Phone className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                     <input
                       type="tel"
                       placeholder={t('booking.phone')}
@@ -326,7 +336,7 @@ export const BookingWidget: React.FC = () => {
 
                 <div>
                   <div className="relative">
-                    <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
+                    <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                     <input
                       type="email"
                       placeholder={t('booking.email')}
@@ -339,7 +349,7 @@ export const BookingWidget: React.FC = () => {
 
                 <div>
                   <div className="relative">
-                    <Building2 className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
+                    <Building2 className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                     <input
                       type="text"
                       placeholder={t('booking.company')}
@@ -355,7 +365,7 @@ export const BookingWidget: React.FC = () => {
             {/* Step 4: Submission CTA */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-gray-100">
               <p className="text-xs text-gray-500 text-center sm:text-left">
-                🔒 Os seus dados são tratados sob estrita confidencialidade. Faturação proforma enviada em conformidade AGT.
+                🔒 Confidencialidade garantida. Facturas emitidas em conformidade com as regras fiscais da AGT.
               </p>
 
               <button
@@ -377,7 +387,7 @@ export const BookingWidget: React.FC = () => {
 
             {/* Success notice */}
             {success && (
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm flex items-center gap-3">
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-sm flex items-center gap-3 animate-fadeIn">
                 <Check className="w-5 h-5 text-emerald-600 shrink-0" />
                 <div>
                   <strong>{t('booking.successTitle')}</strong> {t('booking.successMsg')}

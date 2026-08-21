@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Users, Briefcase, Settings2, Gauge, Shield, ArrowRight } from 'lucide-react';
+import { Users, Briefcase, Settings2, Gauge, Shield, ArrowRight, Eye } from 'lucide-react';
 import { VehicleCategory } from '../../types';
-import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { VehicleModal } from './VehicleModal';
 
-export const Fleet: React.FC = () => {
+interface FleetProps {
+  onSelectVehicle?: (vehicleName: string) => void;
+}
+
+export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'all' | 'suv' | '4x4' | 'van' | 'protocol'>('all');
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleCategory | null>(null);
 
   const fleetData: VehicleCategory[] = [
     {
@@ -14,7 +19,7 @@ export const Fleet: React.FC = () => {
       name: 'SUV Executiva — Land Cruiser Prado / LC300',
       subtitle: 'Topo de Gama & Conforto Máximo',
       category: 'suv',
-      description: 'A referência absoluta em mobilidade executiva em Angola. Ideal para membros de direção, ministros e embaixadores.',
+      description: 'A referência absoluta em mobilidade executiva em Angola. Ideal para membros de direcção, ministros e diplomatas.',
       passengers: 7,
       luggage: 5,
       transmission: 'Automática',
@@ -70,6 +75,14 @@ export const Fleet: React.FC = () => {
     ? fleetData
     : fleetData.filter(v => v.category === activeTab);
 
+  const handleBookingTrigger = (vehicleName: string) => {
+    if (onSelectVehicle) {
+      onSelectVehicle(vehicleName);
+    }
+    const el = document.getElementById('reserva');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="frota" className="section-padding bg-white relative">
       <div className="container-pepek">
@@ -99,7 +112,7 @@ export const Fleet: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as 'all' | 'suv' | '4x4' | 'van' | 'protocol')}
-                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
+                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                   activeTab === tab.id
                     ? 'bg-[#06142F] text-white shadow'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
@@ -116,29 +129,38 @@ export const Fleet: React.FC = () => {
           {filteredFleet.map((vehicle) => (
             <div
               key={vehicle.id}
-              className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-xl hover:border-[#0B45D8]/40 transition-all duration-300 flex flex-col justify-between group"
+              className="rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-xl hover:border-[#0B45D8]/50 transition-all duration-300 flex flex-col justify-between group"
             >
-              {/* Image Banner */}
-              <div className="relative h-64 overflow-hidden bg-gray-900">
+              {/* Image Banner with Click to Inspect */}
+              <div 
+                onClick={() => setSelectedVehicle(vehicle)}
+                className="relative h-64 sm:h-72 overflow-hidden bg-gray-900 cursor-pointer"
+              >
                 <img
                   src={vehicle.image}
                   alt={vehicle.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 
+                {/* Badge */}
                 {vehicle.badge && (
                   <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#0B45D8] text-white text-[11px] font-extrabold uppercase tracking-wider shadow">
                     {vehicle.badge}
                   </div>
                 )}
 
+                {/* Inspect Button on hover */}
+                <div className="absolute top-4 right-4 p-2.5 rounded-full bg-white/20 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Eye className="w-4 h-4" />
+                </div>
+
                 <div className="absolute bottom-4 left-4 right-4 text-white">
                   <span className="text-xs font-semibold text-gray-300 uppercase tracking-wider">
                     {vehicle.subtitle}
                   </span>
-                  <h3 className="text-xl font-bold text-white leading-tight">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight">
                     {vehicle.name}
                   </h3>
                 </div>
@@ -184,22 +206,39 @@ export const Fleet: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Request Action */}
-                <a
-                  href={generateQuickWhatsAppUrl(`Reserva de ${vehicle.name}`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary w-full justify-center text-xs font-bold py-3.5"
-                >
-                  <Shield className="w-4 h-4" />
-                  <span>{t('fleet.requestQuote')}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+                {/* Dual Action Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedVehicle(vehicle)}
+                    className="py-3 px-4 rounded-xl border border-gray-300 hover:border-gray-900 text-gray-800 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer bg-gray-50 hover:bg-gray-100"
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>Ver Ficha Técnica</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleBookingTrigger(vehicle.name)}
+                    className="btn-primary justify-center text-xs font-bold py-3 px-4 cursor-pointer"
+                  >
+                    <Shield className="w-4 h-4" />
+                    <span>{t('fleet.requestQuote')}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Vehicle Modal Details Drawer */}
+      <VehicleModal
+        vehicle={selectedVehicle}
+        onClose={() => setSelectedVehicle(null)}
+        onSelectForBooking={handleBookingTrigger}
+      />
     </section>
   );
 };
