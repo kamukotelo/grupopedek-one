@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, CheckCircle2, ShieldCheck, Phone, CreditCard, Landmark, Smartphone, ArrowRight, Loader2, FileText, QrCode } from 'lucide-react';
 import { InvoiceItem } from '../../types/auth';
 
@@ -21,6 +21,15 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
   const [cardNumber, setCardNumber] = useState('4532 •••• •••• 8821');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [completedGateway, setCompletedGateway] = useState('');
+  const [receiptCode, setReceiptCode] = useState('');
+
+  useEffect(() => {
+    setIsProcessing(false);
+    setIsDone(false);
+    setCompletedGateway('');
+    setReceiptCode('');
+  }, [invoice?.id]);
 
   if (!invoice) return null;
 
@@ -35,6 +44,8 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
         gateway === 'multicaixa' ? 'Multicaixa Express' :
         gateway === 'bai' ? 'BAI Direto' :
         gateway === 'stripe' ? 'Stripe (Visa/Mastercard)' : 'MB WAY (Portugal)';
+      setCompletedGateway(gatewayName);
+      setReceiptCode(`REC-DEMO-${new Date().getFullYear()}-${invoice.id.toUpperCase()}`);
       onSuccess(invoice.id, gatewayName);
     }, 1400);
   };
@@ -272,8 +283,9 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
               </p>
 
               <div className="p-3 bg-gray-50 rounded-xl border border-gray-200 text-[11px] text-gray-700 text-left space-y-1">
-                <div>Código de Liquidação: <strong className="text-gray-900 font-mono">REC-AGT-2026-99218</strong></div>
-                <div>Canal: <strong className="text-[#0B45D8]">{invoice.paymentGateway}</strong></div>
+                <div>Estado: <strong className="text-emerald-700">Fatura fechada / liquidada na demonstração</strong></div>
+                <div>Código demonstrativo: <strong className="text-gray-900 font-mono">{receiptCode}</strong></div>
+                <div>Canal: <strong className="text-[#0B45D8]">{completedGateway}</strong></div>
                 <div>Data/Hora: <strong className="text-gray-900">{new Date().toLocaleString('pt-AO')}</strong></div>
               </div>
 

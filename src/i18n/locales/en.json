@@ -97,6 +97,13 @@
     "cta": "Explore category",
     "previous": "Previous categories",
     "next": "Next categories",
+    "officialFleet": "Official PEPEK fleet",
+    "autoHint": "Slow automatic selection — interact to pause",
+    "passengers": "passengers",
+    "luggage": "bags",
+    "onRequest": "On request",
+    "viewCategory": "View category",
+    "requestVehicle": "Request this vehicle",
     "categories": { "luxo": "Luxury & Executive", "suvs": "Executive SUV", "pickups": "Pick-up & Field", "vans": "Vans & Delegations", "economicos": "Urban Mobility", "eventos": "Special Events" }
   },
   "services": {

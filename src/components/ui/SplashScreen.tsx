@@ -1,24 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Logo } from './Logo';
+import React, { useEffect, useRef, useState } from 'react';
+
+const SPLASH_DURATION = 1850;
 
 export const SplashScreen: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
-  const [isFading, setIsFading] = useState(false);
+  const [isDeparting, setIsDeparting] = useState(false);
+  const logoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Start fading out at 1.1s
-    const fadeTimer = setTimeout(() => {
-      setIsFading(true);
-    }, 1100);
-
-    // Completely remove from DOM at 1.5s
-    const removeTimer = setTimeout(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
       setIsVisible(false);
-    }, 1500);
+      return;
+    }
 
+    const departureTimer = window.setTimeout(() => {
+      const source = logoRef.current;
+      const target = document.querySelector<HTMLElement>('[data-header-logo]');
+
+      setIsDeparting(true);
+      if (!source || !target) return;
+
+      const from = source.getBoundingClientRect();
+      const to = target.getBoundingClientRect();
+      const deltaX = to.left + to.width / 2 - (from.left + from.width / 2);
+      const deltaY = to.top + to.height / 2 - (from.top + from.height / 2);
+      const scale = Math.min(to.width / from.width, to.height / from.height);
+
+      source.animate(
+        [
+          { transform: 'translate3d(0, 0, 0) scale(1)', filter: 'drop-shadow(0 0 28px rgba(48, 112, 255, .7))' },
+          { transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`, filter: 'drop-shadow(0 0 5px rgba(11, 69, 216, .28))' },
+        ],
+        { duration: 650, easing: 'cubic-bezier(.65, 0, .18, 1)', fill: 'forwards' },
+      );
+    }, 1120);
+
+    const removeTimer = window.setTimeout(() => setIsVisible(false), SPLASH_DURATION);
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(removeTimer);
+      window.clearTimeout(departureTimer);
+      window.clearTimeout(removeTimer);
     };
   }, []);
 
@@ -26,32 +47,21 @@ export const SplashScreen: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#06142F] transition-opacity duration-500 pointer-events-none select-none ${
-        isFading ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
-      }`}
-      style={{ willChange: 'opacity, transform' }}
+      className={`pepek-intro ${isDeparting ? 'pepek-intro--departing' : ''}`}
+      aria-hidden="true"
     >
-      {/* Background Subtle Radial Glow */}
-      <div className="absolute w-[500px] h-[500px] bg-[#0B45D8]/25 rounded-full blur-[120px] pointer-events-none" />
+      <div className="pepek-intro__grid" />
+      <div className="pepek-intro__horizon" />
 
-      {/* Logo Container with Shimmer Animation */}
-      <div className="relative z-10 flex flex-col items-center animate-fadeIn">
-        <div className="relative">
-          <Logo height={68} variant="light" className="filter drop-shadow-[0_0_24px_rgba(11,69,216,0.6)] brightness-110" />
-          
-          {/* Light Shimmer Effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_1.2s_infinite]" />
-        </div>
-
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#8899BB] mt-5 opacity-90">
-          Movemos quem move Angola
-        </p>
-
-        {/* Minimal Progress Line */}
-        <div className="w-32 h-[2px] bg-white/10 rounded-full mt-6 overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-[#0B45D8] to-[#C9A84C] w-full animate-[pulse_1s_ease-in-out_infinite]" />
-        </div>
+      <div ref={logoRef} className="pepek-intro__logo" style={{ willChange: 'transform, filter' }}>
+        <img className="pepek-intro__letters pepek-intro__letters--left" src="/logo.png" alt="" />
+        <img className="pepek-intro__letters pepek-intro__letters--right" src="/logo.png" alt="" />
+        <img className="pepek-intro__road" src="/logo.png" alt="" />
+        <span className="pepek-intro__scanner" />
       </div>
+
+      <div className="pepek-intro__speed-lines" />
+      <p className="pepek-intro__tagline">Movemos quem move Angola</p>
     </div>
   );
 };

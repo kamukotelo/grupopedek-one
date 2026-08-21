@@ -30,6 +30,7 @@ import { generateWhatsAppBookingUrl, OFFICIAL_WHATSAPP_NUMBER } from '../../lib/
 import { askPepekExecutiveAI } from '../../lib/ai';
 import { BookingData } from '../../types';
 import { FLEET_DATABASE, VehicleDetail } from '../../data/fleetData';
+import { useAuth } from '../../context/AuthContext';
 
 interface BookingWidgetProps {
   initialVehicle?: string;
@@ -37,6 +38,7 @@ interface BookingWidgetProps {
 
 export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) => {
   const { t } = useTranslation();
+  const { isDemoMode, setIsPortalOpen } = useAuth();
   const [searchParams] = useSearchParams();
 
   // 1. Service Types as Rich Interactive Cards
@@ -685,6 +687,16 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
               </button>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">
+                {isDemoMode && (
+                  <button
+                    type="button"
+                    onClick={() => setIsPortalOpen(true)}
+                    className="w-full sm:w-auto px-6 py-3 bg-[#07133F] hover:bg-[#0B45D8] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>Continuar para Portal & Fatura Demo</span>
+                  </button>
+                )}
                 <a
                   href={whatsappDossierUrl}
                   target="_blank"

@@ -24,6 +24,14 @@ const bookingSource = fs.readFileSync('src/components/sections/BookingWidget.tsx
 expect(!bookingSource.includes("from('reservations')"), 'BookingWidget ainda grava na tabela reservations');
 expect(!fs.readFileSync('src/lib/ai.ts', 'utf8').includes('VITE_GEMINI_API_KEY'), 'Chave Gemini ainda é referenciada no frontend');
 
+const servicesSource = fs.readFileSync('src/components/sections/Services.tsx', 'utf8');
+expect(servicesSource.includes('FLEET_DATABASE.map'), 'A vitrine de Serviços não percorre a frota oficial');
+expect(!servicesSource.includes('images.unsplash.com'), 'A vitrine de Serviços contém imagens genéricas');
+
+const demoUsersSource = fs.readFileSync('src/data/demoUsers.ts', 'utf8');
+const demoUserIds = [...demoUsersSource.matchAll(/id:\s*'demo_[^']+'/g)];
+expect(demoUserIds.length === 9, `Esperados 9 utilizadores demo; encontrados ${demoUserIds.length}`);
+
 if (failures.length) {
   console.error(failures.map(item => `- ${item}`).join('\n'));
   process.exit(1);

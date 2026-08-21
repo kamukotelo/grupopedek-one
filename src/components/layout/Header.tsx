@@ -67,7 +67,7 @@ export const Header: React.FC = () => {
     <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-[0_7px_25px_rgba(2,10,42,0.14)]">
       <div className="border-b border-slate-200 bg-white">
         <div className="container-pepek flex h-[76px] items-center justify-between gap-4 lg:h-[92px]">
-          <Link to="/" className="flex min-w-0 items-center" aria-label="PEPEK Grupo — início">
+          <Link to="/" className="flex min-w-0 items-center" aria-label="PEPEK Grupo — início" data-header-logo>
             <img src="/logo.png" alt="PEPEK Grupo Rent-a-Car Angola" className="h-12 w-auto shrink-0 object-contain lg:h-[72px]" />
           </Link>
 

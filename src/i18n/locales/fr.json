@@ -97,6 +97,13 @@
     "cta": "Explorer la catégorie",
     "previous": "Catégories précédentes",
     "next": "Catégories suivantes",
+    "officialFleet": "Flotte officielle PEPEK",
+    "autoHint": "Sélection automatique lente — interagissez pour mettre en pause",
+    "passengers": "passagers",
+    "luggage": "bagages",
+    "onRequest": "Sur demande",
+    "viewCategory": "Voir la catégorie",
+    "requestVehicle": "Demander ce véhicule",
     "categories": { "luxo": "Luxe & Exécutif", "suvs": "SUV Exécutif", "pickups": "Pick-up & Terrain", "vans": "Vans & Délégations", "economicos": "Mobilité Urbaine", "eventos": "Événements Spéciaux" }
   },
   "services": {

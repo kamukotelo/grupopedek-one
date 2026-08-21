@@ -61,15 +61,20 @@ export const ClientPortalModal: React.FC = () => {
   };
 
   // Role categorization: Client vs Staff/Admin
-  const isAdminOrStaff = currentUser?.role === 'direcao' || currentUser?.role === 'diretor_frotas' || currentUser?.role === 'contabilista' || currentUser?.role === 'vendedor';
+  const isAdminOrStaff = !!currentUser && !['cliente_vip', 'cliente_normal'].includes(currentUser.role);
   const isVipOrClient = currentUser?.role === 'cliente_vip' || currentUser?.role === 'cliente_normal';
+  const canViewFinances = isVipOrClient || ['contabilista', 'gestor_portugal', 'direcao'].includes(currentUser?.role || '');
+  const canViewOdoo = ['gestor_reservas', 'diretor_frotas', 'contabilista', 'gestor_portugal', 'direcao'].includes(currentUser?.role || '');
 
   const demoRoles: Array<{ role: UserRole; label: string; icon: string; category: 'Cliente' | 'Administrativo' }> = [
     { role: 'cliente_vip', label: 'Cliente VIP Diplomático', icon: '👑', category: 'Cliente' },
     { role: 'cliente_normal', label: 'Cliente PME / Normal', icon: '👤', category: 'Cliente' },
     { role: 'vendedor', label: 'Vendedor CRM', icon: '💼', category: 'Administrativo' },
+    { role: 'gestor_reservas', label: 'Gestor de Reservas', icon: '🎫', category: 'Administrativo' },
     { role: 'diretor_frotas', label: 'Director de Frotas', icon: '🚚', category: 'Administrativo' },
+    { role: 'motorista', label: 'Motorista Protocolar', icon: '🧑🏾‍✈️', category: 'Administrativo' },
     { role: 'contabilista', label: 'Contabilista AGT', icon: '📊', category: 'Administrativo' },
+    { role: 'gestor_portugal', label: 'Gestor Portugal', icon: '🇵🇹', category: 'Administrativo' },
     { role: 'direcao', label: 'Direcção Executiva', icon: '🏛️', category: 'Administrativo' }
   ];
 
@@ -137,13 +142,13 @@ export const ClientPortalModal: React.FC = () => {
                 </div>
               )}
 
-              <button
+              {canViewFinances && <button
                 onClick={() => setIsPortalOpen(false)}
                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
                 aria-label="Fechar portal"
               >
                 <X className="w-5 h-5" />
-              </button>
+              </button>}
             </div>
           </div>
 
@@ -180,7 +185,7 @@ export const ClientPortalModal: React.FC = () => {
               </button>
 
               {/* Odoo ERP & Admin Controls: ONLY for Admins / Staff */}
-              {isAdminOrStaff && (
+              {canViewOdoo && (
                 <button
                   type="button"
                   onClick={() => setActiveTab('odoo')}
@@ -302,7 +307,7 @@ export const ClientPortalModal: React.FC = () => {
             )}
 
             {/* Tab 2: Invoices & Payments */}
-            {activeTab === 'invoices' && (
+            {activeTab === 'invoices' && canViewFinances && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div>
@@ -369,7 +374,7 @@ export const ClientPortalModal: React.FC = () => {
             )}
 
             {/* Tab 3: Odoo ERP Integration (Admin / Staff Exclusive) */}
-            {activeTab === 'odoo' && isAdminOrStaff && (
+            {activeTab === 'odoo' && canViewOdoo && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div>

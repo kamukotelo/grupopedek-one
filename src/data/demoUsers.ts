@@ -42,6 +42,16 @@ export const DEMO_USERS: Record<string, UserProfile> = {
     company: 'PEPEK GRUPO RENT-A-CAR',
     tier: 'Administrativo'
   },
+  gestor_reservas: {
+    id: 'demo_reservas_007',
+    name: 'Gestora de Reservas & Despacho (Demo)',
+    email: 'reservas@pepekgrupo.com',
+    phone: '+244 923 719 090',
+    role: 'gestor_reservas',
+    roleLabel: 'Gestora de Reservas & Despacho',
+    company: 'PEPEK GRUPO — Central de Reservas',
+    tier: 'Administrativo'
+  },
   diretor_frotas: {
     id: 'demo_frotas_004',
     name: 'Director de Frotas & Operações (Demo)',   // TODO: PLACEHOLDER
@@ -52,6 +62,16 @@ export const DEMO_USERS: Record<string, UserProfile> = {
     company: 'PEPEK GRUPO — Talatona Hub',
     tier: 'Administrativo'
   },
+  motorista: {
+    id: 'demo_motorista_008',
+    name: 'Motorista Protocolar de Serviço (Demo)',
+    email: 'motorista.demo@pepekgrupo.com',
+    phone: '+244 9XX XXX XXX',
+    role: 'motorista',
+    roleLabel: 'Motorista Protocolar',
+    company: 'PEPEK GRUPO — Operações',
+    tier: 'Administrativo'
+  },
   contabilista: {
     id: 'demo_contab_005',
     name: 'Responsável de Contabilidade (Demo)',     // TODO: PLACEHOLDER
@@ -60,6 +80,16 @@ export const DEMO_USERS: Record<string, UserProfile> = {
     role: 'contabilista',
     roleLabel: 'Responsável de Contabilidade AGT',
     company: 'PEPEK GRUPO — Finanças',
+    tier: 'Administrativo'
+  },
+  gestor_portugal: {
+    id: 'demo_portugal_009',
+    name: 'Gestora de Clientes Portugal (Demo)',
+    email: 'portugal.demo@pepekgrupo.com',
+    phone: '+351 9XX XXX XXX',
+    role: 'gestor_portugal',
+    roleLabel: 'Gestora de Clientes Portugal',
+    company: 'PEPEK GRUPO — Apoio Internacional',
     tier: 'Administrativo'
   },
   direcao: {

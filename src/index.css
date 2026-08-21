@@ -103,6 +103,123 @@
   100% { transform: translateX(200%); }
 }
 
+/* Futuristic logo intro: only compositor-friendly transforms and opacity. */
+@keyframes pepek-left-arrival {
+  0% { opacity: 0; transform: translate3d(-42vw, 0, 0); filter: blur(7px); }
+  68% { opacity: 1; transform: translate3d(7px, 0, 0); filter: blur(0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
+
+@keyframes pepek-right-arrival {
+  0% { opacity: 0; transform: translate3d(42vw, 0, 0); filter: blur(7px); }
+  68% { opacity: 1; transform: translate3d(-7px, 0, 0); filter: blur(0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
+
+@keyframes pepek-road-ignite {
+  0%, 24% { opacity: 0; transform: scaleY(.05) translateY(70%); }
+  70% { opacity: 1; transform: scaleY(1.08) translateY(-2%); }
+  100% { opacity: 1; transform: scaleY(1) translateY(0); }
+}
+
+@keyframes pepek-scan {
+  0%, 35% { opacity: 0; transform: translateX(-130%) skewX(-18deg); }
+  48% { opacity: .95; }
+  82%, 100% { opacity: 0; transform: translateX(260%) skewX(-18deg); }
+}
+
+@keyframes pepek-lines {
+  from { opacity: 0; transform: scaleX(.05); }
+  45% { opacity: .75; }
+  to { opacity: 0; transform: scaleX(1.35); }
+}
+
+.pepek-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  background: radial-gradient(circle at 50% 48%, #0c3278 0, #06142f 30%, #02081d 72%);
+  transition: background-color .6s ease, opacity .55s ease;
+}
+
+.pepek-intro__grid {
+  position: absolute;
+  inset: 48% -20% -35%;
+  opacity: .18;
+  background-image: linear-gradient(rgba(61, 127, 255, .55) 1px, transparent 1px), linear-gradient(90deg, rgba(61, 127, 255, .55) 1px, transparent 1px);
+  background-size: 54px 28px;
+  transform: perspective(340px) rotateX(61deg) scale(1.35);
+  transform-origin: top;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, transparent 85%);
+}
+
+.pepek-intro__horizon {
+  position: absolute;
+  top: 50%;
+  width: min(76vw, 900px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(72, 135, 255, .85), #e4bd4d, rgba(72, 135, 255, .85), transparent);
+  box-shadow: 0 0 22px rgba(41, 107, 255, .75);
+}
+
+.pepek-intro__logo {
+  position: relative;
+  width: clamp(240px, 37vw, 490px);
+  aspect-ratio: 446 / 154;
+  z-index: 2;
+}
+
+.pepek-intro__logo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.pepek-intro__letters { animation: .72s cubic-bezier(.16, 1, .3, 1) both; }
+.pepek-intro__letters--left { clip-path: inset(0 57% 0 0); animation-name: pepek-left-arrival; }
+.pepek-intro__letters--right { clip-path: inset(0 0 0 55%); animation-name: pepek-right-arrival; }
+.pepek-intro__road { clip-path: inset(0 39% 0 35%); transform-origin: 50% 75%; animation: pepek-road-ignite .92s cubic-bezier(.16, 1, .3, 1) both; }
+
+.pepek-intro__scanner {
+  position: absolute;
+  inset: -10% 35%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.92), transparent);
+  filter: blur(2px);
+  animation: pepek-scan 1.12s ease-in-out both;
+}
+
+.pepek-intro__speed-lines {
+  position: absolute;
+  top: 50%;
+  width: min(92vw, 1100px);
+  height: 80px;
+  background: repeating-linear-gradient(0deg, transparent 0 11px, rgba(67, 130, 255, .45) 12px, transparent 13px);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, transparent 44%, transparent 56%, #000 88%, transparent);
+  animation: pepek-lines .9s .12s ease-out both;
+}
+
+.pepek-intro__tagline {
+  position: absolute;
+  top: calc(50% + clamp(85px, 10vw, 135px));
+  color: #a9b9d6;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  opacity: 1;
+  transition: opacity .18s ease;
+}
+
+.pepek-intro--departing { background: rgba(2, 8, 29, 0); }
+.pepek-intro--departing .pepek-intro__grid,
+.pepek-intro--departing .pepek-intro__horizon,
+.pepek-intro--departing .pepek-intro__speed-lines,
+.pepek-intro--departing .pepek-intro__tagline { opacity: 0; transition: opacity .2s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pepek-intro { display: none; }
+}
+
 /* ── Utility classes ── */
 @layer utilities {
   .text-navy    { color: var(--navy); }

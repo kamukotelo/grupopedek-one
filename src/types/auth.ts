@@ -2,8 +2,11 @@ export type UserRole =
   | 'cliente_vip'
   | 'cliente_normal'
   | 'vendedor'
+  | 'gestor_reservas'
   | 'diretor_frotas'
+  | 'motorista'
   | 'contabilista'
+  | 'gestor_portugal'
   | 'direcao';
 
 export interface UserProfile {

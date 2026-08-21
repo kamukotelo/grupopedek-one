@@ -4,14 +4,19 @@ import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus 
 import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
 import { supabase } from '../lib/supabase';
 
-const IS_DEMO_MODE = import.meta.env.DEV;
+// Demo can be enabled explicitly in an isolated staging deployment. Keep the
+// public production project without VITE_DEMO_MODE to protect staff personas.
+const IS_DEMO_MODE = import.meta.env.DEV || import.meta.env.VITE_DEMO_MODE === 'true';
 
 const ROLE_LABELS: Record<UserRole, string> = {
   cliente_vip: 'Cliente VIP',
   cliente_normal: 'Cliente',
   vendedor: 'Vendedor CRM',
+  gestor_reservas: 'Gestor de Reservas',
   diretor_frotas: 'Director de Frotas',
+  motorista: 'Motorista Protocolar',
   contabilista: 'Contabilista',
+  gestor_portugal: 'Gestor Portugal',
   direcao: 'Direcção Executiva',
 };
 

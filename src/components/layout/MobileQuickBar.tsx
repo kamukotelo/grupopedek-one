@@ -1,11 +1,18 @@
 import React from 'react';
 import { Phone, MessageSquare, Calendar } from 'lucide-react';
 import { OFFICIAL_WHATSAPP_NUMBER, generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const MobileQuickBar: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const scrollToBooking = () => {
     const el = document.getElementById('reserva');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    if (location.pathname !== '/reservar') navigate('/reservar');
   };
 
   return (
@@ -50,4 +57,3 @@ export const MobileQuickBar: React.FC = () => {
     </div>
   );
 };
-

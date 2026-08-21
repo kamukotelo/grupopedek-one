@@ -97,6 +97,13 @@
     "cta": "Explorar categoria",
     "previous": "Categorias anteriores",
     "next": "Categorias seguintes",
+    "officialFleet": "Frota oficial PEPEK",
+    "autoHint": "Selecção automática lenta — interaja para pausar",
+    "passengers": "passageiros",
+    "luggage": "malas",
+    "onRequest": "Sob consulta",
+    "viewCategory": "Ver categoria",
+    "requestVehicle": "Solicitar esta viatura",
     "categories": { "luxo": "Luxo & Executivo", "suvs": "SUV Executivo", "pickups": "Pick-up & Campo", "vans": "Vans & Delegações", "economicos": "Mobilidade Urbana", "eventos": "Eventos Especiais" }
   },
   "services": {
