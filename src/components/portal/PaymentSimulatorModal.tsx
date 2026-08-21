@@ -75,7 +75,10 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
           </p>
 
           <div className="mt-4 p-3 rounded-xl bg-white/10 border border-white/10 flex items-center justify-between">
-            <span className="text-xs text-gray-300">Valor a Liquidar:</span>
+            <div>
+              <span className="text-xs text-gray-300">Valor a Liquidar:</span>
+              <div className="mt-2 flex gap-1.5" aria-label="Moedas da fatura"><span className="grid h-7 min-w-7 place-items-center rounded-full bg-[#D2A820] px-1 text-[9px] font-black text-[#020A2A]">Kz</span><span className="grid h-7 w-7 place-items-center rounded-full bg-emerald-500/20 text-xs font-black text-emerald-300">$</span><span className="grid h-7 w-7 place-items-center rounded-full bg-blue-500/20 text-xs font-black text-blue-200">€</span></div>
+            </div>
             <div className="text-right">
               <div className="text-lg font-black text-white">{invoice.amountAOA.toLocaleString('pt-AO')} AOA</div>
               <div className="text-[11px] text-[#8899BB] font-bold">≈ ${invoice.amountUSD.toLocaleString()} USD / €{(invoice.amountUSD * 0.92).toFixed(0)} EUR</div>

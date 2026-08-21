@@ -230,7 +230,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
     <section id="reserva" className="section-padding bg-[#F3F5F8] relative border-b border-[#D9DEE7]">
       <div className="container-pepek">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-4xl mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#07133F] text-[#D2A820] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
             <Shield className="w-3.5 h-3.5" />
             <span>Sistema Oficial de Reserva & Despacho</span>

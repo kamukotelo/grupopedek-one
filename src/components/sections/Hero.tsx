@@ -54,8 +54,28 @@ export const Hero: React.FC = () => {
   const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
   const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable' | 'unknown'>('idle');
   const [pickup, setPickup] = useState('');
+  const [destination, setDestination] = useState('');
+  const [activeLocationField, setActiveLocationField] = useState<'pickup' | 'destination' | null>(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const today = new Date().toISOString().split('T')[0];
+  const locationSuggestions = [
+    'Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)',
+    'Aeroporto 4 de Fevereiro, Luanda',
+    'Sede PEPEK — Talatona',
+    'Talatona — Hotéis e Centros Empresariais',
+    'Miramar — Zona Diplomática',
+    'Ilha de Luanda',
+    'Maianga — Centro de Luanda',
+    'Viana — Pólo Industrial',
+    'Cacuaco',
+    'Caxito — Bengo',
+    'Huambo — Centro',
+  ];
+
+  const filteredLocations = (value: string) => locationSuggestions.filter((location) =>
+    !value.trim() || location.toLocaleLowerCase('pt').includes(value.toLocaleLowerCase('pt'))
+  ).slice(0, 6);
 
   // Rotate every 5 seconds with sleek futuristic sliding
   useEffect(() => {
@@ -83,6 +103,7 @@ export const Hero: React.FC = () => {
     if (availability.status === 'unavailable') return;
     const params = new URLSearchParams({
       pickup,
+      destination,
       startDate,
       endDate,
       viatura: vehicle.name,
@@ -121,14 +142,14 @@ export const Hero: React.FC = () => {
           <span>{t('hero.tag')} · Luanda, Angola</span>
         </div>
 
-        <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_420px] xl:gap-10">
+        <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,500px)] xl:gap-12 2xl:grid-cols-[minmax(0,1.35fr)_520px]">
           <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight font-inter">
             “{t('hero.title')}”
           </h1>
-          <p className="text-lg sm:text-2xl text-gray-300 font-light mt-5 leading-relaxed max-w-3xl">
+          <p className="text-lg sm:text-2xl text-gray-300 font-light mt-5 leading-relaxed max-w-4xl">
             {t('hero.description')}
           </p>
         </div>
@@ -207,16 +228,33 @@ export const Hero: React.FC = () => {
                 <CalendarDays className="h-5 w-5 text-[#B68D13]" />
                 <h3 className="text-lg font-black text-[#07133F]">{t('hero.quickTitle')}</h3>
               </div>
-              <label className="block text-xs font-extrabold text-slate-700">
+              <label className="relative block text-xs font-extrabold text-slate-700">
                 <span className="mb-1.5 block">{t('hero.quickPickup')}</span>
                 <span className="relative block">
                   <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input required value={pickup} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => setPickup(event.target.value)} placeholder={t('hero.quickPickupPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#D2A820]" />
+                  <input required autoComplete="off" value={pickup} onFocus={() => { setIsLuxuryPaused(true); setActiveLocationField('pickup'); }} onBlur={() => window.setTimeout(() => setActiveLocationField(null), 120)} onChange={(event) => { setPickup(event.target.value); setActiveLocationField('pickup'); }} placeholder={t('hero.quickPickupPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#D2A820]" />
                 </span>
+                {activeLocationField === 'pickup' && (
+                  <span className="absolute left-0 right-0 top-full z-40 mt-1 max-h-52 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-2xl">
+                    {filteredLocations(pickup).map((location) => <button key={location} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => { setPickup(location); setActiveLocationField(null); }} className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-slate-700 hover:bg-[#F3F5F8]"><MapPin className="h-3.5 w-3.5 shrink-0 text-[#B68D13]" />{location}</button>)}
+                  </span>
+                )}
+              </label>
+              <label className="relative mt-3 block text-xs font-extrabold text-slate-700">
+                <span className="mb-1.5 block">{t('hero.quickReturn')}</span>
+                <span className="relative block">
+                  <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <input autoComplete="off" value={destination} onFocus={() => { setIsLuxuryPaused(true); setActiveLocationField('destination'); }} onBlur={() => window.setTimeout(() => setActiveLocationField(null), 120)} onChange={(event) => { setDestination(event.target.value); setActiveLocationField('destination'); }} placeholder={t('hero.quickReturnPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#D2A820]" />
+                </span>
+                {activeLocationField === 'destination' && (
+                  <span className="absolute left-0 right-0 top-full z-30 mt-1 max-h-52 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-2xl">
+                    {filteredLocations(destination).map((location) => <button key={location} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => { setDestination(location); setActiveLocationField(null); }} className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-slate-700 hover:bg-[#F3F5F8]"><MapPin className="h-3.5 w-3.5 shrink-0 text-[#B68D13]" />{location}</button>)}
+                  </span>
+                )}
               </label>
               <div className="mt-3 grid grid-cols-2 gap-3">
-                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><input required type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 text-xs outline-none focus:border-[#D2A820]" /></label>
-                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><input required min={startDate} type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 text-xs outline-none focus:border-[#D2A820]" /></label>
+                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><span className="relative block"><input required min={today} type="date" value={startDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => { setStartDate(event.target.value); if (endDate && endDate < event.target.value) setEndDate(''); }} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#D2A820]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B68D13]" /></span></label>
+                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><span className="relative block"><input required min={startDate || today} type="date" value={endDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#D2A820]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B68D13]" /></span></label>
               </div>
               {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-red-50 p-2 text-[11px] font-bold text-red-700">Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.</p>}
               <button type="submit" disabled={availabilityStatus === 'checking'} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#D2A820] px-4 text-xs font-black uppercase tracking-[0.08em] text-[#020A2A] transition hover:bg-[#E2C06E] disabled:opacity-60">

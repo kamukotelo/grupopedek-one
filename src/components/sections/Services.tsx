@@ -15,7 +15,11 @@ export const Services: React.FC = () => {
   const selectVehicle = (index: number) => {
     const normalized = (index + FLEET_DATABASE.length) % FLEET_DATABASE.length;
     setActiveIndex(normalized);
-    railRef.current?.children[normalized]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    const rail = railRef.current;
+    const card = rail?.children[normalized] as HTMLElement | undefined;
+    if (rail && card) {
+      rail.scrollTo({ left: card.offsetLeft - (rail.clientWidth - card.clientWidth) / 2, behavior: 'smooth' });
+    }
   };
 
   useEffect(() => {
@@ -30,10 +34,10 @@ export const Services: React.FC = () => {
       <div className="absolute left-1/2 top-0 h-[350px] w-[900px] -translate-x-1/2 rounded-full bg-[#0B45D8]/10 blur-[140px]" />
 
       <div className="container-pepek relative z-10">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <div className="mb-12 max-w-4xl text-left">
           <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#D2A820]">{t('servicesCarousel.eyebrow')}</span>
           <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-5xl">{t('servicesCarousel.title')}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">{t('servicesCarousel.description')}</p>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-400 sm:text-base">{t('servicesCarousel.description')}</p>
         </div>
 
         <div

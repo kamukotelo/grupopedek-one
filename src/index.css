@@ -257,23 +257,27 @@
 
   .container-pepek {
     width: 100%;
-    max-width: 1520px;
+    max-width: 1800px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   @media (min-width: 640px) {
-    .container-pepek { padding-left: 2.5rem; padding-right: 2.5rem; }
+    .container-pepek { padding-left: 1.75rem; padding-right: 1.75rem; }
   }
 
   @media (min-width: 1024px) {
-    .container-pepek { padding-left: 4rem; padding-right: 4rem; }
+    .container-pepek { padding-left: 2.5rem; padding-right: 2.5rem; }
   }
 
   @media (min-width: 1440px) {
-    .container-pepek { padding-left: 5rem; padding-right: 5rem; }
+    .container-pepek { padding-left: 3rem; padding-right: 3rem; }
+  }
+
+  @media (min-width: 1920px) {
+    .container-pepek { padding-left: 4rem; padding-right: 4rem; }
   }
 
   .btn-primary {

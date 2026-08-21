@@ -6,9 +6,9 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
   const currentLang = i18n.language?.slice(0, 2).toLowerCase() || 'pt';
 
   const languages = [
-    { code: 'pt', label: 'PT', name: 'Português' },
-    { code: 'en', label: 'EN', name: 'English' },
-    { code: 'fr', label: 'FR', name: 'Français' },
+    { code: 'pt', flag: '🇦🇴', name: 'Português' },
+    { code: 'en', flag: '🇬🇧', name: 'English' },
+    { code: 'fr', flag: '🇫🇷', name: 'Français' },
   ];
 
   const handleLanguageChange = (code: string) => {
@@ -25,7 +25,7 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
           <button
             key={lang.code}
             onClick={() => handleLanguageChange(lang.code)}
-            className={`px-2 py-1 text-[10px] font-black rounded-md transition-all duration-200 ${
+            className={`grid h-8 w-9 place-items-center rounded-md text-lg transition-all duration-200 ${
               isActive
                 ? 'bg-[#0B45D8] text-white shadow-sm'
                 : isDark
@@ -35,7 +35,8 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
             title={lang.name}
             aria-label={`Mudar para ${lang.name}`}
           >
-            <span>{lang.label}</span>
+            <span aria-hidden="true">{lang.flag}</span>
+            <span className="sr-only">{lang.name}</span>
           </button>
         );
       })}

@@ -34,7 +34,7 @@ export const Contact: React.FC = () => {
     <section id="contactos" className="section-padding bg-gray-50 relative">
       <div className="container-pepek">
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
+        <div className="max-w-4xl mb-16">
           <div className="tag-label mb-4">
             <span>{t('contact.tag')}</span>
           </div>

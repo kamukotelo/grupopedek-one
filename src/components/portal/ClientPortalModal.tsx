@@ -318,6 +318,11 @@ export const ClientPortalModal: React.FC = () => {
                       Liquidável via Multicaixa Express, Stripe Internacional, BAI Direto ou MB WAY.
                     </p>
                   </div>
+                  <div className="hidden items-center gap-2 sm:flex" aria-label="Moedas disponíveis">
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-[#07133F] text-[11px] font-black text-[#D2A820]">Kz</span>
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-emerald-50 text-sm font-black text-emerald-700">$</span>
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-blue-50 text-sm font-black text-blue-700">€</span>
+                  </div>
                 </div>
 
                 <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
@@ -342,7 +347,8 @@ export const ClientPortalModal: React.FC = () => {
 
                         <div className="flex items-center gap-4 justify-between sm:justify-end">
                           <div className="text-right">
-                            <div className="text-sm font-black text-[#06142F]">
+                            <div className="flex items-center justify-end gap-1.5 text-sm font-black text-[#06142F]">
+                              <span className="grid h-6 min-w-6 place-items-center rounded-full bg-[#07133F] px-1 text-[8px] text-[#D2A820]">Kz</span>
                               {inv.amountAOA.toLocaleString('pt-AO')} AOA
                             </div>
                             <div className="text-[10px] text-gray-500 font-medium">

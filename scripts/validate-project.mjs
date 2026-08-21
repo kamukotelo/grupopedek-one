@@ -27,6 +27,18 @@ expect(!fs.readFileSync('src/lib/ai.ts', 'utf8').includes('VITE_GEMINI_API_KEY')
 const servicesSource = fs.readFileSync('src/components/sections/Services.tsx', 'utf8');
 expect(servicesSource.includes('FLEET_DATABASE.map'), 'A vitrine de Serviços não percorre a frota oficial');
 expect(!servicesSource.includes('images.unsplash.com'), 'A vitrine de Serviços contém imagens genéricas');
+expect(!servicesSource.includes('scrollIntoView'), 'O carrossel de Serviços pode provocar scroll vertical automático');
+expect(servicesSource.includes('rail.scrollTo'), 'O carrossel de Serviços não possui deslocamento horizontal controlado');
+
+const languageSource = fs.readFileSync('src/components/ui/LanguageSwitcher.tsx', 'utf8');
+for (const flag of ['🇦🇴', '🇬🇧', '🇫🇷']) {
+  expect(languageSource.includes(flag), `Bandeira de idioma ausente: ${flag}`);
+}
+
+const paymentSource = fs.readFileSync('src/components/portal/PaymentSimulatorModal.tsx', 'utf8');
+expect(paymentSource.includes('Simulador de Pagamento'), 'Pagamento demo não está identificado como simulação');
+expect(paymentSource.includes('Multicaixa Express'), 'Canal Angola Multicaixa ausente');
+expect(paymentSource.includes('MB WAY / Portugal'), 'Canal Portugal MB WAY ausente');
 
 const demoUsersSource = fs.readFileSync('src/data/demoUsers.ts', 'utf8');
 const demoUserIds = [...demoUsersSource.matchAll(/id:\s*'demo_[^']+'/g)];
