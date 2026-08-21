@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import {
   Car,
   Calendar,
@@ -35,6 +36,8 @@ interface BookingWidgetProps {
 
 export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle = 'SUV Executiva — Land Cruiser Prado / LC300' }) => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+
 
   // 1. Service Types as Rich Interactive Cards
   const servicesList = [
@@ -139,6 +142,22 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle = '
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [withDriver, setWithDriver] = useState(true);
+
+  // Synchronize preselected vehicle from URL query param ?viatura=... or initialVehicle prop
+  useEffect(() => {
+    const urlVehicle = searchParams.get('viatura') || initialVehicle;
+    if (urlVehicle) {
+      const match = vehicleCatalog.find(
+        (v) =>
+          v.name.toLowerCase().includes(urlVehicle.toLowerCase()) ||
+          urlVehicle.toLowerCase().includes(v.name.toLowerCase()) ||
+          v.id.toLowerCase().includes(urlVehicle.toLowerCase())
+      );
+      if (match) {
+        setSelectedVehicle(match);
+      }
+    }
+  }, [searchParams, initialVehicle]);
 
   // Client Authentication / Accreditation State (Email or Phone)
   const [loginMethod, setLoginMethod] = useState<'phone' | 'email'>('phone');

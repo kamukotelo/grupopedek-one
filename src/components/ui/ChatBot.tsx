@@ -102,13 +102,47 @@ export const ChatBot: React.FC = () => {
     return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
+  const [proactiveBubbleVisible, setProactiveBubbleVisible] = useState(false);
+
+  // Proactive non-intrusive assistant nudge after 12s
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) {
+        setProactiveBubbleVisible(true);
+      }
+    }, 12000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
+
   return (
     <>
-      {/* Floating Trigger Button — posicionado acima da barra inferior mobile com safe-area */}
+      {/* Floating Trigger Button & Contextual Speech Bubble */}
       <div className="fixed right-5 sm:right-7 z-[45]" style={{ bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px) + 12px)' }}>
+        {/* Contextual Nudge Bubble */}
+        {proactiveBubbleVisible && !isOpen && (
+          <div className="mb-2 max-w-[280px] sm:max-w-[320px] p-3.5 rounded-2xl bg-white text-gray-900 shadow-2xl border border-gray-200 animate-scaleUp relative flex items-start gap-2.5">
+            <div className="w-7 h-7 rounded-full bg-[#0B45D8] text-white flex items-center justify-center shrink-0">
+              <Sparkles className="w-3.5 h-3.5" />
+            </div>
+            <div className="text-xs cursor-pointer flex-1" onClick={() => { setIsOpen(true); setProactiveBubbleVisible(false); }}>
+              <strong className="block text-[#06142F] font-bold">Apoio Técnico ao Aluguer</strong>
+              <p className="text-gray-600 text-[11px] leading-relaxed mt-0.5">
+                Precisa de ajuda a escolher a viatura certa para Luanda ou províncias?
+              </p>
+            </div>
+            <button
+              onClick={() => setProactiveBubbleVisible(false)}
+              className="p-1 text-gray-400 hover:text-gray-700 cursor-pointer"
+              aria-label="Dispensar sugestão"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
         {!isOpen && (
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={() => { setIsOpen(true); setProactiveBubbleVisible(false); }}
             className="group flex items-center gap-3 p-3.5 sm:px-5 sm:py-3.5 rounded-full bg-[#06142F] hover:bg-[#0B45D8] text-white shadow-2xl border border-white/20 transition-all duration-300 hover:scale-105 cursor-pointer"
             aria-label="Abrir Atendimento Executivo"
           >

@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Users, Briefcase, Settings2, Gauge, Shield, ArrowRight, Eye } from 'lucide-react';
-import { VehicleCategory } from '../../types';
-import { VehicleModal } from './VehicleModal';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import {
+  Car,
+  Scale,
+  Sparkles,
+  Check,
+  X,
+  ArrowRight,
+  Filter,
+  Layers
+} from 'lucide-react';
+import { FLEET_DATABASE, VehicleDetail } from '../../data/fleetData';
+import { VehicleCard } from '../fleet/VehicleCard';
+import { VehicleGalleryModal } from '../fleet/VehicleGalleryModal';
+import { VehicleComparatorModal } from '../fleet/VehicleComparatorModal';
 
 interface FleetProps {
   onSelectVehicle?: (vehicleName: string) => void;
@@ -10,234 +22,198 @@ interface FleetProps {
 
 export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'all' | 'suv' | '4x4' | 'van' | 'protocol'>('all');
-  const [selectedVehicle, setSelectedVehicle] = useState<VehicleCategory | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const fleetData: VehicleCategory[] = [
-    {
-      id: 'suv-prado',
-      name: 'SUV Executiva — Land Cruiser Prado / LC300',
-      subtitle: 'Topo de Gama & Conforto Máximo',
-      category: 'suv',
-      description: 'A referência absoluta em mobilidade executiva em Angola. Ideal para membros de direcção, ministros e diplomatas.',
-      passengers: 7,
-      luggage: 5,
-      transmission: 'Automática',
-      traction: '4WD Permanente',
-      features: ['Ar condicionado duplo', 'Bancos em couro premium', 'Vidros fumados de segurança', 'GPS Tracker 24/7'],
-      image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
-      badge: 'Mais Solicitado'
-    },
-    {
-      id: '4x4-hilux',
-      name: '4x4 Todo-Terreno — Toyota Hilux / Fortuner',
-      subtitle: 'Robustez & Operações de Campo',
-      category: '4x4',
-      description: 'Preparadas para os trajectos mais exigentes em Luanda e no interior de Angola (Huambo, Bengo e províncias).',
-      passengers: 5,
-      luggage: 6,
-      transmission: 'Manual / Automática',
-      traction: '4x4 com Redutoras',
-      features: ['Suspensão reforçada', 'Pneus todo-o-terreno', 'Protecção de cárter', 'Comunicação rádio'],
-      image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80'
-    },
-    {
-      id: 'van-hiace-vip',
-      name: 'Van Executiva VIP — Toyota Hiace / Quantum',
-      subtitle: 'Transporte de Comitivas & Delegações',
-      category: 'van',
-      description: 'Espaço generoso, assentos reclináveis individuais e climatização total para equipas técnicas e transfer de grupos.',
-      passengers: 12,
-      luggage: 10,
-      transmission: 'Manual / Automática',
-      traction: 'Traseira / 4x2',
-      features: ['Bancos individuais reclináveis', 'Entradas USB individuais', 'Climatização traseira dedicada', 'Porta lateral assistida'],
-      image: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=80',
-      badge: 'Ideal para Grupos'
-    },
-    {
-      id: 'protocol-comitiva',
-      name: 'Comboio Protocolar & Segurança Especial',
-      subtitle: 'Comitivas Diplomáticas & Chefes de Estado',
-      category: 'protocol',
-      description: 'Soluções integradas com múltiplas viaturas idênticas, escoltas credenciadas e coordenação de tráfego protocolar.',
-      passengers: 15,
-      luggage: 20,
-      transmission: 'Automática',
-      traction: '4WD / Integral',
-      features: ['Pilotos de protocolo dedicados', 'Veículo de reserva em prontidão', 'Planeamento de rotas de segurança', 'Coordenação aeroporto'],
-      image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80',
-      badge: 'Serviço de Estado'
+  // Category URL Param Sync
+  const categoryParam = searchParams.get('categoria') || 'all';
+  const [activeCategory, setActiveCategory] = useState<string>(categoryParam);
+  const [selectedVehicleForModal, setSelectedVehicleForModal] = useState<VehicleDetail | null>(null);
+  const [comparedVehicles, setComparedVehicles] = useState<VehicleDetail[]>([]);
+  const [isComparatorOpen, setIsComparatorOpen] = useState(false);
+
+  // Keep state in sync with URL
+  useEffect(() => {
+    const cat = searchParams.get('categoria') || 'all';
+    setActiveCategory(cat);
+  }, [searchParams]);
+
+  const handleCategoryChange = (catId: string) => {
+    setActiveCategory(catId);
+    if (catId === 'all') {
+      searchParams.delete('categoria');
+      setSearchParams(searchParams, { replace: true });
+    } else {
+      setSearchParams({ categoria: catId }, { replace: true });
     }
-  ];
+  };
 
-  const filteredFleet = activeTab === 'all'
-    ? fleetData
-    : fleetData.filter(v => v.category === activeTab);
+  const filteredFleet = activeCategory === 'all'
+    ? FLEET_DATABASE
+    : FLEET_DATABASE.filter(v => v.category === activeCategory);
+
+  const handleToggleCompare = (vehicle: VehicleDetail) => {
+    setComparedVehicles(prev => {
+      const exists = prev.some(v => v.id === vehicle.id);
+      if (exists) {
+        return prev.filter(v => v.id !== vehicle.id);
+      }
+      if (prev.length >= 3) {
+        alert('Pode comparar até 3 viaturas em simultâneo.');
+        return prev;
+      }
+      return [...prev, vehicle];
+    });
+  };
 
   const handleBookingTrigger = (vehicleName: string) => {
     if (onSelectVehicle) {
       onSelectVehicle(vehicleName);
     }
+    // Navigate to booking page with vehicle pre-filled
+    navigate(`/reservar?viatura=${encodeURIComponent(vehicleName)}`);
     const el = document.getElementById('reserva');
     el?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const categories = [
+    { id: 'all', label: 'Toda a Frota', count: FLEET_DATABASE.length },
+    { id: 'suv', label: 'SUVs Executivas', count: FLEET_DATABASE.filter(v => v.category === 'suv').length },
+    { id: '4x4', label: '4x4 Todo-Terreno', count: FLEET_DATABASE.filter(v => v.category === '4x4').length },
+    { id: 'van', label: 'Vans & Comitivas', count: FLEET_DATABASE.filter(v => v.category === 'van').length },
+    { id: 'protocol', label: 'Segurança & Estado', count: FLEET_DATABASE.filter(v => v.category === 'protocol').length },
+  ];
+
   return (
-    <section id="frota" className="section-padding bg-white relative">
+    <section id="frota" className="section-padding bg-gray-50/50 relative">
       <div className="container-pepek">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
           <div className="max-w-2xl">
-            <div className="tag-label mb-4">
-              <span>{t('fleet.tag')}</span>
+            <div className="tag-label mb-3.5">
+              <Car className="w-4 h-4" />
+              <span>Frota Certificada de Alta Gama · Talatona Hub</span>
             </div>
-            <h2 className="section-title mb-4">
-              {t('fleet.title')}
+            <h2 className="section-title mb-3">
+              A Nossa Frota em Destaque
             </h2>
             <p className="section-subtitle">
-              {t('fleet.subtitle')}
+              Viaturas novas com higienização hospitalar, manutenção preventiva rigorosa e acompanhamento por motoristas bilingues formados em protocolo diplomático.
             </p>
           </div>
 
-          {/* Tab Filter */}
-          <div className="flex flex-wrap gap-2 p-1.5 rounded-xl bg-gray-100 border border-gray-200">
-            {[
-              { id: 'all', label: t('fleet.all') },
-              { id: 'suv', label: t('fleet.suv') },
-              { id: '4x4', label: t('fleet.offroad') },
-              { id: 'van', label: t('fleet.van') },
-              { id: 'protocol', label: t('fleet.protocol') },
-            ].map((tab) => (
+          {/* Interactive URL-Synced Category Tabs */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-white border border-gray-200 shadow-xs">
+            {categories.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'all' | 'suv' | '4x4' | 'van' | 'protocol')}
-                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                  activeTab === tab.id
-                    ? 'bg-[#06142F] text-white shadow'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                type="button"
+                onClick={() => handleCategoryChange(tab.id)}
+                className={`px-3.5 py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
+                  activeCategory === tab.id
+                    ? 'bg-[#06142F] text-white shadow-md'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
-                {tab.label}
+                <span>{tab.label}</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                  activeCategory === tab.id ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
+                }`}>
+                  {tab.count}
+                </span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Fleet Grid */}
+        {/* Dynamic Category Availability Counter */}
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200/80 text-xs">
+          <div className="flex items-center gap-2 text-gray-600">
+            <Filter className="w-4 h-4 text-[#0B45D8]" />
+            <span>
+              A mostrar <strong>{filteredFleet.length}</strong> viaturas disponíveis com despacho imediato
+            </span>
+          </div>
+
+          <div className="text-gray-500 hidden sm:block">
+            <span>Fotos reais de cada viatura com galeria e ficha técnica</span>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════
+            VISUAL-FIRST FLEET GRID (Dominant Images)
+           ═══════════════════════════════════════════════════════ */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredFleet.map((vehicle) => (
-            <div
+            <VehicleCard
               key={vehicle.id}
-              className="rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-xl hover:border-[#0B45D8]/50 transition-all duration-300 flex flex-col justify-between group"
-            >
-              {/* Image Banner with Click to Inspect */}
-              <div 
-                onClick={() => setSelectedVehicle(vehicle)}
-                className="relative h-64 sm:h-72 overflow-hidden bg-gray-900 cursor-pointer"
-              >
-                <img
-                  src={vehicle.image}
-                  alt={vehicle.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                
-                {/* Badge */}
-                {vehicle.badge && (
-                  <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#0B45D8] text-white text-[11px] font-extrabold uppercase tracking-wider shadow">
-                    {vehicle.badge}
-                  </div>
-                )}
-
-                {/* Inspect Button on hover */}
-                <div className="absolute top-4 right-4 p-2.5 rounded-full bg-white/20 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Eye className="w-4 h-4" />
-                </div>
-
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <span className="text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    {vehicle.subtitle}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight">
-                    {vehicle.name}
-                  </h3>
-                </div>
-              </div>
-
-              {/* Specs & Description */}
-              <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-                    {vehicle.description}
-                  </p>
-
-                  {/* Spec Icons */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-4 border-y border-gray-100 mb-6 text-xs text-gray-700">
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-[#0B45D8]" />
-                      <span>{vehicle.passengers} Lugares</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Briefcase className="w-4 h-4 text-[#0B45D8]" />
-                      <span>{vehicle.luggage} Malas</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Settings2 className="w-4 h-4 text-[#0B45D8]" />
-                      <span>{vehicle.transmission}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Gauge className="w-4 h-4 text-[#0B45D8]" />
-                      <span>{vehicle.traction}</span>
-                    </div>
-                  </div>
-
-                  {/* Feature Pills */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {vehicle.features.map((feat, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[11px] font-medium text-gray-600 bg-gray-50 border border-gray-200 px-2.5 py-1 rounded-md"
-                      >
-                        ✓ {feat}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Dual Action Buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedVehicle(vehicle)}
-                    className="py-3 px-4 rounded-xl border border-gray-300 hover:border-gray-900 text-gray-800 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer bg-gray-50 hover:bg-gray-100"
-                  >
-                    <Eye className="w-4 h-4" />
-                    <span>Ver Ficha Técnica</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleBookingTrigger(vehicle.name)}
-                    className="btn-primary justify-center text-xs font-bold py-3 px-4 cursor-pointer"
-                  >
-                    <Shield className="w-4 h-4" />
-                    <span>{t('fleet.requestQuote')}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
+              vehicle={vehicle}
+              isCompared={comparedVehicles.some(v => v.id === vehicle.id)}
+              onToggleCompare={handleToggleCompare}
+              onInspect={(v) => setSelectedVehicleForModal(v)}
+              onSelectBooking={handleBookingTrigger}
+            />
           ))}
         </div>
       </div>
 
-      {/* Vehicle Modal Details Drawer */}
-      <VehicleModal
-        vehicle={selectedVehicle}
-        onClose={() => setSelectedVehicle(null)}
+      {/* ═══════════════════════════════════════════════════════
+          FLOATING STICKY COMPARATOR DRAWER (Bottom Bar)
+         ═══════════════════════════════════════════════════════ */}
+      {comparedVehicles.length > 0 && (
+        <div
+          className="fixed left-4 right-4 sm:left-auto sm:right-8 z-40 bg-[#06142F] text-white p-3.5 px-5 rounded-2xl shadow-2xl border border-white/20 flex items-center justify-between gap-4 animate-scaleUp"
+          style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-[#0B45D8] flex items-center justify-center text-white font-bold text-xs">
+              {comparedVehicles.length}
+            </div>
+            <div className="text-xs">
+              <strong className="block text-white">Viaturas em Comparação</strong>
+              <span className="text-gray-300 text-[10px]">
+                {comparedVehicles.map(v => v.name.split(' ')[0] + ' ' + v.name.split(' ')[1]).join(' vs ')}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsComparatorOpen(true)}
+              className="btn-primary py-2 px-4 text-xs font-bold flex items-center gap-1.5 shadow-md cursor-pointer"
+            >
+              <Scale className="w-3.5 h-3.5" />
+              <span>Comparar Agora ({comparedVehicles.length})</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setComparedVehicles([])}
+              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-colors cursor-pointer"
+              title="Limpar selecção"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Vehicle Gallery & Specs Modal */}
+      <VehicleGalleryModal
+        vehicle={selectedVehicleForModal}
+        onClose={() => setSelectedVehicleForModal(null)}
         onSelectForBooking={handleBookingTrigger}
+      />
+
+      {/* Side-by-Side Vehicle Comparator Modal */}
+      <VehicleComparatorModal
+        comparedVehicles={comparedVehicles}
+        onRemoveVehicle={(id) => setComparedVehicles(prev => prev.filter(v => v.id !== id))}
+        onClearAll={() => setComparedVehicles([])}
+        isOpen={isComparatorOpen}
+        onClose={() => setIsComparatorOpen(false)}
+        onSelectBooking={handleBookingTrigger}
       />
     </section>
   );
