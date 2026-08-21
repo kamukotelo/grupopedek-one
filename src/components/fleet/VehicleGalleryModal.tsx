@@ -42,7 +42,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
     .filter((image) => image.url.startsWith('/rent_car/'))
     .map((image) => ({
       ...image,
-      url: image.url.replace('/rent_car/', '/rent_car_transparent/')
+      url: image.url.replace('/rent_car/', '/rent_car_hd/')
     }));
 
   // Reset index when vehicle changes

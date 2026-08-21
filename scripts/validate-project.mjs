@@ -16,6 +16,22 @@ expect(ids.length === 47, `Esperadas 47 viaturas; encontradas ${ids.length}`);
 expect(new Set(ids).size === ids.length, 'Existem IDs de viatura duplicados');
 expect(new Set(slugs).size === slugs.length, 'Existem slugs de viatura duplicados');
 
+const transparentFleetImages = fs.readdirSync('public/rent_car_transparent').filter(name => name.endsWith('.webp'));
+const hdFleetImages = fs.readdirSync('public/rent_car_hd').filter(name => name.endsWith('.webp'));
+expect(hdFleetImages.length === transparentFleetImages.length, `Esperadas ${transparentFleetImages.length} imagens HD; encontradas ${hdFleetImages.length}`);
+for (const image of transparentFleetImages) {
+  expect(hdFleetImages.includes(image), `Versão HD ausente: ${image}`);
+}
+
+for (const component of [
+  'src/components/fleet/VehicleCard.tsx',
+  'src/components/fleet/VehicleGalleryModal.tsx',
+  'src/components/sections/Hero.tsx',
+  'src/components/sections/Services.tsx',
+]) {
+  expect(fs.readFileSync(component, 'utf8').includes('/rent_car_hd/'), `Componente sem imagens HD: ${component}`);
+}
+
 for (const path of ['api/reservations.js', 'api/availability.js', 'api/ai.js', 'api/odoo-status.js']) {
   expect(fs.existsSync(path), `Endpoint obrigatório ausente: ${path}`);
 }

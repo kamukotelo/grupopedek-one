@@ -34,10 +34,10 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [justBookedFeedback, setJustBookedFeedback] = useState(false);
-  const studioImage = vehicle.primaryImage.replace('/rent_car/', '/rent_car_transparent/');
+  const studioImage = vehicle.primaryImage.replace('/rent_car/', '/rent_car_hd/');
   const verifiedPhotoCount = vehicle.gallery.filter((image) => image.url.startsWith('/rent_car/')).length;
   const verifiedSecondaryImage = vehicle.secondaryImage?.startsWith('/rent_car/')
-    ? vehicle.secondaryImage.replace('/rent_car/', '/rent_car_transparent/')
+    ? vehicle.secondaryImage.replace('/rent_car/', '/rent_car_hd/')
     : undefined;
 
   const handleBookingClick = (e: React.MouseEvent) => {

@@ -9,10 +9,10 @@ export const Hero: React.FC = () => {
   const navigate = useNavigate();
 
   const luxuryVehicles = [
-    { name: 'Range Rover Blindado 2025', image: '/rent_car_transparent/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp', price: '1.999.999 Kz' },
-    { name: 'Mercedes Classe S 2025', image: '/rent_car_transparent/MERCEDES-300x300.webp', price: '1.449.999 Kz' },
-    { name: 'Lexus 600', image: '/rent_car_transparent/LEXUS-600-300x300.webp', price: '800.000 Kz' },
-    { name: 'Toyota LC300 2023', image: '/rent_car_transparent/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp', price: '599.999 Kz' },
+    { name: 'Range Rover Blindado 2025', image: '/rent_car_hd/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp', price: '1.999.999 Kz' },
+    { name: 'Mercedes Classe S 2025', image: '/rent_car_hd/MERCEDES-300x300.webp', price: '1.449.999 Kz' },
+    { name: 'Lexus 600', image: '/rent_car_hd/LEXUS-600-300x300.webp', price: '800.000 Kz' },
+    { name: 'Toyota LC300 2023', image: '/rent_car_hd/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp', price: '599.999 Kz' },
   ];
 
   // 20 Authentic Client Logos grouped in 5 by 5 (4 slides)
