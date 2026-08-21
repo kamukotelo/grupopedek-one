@@ -14,6 +14,20 @@
     "support247": "24/7 Support",
     "call247": "+244 923 719 090"
   },
+  "auth": {
+    "eyebrow": "Booking & Management Portal",
+    "title": "Client & Organization Area",
+    "subtitle": "Access your contracted fleet, invoices and priority requests.",
+    "corporate": "Corporate / Embassies",
+    "private": "Private VIP",
+    "email": "Registered email",
+    "password": "Access password",
+    "remember": "Remember this device",
+    "forgot": "Forgot password?",
+    "submit": "Enter Private Area",
+    "submitting": "Signing in…",
+    "create": "Create Corporate Account"
+  },
   "hero": {
     "tag": "Premium Mobility in Angola",
     "title": "We move those who move Angola.",
@@ -147,6 +161,14 @@
     "email": "geral@pepekgrupo.com",
     "location": "Luanda · Huambo · Bengo · Angola",
     "hours": "24 Hours / 7 Days Operations & Roadside Support"
+  },
+  "notFound": {
+    "metaTitle": "Page not found",
+    "error": "Error 404",
+    "title": "This page does not exist.",
+    "description": "The address may have changed. Return home or browse the official PEPEK fleet.",
+    "home": "Return home",
+    "fleet": "Browse fleet"
   },
   "chat": {
     "title": "PEPEK Virtual Assistant",

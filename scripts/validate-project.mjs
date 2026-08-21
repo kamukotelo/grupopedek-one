@@ -1,0 +1,31 @@
+import fs from 'node:fs';
+
+const failures = [];
+const expect = (condition, message) => { if (!condition) failures.push(message); };
+
+for (const language of ['pt', 'en', 'fr']) {
+  const path = `src/i18n/locales/${language}.json`;
+  try { JSON.parse(fs.readFileSync(path, 'utf8')); }
+  catch { failures.push(`${path} não contém JSON válido`); }
+}
+
+const fleetSource = fs.readFileSync('src/data/fleetData.ts', 'utf8');
+const ids = [...fleetSource.matchAll(/\bid:\s*'([^']+)'/g)].map(match => match[1]);
+const slugs = [...fleetSource.matchAll(/\bslug:\s*'([^']+)'/g)].map(match => match[1]);
+expect(ids.length === 47, `Esperadas 47 viaturas; encontradas ${ids.length}`);
+expect(new Set(ids).size === ids.length, 'Existem IDs de viatura duplicados');
+expect(new Set(slugs).size === slugs.length, 'Existem slugs de viatura duplicados');
+
+for (const path of ['api/reservations.js', 'api/availability.js', 'api/ai.js', 'api/odoo-status.js']) {
+  expect(fs.existsSync(path), `Endpoint obrigatório ausente: ${path}`);
+}
+
+const bookingSource = fs.readFileSync('src/components/sections/BookingWidget.tsx', 'utf8');
+expect(!bookingSource.includes("from('reservations')"), 'BookingWidget ainda grava na tabela reservations');
+expect(!fs.readFileSync('src/lib/ai.ts', 'utf8').includes('VITE_GEMINI_API_KEY'), 'Chave Gemini ainda é referenciada no frontend');
+
+if (failures.length) {
+  console.error(failures.map(item => `- ${item}`).join('\n'));
+  process.exit(1);
+}
+console.log('Validação concluída: idiomas, frota, endpoints e integrações críticas estão consistentes.');

@@ -26,6 +26,7 @@ import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types/auth';
 import { PaymentSimulatorModal } from './PaymentSimulatorModal';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { ClientAreaModal } from '../ui/ClientAreaModal';
 
 export const ClientPortalModal: React.FC = () => {
   const {
@@ -48,6 +49,10 @@ export const ClientPortalModal: React.FC = () => {
   const [isSyncing, setIsSyncing] = useState(false);
 
   if (!isPortalOpen) return null;
+
+  if (!isDemoMode && !currentUser) {
+    return <ClientAreaModal isOpen={isPortalOpen} onClose={() => setIsPortalOpen(false)} />;
+  }
 
   const handleSyncClick = async () => {
     setIsSyncing(true);

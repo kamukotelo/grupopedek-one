@@ -6,15 +6,7 @@ import { BookingData } from '../types';
  */
 export async function syncBookingToCRM(booking: BookingData): Promise<{ success: boolean; crmLeadId?: string }> {
   try {
-    // Verificação de endpoint webhook customizado
-    const webhookUrl = import.meta.env.VITE_CRM_WEBHOOK_URL;
-    if (!webhookUrl) {
-      // Fallback em modo stub configurável (não quebra se webhook não estiver setado)
-      console.info('[CRM-Sync] Lead registrado localmente / aguardando configuração de webhook ERP:', booking);
-      return { success: true, crmLeadId: `PEPEK-${Date.now().toString().slice(-6)}` };
-    }
-
-    const response = await fetch(webhookUrl, {
+    const response = await fetch('/api/crm-sync', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,14 +34,12 @@ export async function syncBookingToCRM(booking: BookingData): Promise<{ success:
       })
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    if (!response.ok) return { success: false };
 
     const data = await response.json();
     return { success: true, crmLeadId: data.lead_id || `PEPEK-${Date.now().toString().slice(-6)}` };
   } catch (error) {
-    console.warn('[CRM-Sync] Erro na sincronização com ERP (Lead preservado no Supabase/Dexie):', error);
+    console.warn('[CRM-Sync] Integração indisponível; reserva preservada no sistema:', error);
     return { success: false };
   }
 }

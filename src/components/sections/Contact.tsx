@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Phone, Mail, MapPin, Clock, MessageSquare, Send, CheckCircle2 } from 'lucide-react';
 import { OFFICIAL_WHATSAPP_NUMBER, generateQuickWhatsAppUrl } from '../../lib/whatsapp';
-import { supabase } from '../../lib/supabase';
+import { submitContactLead } from '../../lib/reservations';
 
 export const Contact: React.FC = () => {
   const { t } = useTranslation();
@@ -11,28 +11,23 @@ export const Contact: React.FC = () => {
   const [subject, setSubject] = useState('Pedido de Informações Gerais');
   const [message, setMessage] = useState('');
   const [sent, setSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError('');
     try {
-      await supabase.from('bookings').insert([
-        {
-          service: 'corporate',
-          location: 'Luanda',
-          client_name: name,
-          client_phone: contact,
-          notes: `[CONTACT FORM - ${subject}]: ${message}`,
-          status: 'pending',
-          source: 'web_contact_form'
-        }
-      ]);
+      await submitContactLead({ name, contact, subject, message });
+      const waMsg = `*MENSAGEM DE CONTACTO — PEPEK GRUPO*\n*Nome:* ${name}\n*Contacto:* ${contact}\n*Assunto:* ${subject}\n*Mensagem:* ${message}`;
+      window.open(`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
+      setSent(true);
     } catch (err) {
-      console.warn('Contact submit note:', err);
+      setSubmitError(err instanceof Error ? err.message : 'Não foi possível registar a mensagem.');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const waMsg = `*MENSAGEM DE CONTACTO — PEPEK GRUPO*\n*Nome:* ${name}\n*Contacto:* ${contact}\n*Assunto:* ${subject}\n*Mensagem:* ${message}`;
-    window.open(`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
-    setSent(true);
   };
 
   return (
@@ -192,11 +187,18 @@ export const Contact: React.FC = () => {
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="btn-primary w-full justify-center text-sm font-bold py-3.5"
                 >
                   <Send className="w-4 h-4" />
-                  <span>Enviar Mensagem & Abrir WhatsApp</span>
+                  <span>{isSubmitting ? 'A registar mensagem…' : 'Enviar Mensagem & Abrir WhatsApp'}</span>
                 </button>
+
+                {submitError && (
+                  <div role="alert" className="p-3 bg-red-50 text-red-800 rounded-lg text-xs">
+                    {submitError} Pode contactar-nos diretamente pelo WhatsApp ou telefone.
+                  </div>
+                )}
 
                 {sent && (
                   <div className="p-3 bg-green-50 text-green-800 rounded-lg text-xs flex items-center gap-2">

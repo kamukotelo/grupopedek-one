@@ -153,8 +153,9 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
           {/* Main Visual Display */}
           <div
             className={`relative w-full h-[320px] sm:h-[440px] md:h-[480px] flex items-center justify-center overflow-hidden shrink-0 group ${
-              'bg-[#F8FAFC] bg-[url(\'/studio/fleet-studio-background.png\')] bg-cover bg-center p-8 sm:p-12'
+              'bg-[#F8FAFC] bg-cover bg-center p-8 sm:p-12'
             }`}
+            style={{ backgroundImage: "url('/studio/fleet-studio-background.png')" }}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >

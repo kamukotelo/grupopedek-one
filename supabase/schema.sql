@@ -29,6 +29,15 @@ CREATE TABLE IF NOT EXISTS public.bookings (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Safe additions for installations created with an older schema.
+ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS protocol_code VARCHAR(50);
+ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS pickup_time TIME;
+ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS dropoff_time TIME;
+ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS assigned_vehicle_id UUID;
+CREATE UNIQUE INDEX IF NOT EXISTS bookings_protocol_code_idx ON public.bookings(protocol_code) WHERE protocol_code IS NOT NULL;
+CREATE INDEX IF NOT EXISTS bookings_period_idx ON public.bookings(start_date, end_date, status);
+CREATE INDEX IF NOT EXISTS bookings_client_email_idx ON public.bookings(client_email);
+
 -- Table: Institutional Clients (for dynamic updates if needed)
 CREATE TABLE IF NOT EXISTS public.institutional_clients (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -53,10 +62,57 @@ CREATE TABLE IF NOT EXISTS public.fleet_vehicles (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Authenticated customer and staff profile. Demo data remains in the frontend
+-- development bundle and is never inserted here automatically.
+CREATE TABLE IF NOT EXISTS public.profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    full_name VARCHAR(150) NOT NULL,
+    phone VARCHAR(50),
+    company VARCHAR(150),
+    nif VARCHAR(50),
+    role VARCHAR(30) NOT NULL DEFAULT 'cliente_normal',
+    tier VARCHAR(50) DEFAULT 'Standard',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS public.invoices (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    invoice_number VARCHAR(80) NOT NULL UNIQUE,
+    issue_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    due_date DATE NOT NULL,
+    amount_aoa NUMERIC(18,2) NOT NULL CHECK (amount_aoa >= 0),
+    amount_usd NUMERIC(18,2) DEFAULT 0 CHECK (amount_usd >= 0),
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    description TEXT NOT NULL,
+    payment_gateway VARCHAR(80),
+    odoo_invoice_id VARCHAR(100),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS public.fleet_assignments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    vehicle_name VARCHAR(150) NOT NULL,
+    plate_number VARCHAR(50) NOT NULL,
+    assigned_to VARCHAR(150),
+    status VARCHAR(40) NOT NULL DEFAULT 'em_reserva',
+    location VARCHAR(180),
+    fuel_level INTEGER DEFAULT 0 CHECK (fuel_level BETWEEN 0 AND 100),
+    mileage_km INTEGER DEFAULT 0 CHECK (mileage_km >= 0),
+    driver_name VARCHAR(150),
+    driver_phone VARCHAR(50),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Row Level Security (RLS)
 ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.institutional_clients ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.fleet_vehicles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.fleet_assignments ENABLE ROW LEVEL SECURITY;
 
 -- Allow anonymous bookings insert from the web application
 CREATE POLICY "Allow anonymous bookings insert"
@@ -74,3 +130,17 @@ CREATE POLICY "Allow public read on fleet_vehicles"
     ON public.fleet_vehicles
     FOR SELECT
     USING (is_available = true);
+
+CREATE POLICY "Users read own profile" ON public.profiles
+    FOR SELECT TO authenticated USING (auth.uid() = id);
+CREATE POLICY "Users update own profile" ON public.profiles
+    FOR UPDATE TO authenticated USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+CREATE POLICY "Users read own invoices" ON public.invoices
+    FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE POLICY "Users read own fleet assignments" ON public.fleet_assignments
+    FOR SELECT TO authenticated USING (auth.uid() = user_id);
+
+-- Authenticated users may read their own bookings by account e-mail.
+CREATE POLICY "Users read own bookings" ON public.bookings
+    FOR SELECT TO authenticated
+    USING (client_email = (auth.jwt() ->> 'email'));

@@ -24,8 +24,8 @@ import {
   Eye,
   Check
 } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
 import { db } from '../../lib/dexie';
+import { submitReservation } from '../../lib/reservations';
 import { generateWhatsAppBookingUrl, OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 import { askPepekExecutiveAI } from '../../lib/ai';
 import { BookingData } from '../../types';
@@ -119,6 +119,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
   // Processing & Official Directorate Dossier State
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState('');
   const [directorateDossier, setDirectorateDossier] = useState<{
     protocolCode: string;
     submissionDate: string;
@@ -162,9 +163,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   const handleGenerateOfficialDossier = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    const protocol = `PK-DIR-${new Date().getFullYear()}-${randomSuffix}`;
+    setSubmissionError('');
 
     const bookingPayload: BookingData = {
       service: selectedService as any,
@@ -178,8 +177,9 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
       clientPhone: loginMethod === 'phone' ? clientIdentifier : '',
       clientEmail: loginMethod === 'email' ? clientIdentifier : '',
       companyName,
-      notes: `FICHA À DIRECÇÃO: Protocolo ${protocol} | NIF: ${nifDocument} | ${notes}`,
+      notes: `FICHA À DIRECÇÃO | NIF: ${nifDocument} | ${notes}`,
       status: 'pending',
+      source: 'web_booking_widget',
       createdAt: new Date().toISOString()
     };
 
@@ -192,39 +192,19 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
       console.warn('Dexie save error:', err);
     }
 
-    // Save to Supabase Backend
     try {
-      if (supabase) {
-        await supabase.from('reservations').insert([
-          {
-            order_id: protocol,
-            service_type: selectedService,
-            vehicle: selectedVehicle.name,
-            pickup_location: pickupLocation,
-            start_date: startDate,
-            end_date: endDate,
-            with_driver: withDriver,
-            client_name: clientName,
-            client_phone: loginMethod === 'phone' ? clientIdentifier : '',
-            client_email: loginMethod === 'email' ? clientIdentifier : '',
-            company_name: companyName,
-            notes: `Ficha Oficial Direcção | NIF: ${nifDocument} | ${notes}`
-          }
-        ]);
-      }
-    } catch (err) {
-      console.warn('Supabase sync notice:', err);
-    }
-
-    setTimeout(() => {
+      const receipt = await submitReservation(bookingPayload);
       setDirectorateDossier({
-        protocolCode: protocol,
+        protocolCode: receipt.protocolCode,
         submissionDate: new Date().toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-        authStatus: 'Cliente Acreditado & Identidade Verificada',
-        summary: `A ficha de requisição oficial nº ${protocol} foi despachada para a Direcção de Operações da PEPEK GRUPO em Talatona. A viatura ${selectedVehicle.name} (${selectedVehicle.pricePerDayFormatted}/dia) encontra-se pré-alocada com assistência técnica 24/7.`
+        authStatus: 'Pedido Registado com Sucesso',
+        summary: `A ficha de requisição oficial nº ${receipt.protocolCode} foi registada para análise da Direcção de Operações PEPEK em Talatona. A disponibilidade final da viatura ${selectedVehicle.name} será confirmada pela equipa operacional.`
       });
+    } catch (err) {
+      setSubmissionError(err instanceof Error ? err.message : 'Não foi possível registar a reserva. Tente novamente ou use o WhatsApp.');
+    } finally {
       setIsSubmitting(false);
-    }, 700);
+    }
   };
 
   const whatsappDossierUrl = directorateDossier
@@ -240,7 +220,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         clientPhone: loginMethod === 'phone' ? clientIdentifier : '',
         clientEmail: loginMethod === 'email' ? clientIdentifier : '',
         companyName,
-        notes: `FICHA OFICIAL À DIRECÇÃO: ${directorateDossier.protocolCode} | Acreditado via ${loginMethod}: ${clientIdentifier}`
+        notes: `FICHA OFICIAL À DIRECÇÃO: ${directorateDossier.protocolCode} | Identificado via ${loginMethod}: ${clientIdentifier}`
       })
     : '';
 
@@ -251,7 +231,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         <div className="max-w-3xl mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#07133F] text-[#D2A820] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
             <Shield className="w-3.5 h-3.5" />
-            <span>Sistema Oficial de Acreditação & Despacho</span>
+            <span>Sistema Oficial de Reserva & Despacho</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#07133F] tracking-tight mb-4">
@@ -442,6 +422,11 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       <UserCheck className="w-4 h-4" />
                       <span>Com Motorista Protocolar (+35.000 Kz/dia)</span>
                     </button>
+                    {submissionError && (
+                      <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
+                        {submissionError}
+                      </p>
+                    )}
 
                     <button
                       type="button"
@@ -508,7 +493,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
               <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#D9DEE7] shadow-md">
                 <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#D2A820] mb-1">
                   <Shield className="w-4 h-4 text-[#D2A820]" />
-                  <span>Acreditação & Login de Fiabilidade</span>
+                  <span>Identificação do Requisitante</span>
                 </div>
 
                 <h3 className="text-xl font-bold text-[#07133F] mb-2">
@@ -516,7 +501,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 </h3>
 
                 <p className="text-xs text-[#697080] leading-relaxed mb-5">
-                  Para emissão do protocolo formal, autentique-se via email ou telemóvel registado.
+                  Para emissão do protocolo formal, identifique-se por email ou telemóvel.
                 </p>
 
                 {/* Login Method Toggle: Phone vs Email */}

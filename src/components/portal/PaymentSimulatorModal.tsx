@@ -13,6 +13,8 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
   onClose,
   onSuccess
 }) => {
+  // This remains deliberately explicit until an audited payment callback is connected.
+  const isSimulation = true;
   const [gateway, setGateway] = useState<'multicaixa' | 'bai' | 'stripe' | 'mbway'>('multicaixa');
   const [phoneNumber, setPhoneNumber] = useState('923 881 100');
   const [ptPhone, setPtPhone] = useState('912 345 678');
@@ -52,7 +54,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
           </button>
 
           <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#0B45D8] block mb-1">
-            Gateway Integrada PEPEK / Odoo Finance
+            {isSimulation ? 'Simulador de Pagamento — Ambiente de Demonstração' : 'Gateway PEPEK / Odoo Finance'}
           </span>
           <h3 className="text-xl font-extrabold text-white">
             Liquidação de Fatura AGT
@@ -72,6 +74,11 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
 
         {/* Content */}
         <div className="p-6 sm:p-7">
+          {isSimulation && (
+            <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-semibold text-amber-800">
+              Nenhuma cobrança bancária será realizada. Este módulo preserva os dados fictícios para demonstração até a ativação dos gateways oficiais.
+            </div>
+          )}
           {!isDone ? (
             <form onSubmit={handlePay} className="space-y-5">
               {/* Payment Methods Selection */}
@@ -204,7 +211,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
                     readOnly
                   />
                   <p className="text-[10px] text-gray-500">
-                    Reconciliação automática imediata via API Bancária com emissão de recibo no Odoo.
+                    {isSimulation ? 'Demonstração visual sem ligação bancária ou emissão fiscal.' : 'Reconciliação automática imediata via API bancária com emissão de recibo no Odoo.'}
                   </p>
                 </div>
               )}
@@ -243,7 +250,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
                     <span>A Processar com a Gateway...</span>
                   </span>
                 ) : (
-                  <span>Autorizar Pagamento de {invoice.amountAOA.toLocaleString('pt-AO')} AOA</span>
+                  <span>{isSimulation ? 'Simular' : 'Autorizar'} Pagamento de {invoice.amountAOA.toLocaleString('pt-AO')} AOA</span>
                 )}
               </button>
             </form>
@@ -255,11 +262,13 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
               </div>
 
               <h4 className="text-xl font-bold text-[#06142F]">
-                Pagamento Liquidado com Sucesso!
+                {isSimulation ? 'Simulação Concluída' : 'Pagamento Liquidado com Sucesso!'}
               </h4>
 
               <p className="text-xs text-gray-600 max-w-sm mx-auto leading-relaxed">
-                A fatura <strong className="text-gray-900">{invoice.invoiceNumber}</strong> foi reconciliada e sincronizada no ERP Odoo.
+                {isSimulation
+                  ? <>A fatura <strong className="text-gray-900">{invoice.invoiceNumber}</strong> não foi cobrada. O resultado existe apenas nesta sessão demonstrativa.</>
+                  : <>A fatura <strong className="text-gray-900">{invoice.invoiceNumber}</strong> foi reconciliada e sincronizada no ERP Odoo.</>}
               </p>
 
               <div className="p-3 bg-gray-50 rounded-xl border border-gray-200 text-[11px] text-gray-700 text-left space-y-1">

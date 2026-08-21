@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
+import { checkVehicleAvailability } from '../../lib/reservations';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
@@ -50,6 +51,8 @@ export const Hero: React.FC = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentLuxury, setCurrentLuxury] = useState(0);
+  const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
+  const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable' | 'unknown'>('idle');
   const [pickup, setPickup] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -63,15 +66,21 @@ export const Hero: React.FC = () => {
   }, [slides.length]);
 
   useEffect(() => {
+    if (isLuxuryPaused) return;
     const timer = window.setInterval(() => {
       setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length);
     }, 4500);
     return () => window.clearInterval(timer);
-  }, [luxuryVehicles.length]);
+  }, [luxuryVehicles.length, isLuxuryPaused]);
 
-  const handleQuickAvailability = (event: React.FormEvent) => {
+  const handleQuickAvailability = async (event: React.FormEvent) => {
     event.preventDefault();
     const vehicle = luxuryVehicles[currentLuxury];
+    setIsLuxuryPaused(true);
+    setAvailabilityStatus('checking');
+    const availability = await checkVehicleAvailability({ vehicle: vehicle.name, startDate, endDate });
+    setAvailabilityStatus(availability.status);
+    if (availability.status === 'unavailable') return;
     const params = new URLSearchParams({
       pickup,
       startDate,
@@ -179,8 +188,8 @@ export const Hero: React.FC = () => {
                   <p className="mt-1 text-sm font-black text-[#0B45D8]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-slate-500">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
                 </div>
                 <div className="flex gap-1">
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => { setIsLuxuryPaused(true); setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length); }} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => { setIsLuxuryPaused(true); setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length); }} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
                 </div>
               </div>
               {luxuryVehicles.map((vehicle, index) => (
@@ -191,9 +200,6 @@ export const Hero: React.FC = () => {
                   className={`absolute bottom-[-46px] left-1/2 h-[235px] w-[110%] -translate-x-1/2 scale-125 object-contain drop-shadow-[0_24px_24px_rgba(7,19,63,.3)] transition-all duration-700 ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 />
               ))}
-              <div className="absolute bottom-3 left-5 z-20 flex gap-1.5">
-                {luxuryVehicles.map((vehicle, index) => <button key={vehicle.name} type="button" onClick={() => setCurrentLuxury(index)} aria-label={vehicle.name} className={`h-1.5 rounded-full transition-all ${currentLuxury === index ? 'w-7 bg-[#D2A820]' : 'w-2 bg-slate-400'}`} />)}
-              </div>
             </div>
 
             <form onSubmit={handleQuickAvailability} className="p-5 sm:p-6">
@@ -205,15 +211,16 @@ export const Hero: React.FC = () => {
                 <span className="mb-1.5 block">{t('hero.quickPickup')}</span>
                 <span className="relative block">
                   <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input required value={pickup} onChange={(event) => setPickup(event.target.value)} placeholder={t('hero.quickPickupPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#D2A820]" />
+                  <input required value={pickup} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => setPickup(event.target.value)} placeholder={t('hero.quickPickupPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#D2A820]" />
                 </span>
               </label>
               <div className="mt-3 grid grid-cols-2 gap-3">
                 <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><input required type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 text-xs outline-none focus:border-[#D2A820]" /></label>
                 <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><input required min={startDate} type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 text-xs outline-none focus:border-[#D2A820]" /></label>
               </div>
-              <button type="submit" className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#D2A820] px-4 text-xs font-black uppercase tracking-[0.08em] text-[#020A2A] transition hover:bg-[#E2C06E]">
-                {t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
+              {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-red-50 p-2 text-[11px] font-bold text-red-700">Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.</p>}
+              <button type="submit" disabled={availabilityStatus === 'checking'} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#D2A820] px-4 text-xs font-black uppercase tracking-[0.08em] text-[#020A2A] transition hover:bg-[#E2C06E] disabled:opacity-60">
+                {availabilityStatus === 'checking' ? 'A verificar…' : t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
               </button>
             </form>
           </aside>
@@ -230,21 +237,6 @@ export const Hero: React.FC = () => {
               <span>{t('clients.title')}</span>
             </p>
 
-            {/* Futuristic Slide Dots */}
-            <div className="flex items-center gap-1.5">
-              {slides.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentSlide(idx)}
-                  className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
-                    currentSlide === idx
-                      ? 'w-8 bg-[#0B45D8] shadow-[0_0_15px_rgba(11,69,216,1)]'
-                      : 'w-2 bg-white/20 hover:bg-white/45'
-                  }`}
-                  aria-label={`Ver grupo de parceiros ${idx + 1}`}
-                />
-              ))}
-            </div>
           </div>
 
           {/* 5-by-5 Frameless Floating Logos Grid */}

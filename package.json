@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node scripts/validate-project.mjs",
+    "test:build": "npm test && npm run build"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

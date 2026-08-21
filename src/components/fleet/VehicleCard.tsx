@@ -58,7 +58,8 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
-        className="relative aspect-4/3 overflow-hidden bg-[#F8FAFC] bg-[url('/studio/fleet-studio-background.png')] bg-cover bg-center border-b border-[#D9DEE7] cursor-pointer select-none flex items-center justify-center p-5"
+        style={{ backgroundImage: "url('/studio/fleet-studio-background.png')" }}
+        className="relative aspect-4/3 overflow-hidden bg-[#F8FAFC] bg-cover bg-center border-b border-[#D9DEE7] cursor-pointer select-none flex items-center justify-center p-5"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onInspect(vehicle)}

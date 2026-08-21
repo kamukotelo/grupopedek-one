@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-import { ChatBot } from './components/ui/ChatBot';
 import { MobileQuickBar } from './components/layout/MobileQuickBar';
-import { ClientPortalModal } from './components/portal/ClientPortalModal';
+const ChatBot = lazy(() => import('./components/ui/ChatBot').then(module => ({ default: module.ChatBot })));
+const ClientPortalModal = lazy(() => import('./components/portal/ClientPortalModal').then(module => ({ default: module.ClientPortalModal })));
 
 // Pages (each has its own Helmet title, meta description, canonical, schema.org)
-import { PageHome } from './pages/PageHome';
-import { PageQuemSomos } from './pages/PageQuemSomos';
-import { PageServicos } from './pages/PageServicos';
-import { PageFrota } from './pages/PageFrota';
-import { PageClientes } from './pages/PageClientes';
-import { PageReservar } from './pages/PageReservar';
-import { PageContactos } from './pages/PageContactos';
-import { PagePainel } from './pages/PagePainel';
+const PageHome = lazy(() => import('./pages/PageHome').then(module => ({ default: module.PageHome })));
+const PageQuemSomos = lazy(() => import('./pages/PageQuemSomos').then(module => ({ default: module.PageQuemSomos })));
+const PageServicos = lazy(() => import('./pages/PageServicos').then(module => ({ default: module.PageServicos })));
+const PageFrota = lazy(() => import('./pages/PageFrota').then(module => ({ default: module.PageFrota })));
+const PageClientes = lazy(() => import('./pages/PageClientes').then(module => ({ default: module.PageClientes })));
+const PageReservar = lazy(() => import('./pages/PageReservar').then(module => ({ default: module.PageReservar })));
+const PageContactos = lazy(() => import('./pages/PageContactos').then(module => ({ default: module.PageContactos })));
+const PagePainel = lazy(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
+const PageNotFound = lazy(() => import('./pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
 
 import './i18n';
 
@@ -36,6 +37,7 @@ export const App: React.FC = () => {
 
           {/* Page router — real URLs, each with individual SEO metadata */}
           <main className="flex-1">
+            <Suspense fallback={<div className="min-h-screen bg-[#06142F]" aria-label="A carregar página" />}>
             <Routes>
               {/* Home — Hero + all sections + primary CTA */}
               <Route path="/" element={<PageHome onSelectVehicle={setSelectedVehicle} />} />
@@ -52,21 +54,22 @@ export const App: React.FC = () => {
               <Route path="/painel" element={<PagePainel />} />
 
               {/* 404 fallback */}
-              <Route path="*" element={<PageHome onSelectVehicle={setSelectedVehicle} />} />
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
+            </Suspense>
           </main>
 
           {/* Corporate footer */}
           <Footer />
 
           {/* AI Executive Concierge — floating, context-aware */}
-          <ChatBot />
+          <Suspense fallback={null}><ChatBot /></Suspense>
 
           {/* Mobile quick action bar (safe-area aware) */}
           <MobileQuickBar />
 
           {/* Global portal — opens from any page via Header or ChatBot */}
-          <ClientPortalModal />
+          <Suspense fallback={null}><ClientPortalModal /></Suspense>
         </div>
       </AuthProvider>
     </HelmetProvider>

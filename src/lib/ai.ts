@@ -59,48 +59,21 @@ export async function askPepekExecutiveAI(
   history: Array<{ role: 'user' | 'assistant'; content: string }>,
   sessionContext?: SessionContext
 ): Promise<AssistantResponse> {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
-  if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              {
-                role: 'user',
-                parts: [
-                  {
-                    text: `${GEMINI_SYSTEM_INSTRUCTIONS}
-Contexto da sessão actual: Viatura em foco: "${sessionContext?.lastMentionedVehicle || 'Nenhuma'}".
-Histórico recente da conversa: ${JSON.stringify(history.slice(-6))}
-Pergunta do cliente: "${userPrompt}"
-
-Instrução: Responda diretamente ao cliente com no máximo 2 a 3 frases, tom humano, caloroso e focado em ajudá-lo.`
-                  }
-                ]
-              }
-            ]
-          })
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) {
-          return {
-            message: text.trim(),
-            suggestedQuickReplies: generateDynamicReplies(userPrompt, sessionContext)
-          };
-        }
-      }
-    } catch (err) {
-      console.warn('Gemini API call failed, using human intent matcher fallback:', err);
+  try {
+    const response = await fetch('/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userPrompt, history: history.slice(-6), sessionContext }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data.message) return {
+        message: String(data.message).trim(),
+        suggestedQuickReplies: generateDynamicReplies(userPrompt, sessionContext),
+      };
     }
+  } catch {
+    // Local development and static deployments keep the deterministic fallback.
   }
 
   // Motor determinístico de intenções com linguagem natural humana

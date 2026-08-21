@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../context/AuthContext';
-import { ClientPortalModal } from '../components/portal/ClientPortalModal';
 
 // Painel de Gestão — apenas para utilizadores autenticados
 // Esta página não aparece no menu de navegação público
@@ -28,7 +27,6 @@ export const PagePainel: React.FC = () => {
           </div>
         )}
       </div>
-      <ClientPortalModal />
     </>
   );
 };
