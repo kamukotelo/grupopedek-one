@@ -3,9 +3,9 @@ import { HelmetProvider } from 'react-helmet-async';
 import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
 import { Hero } from './components/sections/Hero';
+import { InstitutionalClients } from './components/sections/InstitutionalClients';
 import { BookingWidget } from './components/sections/BookingWidget';
 import { RouteEstimator } from './components/sections/RouteEstimator';
-import { InstitutionalClients } from './components/sections/InstitutionalClients';
 import { Services } from './components/sections/Services';
 import { Fleet } from './components/sections/Fleet';
 import { CorporatePortal } from './components/sections/CorporatePortal';
@@ -38,11 +38,11 @@ export const App: React.FC = () => {
           {/* 1. Hero Section (Slogan & 4 Pillars) */}
           <Hero />
 
-          {/* 2. Interactive VIP Concierge & Smart Booking */}
-          <BookingWidget initialVehicle={selectedVehicleForBooking} />
-
-          {/* 3. Infinite Institutional Client Logo Carousel */}
+          {/* 2. Top Institutional Client Logos (5-second 6-logo stepped rotation) */}
           <InstitutionalClients />
+
+          {/* 3. Interactive VIP Concierge & Smart Booking Engine */}
+          <BookingWidget initialVehicle={selectedVehicleForBooking} />
 
           {/* 4. Executive Route Estimator & Fare Calculator */}
           <RouteEstimator />
