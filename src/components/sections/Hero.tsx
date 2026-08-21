@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShieldCheck, Phone, ChevronRight, Award, UserCheck, Building2, Clock, Car, Sparkles } from 'lucide-react';
+import { ShieldCheck, ChevronRight, Award, Building2, Clock, Car, Sparkles } from 'lucide-react';
 import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 export const Hero: React.FC = () => {
@@ -61,7 +61,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="inicio" className="relative bg-[#06142F] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between">
+    <section id="inicio" className="relative bg-[#06142F] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
       {/* Cinematic Background Image with Dark Vignette */}
       <div className="absolute inset-0 z-0">
         <img
@@ -91,40 +91,41 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* 3 Key Pillars of Trust */}
+        {/* 3 Key Pillars of Trust (Frameless with soft futuristic aura) */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mb-10 text-xs sm:text-sm font-semibold text-gray-200">
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.05] border border-white/10 backdrop-blur-md">
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
             <Building2 className="w-5 h-5 text-[#0B45D8] shrink-0" />
             <span>Embaixadas & Delegações Diplomáticas</span>
           </div>
 
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.05] border border-white/10 backdrop-blur-md">
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
             <Award className="w-5 h-5 text-[#0B45D8] shrink-0" />
             <span>Contratos Corporativos & Faturação AGT</span>
           </div>
 
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.05] border border-white/10 backdrop-blur-md">
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
             <Clock className="w-5 h-5 text-[#0B45D8] shrink-0" />
             <span>Assistência Operacional 24/7 nas 18 Províncias</span>
           </div>
         </div>
 
-        {/* Direct Action Buttons */}
+        {/* Action Buttons with Futuristic Hover Glow */}
         <div className="flex flex-wrap items-center gap-4 mb-12">
           <button
             type="button"
             onClick={scrollToBooking}
-            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer hover:scale-105 transition-transform"
+            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(11,69,216,0.8)] hover:scale-[1.03] transition-all duration-300"
           >
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
             <Car className="w-5 h-5" />
             <span>Simulador & Ficha de Cadastro Online</span>
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
 
           <button
             type="button"
             onClick={scrollToFleet}
-            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 transition-colors"
+            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all duration-300"
           >
             <span>Explorar Frota de Alta Gama</span>
           </button>
@@ -136,11 +137,11 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* ═══════════════════════════════════════════════════════
-            TOP CLIENT LOGOS CAROUSEL — Directly inside Hero
-            5 by 5, Enhanced Size & Futuristic Luminous Slide
+            TOP CLIENT LOGOS — Frameless, Prominent, 5 by 5
+            No Heavy Box Outlines · Pure White Glow & Scale Hover
            ═══════════════════════════════════════════════════════ */}
         <div className="pt-6 border-t border-white/10">
-          <div className="flex items-center justify-between gap-4 mb-3">
+          <div className="flex items-center justify-between gap-4 mb-5">
             <p className="text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#8899BB] flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-[#0B45D8]" />
               <span>A Confiança de Organizações de Referência em Angola</span>
@@ -154,8 +155,8 @@ export const Hero: React.FC = () => {
                   onClick={() => setCurrentSlide(idx)}
                   className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
                     currentSlide === idx
-                      ? 'w-7 bg-[#0B45D8] shadow-[0_0_12px_rgba(11,69,216,0.9)]'
-                      : 'w-2 bg-white/25 hover:bg-white/50'
+                      ? 'w-8 bg-[#0B45D8] shadow-[0_0_15px_rgba(11,69,216,1)]'
+                      : 'w-2 bg-white/20 hover:bg-white/45'
                   }`}
                   aria-label={`Ver grupo de parceiros ${idx + 1}`}
                 />
@@ -163,26 +164,26 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* 5-by-5 Logos Grid with Enhanced Size, Brightness and Futuristic Slide */}
-          <div className="relative min-h-[105px] overflow-hidden">
+          {/* 5-by-5 Frameless Floating Logos Grid */}
+          <div className="relative min-h-[120px] overflow-hidden">
             {slides.map((group, slideIdx) => (
               <div
                 key={slideIdx}
-                className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 sm:gap-5 items-center transition-all duration-700 ease-out ${
+                className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-10 items-center justify-items-center transition-all duration-700 ease-out ${
                   currentSlide === slideIdx
                     ? 'opacity-100 translate-x-0 relative pointer-events-auto'
-                    : 'opacity-0 translate-x-12 absolute inset-0 pointer-events-none'
+                    : 'opacity-0 translate-x-16 absolute inset-0 pointer-events-none'
                 }`}
               >
                 {group.map((client, logoIdx) => (
                   <div
                     key={logoIdx}
-                    className="flex items-center justify-center p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 hover:border-[#0B45D8] hover:bg-[#0B45D8]/20 transition-all duration-300 h-24 sm:h-26 backdrop-blur-md group shadow-sm"
+                    className="flex items-center justify-center p-2 h-24 sm:h-28 w-full group cursor-pointer"
                   >
                     <img
                       src={client.src}
                       alt={client.name}
-                      className="max-h-14 sm:max-h-16 max-w-[155px] w-auto object-contain filter brightness-[1.1] contrast-[1.25] drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] group-hover:brightness-125 group-hover:scale-110 transition-all duration-300"
+                      className="max-h-16 sm:max-h-20 max-w-[170px] sm:max-w-[200px] w-auto object-contain filter brightness-[1.2] contrast-[1.3] drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] group-hover:brightness-[1.5] group-hover:scale-115 group-hover:drop-shadow-[0_0_24px_rgba(11,69,216,0.9)] transition-all duration-300"
                       loading="lazy"
                     />
                   </div>
