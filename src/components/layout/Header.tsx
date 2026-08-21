@@ -52,19 +52,19 @@ export const Header: React.FC = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       {/* ═══════════════════════════════════════════════════════
-          1. TOP UTILITY BAR (Linear, Perfectly Balanced & Aligned)
+          1. TOP UTILITY BAR (Strictly Single-Line Linear & Balanced)
          ═══════════════════════════════════════════════════════ */}
       <div
-        className={`hidden lg:block bg-[#020917] text-gray-300 text-[11px] font-medium border-b border-white/5 transition-all duration-300 ${
-          isScrolled ? 'h-0 py-0 opacity-0 overflow-hidden border-none' : 'py-2 opacity-100'
+        className={`hidden lg:flex items-center h-9 bg-[#020917] text-gray-300 text-[11px] border-b border-white/5 transition-all duration-300 overflow-hidden ${
+          isScrolled ? 'h-0 opacity-0 border-none' : 'opacity-100'
         }`}
       >
-        <div className="container-pepek flex items-center justify-between whitespace-nowrap">
-          {/* Left Info: Location & Email in a Single Line */}
-          <div className="flex items-center gap-6">
+        <div className="container-pepek w-full flex items-center justify-between gap-4">
+          {/* Left Side: Address & Email (Single Line, No Wrap) */}
+          <div className="flex items-center gap-4 shrink-0">
             <div className="flex items-center gap-1.5 text-gray-400">
               <MapPin className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
-              <span>Talatona, Rua Reino do Bailundo, Luanda — Angola</span>
+              <span>Talatona, Luanda — Angola</span>
             </div>
             <span className="text-gray-700">|</span>
             <div className="flex items-center gap-1.5 text-gray-400">
@@ -75,11 +75,11 @@ export const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Info: 24/7 Phone Numbers & User Badge */}
-          <div className="flex items-center gap-6">
+          {/* Right Side: Phone & Client Portal (Single Line, No Wrap) */}
+          <div className="flex items-center gap-4 shrink-0">
             <div className="flex items-center gap-2 text-gray-300">
               <Phone className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
-              <span className="text-gray-400 font-normal">Central 24/7:</span>
+              <span className="text-gray-400">Central 24/7:</span>
               <a href="tel:+244923719090" className="text-white font-bold hover:text-[#0B45D8] transition-colors">
                 +244 923 719 090
               </a>
@@ -95,7 +95,7 @@ export const Header: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsPortalOpen(true)}
-              className="flex items-center gap-1.5 text-gray-300 hover:text-white font-bold px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:bg-[#0B45D8] hover:border-[#0B45D8] transition-all cursor-pointer"
+              className="flex items-center gap-1.5 text-gray-300 hover:text-white font-bold px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:bg-[#0B45D8] hover:border-[#0B45D8] transition-all cursor-pointer text-[10px]"
             >
               <User className="w-3 h-3 text-[#0B45D8] group-hover:text-white" />
               <span>{currentUser ? `${currentUser.name.split(' ')[0]}` : 'Área do Cliente'}</span>
