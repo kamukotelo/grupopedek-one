@@ -1,84 +1,71 @@
 import React, { useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
-import { Hero } from './components/sections/Hero';
-import { BookingWidget } from './components/sections/BookingWidget';
-import { Services } from './components/sections/Services';
-import { Fleet } from './components/sections/Fleet';
-import { CorporatePortal } from './components/sections/CorporatePortal';
-import { CoverageMap } from './components/sections/CoverageMap';
-import { Process } from './components/sections/Process';
-import { About } from './components/sections/About';
-import { PaymentSecurity } from './components/sections/PaymentSecurity';
-import { FAQ } from './components/sections/FAQ';
-import { Contact } from './components/sections/Contact';
 import { Footer } from './components/layout/Footer';
 import { ChatBot } from './components/ui/ChatBot';
 import { MobileQuickBar } from './components/layout/MobileQuickBar';
 import { ClientPortalModal } from './components/portal/ClientPortalModal';
+
+// Pages (each has its own Helmet title, meta description, canonical, schema.org)
+import { PageHome } from './pages/PageHome';
+import { PageQuemSomos } from './pages/PageQuemSomos';
+import { PageServicos } from './pages/PageServicos';
+import { PageFrota } from './pages/PageFrota';
+import { PageClientes } from './pages/PageClientes';
+import { PageReservar } from './pages/PageReservar';
+import { PageContactos } from './pages/PageContactos';
+import { PagePainel } from './pages/PagePainel';
+
 import './i18n';
 
 export const App: React.FC = () => {
-  const [selectedVehicleForBooking, setSelectedVehicleForBooking] = useState<string>('SUV Executiva — Land Cruiser Prado / LC300');
+  const [selectedVehicle, setSelectedVehicle] = useState<string>('SUV Executiva — Land Cruiser Prado / LC300');
 
   return (
     <HelmetProvider>
       <AuthProvider>
-        {/* Lightweight, zero-lag luxury splash screen */}
+        {/* Lightweight splash screen */}
         <SplashScreen />
 
         <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#0B45D8] selection:text-white pb-14 lg:pb-0">
-          {/* Sticky Header Navigation with Client Area */}
+          {/* Sticky navigation header */}
           <Header />
 
-          {/* Main Application Flow */}
+          {/* Page router — real URLs, each with individual SEO metadata */}
           <main className="flex-1">
-            {/* Chapter 1: Hero & Embedded Top 5-by-5 Client Logos */}
-            <Hero />
+            <Routes>
+              {/* Home — Hero + all sections + primary CTA */}
+              <Route path="/" element={<PageHome onSelectVehicle={setSelectedVehicle} />} />
 
-            {/* Chapter 2: Interactive Visual Simulator & Directorate Dossier Registration */}
-            <BookingWidget initialVehicle={selectedVehicleForBooking} />
+              {/* Institutional pages — individually indexable by Google */}
+              <Route path="/quem-somos" element={<PageQuemSomos />} />
+              <Route path="/servicos" element={<PageServicos />} />
+              <Route path="/frota" element={<PageFrota onSelectVehicle={setSelectedVehicle} />} />
+              <Route path="/clientes" element={<PageClientes />} />
+              <Route path="/reservar" element={<PageReservar />} />
+              <Route path="/contactos" element={<PageContactos />} />
 
-            {/* Chapter 3: Executive Services & Diplomatic Protocol */}
-            <Services />
+              {/* Management panel — authenticated only, noindex, hidden from public nav */}
+              <Route path="/painel" element={<PagePainel />} />
 
-            {/* Chapter 4: Fleet Showcase with High-Res Technical Specs Modal */}
-            <Fleet onSelectVehicle={(v) => setSelectedVehicleForBooking(v)} />
-
-            {/* Chapter 5: Corporate & Diplomatic Portal */}
-            <CorporatePortal />
-
-            {/* Chapter 6: Operational Coverage Map (18 Provinces & Technical Bases) */}
-            <CoverageMap />
-
-            {/* Chapter 7: Operational Process 'Da Reserva ao Destino' */}
-            <Process />
-
-            {/* Chapter 8: Corporate History & Heritage since 2014 */}
-            <About />
-
-            {/* Chapter 9: AGT Compliance, Invoicing & Payment Security */}
-            <PaymentSecurity />
-
-            {/* Chapter 10: Frequently Asked Questions (FAQ) */}
-            <FAQ />
-
-            {/* Chapter 11: 24/7 Operations Hub & Direct Contacts */}
-            <Contact />
+              {/* 404 fallback */}
+              <Route path="*" element={<PageHome onSelectVehicle={setSelectedVehicle} />} />
+            </Routes>
           </main>
 
-          {/* Corporate Footer */}
+          {/* Corporate footer */}
           <Footer />
 
-          {/* Floating AI Executive Assistant with User Awareness */}
+          {/* AI Executive Concierge — floating, context-aware */}
           <ChatBot />
 
-          {/* Mobile Quick Action Bar */}
+          {/* Mobile quick action bar (safe-area aware) */}
           <MobileQuickBar />
 
-          {/* Luxury Client & Management Portal with 1-Click Demo Personas & Odoo Sync */}
+          {/* Global portal — opens from any page via Header or ChatBot */}
           <ClientPortalModal />
         </div>
       </AuthProvider>

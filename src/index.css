@@ -368,4 +368,68 @@
     0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
     30% { transform: translateY(-6px); opacity: 1; }
   }
+
+  /* ── Mobile Safe Areas (iOS notch, Android gesture bar) ── */
+  /* viewport-fit=cover must be set in index.html meta viewport */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* ── Coordinated Z-index Layers ──────────────────────────
+     z-30  →  Mobile bottom bar (always lowest floating layer)
+     z-40  →  Header + mobile nav drawer
+     z-45  →  ChatBot trigger button (above bar, below modals)
+     z-50  →  Modals, Portal, ChatBot window open
+     ──────────────────────────────────────────────────────── */
+
+  /* ── Touch Targets (iOS HIG 44px / Android Material 48px) ── */
+  button,
+  a,
+  [role="button"],
+  [role="tab"],
+  [role="menuitem"],
+  label[for] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* ── Input font-size: prevents auto-zoom on Safari iOS ── */
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+  }
+
+  /* ── prefers-reduced-motion: respect accessibility preferences ── */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .animate-fadeIn  { animation: fadeIn  0.35s ease both; }
+  .animate-scaleUp { animation: scaleUp 0.25s ease both; }
+
+  /* ── No-scrollbar utility ── */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }

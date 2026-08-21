@@ -9,36 +9,45 @@ export const MobileQuickBar: React.FC = () => {
   };
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#06142F]/95 backdrop-blur-xl border-t border-white/10 p-2.5 px-4 flex items-center justify-between gap-2 shadow-2xl">
-      {/* Call Button */}
-      <a
-        href={`tel:+${OFFICIAL_WHATSAPP_NUMBER}`}
-        className="flex-1 py-2.5 px-3 rounded-xl bg-white/10 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 border border-white/10 hover:bg-white/20 transition-colors"
-      >
-        <Phone className="w-3.5 h-3.5 text-[#0B45D8]" />
-        <span>Ligar 24/7</span>
-      </a>
+    <div
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#06142F]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+    >
+      <div className="flex items-center justify-between gap-2 px-4 py-2.5">
+        {/* Call Button — tel: para marcador nativo iOS & Android */}
+        <a
+          href={`tel:+${OFFICIAL_WHATSAPP_NUMBER}`}
+          className="flex-1 py-3 px-3 rounded-xl bg-white/10 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 border border-white/10 hover:bg-white/20 transition-colors"
+          aria-label="Ligar para a PEPEK GRUPO 24/7"
+        >
+          <Phone className="w-3.5 h-3.5 text-[#0B45D8]" />
+          <span>Ligar 24/7</span>
+        </a>
 
-      {/* Book Button */}
-      <button
-        type="button"
-        onClick={scrollToBooking}
-        className="flex-1 py-2.5 px-3 rounded-xl bg-[#0B45D8] text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:bg-[#1A58F5] transition-colors cursor-pointer"
-      >
-        <Calendar className="w-3.5 h-3.5" />
-        <span>Reservar</span>
-      </button>
+        {/* Booking Button */}
+        <button
+          type="button"
+          onClick={scrollToBooking}
+          className="flex-1 py-3 px-3 rounded-xl bg-[#0B45D8] text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:bg-[#1A58F5] transition-colors cursor-pointer"
+          aria-label="Solicitar reserva de viatura"
+        >
+          <Calendar className="w-3.5 h-3.5" />
+          <span>Reservar</span>
+        </button>
 
-      {/* WhatsApp Button */}
-      <a
-        href={generateQuickWhatsAppUrl('Atendimento Mobile')}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex-1 py-2.5 px-3 rounded-xl bg-[#25D366] text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:bg-emerald-600 transition-colors"
-      >
-        <MessageSquare className="w-3.5 h-3.5" />
-        <span>WhatsApp</span>
-      </a>
+        {/* WhatsApp — wa.me deep link (abre app nativa, não web) */}
+        <a
+          href={generateQuickWhatsAppUrl('Atendimento Mobile')}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 py-3 px-3 rounded-xl bg-[#25D366] text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:bg-emerald-600 transition-colors"
+          aria-label="Contactar via WhatsApp"
+        >
+          <MessageSquare className="w-3.5 h-3.5" />
+          <span>WhatsApp</span>
+        </a>
+      </div>
     </div>
   );
 };
+

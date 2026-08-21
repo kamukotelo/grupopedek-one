@@ -1,9 +1,19 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
 import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// SEGURANÇA: O painel de demo e a troca de personas só está activo em
+// modo de desenvolvimento (import.meta.env.DEV = true).
+// Em produção (PROD), todos os visitantes começam como anónimos.
+// TODO: implementar autenticação real (Firebase Auth / Supabase / OAuth)
+//       antes do lançamento público em pepekgrupo.com
+// ─────────────────────────────────────────────────────────────────────────────
+const IS_DEMO_MODE = import.meta.env.DEV;
+
 interface AuthContextType {
   currentUser: UserProfile | null;
+  isDemoMode: boolean;
   loginAs: (role: UserRole) => void;
   logout: () => void;
   isPortalOpen: boolean;
@@ -20,17 +30,15 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Start with cliente_vip as active demo user by default or null
+  // SEGURANÇA: Em produção, arrancar sempre como anónimo (null).
+  // Em modo de desenvolvimento, permitir restauro da sessão demo do localStorage.
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
-    const saved = localStorage.getItem('pepek_auth_user');
+    if (!IS_DEMO_MODE) return null; // Produção → sempre anónimo
+    const saved = localStorage.getItem('pepek_demo_user');
     if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return DEMO_USERS.cliente_vip;
-      }
+      try { return JSON.parse(saved); } catch { return null; }
     }
-    return DEMO_USERS.cliente_vip;
+    return null; // Não pré-carregar nenhuma persona — utilizador escolhe
   });
 
   const [isPortalOpen, setIsPortalOpen] = useState(false);
@@ -39,18 +47,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [odooSync, setOdooSync] = useState<OdooSyncStatus>(DEMO_ODOO_SYNC);
   const [selectedPaymentInvoice, setSelectedPaymentInvoice] = useState<InvoiceItem | null>(null);
 
+  // loginAs: apenas disponível em modo demo (DEV). Em produção, usar auth real.
   const loginAs = (role: UserRole) => {
+    if (!IS_DEMO_MODE) {
+      console.warn('[PEPEK] loginAs() desactivado em produção. Usar autenticação real.');
+      return;
+    }
     const user = DEMO_USERS[role];
     if (user) {
       setCurrentUser(user);
-      localStorage.setItem('pepek_auth_user', JSON.stringify(user));
+      localStorage.setItem('pepek_demo_user', JSON.stringify(user)); // key diferente de sessão real
       setIsPortalOpen(true);
     }
   };
 
   const logout = () => {
     setCurrentUser(null);
-    localStorage.removeItem('pepek_auth_user');
+    localStorage.removeItem('pepek_demo_user');
     setIsPortalOpen(false);
   };
 
@@ -67,13 +80,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const refreshOdooSync = async () => {
     setOdooSync(prev => ({ ...prev, serverStatus: 'syncing' }));
     await new Promise(r => setTimeout(r, 1200));
+    // TODO: PLACEHOLDER — substituir com chamada real à API Odoo autenticada
     setOdooSync({
       lastSync: `Sincronizado agora (${new Date().toLocaleTimeString('pt-AO')})`,
-      odooDb: 'pepek_erp_production_ao',
+      odooDb: IS_DEMO_MODE ? 'pepek_erp_demo' : '[REDACTED]', // nunca expor BD real ao front-end
       serverStatus: 'connected',
-      totalVehiclesSynced: 48,
+      totalVehiclesSynced: 0, // TODO: PLACEHOLDER — valor real via API
       openInvoicesCount: invoices.filter(i => i.status === 'pending').length,
-      pendingQuotesCount: 5
+      pendingQuotesCount: 0   // TODO: PLACEHOLDER
     });
   };
 
@@ -81,6 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider
       value={{
         currentUser,
+        isDemoMode: IS_DEMO_MODE,
         loginAs,
         logout,
         isPortalOpen,

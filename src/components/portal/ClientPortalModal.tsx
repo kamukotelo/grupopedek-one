@@ -17,7 +17,10 @@ import {
   Sliders,
   DollarSign,
   MapPin,
-  Sparkles
+  Sparkles,
+  ShieldAlert,
+  BarChart3,
+  Server
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types/auth';
@@ -27,6 +30,7 @@ import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 export const ClientPortalModal: React.FC = () => {
   const {
     currentUser,
+    isDemoMode,
     loginAs,
     logout,
     isPortalOpen,
@@ -40,7 +44,7 @@ export const ClientPortalModal: React.FC = () => {
     payInvoice
   } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'fleet' | 'invoices' | 'odoo' | 'request'>('fleet');
+  const [activeTab, setActiveTab] = useState<'fleet' | 'invoices' | 'odoo' | 'admin' | 'request'>('fleet');
   const [isSyncing, setIsSyncing] = useState(false);
 
   if (!isPortalOpen) return null;
@@ -51,50 +55,55 @@ export const ClientPortalModal: React.FC = () => {
     setIsSyncing(false);
   };
 
-  const demoRoles: Array<{ role: UserRole; label: string; icon: string }> = [
-    { role: 'cliente_vip', label: 'Cliente VIP (Embaixada)', icon: '👑' },
-    { role: 'cliente_normal', label: 'Cliente PME / Normal', icon: '👤' },
-    { role: 'vendedor', label: 'Vendedor CRM', icon: '💼' },
-    { role: 'diretor_frotas', label: 'Director de Frotas', icon: '🚚' },
-    { role: 'contabilista', label: 'Contabilista AGT', icon: '📊' },
-    { role: 'direcao', label: 'Direcção Executiva', icon: '🏛️' }
+  // Role categorization: Client vs Staff/Admin
+  const isAdminOrStaff = currentUser?.role === 'direcao' || currentUser?.role === 'diretor_frotas' || currentUser?.role === 'contabilista' || currentUser?.role === 'vendedor';
+  const isVipOrClient = currentUser?.role === 'cliente_vip' || currentUser?.role === 'cliente_normal';
+
+  const demoRoles: Array<{ role: UserRole; label: string; icon: string; category: 'Cliente' | 'Administrativo' }> = [
+    { role: 'cliente_vip', label: 'Cliente VIP Diplomático', icon: '👑', category: 'Cliente' },
+    { role: 'cliente_normal', label: 'Cliente PME / Normal', icon: '👤', category: 'Cliente' },
+    { role: 'vendedor', label: 'Vendedor CRM', icon: '💼', category: 'Administrativo' },
+    { role: 'diretor_frotas', label: 'Director de Frotas', icon: '🚚', category: 'Administrativo' },
+    { role: 'contabilista', label: 'Contabilista AGT', icon: '📊', category: 'Administrativo' },
+    { role: 'direcao', label: 'Direcção Executiva', icon: '🏛️', category: 'Administrativo' }
   ];
 
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn select-none overflow-y-auto">
         <div className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden z-10 my-auto border border-gray-200 animate-scaleUp flex flex-col max-h-[92vh]">
-          {/* Top Demo Persona Switcher Bar */}
-          <div className="bg-[#030D1F] text-white px-4 py-2.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-[11px] text-gray-400 font-bold">
-              <Sliders className="w-3.5 h-3.5 text-[#0B45D8]" />
-              <span>Trocar Persona Demo (1-Clique):</span>
+          {/* Barra de Troca de Personas Demo — APENAS em ambiente de desenvolvimento */}
+          {isDemoMode && (
+            <div className="bg-[#030D1F] text-white px-4 py-2.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-[11px] text-amber-400 font-bold">
+                <Sliders className="w-3.5 h-3.5" />
+                <span>🛠 Modo Demo (Desenvolvimento) — Trocar Perfil:</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {demoRoles.map((d) => (
+                  <button
+                    key={d.role}
+                    type="button"
+                    onClick={() => { loginAs(d.role); setActiveTab('fleet'); }}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-extrabold transition-all cursor-pointer flex items-center gap-1 ${
+                      currentUser?.role === d.role
+                        ? 'bg-[#0B45D8] text-white shadow-xs'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    }`}
+                  >
+                    <span>{d.icon}</span>
+                    <span>{d.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-
-            <div className="flex flex-wrap items-center gap-1.5">
-              {demoRoles.map((d) => (
-                <button
-                  key={d.role}
-                  type="button"
-                  onClick={() => loginAs(d.role)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-extrabold transition-all cursor-pointer flex items-center gap-1 ${
-                    currentUser?.role === d.role
-                      ? 'bg-[#0B45D8] text-white shadow-xs'
-                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                  }`}
-                >
-                  <span>{d.icon}</span>
-                  <span>{d.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
 
           {/* Main Header */}
           <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-5 sm:p-7 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-xl font-extrabold text-[#0B45D8] shadow-inner">
-                {currentUser?.role === 'cliente_vip' ? '👑' : currentUser?.role === 'direcao' ? '🏛️' : '👤'}
+                {currentUser?.role === 'cliente_vip' ? '👑' : currentUser?.role === 'direcao' ? '🏛️' : isAdminOrStaff ? '💼' : '👤'}
               </div>
 
               <div>
@@ -102,7 +111,9 @@ export const ClientPortalModal: React.FC = () => {
                   <h3 className="text-xl sm:text-2xl font-bold text-white font-inter">
                     {currentUser?.name || 'Portal de Mobilidade PEPEK'}
                   </h3>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#0B45D8] text-white">
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                    isAdminOrStaff ? 'bg-amber-600 text-white' : 'bg-[#0B45D8] text-white'
+                  }`}>
                     {currentUser?.tier || 'Acreditado'}
                   </span>
                 </div>
@@ -113,11 +124,13 @@ export const ClientPortalModal: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Odoo Status Pill */}
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 text-xs text-emerald-400 font-bold">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Odoo ERP v17 Conectado</span>
-              </div>
+              {/* Internal ERP Status: Only visible if Admin / Staff */}
+              {isAdminOrStaff && (
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/30 text-xs text-amber-300 font-bold">
+                  <Server className="w-3.5 h-3.5" />
+                  <span>Painel Administrativo Interno</span>
+                </div>
+              )}
 
               <button
                 onClick={() => setIsPortalOpen(false)}
@@ -129,7 +142,7 @@ export const ClientPortalModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Navigation Tabs */}
+          {/* Role-Sensitive Navigation Tabs */}
           <div className="bg-gray-100 px-5 border-b border-gray-200 flex items-center justify-between overflow-x-auto no-scrollbar">
             <div className="flex items-center gap-2 pt-2">
               <button
@@ -142,7 +155,7 @@ export const ClientPortalModal: React.FC = () => {
                 }`}
               >
                 <Car className="w-4 h-4" />
-                <span>Minhas Viaturas & Telemetria</span>
+                <span>{isAdminOrStaff ? 'Gestão da Frota Global' : 'Minhas Viaturas Alocadas'}</span>
               </button>
 
               <button
@@ -155,37 +168,43 @@ export const ClientPortalModal: React.FC = () => {
                 }`}
               >
                 <FileText className="w-4 h-4" />
-                <span>Faturas AGT & Pagamentos</span>
+                <span>{isAdminOrStaff ? 'Faturamento & Finanças AGT' : 'Minhas Faturas & Recibos'}</span>
                 {invoices.some(i => i.status === 'pending') && (
                   <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                 )}
               </button>
 
-              <button
-                type="button"
-                onClick={() => setActiveTab('odoo')}
-                className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
-                  activeTab === 'odoo'
-                    ? 'border-[#0B45D8] text-[#0B45D8]'
-                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <RefreshCw className="w-4 h-4" />
-                <span>Integração Odoo ERP</span>
-              </button>
+              {/* Odoo ERP & Admin Controls: ONLY for Admins / Staff */}
+              {isAdminOrStaff && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('odoo')}
+                  className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+                    activeTab === 'odoo'
+                      ? 'border-[#0B45D8] text-[#0B45D8]'
+                      : 'border-transparent text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <RefreshCw className="w-4 h-4 text-amber-600" />
+                  <span>ERP Odoo v17 (Admin)</span>
+                </button>
+              )}
 
-              <button
-                type="button"
-                onClick={() => setActiveTab('request')}
-                className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
-                  activeTab === 'request'
-                    ? 'border-[#0B45D8] text-[#0B45D8]'
-                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <Sparkles className="w-4 h-4 text-[#0B45D8]" />
-                <span>Nova Requisição 1-Clique</span>
-              </button>
+              {/* Client Quick Request: For Clients */}
+              {isVipOrClient && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('request')}
+                  className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+                    activeTab === 'request'
+                      ? 'border-[#0B45D8] text-[#0B45D8]'
+                      : 'border-transparent text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4 text-[#0B45D8]" />
+                  <span>Requisição Prioritária</span>
+                </button>
+              )}
             </div>
 
             <button
@@ -194,22 +213,26 @@ export const ClientPortalModal: React.FC = () => {
               className="text-xs font-bold text-red-600 hover:text-red-800 flex items-center gap-1 cursor-pointer py-2"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>Sair</span>
+              <span>Sair da Sessão</span>
             </button>
           </div>
 
           {/* Modal Tab Content */}
           <div className="p-5 sm:p-7 overflow-y-auto flex-1 bg-gray-50 text-xs">
-            {/* Tab 1: Fleet & Telemetry */}
+            {/* Tab 1: Fleet View */}
             {activeTab === 'fleet' && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-base font-extrabold text-[#06142F]">
-                      Viaturas Alocadas & Monitorização em Tempo Real
+                      {isAdminOrStaff
+                        ? 'Controlo Operacional de Toda a Frota PEPEK'
+                        : `Viaturas Activas em Nome de ${currentUser?.company || currentUser?.name}`}
                     </h4>
                     <p className="text-gray-500 text-xs">
-                      Acompanhamento telemétrico GPS, consumo e motoristas credenciados.
+                      {isAdminOrStaff
+                        ? 'Telemetria GPS, motoristas e estado de manutenção nas 18 províncias.'
+                        : 'Viaturas de protocolo e rent-a-car alocadas ao seu contrato.'}
                     </p>
                   </div>
 
@@ -219,7 +242,7 @@ export const ClientPortalModal: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {fleetTelemetry.map((flt) => (
+                  {(isVipOrClient ? fleetTelemetry.slice(0, 2) : fleetTelemetry).map((flt) => (
                     <div
                       key={flt.id}
                       className="p-4 rounded-2xl bg-white border border-gray-200 shadow-xs space-y-3 hover:border-[#0B45D8]/50 transition-colors"
@@ -279,7 +302,7 @@ export const ClientPortalModal: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-base font-extrabold text-[#06142F]">
-                      Extrato de Faturas AGT & Pagamentos Eletrónicos
+                      Extrato de Faturas Certificadas AGT
                     </h4>
                     <p className="text-gray-500 text-xs">
                       Liquidável via Multicaixa Express, Stripe Internacional, BAI Direto ou MB WAY.
@@ -340,8 +363,8 @@ export const ClientPortalModal: React.FC = () => {
               </div>
             )}
 
-            {/* Tab 3: Odoo ERP Integration */}
-            {activeTab === 'odoo' && (
+            {/* Tab 3: Odoo ERP Integration (Admin / Staff Exclusive) */}
+            {activeTab === 'odoo' && isAdminOrStaff && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div>
@@ -367,48 +390,60 @@ export const ClientPortalModal: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
                     <span className="text-gray-400 text-[11px] block">Viaturas no Odoo Fleet:</span>
-                    <strong className="text-xl font-bold text-[#06142F]">{odooSync.totalVehiclesSynced} Veículos</strong>
-                    <span className="text-[10px] text-emerald-600 block">100% Sincronizado</span>
+                    <strong className="text-xl font-bold text-[#06142F]">
+                      {odooSync.totalVehiclesSynced > 0 ? `${odooSync.totalVehiclesSynced} Veículos` : 'A carregar...'}
+                    </strong>
+                    <span className="text-[10px] text-emerald-600 block">Módulo fleet.vehicle</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
                     <span className="text-gray-400 text-[11px] block">Faturas em Aberto:</span>
-                    <strong className="text-xl font-bold text-[#06142F]">{odooSync.openInvoicesCount} Documentos</strong>
+                    <strong className="text-xl font-bold text-[#06142F]">
+                      {odooSync.openInvoicesCount > 0 ? `${odooSync.openInvoicesCount} Documentos` : 'Sincronizado'}
+                    </strong>
                     <span className="text-[10px] text-blue-600 block">Módulo account.move</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
                     <span className="text-gray-400 text-[11px] block">Cotações Pendentes:</span>
-                    <strong className="text-xl font-bold text-[#06142F]">{odooSync.pendingQuotesCount} Cotações</strong>
+                    <strong className="text-xl font-bold text-[#06142F]">
+                      {odooSync.pendingQuotesCount > 0 ? `${odooSync.pendingQuotesCount} Cotações` : 'Sem pendentes'}
+                    </strong>
                     <span className="text-[10px] text-amber-600 block">Módulo sale.order</span>
                   </div>
                 </div>
 
-                <div className="p-4 bg-white rounded-2xl border border-gray-200 text-[11px] space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-500">Última Sincronização:</span>
-                    <strong className="text-gray-900">{odooSync.lastSync}</strong>
+                {/* Detalhes técnicos: apenas em modo demo para a equipa */}
+                {isDemoMode && (
+                  <div className="p-4 bg-white rounded-2xl border border-gray-200 text-[11px] space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-500">Última Sincronização:</span>
+                      <strong className="text-gray-900">{odooSync.lastSync}</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-500">Instância (Demo):</span>
+                      <strong className="text-gray-900 font-mono">{odooSync.odooDb}</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-500">Protocolo API:</span>
+                      <strong className="text-[#0B45D8] font-mono">XML-RPC / REST JSON v2</strong>
+                    </div>
+                    <div className="px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-[10px]">
+                      ⚠ Estes dados técnicos só são visíveis em modo de desenvolvimento (staging).
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-500">Base de Dados:</span>
-                    <strong className="text-gray-900 font-mono">{odooSync.odooDb}</strong>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-500">Protocolo API:</span>
-                    <strong className="text-[#0B45D8] font-mono">XML-RPC / REST JSON v2</strong>
-                  </div>
-                </div>
+                )}
               </div>
             )}
 
-            {/* Tab 4: Quick 1-Click Request */}
-            {activeTab === 'request' && (
+            {/* Tab 4: Quick Request (Client Only) */}
+            {activeTab === 'request' && isVipOrClient && (
               <div className="p-6 bg-white rounded-2xl border border-gray-200 space-y-4 max-w-lg mx-auto">
                 <h4 className="text-base font-bold text-[#06142F] text-center">
-                  Solicitação Rápida para a Direcção
+                  Solicitação Prioritária à Direcção
                 </h4>
                 <p className="text-xs text-gray-500 text-center leading-relaxed">
-                  Como cliente acreditado ({currentUser?.name}), o seu pedido tem prioridade imediata na central de despacho.
+                  Como cliente acreditado ({currentUser?.name}), o seu pedido tem prioridade máxima na central de despacho em Talatona.
                 </p>
 
                 <div className="space-y-2 pt-2">

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Phone, MessageSquare, Menu, X, MapPin, Mail, User, Calendar, Shield, Sparkles } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Phone, Menu, X, MapPin, Mail, User, Calendar, Sparkles } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { useAuth } from '../../context/AuthContext';
@@ -8,25 +9,36 @@ import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
-  const { currentUser, setIsPortalOpen } = useAuth();
+  const { currentUser } = useAuth();
+  const { setIsPortalOpen } = useAuth();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close drawer on route change
+  useEffect(() => { setMobileMenuOpen(false); }, [location]);
+
+  // Escape key closes drawer
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileMenuOpen(false); };
+    if (mobileMenuOpen) document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [mobileMenuOpen]);
+
   const navLinks = [
-    { href: '#inicio', label: 'Home' },
-    { href: '#sobre', label: 'Quem Somos' },
-    { href: '#servicos', label: 'Serviços' },
-    { href: '#frota', label: 'Frota' },
-    { href: '#clientes', label: 'Clientes' },
-    { href: '#contactos', label: 'Contactos' },
+    { to: '/', label: 'Home' },
+    { to: '/quem-somos', label: 'Quem Somos' },
+    { to: '/servicos', label: 'Serviços' },
+    { to: '/frota', label: 'Frota' },
+    { to: '/clientes', label: 'Clientes' },
+    { to: '/contactos', label: 'Contactos' },
   ];
 
   const scrollToBooking = () => {
@@ -90,20 +102,24 @@ export const Header: React.FC = () => {
       >
         <div className="container-pepek flex items-center justify-between">
           {/* Official Logo */}
-          <a href="#inicio" className="flex items-center gap-2 group transition-transform duration-200 hover:scale-[1.03]">
+          <Link to="/" className="flex items-center gap-2 group transition-transform duration-200 hover:scale-[1.03]" aria-label="PEPEK GRUPO — Página Inicial">
             <Logo height={52} variant="light" />
-          </a>
+          </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-9">
+          {/* Desktop Navigation Links — real routes, individually indexed by Google */}
+          <nav className="hidden lg:flex items-center gap-9" aria-label="Navegação principal">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm font-semibold text-gray-200 hover:text-white transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0B45D8] hover:after:w-full after:transition-all after:duration-200"
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`text-sm font-semibold transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#0B45D8] after:transition-all after:duration-200 ${
+                  location.pathname === link.to
+                    ? 'text-white after:w-full'
+                    : 'text-gray-200 hover:text-white after:w-0 hover:after:w-full'
+                }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -111,14 +127,15 @@ export const Header: React.FC = () => {
           <div className="hidden lg:flex items-center gap-3.5">
             <LanguageSwitcher variant="light" />
 
-            {/* Portal & Demo Switcher Button */}
+            {/* Área do Cliente — abre painel se autenticado, senão mostra botão neutro */}
             <button
               type="button"
               onClick={() => setIsPortalOpen(true)}
               className="py-2.5 px-4 rounded-xl bg-white/10 hover:bg-[#0B45D8] text-white font-bold text-xs border border-white/15 transition-all flex items-center gap-2 cursor-pointer shadow-xs"
+              aria-label={currentUser ? 'Abrir painel de gestão' : 'Área do cliente'}
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#0B45D8] group-hover:text-white" />
-              <span>{currentUser ? 'Painel de Gestão' : 'Área do Cliente & Demo'}</span>
+              <User className="w-3.5 h-3.5 text-[#0B45D8] group-hover:text-white" />
+              <span>{currentUser ? `Olá, ${currentUser.name.split(' ')[0]}` : 'Área do Cliente'}</span>
             </button>
 
             {/* Discreet Booking Button */}
@@ -138,7 +155,7 @@ export const Header: React.FC = () => {
               type="button"
               onClick={() => setIsPortalOpen(true)}
               className="p-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-1 border border-white/15 cursor-pointer"
-              title="Área do Cliente"
+              aria-label="Área do cliente"
             >
               <User className="w-4 h-4 text-[#0B45D8]" />
             </button>
@@ -146,7 +163,9 @@ export const Header: React.FC = () => {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2.5 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors focus:outline-none cursor-pointer"
-              aria-label="Abrir menu"
+              aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu de navegação'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav-drawer"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -154,20 +173,30 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer — full-height, scroll-independent, focus-managed */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[72px] bg-[#06142F]/98 backdrop-blur-2xl z-40 p-6 flex flex-col justify-between border-t border-white/10 overflow-y-auto">
-          <nav className="flex flex-col gap-4 pt-4">
+        <div
+          id="mobile-nav-drawer"
+          ref={drawerRef}
+          className="lg:hidden fixed inset-0 top-[72px] bg-[#06142F]/98 backdrop-blur-2xl z-40 p-6 flex flex-col justify-between border-t border-white/10 overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu de navegação"
+          onClick={(e) => { if (e.target === e.currentTarget) setMobileMenuOpen(false); }}
+        >
+          <nav className="flex flex-col gap-4 pt-4" aria-label="Navegação mobile">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
+              <Link
+                key={link.to}
+                to={link.to}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-lg font-bold text-gray-100 hover:text-[#0B45D8] py-3 border-b border-white/5 flex items-center justify-between"
+                className={`text-lg font-bold py-3 border-b border-white/5 flex items-center justify-between ${
+                  location.pathname === link.to ? 'text-[#0B45D8]' : 'text-gray-100 hover:text-[#0B45D8]'
+                }`}
               >
                 <span>{link.label}</span>
                 <span className="text-xs text-gray-500">➔</span>
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -178,7 +207,7 @@ export const Header: React.FC = () => {
               className="w-full py-3 rounded-xl bg-white/10 text-white font-bold text-sm border border-white/15 flex items-center justify-center gap-2"
             >
               <User className="w-4 h-4 text-[#0B45D8]" />
-              <span>Aceder ao Painel / Trocar Persona Demo</span>
+              <span>{currentUser ? `Painel — ${currentUser.name.split(' ')[0]}` : 'Área do Cliente'}</span>
             </button>
 
             <button

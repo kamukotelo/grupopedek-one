@@ -7,7 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 
 export const ChatBot: React.FC = () => {
   const { t } = useTranslation();
-  const { currentUser, setIsPortalOpen } = useAuth();
+  const { currentUser, isDemoMode, setIsPortalOpen } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -21,31 +21,38 @@ export const ChatBot: React.FC = () => {
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Proactively detect user login and send custom tailored greeting
+  // Saudação contextual: personalizada apenas para utilizadores autenticados.
+  // SEGURANÇA: visitantes anónimos recebem saudação genérica sem dados pessoais.
   useEffect(() => {
-    if (currentUser) {
-      const greeting = `Exmo(a). ${currentUser.name}, bem-vindo à sua área de gestão da PEPEK GRUPO. Detectámos a sua credencial (${currentUser.roleLabel} · ${currentUser.company || 'Talatona'}). As suas viaturas e faturas Odoo encontram-se em prontidão. Em que posso apoiar a sua operação hoje?`;
-      setMessages([
-        {
-          role: 'assistant',
-          content: greeting
-        }
-      ]);
+    if (currentUser && isDemoMode) {
+      // Modo demo (DEV): saudação personalizada com nome e cargo
+      const greeting = `Bem-vindo(a), ${currentUser.name}! Detectámos a sua sessão como ${currentUser.roleLabel}${currentUser.company ? ` · ${currentUser.company}` : ''}. As suas viaturas e faturas encontram-se em prontidão. Em que posso apoiar a sua operação hoje?`;
+      setMessages([{ role: 'assistant', content: greeting }]);
       setQuickReplies([
         'Ver Frotas em Circulação',
-        'Faturas AGT Pendentes',
+        'Faturas Pendentes',
         'Pedir Viatura Adicional',
-        'Sincronização Odoo ERP'
+        'Abrir Painel de Gestão'
+      ]);
+    } else if (currentUser && !isDemoMode) {
+      // Produção com utilizador autenticado real: saudação com primeiro nome
+      const firstName = currentUser.name.split(' ')[0];
+      setMessages([{ role: 'assistant', content: `Bem-vindo(a), ${firstName}! Estou aqui para apoiar a sua mobilidade. Como posso ajudar?` }]);
+      setQuickReplies([
+        'Consultar as minhas reservas',
+        'Pedir nova viatura',
+        'Falar com operações'
       ]);
     } else {
+      // Visitante anónimo: saudação genérica, sem nomes nem referências a entidades
       setMessages([
         {
           role: 'assistant',
-          content: 'Exmo(a). Senhor(a), bem-vindo à PEPEK GRUPO RENT-A-CAR. Sou o responsável de atendimento da Central de Operações. Em que posso apoiar a sua mobilidade ou a da sua instituição hoje?'
+          content: 'Bem-vindo(a) à PEPEK GRUPO RENT-A-CAR. Sou o assistente de atendimento da Central de Operações em Talatona, Luanda. Em que posso apoiar a sua mobilidade hoje?'
         }
       ]);
     }
-  }, [currentUser]);
+  }, [currentUser, isDemoMode]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -97,8 +104,8 @@ export const ChatBot: React.FC = () => {
 
   return (
     <>
-      {/* Floating Trigger Button */}
-      <div className="fixed bottom-20 lg:bottom-7 right-5 sm:right-7 z-40">
+      {/* Floating Trigger Button — posicionado acima da barra inferior mobile com safe-area */}
+      <div className="fixed right-5 sm:right-7 z-[45]" style={{ bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px) + 12px)' }}>
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
@@ -116,9 +123,15 @@ export const ChatBot: React.FC = () => {
         )}
       </div>
 
-      {/* Floating Interactive Chat Modal */}
+      {/* Floating Interactive Chat Modal — com safe-area para iOS */}
       {isOpen && (
-        <div className="fixed bottom-20 lg:bottom-7 right-5 sm:right-7 z-50 w-[92vw] sm:w-[420px] h-[560px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden animate-scaleUp">
+        <div
+          className="fixed right-5 sm:right-7 z-50 w-[92vw] sm:w-[420px] bg-white rounded-3xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden animate-scaleUp"
+          style={{
+            bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px) + 12px)',
+            maxHeight: 'calc(100dvh - 6rem - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 0px))'
+          }}
+        >
           {/* Top Header */}
           <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-4 text-white flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -202,10 +215,12 @@ export const ChatBot: React.FC = () => {
             >
               <input
                 type="text"
+                inputMode="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Escreva ao despachante..."
-                className="flex-1 py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-800 focus:outline-none focus:border-[#0B45D8]"
+                style={{ fontSize: '16px' }} /* evitar zoom automático Safari iOS */
+                className="flex-1 py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:border-[#0B45D8]"
               />
               <button
                 type="submit"
