@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShieldCheck, ChevronRight, Award, Building2, Clock, Car, Sparkles } from 'lucide-react';
-import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
+import { useNavigate } from 'react-router-dom';
+import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const luxuryVehicles = [
+    { name: 'Range Rover Blindado 2025', image: '/rent_car_transparent/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp', price: '1.999.999 Kz' },
+    { name: 'Mercedes Classe S 2025', image: '/rent_car_transparent/MERCEDES-300x300.webp', price: '1.449.999 Kz' },
+    { name: 'Lexus 600', image: '/rent_car_transparent/LEXUS-600-300x300.webp', price: '800.000 Kz' },
+    { name: 'Toyota LC300 2023', image: '/rent_car_transparent/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp', price: '599.999 Kz' },
+  ];
 
   // 20 Authentic Client Logos grouped in 5 by 5 (4 slides)
   const clientLogos = [
@@ -41,6 +49,10 @@ export const Hero: React.FC = () => {
   }
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentLuxury, setCurrentLuxury] = useState(0);
+  const [pickup, setPickup] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   // Rotate every 5 seconds with sleek futuristic sliding
   useEffect(() => {
@@ -49,6 +61,25 @@ export const Hero: React.FC = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, [slides.length]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [luxuryVehicles.length]);
+
+  const handleQuickAvailability = (event: React.FormEvent) => {
+    event.preventDefault();
+    const vehicle = luxuryVehicles[currentLuxury];
+    const params = new URLSearchParams({
+      pickup,
+      startDate,
+      endDate,
+      viatura: vehicle.name,
+    });
+    navigate(`/reservar?${params.toString()}`);
+  };
 
   const scrollToBooking = () => {
     const el = document.getElementById('reserva');
@@ -81,6 +112,8 @@ export const Hero: React.FC = () => {
           <span>{t('hero.tag')} · Luanda, Angola</span>
         </div>
 
+        <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_420px] xl:gap-10">
+          <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight font-inter">
@@ -110,7 +143,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Action Buttons with Futuristic Hover Glow */}
-        <div className="flex flex-wrap items-center gap-4 mb-12">
+        <div className="flex flex-wrap items-center gap-4 mb-10">
           <button
             type="button"
             onClick={scrollToBooking}
@@ -134,6 +167,56 @@ export const Hero: React.FC = () => {
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
             <span>{t('hero.trustFastSub')}</span>
           </div>
+        </div>
+          </div>
+
+          <aside className="overflow-hidden rounded-[26px] border border-white/15 bg-white text-[#07133F] shadow-[0_28px_70px_rgba(0,0,0,.36)]">
+            <div className="relative min-h-[238px] overflow-hidden bg-[#EEF2F7] px-6 pt-5">
+              <div className="relative z-20 flex items-start justify-between gap-4">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B68D13]">{t('fleet.tag')}</span>
+                  <h2 className="mt-1 max-w-[280px] text-xl font-black text-[#07133F]">{luxuryVehicles[currentLuxury].name}</h2>
+                  <p className="mt-1 text-sm font-black text-[#0B45D8]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-slate-500">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
+                </div>
+                <div className="flex gap-1">
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
+                </div>
+              </div>
+              {luxuryVehicles.map((vehicle, index) => (
+                <img
+                  key={vehicle.name}
+                  src={vehicle.image}
+                  alt={vehicle.name}
+                  className={`absolute bottom-[-46px] left-1/2 h-[235px] w-[110%] -translate-x-1/2 scale-125 object-contain drop-shadow-[0_24px_24px_rgba(7,19,63,.3)] transition-all duration-700 ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                />
+              ))}
+              <div className="absolute bottom-3 left-5 z-20 flex gap-1.5">
+                {luxuryVehicles.map((vehicle, index) => <button key={vehicle.name} type="button" onClick={() => setCurrentLuxury(index)} aria-label={vehicle.name} className={`h-1.5 rounded-full transition-all ${currentLuxury === index ? 'w-7 bg-[#D2A820]' : 'w-2 bg-slate-400'}`} />)}
+              </div>
+            </div>
+
+            <form onSubmit={handleQuickAvailability} className="p-5 sm:p-6">
+              <div className="mb-4 flex items-center gap-2.5">
+                <CalendarDays className="h-5 w-5 text-[#B68D13]" />
+                <h3 className="text-lg font-black text-[#07133F]">{t('hero.quickTitle')}</h3>
+              </div>
+              <label className="block text-xs font-extrabold text-slate-700">
+                <span className="mb-1.5 block">{t('hero.quickPickup')}</span>
+                <span className="relative block">
+                  <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <input required value={pickup} onChange={(event) => setPickup(event.target.value)} placeholder={t('hero.quickPickupPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#D2A820]" />
+                </span>
+              </label>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><input required type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 text-xs outline-none focus:border-[#D2A820]" /></label>
+                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><input required min={startDate} type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 text-xs outline-none focus:border-[#D2A820]" /></label>
+              </div>
+              <button type="submit" className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#D2A820] px-4 text-xs font-black uppercase tracking-[0.08em] text-[#020A2A] transition hover:bg-[#E2C06E]">
+                {t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
+              </button>
+            </form>
+          </aside>
         </div>
 
         {/* ═══════════════════════════════════════════════════════
