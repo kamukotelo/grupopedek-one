@@ -8,6 +8,10 @@
     "about": "À Propos",
     "contact": "Contact",
     "bookNow": "Réserver",
+    "corporate": "Entreprises & Protocole",
+    "routes": "Itinéraires",
+    "clientArea": "Espace Client",
+    "support247": "Assistance 24/7",
     "call247": "+244 923 719 090"
   },
   "hero": {
@@ -24,6 +28,22 @@
     "statAssistanceSub": "Assistance routière",
     "statCoverage": "18 Provinces",
     "statCoverageSub": "Couverture nationale"
+    ,"quickTitle": "Vérifier la disponibilité",
+    "quickHeadline": "Choisissez votre véhicule. Confirmez en quelques minutes.",
+    "quickPickup": "Lieu de prise en charge",
+    "quickReturn": "Lieu de restitution",
+    "quickPickupPlaceholder": "Sélectionnez le lieu",
+    "quickReturnPlaceholder": "Sélectionnez la destination",
+    "quickPickupDate": "Date de prise en charge",
+    "quickReturnDate": "Date de restitution",
+    "quickTime": "Heure",
+    "quickSubmit": "Vérifier la disponibilité",
+    "trustPremium": "Véhicules premium",
+    "trustPremiumSub": "Confort et sécurité",
+    "trustFast": "Processus rapide",
+    "trustFastSub": "Réponse en quelques minutes",
+    "trustService": "Service d’excellence",
+    "trustServiceSub": "Le souci de chaque détail"
   },
   "booking": {
     "title": "Réservation & Devis Intelligent",

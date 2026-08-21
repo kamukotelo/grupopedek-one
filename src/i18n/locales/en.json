@@ -8,6 +8,10 @@
     "about": "About Us",
     "contact": "Contact",
     "bookNow": "Book Now",
+    "corporate": "Business & Protocol",
+    "routes": "Routes",
+    "clientArea": "Client Area",
+    "support247": "24/7 Support",
     "call247": "+244 923 719 090"
   },
   "hero": {
@@ -24,6 +28,22 @@
     "statAssistanceSub": "Roadside assistance",
     "statCoverage": "18 Provinces",
     "statCoverageSub": "Nationwide coverage"
+    ,"quickTitle": "Check availability",
+    "quickHeadline": "Choose your vehicle. Confirm in minutes.",
+    "quickPickup": "Pick-up location",
+    "quickReturn": "Return location",
+    "quickPickupPlaceholder": "Select location",
+    "quickReturnPlaceholder": "Select destination",
+    "quickPickupDate": "Pick-up date",
+    "quickReturnDate": "Return date",
+    "quickTime": "Time",
+    "quickSubmit": "Check availability",
+    "trustPremium": "Premium vehicles",
+    "trustPremiumSub": "Comfort and safety",
+    "trustFast": "Fast process",
+    "trustFastSub": "Response in minutes",
+    "trustService": "Excellent service",
+    "trustServiceSub": "Attention to every detail"
   },
   "booking": {
     "title": "Smart Booking & Fast Quote",

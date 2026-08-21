@@ -11,6 +11,7 @@ import { FAQ } from '../components/sections/FAQ';
 import { Contact } from '../components/sections/Contact';
 import { CoverageMap } from '../components/sections/CoverageMap';
 import { BookingWidget } from '../components/sections/BookingWidget';
+import { RouteEstimator } from '../components/sections/RouteEstimator';
 
 const SCHEMA_ORG = {
   "@context": "https://schema.org",
@@ -49,6 +50,7 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ o
     <Fleet onSelectVehicle={onSelectVehicle} />
     <CorporatePortal />
     <CoverageMap />
+    <RouteEstimator />
     <Process />
     <About />
     <PaymentSecurity />

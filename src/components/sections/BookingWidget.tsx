@@ -82,9 +82,9 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   // State Management
   const [selectedService, setSelectedService] = useState('rent-a-car');
   const [selectedVehicle, setSelectedVehicle] = useState<VehicleDetail>(vehicleCatalog[0] || FLEET_DATABASE[0]);
-  const [pickupLocation, setPickupLocation] = useState('Luanda — Sede Talatona / Aeroporto 4 de Fevereiro');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [pickupLocation, setPickupLocation] = useState(() => searchParams.get('pickup') || 'Luanda — Sede Talatona / Aeroporto 4 de Fevereiro');
+  const [startDate, setStartDate] = useState(() => searchParams.get('startDate') || '');
+  const [endDate, setEndDate] = useState(() => searchParams.get('endDate') || '');
   const [withDriver, setWithDriver] = useState(true);
 
   // Synchronize preselected vehicle from URL query param ?viatura=... or initialVehicle prop
@@ -109,7 +109,12 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [nifDocument, setNifDocument] = useState('');
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState(() => {
+    const destination = searchParams.get('destination');
+    const startTime = searchParams.get('startTime');
+    const endTime = searchParams.get('endTime');
+    return destination ? `Destino: ${destination}${startTime ? ` | Levantamento: ${startTime}` : ''}${endTime ? ` | Devolução: ${endTime}` : ''}` : '';
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Processing & Official Directorate Dossier State

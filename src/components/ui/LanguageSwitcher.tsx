@@ -8,6 +8,7 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
   const languages = [
     { code: 'pt', label: 'PT', name: 'Português' },
     { code: 'en', label: 'EN', name: 'English' },
+    { code: 'fr', label: 'FR', name: 'Français' },
   ];
 
   const handleLanguageChange = (code: string) => {

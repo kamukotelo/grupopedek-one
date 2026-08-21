@@ -8,6 +8,10 @@
     "about": "Sobre Nós",
     "contact": "Contactos",
     "bookNow": "Solicitar Reserva",
+    "corporate": "Empresas & Protocolo",
+    "routes": "Rotas",
+    "clientArea": "Área Cliente",
+    "support247": "Apoio 24/7",
     "call247": "+244 923 719 090"
   },
   "hero": {
@@ -24,6 +28,22 @@
     "statAssistanceSub": "Assistência em viagem",
     "statCoverage": "18 Províncias",
     "statCoverageSub": "Cobertura nacional"
+    ,"quickTitle": "Consultar disponibilidade",
+    "quickHeadline": "Escolha a viatura. Confirme em minutos.",
+    "quickPickup": "Local de levantamento",
+    "quickReturn": "Local de devolução",
+    "quickPickupPlaceholder": "Seleccione o local",
+    "quickReturnPlaceholder": "Seleccione o destino",
+    "quickPickupDate": "Data de levantamento",
+    "quickReturnDate": "Data de devolução",
+    "quickTime": "Hora",
+    "quickSubmit": "Consultar disponibilidade",
+    "trustPremium": "Viaturas premium",
+    "trustPremiumSub": "Conforto e segurança",
+    "trustFast": "Processo rápido",
+    "trustFastSub": "Resposta em minutos",
+    "trustService": "Serviço de excelência",
+    "trustServiceSub": "Compromisso com o detalhe"
   },
   "booking": {
     "title": "Reserva & Proposta Inteligente",

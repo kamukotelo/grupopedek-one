@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Award,
@@ -18,6 +19,7 @@ import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { useAuth } from '../../context/AuthContext';
 
 export const Header: React.FC = () => {
+  const { t } = useTranslation();
   const { currentUser, setIsPortalOpen } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,46 +46,38 @@ export const Header: React.FC = () => {
 
   const topActions = [
     {
-      label: 'Reserva',
+      label: t('nav.bookNow'),
       icon: Ticket,
       action: () => navigate('/reservar'),
     },
     {
-      label: 'Frota VIP',
-      icon: Car,
-      action: () => navigate('/frota'),
-    },
-    {
-      label: currentUser ? currentUser.name.split(' ')[0] : 'Área Cliente',
+      label: currentUser ? currentUser.name.split(' ')[0] : t('nav.clientArea'),
       icon: User,
       action: () => setIsPortalOpen(true),
+    },
+    {
+      label: t('nav.support247'),
+      icon: Phone,
+      action: () => window.location.href = 'tel:+244923719090',
     },
   ];
 
   const navLinks = [
-    { to: '/', label: 'Início', icon: Building2 },
-    { to: '/quem-somos', label: 'Quem Somos', icon: Award },
-    { to: '/servicos', label: 'Serviços', icon: Briefcase },
-    { to: '/frota', label: 'Frota', icon: Car },
-    { to: '/clientes', label: 'Clientes', icon: Users },
-    { to: '/#rotas', label: 'Rotas', icon: Compass, action: scrollToRoutes },
-    { to: '/contactos', label: 'Fale connosco', icon: Phone },
+    { to: '/', label: t('nav.home'), icon: Building2 },
+    { to: '/frota', label: t('nav.fleet'), icon: Car },
+    { to: '/servicos', label: t('nav.services'), icon: Briefcase },
+    { to: '/clientes', label: t('nav.corporate'), icon: Users },
+    { to: '/#rotas', label: t('nav.routes'), icon: Compass, action: scrollToRoutes },
+    { to: '/quem-somos', label: t('nav.about'), icon: Award },
+    { to: '/contactos', label: t('nav.contact'), icon: Phone },
   ];
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-[0_7px_25px_rgba(2,10,42,0.14)]">
       <div className="border-b border-slate-200 bg-white">
         <div className="container-pepek flex h-[76px] items-center justify-between gap-4 lg:h-[92px]">
-          <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="PEPEK Grupo — início">
-            <img src="/logo.png" alt="PEPEK Grupo" className="h-12 w-auto shrink-0 object-contain lg:h-16" />
-            <div className="min-w-0 border-l-2 border-[#D2A820] pl-3 leading-none">
-              <strong className="block whitespace-nowrap text-sm font-black tracking-[-0.02em] text-[#07133F] sm:text-lg">
-                PEPEK GRUPO
-              </strong>
-              <span className="mt-1 block whitespace-nowrap text-[9px] font-extrabold tracking-[0.16em] text-[#B68D13] sm:text-[11px]">
-                RENT-A-CAR ANGOLA
-              </span>
-            </div>
+          <Link to="/" className="flex min-w-0 items-center" aria-label="PEPEK Grupo — início">
+            <img src="/logo.png" alt="PEPEK Grupo Rent-a-Car Angola" className="h-12 w-auto shrink-0 object-contain lg:h-[72px]" />
           </Link>
 
           <div className="hidden items-stretch lg:flex">
