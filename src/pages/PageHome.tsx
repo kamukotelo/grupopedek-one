@@ -11,7 +11,6 @@ import { FAQ } from '../components/sections/FAQ';
 import { Contact } from '../components/sections/Contact';
 import { CoverageMap } from '../components/sections/CoverageMap';
 import { BookingWidget } from '../components/sections/BookingWidget';
-import { RouteEstimator } from '../components/sections/RouteEstimator';
 
 const SCHEMA_ORG = {
   "@context": "https://schema.org",
@@ -36,9 +35,9 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ o
   <>
     <Helmet>
       <title>PEPEK GRUPO – Rent-a-Car Executivo & Mobilidade de Luxo em Angola</title>
-      <meta name="description" content="Aluguer de viaturas de luxo em Luanda com ou sem motorista protocolar. Frota oficial de 47 viaturas: Blindados, Mercedes Classe S, Land Cruiser LC300, Hilux 4x4 e Vans VIP. Talatona, Luanda." />
+      <meta name="description" content="Aluguer de viaturas de luxo em Luanda com ou sem motorista protocolar. Blindados, berlinas executivas, SUVs, viaturas 4x4 e Vans VIP. Talatona, Luanda." />
       <meta property="og:title" content="PEPEK GRUPO – Rent-a-Car Executivo & Blindados Angola" />
-      <meta property="og:description" content="Embaixadas, Multinacionais e Protocolo de Estado escolhem a PEPEK GRUPO. Frota oficial de 47 modelos em Talatona, Luanda." />
+      <meta property="og:description" content="Mobilidade executiva, protocolo e rent-a-car premium para empresas, instituições e particulares em Angola." />
       <meta property="og:url" content="https://pepekgrupo.com" />
       <meta property="og:type" content="website" />
       <link rel="canonical" href="https://pepekgrupo.com/" />
@@ -50,7 +49,6 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ o
     <Fleet onSelectVehicle={onSelectVehicle} />
     <CorporatePortal />
     <CoverageMap />
-    <RouteEstimator />
     <Process />
     <About />
     <PaymentSecurity />

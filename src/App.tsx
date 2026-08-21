@@ -17,6 +17,7 @@ const PageFrota = lazy(() => import('./pages/PageFrota').then(module => ({ defau
 const PageClientes = lazy(() => import('./pages/PageClientes').then(module => ({ default: module.PageClientes })));
 const PageReservar = lazy(() => import('./pages/PageReservar').then(module => ({ default: module.PageReservar })));
 const PageContactos = lazy(() => import('./pages/PageContactos').then(module => ({ default: module.PageContactos })));
+const PageRotas = lazy(() => import('./pages/PageRotas').then(module => ({ default: module.PageRotas })));
 const PagePainel = lazy(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
 const PageNotFound = lazy(() => import('./pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
 
@@ -49,6 +50,7 @@ export const App: React.FC = () => {
               <Route path="/clientes" element={<PageClientes />} />
               <Route path="/reservar" element={<PageReservar />} />
               <Route path="/contactos" element={<PageContactos />} />
+              <Route path="/rotas" element={<PageRotas />} />
 
               {/* Management panel — authenticated only, noindex, hidden from public nav */}
               <Route path="/painel" element={<PagePainel />} />

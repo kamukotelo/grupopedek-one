@@ -6,7 +6,7 @@ export const PageQuemSomos: React.FC = () => (
   <>
     <Helmet>
       <title>Quem Somos – PEPEK GRUPO RENT-A-CAR | Desde 2014 em Angola</title>
-      <meta name="description" content="A PEPEK GRUPO nasceu em Luanda em 2014. Somos a referência angolana em mobilidade executiva, com frota certificada, motoristas bilingues e cobertura nas 18 províncias." />
+      <meta name="description" content="A PEPEK GRUPO nasceu em Luanda em 2014. Mobilidade executiva com frota preparada, motoristas bilingues e capacidade operacional em Angola." />
       <link rel="canonical" href="https://pepekgrupo.com/quem-somos" />
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",

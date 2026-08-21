@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Phone, Mail, MapPin, MessageSquare, ArrowUp, ShieldCheck } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { OFFICIAL_WHATSAPP_NUMBER, generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { Link } from 'react-router-dom';
 
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -17,9 +18,9 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-14 mb-16">
           {/* Col 1: Brand & Slogan */}
           <div className="lg:col-span-2 space-y-5">
-            <a href="#inicio" className="inline-block mb-1">
+            <Link to="/" className="inline-block mb-1">
               <Logo height={48} variant="light" />
-            </a>
+            </Link>
             <p className="text-base font-bold text-[#8899BB] italic">
               "Movemos quem move Angola."
             </p>
@@ -92,11 +93,11 @@ export const Footer: React.FC = () => {
               Serviços VIP
             </h4>
             <ul className="space-y-2.5 text-xs text-gray-400">
-              <li><a href="#servicos" className="hover:text-white transition-colors">Rent a Car de Luxo</a></li>
-              <li><a href="#servicos" className="hover:text-white transition-colors">Apoio Executivo & Protocolo</a></li>
-              <li><a href="#servicos" className="hover:text-white transition-colors">Transfers Aeroporto 4 de Fevereiro</a></li>
-              <li><a href="#servicos" className="hover:text-white transition-colors">Mobilidade Corporativa</a></li>
-              <li><a href="#servicos" className="hover:text-white transition-colors">Eventos & Comitivas Oficiais</a></li>
+              <li><Link to="/servicos" className="hover:text-white transition-colors">Rent a Car de Luxo</Link></li>
+              <li><Link to="/servicos" className="hover:text-white transition-colors">Apoio Executivo & Protocolo</Link></li>
+              <li><Link to="/rotas" className="hover:text-white transition-colors">Transfers de Aeroporto</Link></li>
+              <li><Link to="/clientes" className="hover:text-white transition-colors">Mobilidade Corporativa</Link></li>
+              <li><Link to="/servicos" className="hover:text-white transition-colors">Eventos & Comitivas Oficiais</Link></li>
             </ul>
           </div>
 
@@ -106,11 +107,11 @@ export const Footer: React.FC = () => {
               Navegação
             </h4>
             <ul className="space-y-2.5 text-xs text-gray-400">
-              <li><a href="#inicio" className="hover:text-white transition-colors">Home</a></li>
-              <li><a href="#sobre" className="hover:text-white transition-colors">Quem Somos</a></li>
-              <li><a href="#frota" className="hover:text-white transition-colors">Frota de Luxo</a></li>
-              <li><a href="#clientes" className="hover:text-white transition-colors">Clientes Institucionais</a></li>
-              <li><a href="#contactos" className="hover:text-white transition-colors">Contactos Directos</a></li>
+              <li><Link to="/" className="hover:text-white transition-colors">Início</Link></li>
+              <li><Link to="/quem-somos" className="hover:text-white transition-colors">Quem Somos</Link></li>
+              <li><Link to="/frota" className="hover:text-white transition-colors">Frota de Luxo</Link></li>
+              <li><Link to="/clientes" className="hover:text-white transition-colors">Clientes Institucionais</Link></li>
+              <li><Link to="/contactos" className="hover:text-white transition-colors">Contactos Directos</Link></li>
             </ul>
           </div>
 

@@ -145,7 +145,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         if (found) setSelectedVehicle(found);
       }
     } catch {
-      setAiResponse('A nossa direcção técnica disponibiliza 47 modelos desde Económicos (44.999 Kz/dia) a Blindados de Luxo (1.999.999 Kz/dia). Contacte-nos para uma proposta personalizada.');
+      setAiResponse('A nossa direcção técnica disponibiliza soluções desde viaturas económicas a blindados de luxo. Contacte-nos para uma proposta personalizada.');
     } finally {
       setAiLoading(false);
     }
@@ -239,7 +239,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
           </h2>
 
           <p className="text-sm sm:text-base text-[#697080] leading-relaxed">
-            Selecione visualmente o serviço e a viatura pretendida da nossa frota oficial de 47 modelos. Crie a sua ficha oficial de requisição com login por email ou telefone para despacho direto à Direcção de Operações.
+            Selecione visualmente o serviço e a viatura pretendida da nossa frota executiva. Crie a sua ficha oficial de requisição com email ou telefone para despacho direto à Direcção de Operações.
           </p>
         </div>
 
@@ -287,7 +287,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
                     <label className="block text-xs font-extrabold uppercase tracking-wider text-[#07133F]">
-                      2. Escolha da Viatura da Frota Oficial (47 Modelos)
+                      2. Escolha da Viatura
                     </label>
                     <p className="text-xs text-[#697080]">Clique na viatura para fixar no seu plano de mobilidade</p>
                   </div>
@@ -339,7 +339,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       </button>
                     </div>
 
-                    {aiLoading && <p className="text-[#697080] italic">A consultar a frota oficial de 47 viaturas...</p>}
+                    {aiLoading && <p className="text-[#697080] italic">A consultar a frota disponível...</p>}
                     {aiResponse && (
                       <div className="p-3 bg-white rounded-xl border border-[#D9DEE7] text-[#07133F] leading-relaxed font-medium">
                         {aiResponse}

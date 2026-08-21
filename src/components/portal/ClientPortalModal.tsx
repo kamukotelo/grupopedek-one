@@ -236,7 +236,7 @@ export const ClientPortalModal: React.FC = () => {
                     </h4>
                     <p className="text-gray-500 text-xs">
                       {isAdminOrStaff
-                        ? 'Telemetria GPS, motoristas e estado de manutenção nas 18 províncias.'
+                        ? 'Telemetria GPS, motoristas e estado de manutenção da operação nacional.'
                         : 'Viaturas de protocolo e rent-a-car alocadas ao seu contrato.'}
                     </p>
                   </div>

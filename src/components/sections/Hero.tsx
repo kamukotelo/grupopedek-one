@@ -147,7 +147,7 @@ export const Hero: React.FC = () => {
 
           <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
             <Clock className="w-5 h-5 text-[#0B45D8] shrink-0" />
-            <span>{t('nav.support247')} · {t('hero.statCoverage')}</span>
+            <span>{t('nav.support247')} · {t('hero.statCoverageSub')}</span>
           </div>
         </div>
 

@@ -34,14 +34,14 @@
     "description": "Desde 2014, a PEPEK GRUPO é a parceira de confiança de embaixadas, entidades governamentais, corporações líderes e executivos para rent-a-car de luxo, protocolo e mobilidade estratégica em todo o país.",
     "ctaBooking": "Solicitar Reserva",
     "ctaFleet": "Conhecer a Frota",
-    "statYears": "10+ Anos",
-    "statYearsSub": "De liderança no mercado",
-    "statClients": "5.000+",
-    "statClientsSub": "Clientes atendidos",
+    "statYears": "Desde 2014",
+    "statYearsSub": "Experiência em mobilidade",
+    "statClients": "Atendimento dedicado",
+    "statClientsSub": "Particulares e instituições",
     "statAssistance": "24/7",
     "statAssistanceSub": "Assistência em viagem",
-    "statCoverage": "18 Províncias",
-    "statCoverageSub": "Cobertura nacional"
+    "statCoverage": "Cobertura Nacional",
+    "statCoverageSub": "Operação em Angola"
     ,"quickTitle": "Consultar disponibilidade",
     "quickHeadline": "Escolha a viatura. Confirme em minutos.",
     "quickPickup": "Local de levantamento",
@@ -90,6 +90,15 @@
     "title": "A Confiança de Organizações de Referência",
     "subtitle": "Atendemos com distinção corpos diplomáticos, ministérios de estado, multinacionais de energia, telecomunicações e finanças que exigem os mais elevados padrões de segurança e pontualidade."
   },
+  "servicesCarousel": {
+    "eyebrow": "Selecção por categoria",
+    "title": "Encontre a viatura certa para cada missão",
+    "description": "Explore a frota por perfil de utilização, mantendo a página leve e a escolha directa.",
+    "cta": "Explorar categoria",
+    "previous": "Categorias anteriores",
+    "next": "Categorias seguintes",
+    "categories": { "luxo": "Luxo & Executivo", "suvs": "SUV Executivo", "pickups": "Pick-up & Campo", "vans": "Vans & Delegações", "economicos": "Mobilidade Urbana", "eventos": "Eventos Especiais" }
+  },
   "services": {
     "tag": "Soluções de Mobilidade Integrada",
     "title": "Serviços Concebidos para Padrões Exigentes",
@@ -133,7 +142,7 @@
     "tag": "Uma Década de Excelência",
     "title": "A Nossa Trajectória Desde 2014",
     "p1": "Fundada em 2014 em Luanda, a PEPEK GRUPO RENT-A-CAR nasceu com o compromisso inegociável de elevar a fasquia do transporte e da mobilidade executiva em Angola.",
-    "p2": "Hoje, operamos a partir de centros estratégicos em Luanda, Huambo e Bengo, prestando serviços a mais de 5.000 clientes e gerindo comitivas de alta importância para governos, embaixadas e eventos internacionais de grande escala.",
+    "p2": "Hoje, operamos a partir de centros estratégicos em Luanda, Huambo e Bengo, prestando serviços a particulares, empresas e instituições, incluindo comitivas e eventos de elevada exigência operacional.",
     "val1Title": "Segurança Inegociável",
     "val1Desc": "Frotas monitorizadas em tempo real e pilotos instruídos em protocolos de segurança e condução preventiva.",
     "val2Title": "Pontualidade Absoluta",
@@ -151,7 +160,7 @@
     "c3": "Grandes Eventos, Festivais e Produções",
     "c4": "Frotas de Apoio à Indústria Petrolífera e Mineração",
     "c5": "Assistência Mecânica e Reboque 24/7",
-    "c6": "Cobertura em todas as 18 Províncias de Angola"
+    "c6": "Cobertura operacional em Angola"
   },
   "contact": {
     "tag": "Inicie a Sua Viagem",

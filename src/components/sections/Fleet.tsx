@@ -139,7 +139,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         <div className="max-w-3xl mb-8">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#07133F] text-[#D2A820] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
             <Car className="w-3.5 h-3.5" />
-            <span>Frota Oficial · 47 Viaturas Reais em Luanda</span>
+            <span>Frota Executiva · Disponibilidade sob consulta</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#07133F] tracking-tight mb-3">
             Conheça a Nossa Frota de Alto Padrão
@@ -327,7 +327,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
             </div>
             <div>
               <strong className="block text-[#07133F] text-[13px] font-bold">Escolha a Viatura</strong>
-              <p className="text-[#697080] text-[11px] mt-0.5">Explore fotos reais, lotação e especificações de cada uma das 47 viaturas.</p>
+              <p className="text-[#697080] text-[11px] mt-0.5">Explore fotografias, lotação e especificações das viaturas disponíveis.</p>
             </div>
           </div>
 
@@ -380,7 +380,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
               }}
               className="px-5 py-2.5 bg-[#07133F] text-white font-bold text-xs rounded-xl cursor-pointer"
             >
-              Ver Todas as 47 Viaturas
+              Ver Toda a Frota
             </button>
           </div>
         ) : (

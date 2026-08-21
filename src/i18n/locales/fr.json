@@ -34,14 +34,14 @@
     "description": "Depuis 2014, PEPEK GRUPO est le partenaire de confiance des ambassades, entités gouvernementales, grandes entreprises et dirigeants pour la location de voitures de luxe et le transport protocolaire.",
     "ctaBooking": "Demander une Réservation",
     "ctaFleet": "Découvrir la Flotte",
-    "statYears": "10+ Ans",
-    "statYearsSub": "D'excellence sur le marché",
-    "statClients": "5.000+",
+    "statYears": "Depuis 2014",
+    "statYearsSub": "Expérience en mobilité",
+    "statClients": "Service personnalisé",
     "statClientsSub": "Clients satisfaits",
     "statAssistance": "24/7",
     "statAssistanceSub": "Assistance routière",
-    "statCoverage": "18 Provinces",
-    "statCoverageSub": "Couverture nationale"
+    "statCoverage": "Couverture Nationale",
+    "statCoverageSub": "Opérations en Angola"
     ,"quickTitle": "Vérifier la disponibilité",
     "quickHeadline": "Choisissez votre véhicule. Confirmez en quelques minutes.",
     "quickPickup": "Lieu de prise en charge",
@@ -90,6 +90,15 @@
     "title": "La Confiance d'Organisations de Référence",
     "subtitle": "Nous servons les corps diplomatiques, ministères d'État et multinationales exigeant les plus hauts standards de sécurité."
   },
+  "servicesCarousel": {
+    "eyebrow": "Sélection par catégorie",
+    "title": "Le véhicule adapté à chaque mission",
+    "description": "Explorez la flotte par type d'usage, avec une page rapide et une sélection directe.",
+    "cta": "Explorer la catégorie",
+    "previous": "Catégories précédentes",
+    "next": "Catégories suivantes",
+    "categories": { "luxo": "Luxe & Exécutif", "suvs": "SUV Exécutif", "pickups": "Pick-up & Terrain", "vans": "Vans & Délégations", "economicos": "Mobilité Urbaine", "eventos": "Événements Spéciaux" }
+  },
   "services": {
     "tag": "Solutions de Mobilité Intégrée",
     "title": "Des Services Conçus pour des Standards Élevés",
@@ -133,7 +142,7 @@
     "tag": "Une Décennie d'Excellence",
     "title": "Notre Histoire Depuis 2014",
     "p1": "Fondée en 2014 à Luanda, PEPEK GRUPO RENT-A-CAR s'est imposée comme la référence du transport haut de gamme en Angola.",
-    "p2": "Aujourd'hui implantée à Luanda, Huambo et Bengo, notre entreprise accompagne plus de 5.000 clients et gère des convois diplomatiques de premier plan.",
+    "p2": "Aujourd'hui implantée à Luanda, Huambo et Bengo, notre entreprise accompagne particuliers, entreprises et institutions dans des missions à forte exigence opérationnelle.",
     "val1Title": "Sécurité Absolue",
     "val1Desc": "Flotte suivie par GPS en temps réel et chauffeurs formés à la conduite préventive.",
     "val2Title": "Ponctualité Rigoureuse",
@@ -151,7 +160,7 @@
     "c3": "Grands Événements & Conférences",
     "c4": "Flottes d'Appui pour le Secteur Pétrolier & Minier",
     "c5": "Assistance Mécanique 24/7",
-    "c6": "Couverture des 18 Provinces d'Angola"
+    "c6": "Couverture opérationnelle en Angola"
   },
   "contact": {
     "tag": "Commencez Votre Voyage",

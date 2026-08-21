@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Car, Building2, Star, Zap, Shield, Clock, Users } from 'lucide-react';
+import { ArrowRight, Car, Building2, Star, Zap, Shield, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { FLEET_DATABASE, VehicleCategory } from '../../data/fleetData';
+import { useTranslation } from 'react-i18next';
 
 export const Services: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const categoryRailRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState<VehicleCategory>('luxo');
+
+  const categoryIds: VehicleCategory[] = ['luxo', 'suvs', 'pickups', 'vans', 'economicos', 'eventos'];
+  const categoryCards = categoryIds.map((id) => {
+    const vehicle = FLEET_DATABASE.find((item) => item.category === id) || FLEET_DATABASE[0];
+    return { id, image: vehicle.primaryImage, label: t(`servicesCarousel.categories.${id}`) };
+  });
+
+  const scrollCategories = (direction: -1 | 1) => {
+    categoryRailRef.current?.scrollBy({ left: direction * 420, behavior: 'smooth' });
+  };
 
   /* ─── Top Feature Pillars ─── */
   const pillars = [
@@ -166,6 +181,49 @@ export const Services: React.FC = () => {
           </p>
         </div>
 
+        {/* Fast category rail inspired by modern manufacturer selectors. */}
+        <div className="mb-16 rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 sm:p-6 backdrop-blur-sm">
+          <div className="mb-5 flex items-end justify-between gap-4">
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-[0.22em] text-[#D2A820]">{t('servicesCarousel.eyebrow')}</span>
+              <h3 className="mt-1 text-xl font-black text-white sm:text-2xl">{t('servicesCarousel.title')}</h3>
+            </div>
+            <div className="hidden items-center gap-2 sm:flex">
+              <button type="button" onClick={() => scrollCategories(-1)} aria-label={t('servicesCarousel.previous')} className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white transition hover:border-[#D2A820] hover:text-[#D2A820]"><ChevronLeft className="h-5 w-5" /></button>
+              <button type="button" onClick={() => scrollCategories(1)} aria-label={t('servicesCarousel.next')} className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white transition hover:border-[#D2A820] hover:text-[#D2A820]"><ChevronRight className="h-5 w-5" /></button>
+            </div>
+          </div>
+
+          <div ref={categoryRailRef} className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {categoryCards.map((category) => {
+              const selected = category.id === activeCategory;
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`group min-w-[190px] snap-start overflow-hidden rounded-2xl border text-left transition-all sm:min-w-[230px] ${selected ? 'border-[#D2A820] bg-white shadow-[0_0_28px_rgba(210,168,32,0.16)]' : 'border-white/10 bg-white/[0.04] hover:border-white/25'}`}
+                >
+                  <div className="relative h-32 bg-gradient-to-b from-white to-slate-100 p-3">
+                    <img src={category.image} alt={category.label} loading="lazy" decoding="async" className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                  <div className={`flex items-center justify-between px-4 py-3 text-sm font-black ${selected ? 'text-[#07133F]' : 'text-white'}`}>
+                    <span>{category.label}</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-3 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center">
+            <p className="max-w-2xl text-sm text-slate-400">{t('servicesCarousel.description')}</p>
+            <button type="button" onClick={() => navigate(`/frota?categoria=${activeCategory}`)} className="btn-primary shrink-0 text-xs">
+              {t('servicesCarousel.cta')} <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
         {/* ════════════ FEATURE PILLARS ════════════ */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-16">
           {pillars.map((p) => (
@@ -251,11 +309,10 @@ export const Services: React.FC = () => {
         </div>
 
         {/* ════════════ TRUST BAR ════════════ */}
-        <div className="mt-16 pt-10 border-t border-white/[0.07] grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        <div className="mt-16 pt-10 border-t border-white/[0.07] grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
           {[
             { icon: <Shield className="w-5 h-5" />, label: 'Totalmente Segurado', sub: 'Cobertura completa em cada viagem' },
             { icon: <Clock className="w-5 h-5" />, label: 'Disponível 24/7', sub: 'Suporte e frota sempre prontos' },
-            { icon: <Users className="w-5 h-5" />, label: '+200 Clientes Institucionais', sub: 'Embaixadas, Governo e Multinacionais' }
           ].map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-2">
               <div className="w-10 h-10 rounded-xl bg-[#0B45D8]/10 border border-[#0B45D8]/20 flex items-center justify-center text-[#0B45D8]">
@@ -270,4 +327,3 @@ export const Services: React.FC = () => {
     </section>
   );
 };
-

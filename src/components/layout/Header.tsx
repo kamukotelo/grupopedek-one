@@ -35,15 +35,6 @@ export const Header: React.FC = () => {
     return () => document.removeEventListener('keydown', closeOnEscape);
   }, []);
 
-  const scrollToRoutes = () => {
-    if (location.pathname !== '/') {
-      navigate('/#rotas');
-      window.setTimeout(() => document.getElementById('rotas')?.scrollIntoView({ behavior: 'smooth' }), 150);
-      return;
-    }
-    document.getElementById('rotas')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const topActions = [
     {
       label: t('nav.bookNow'),
@@ -67,7 +58,7 @@ export const Header: React.FC = () => {
     { to: '/frota', label: t('nav.fleet'), icon: Car },
     { to: '/servicos', label: t('nav.services'), icon: Briefcase },
     { to: '/clientes', label: t('nav.corporate'), icon: Users },
-    { to: '/#rotas', label: t('nav.routes'), icon: Compass, action: scrollToRoutes },
+    { to: '/rotas', label: t('nav.routes'), icon: Compass },
     { to: '/quem-somos', label: t('nav.about'), icon: Award },
     { to: '/contactos', label: t('nav.contact'), icon: Phone },
   ];
@@ -114,21 +105,10 @@ export const Header: React.FC = () => {
 
       <div className="hidden bg-[#020A2A] text-white lg:block">
         <nav className="container-pepek flex h-12 items-stretch justify-center" aria-label="Navegação principal">
-          {navLinks.map(({ to, label, icon: Icon, action }) => {
-            const active = !action && location.pathname === to;
+          {navLinks.map(({ to, label, icon: Icon }) => {
+            const active = location.pathname === to;
             const classes = `group flex flex-1 items-center justify-center gap-2 border-l border-white/10 px-3 text-[11px] font-extrabold uppercase tracking-[0.08em] transition-colors last:border-r ${active ? 'bg-[#D2A820] text-[#020A2A]' : 'text-slate-200 hover:bg-white/5 hover:text-[#E2C06E]'}`;
-
-            return action ? (
-              <button key={label} type="button" onClick={action} className={classes}>
-                <Icon className="h-4 w-4 shrink-0" />
-                <span className="whitespace-nowrap">{label}</span>
-              </button>
-            ) : (
-              <Link key={label} to={to} className={classes}>
-                <Icon className="h-4 w-4 shrink-0" />
-                <span className="whitespace-nowrap">{label}</span>
-              </Link>
-            );
+            return <Link key={label} to={to} className={classes}><Icon className="h-4 w-4 shrink-0" /><span className="whitespace-nowrap">{label}</span></Link>;
           })}
         </nav>
       </div>
@@ -149,7 +129,7 @@ export const Header: React.FC = () => {
             ))}
           </div>
           <nav className="space-y-1" aria-label="Navegação móvel">
-            {navLinks.map(({ to, label, icon: Icon, action }) => {
+            {navLinks.map(({ to, label, icon: Icon }) => {
               const content = (
                 <>
                   <span className="flex items-center gap-3"><Icon className="h-4 w-4 text-[#D2A820]" />{label}</span>
@@ -157,11 +137,7 @@ export const Header: React.FC = () => {
                 </>
               );
               const className = "flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-bold hover:bg-white/5";
-              return action ? (
-                <button key={label} type="button" onClick={() => { setMobileMenuOpen(false); action(); }} className={className}>{content}</button>
-              ) : (
-                <Link key={label} to={to} className={className}>{content}</Link>
-              );
+              return <Link key={label} to={to} className={className}>{content}</Link>;
             })}
           </nav>
         </div>

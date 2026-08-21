@@ -105,7 +105,7 @@ export const CoverageMap: React.FC = () => {
             <div>
               <h3 className="text-lg font-bold text-[#06142F] flex items-center gap-2">
                 <Shield className="w-5 h-5 text-[#0B45D8]" />
-                <span>Prontidão Operacional nas 18 Províncias de Angola</span>
+                <span>Prontidão Operacional em Angola</span>
               </h3>
               <p className="text-xs text-gray-500 mt-1">
                 Serviço de aluguer de frotas 4x4, transfers interprovinciais e assistência técnica em viagem.

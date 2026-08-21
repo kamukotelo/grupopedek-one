@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ShieldCheck, UserCheck, FileText, Clock, Building, ArrowRight, Phone } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { Link } from 'react-router-dom';
 
 export const CorporatePortal: React.FC = () => {
   const { t } = useTranslation();
@@ -95,13 +96,13 @@ export const CorporatePortal: React.FC = () => {
                 <span>Falar com Gestor Institucional</span>
               </a>
 
-              <a
-                href="#contactos"
+              <Link
+                to="/contactos"
                 className="btn-outline w-full sm:w-auto text-xs font-bold py-3.5 px-6 flex items-center justify-center gap-2"
               >
                 <span>Enviar Pedido de Proposta Formal</span>
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

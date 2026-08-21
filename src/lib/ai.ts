@@ -40,7 +40,7 @@ Seu objetivo é conversar de forma calorosa, humana, direta e profissional, ajud
 • Sede: Talatona, Rua Reino do Bailundo, Luanda — Angola.
 • Pólos de Apoio: Huambo (Planalto Central) e Bengo (Caxito).
 • Linha 24/7: +244 923 719 090 / 923 000 010 | geral@pepekgrupo.com
-• Frota Oficial (47 Viaturas em 6 Categorias):
+• Frota executiva organizada por categorias:
   - Luxo e Executivo (19 viaturas): Range Rover Blindado 2025 (1.999.999 Kz/dia), Mercedes Classe S 2025 (1.449.999 Kz/dia), Range Rover Novo Modelo (1.449.999 Kz/dia), Mercedes G63 2023 (999.999 Kz/dia), Lexus 600 (800.000 Kz/dia), Toyota LC300 2023 (599.999 Kz/dia), Toyota LC V8 (449.999 Kz/dia), Volvo XC60 (349.999 Kz/dia), Novo Toyota Prado 2024 (349.999 Kz/dia), Nissan Patrol V8 (349.999 Kz/dia), Toyota Prado Atual (289.999 Kz/dia), Toyota Fortuner (199.999 Kz/dia).
   - Vans e Transporte (8 viaturas): Mercedes-Benz V300 Class VIP (800.000 Kz/dia), Hyundai Staria Executiva (449.999 Kz/dia), Toyota Coaster 30L (399.999 Kz/dia), Mercedes Sprinter 21L (369.999 Kz/dia), Nova Toyota Hiace 15L (359.999 Kz/dia), Hyundai H1 (349.999 Kz/dia), Toyota Hiace (199.999 Kz/dia).
   - SUVs (6 viaturas): Jetour X70 7L (189.999 Kz/dia), Hyundai Santa Fé (149.999 Kz/dia), Hyundai Tucson (149.999 Kz/dia), Chery Tiggo 7 (149.999 Kz/dia), Chery Tiggo 2 (129.999 Kz/dia), Hyundai Creta (129.999 Kz/dia).
@@ -199,7 +199,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 8. INTENT: Disponibilidade
   if (lower.includes('disponível') || lower.includes('tem para hoje') || lower.includes('tem vaga') || lower.includes('tem carro')) {
     return {
-      message: 'Temos viaturas em prontidão na base de Talatona, abrangendo os nossos 47 modelos (desde Económicos a 44.999 Kz/dia até Blindados de Luxo). Para que datas e que modelo pretende?',
+      message: 'Temos viaturas em prontidão na base de Talatona, desde opções urbanas a blindados de luxo. Para que datas e que categoria pretende?',
       suggestedQuickReplies: ['Para Hoje / Imediato', 'Para Esta Semana', 'SUV de Luxo / LC300', 'Económico / Urbano']
     };
   }
@@ -207,7 +207,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 9. INTENT: Como Reservar / Processo
   if (lower.includes('como reservar') || lower.includes('como funciona') || lower.includes('processo') || lower.includes('como alugo')) {
     return {
-      message: 'O processo é direto: seleciona a viatura pretendida no nosso catálogo de 47 viaturas, escolhe as datas e submete a ficha oficial ou confirma diretamente pelo WhatsApp com a Direcção de Operações.',
+      message: 'O processo é direto: seleciona a viatura pretendida no catálogo, escolhe as datas e submete a ficha oficial ou confirma diretamente pelo WhatsApp com a Direcção de Operações.',
       suggestedQuickReplies: ['Sim, pedir cotação', 'Com Motorista Protocolar', 'Livre Condução (Self-Drive)']
     };
   }
@@ -247,7 +247,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 14. INTENT: Cobertura Geográfica / Províncias
   if (lower.includes('província') || lower.includes('huambo') || lower.includes('bengo') || lower.includes('benguela') || lower.includes('fora de luanda') || lower.includes('interior')) {
     return {
-      message: 'Cobrimos todas as 18 províncias de Angola com base principal em Talatona (Luanda) e pólos operacionais no Huambo e Bengo, garantindo assistência técnica contínua.',
+      message: 'Planeamos operações em Angola a partir da base principal em Talatona (Luanda) e dos pólos operacionais no Huambo e Bengo, mediante confirmação de rota e disponibilidade.',
       suggestedQuickReplies: ['Huambo', 'Bengo', 'Benguela / Lobito', 'Outra Província']
     };
   }
@@ -263,7 +263,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 16. INTENT: Seguro e Garantias
   if (lower.includes('seguro') || lower.includes('avaria') || lower.includes('acontecer algo') || lower.includes('garantia')) {
     return {
-      message: 'Todas as 47 viaturas da frota incluem cobertura total e garantia de substituição imediata na estrada em qualquer ponto do país.',
+      message: 'As viaturas contratadas incluem as coberturas e condições de assistência indicadas na proposta comercial.',
       suggestedQuickReplies: ['Ver Catálogo da Frota', 'Pedir Cotação com Seguro', 'Falar com Consultor']
     };
   }
@@ -286,7 +286,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
 
   // Resposta Padrão de Cortesia (Curta e Humana)
   return {
-    message: 'Olá! Sou o consultor da central de mobilidade da Pepek Grupo em Talatona. Temos 47 viaturas disponíveis. Em que posso ajudar na sua deslocação hoje?',
+    message: 'Olá! Sou o consultor da central de mobilidade da Pepek Grupo em Talatona. Em que posso ajudar na sua deslocação hoje?',
     suggestedQuickReplies: ['Recomendar Viatura', 'Preços das Diárias', 'Transfer Aeroporto VIP', 'Falar com Atendimento']
   };
 }

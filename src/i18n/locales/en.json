@@ -34,14 +34,14 @@
     "description": "Since 2014, PEPEK GRUPO has been the trusted partner for embassies, government entities, leading corporations, and executives for luxury car rental, protocol, and strategic mobility across the country.",
     "ctaBooking": "Request Reservation",
     "ctaFleet": "Explore Fleet",
-    "statYears": "10+ Years",
-    "statYearsSub": "Market leadership",
-    "statClients": "5,000+",
-    "statClientsSub": "Clients served",
+    "statYears": "Since 2014",
+    "statYearsSub": "Mobility experience",
+    "statClients": "Dedicated service",
+    "statClientsSub": "Private and institutional clients",
     "statAssistance": "24/7",
     "statAssistanceSub": "Roadside assistance",
-    "statCoverage": "18 Provinces",
-    "statCoverageSub": "Nationwide coverage"
+    "statCoverage": "National Coverage",
+    "statCoverageSub": "Operations across Angola"
     ,"quickTitle": "Check availability",
     "quickHeadline": "Choose your vehicle. Confirm in minutes.",
     "quickPickup": "Pick-up location",
@@ -89,6 +89,15 @@
     "tag": "Proven Rigor & Credibility",
     "title": "Trusted by Leading Organizations",
     "subtitle": "We proudly serve diplomatic corps, state ministries, energy multinationals, banking and telecom leaders who demand the highest standards of safety and punctuality."
+  },
+  "servicesCarousel": {
+    "eyebrow": "Select by category",
+    "title": "Find the right vehicle for every mission",
+    "description": "Explore the fleet by use case, with a fast page and a direct selection experience.",
+    "cta": "Explore category",
+    "previous": "Previous categories",
+    "next": "Next categories",
+    "categories": { "luxo": "Luxury & Executive", "suvs": "Executive SUV", "pickups": "Pick-up & Field", "vans": "Vans & Delegations", "economicos": "Urban Mobility", "eventos": "Special Events" }
   },
   "services": {
     "tag": "Integrated Mobility Solutions",
@@ -151,7 +160,7 @@
     "c3": "Major Events, Festivals & Productions",
     "c4": "Support Fleets for Oil & Gas and Mining",
     "c5": "24/7 Mechanical Support & Towing",
-    "c6": "Coverage across all 18 Provinces of Angola"
+    "c6": "Operational coverage across Angola"
   },
   "contact": {
     "tag": "Begin Your Journey",

@@ -269,7 +269,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               {/* Select Vehicle Card */}
               <div className="bg-white p-5 rounded-2xl border border-[#D9DEE7] shadow-xs">
                 <label className="block text-xs font-bold text-[#07133F] uppercase tracking-wider mb-2">
-                  Selecione a Viatura Desejada (47 Modelos Disponíveis)
+                  Selecione a Viatura Desejada
                 </label>
                 <select
                   value={selectedVehicleId}
