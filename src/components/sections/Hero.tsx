@@ -1,102 +1,197 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { Award, CalendarDays, Clock3, MapPin, ShieldCheck } from 'lucide-react';
+import { ShieldCheck, ChevronRight, Award, Building2, Clock, Car, Sparkles } from 'lucide-react';
+import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [pickup, setPickup] = useState('');
-  const [destination, setDestination] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [startTime, setStartTime] = useState('09:00');
-  const [endDate, setEndDate] = useState('');
-  const [endTime, setEndTime] = useState('09:00');
 
-  const handleAvailability = (event: React.FormEvent) => {
-    event.preventDefault();
-    const params = new URLSearchParams({ pickup, destination, startDate, startTime, endDate, endTime });
-    navigate(`/reservar?${params.toString()}`);
-  };
+  // 20 Authentic Client Logos grouped in 5 by 5 (4 slides)
+  const clientLogos = [
+    { name: 'Embaixada Americana', src: '/carrousel/america-american-EMBASSADAlogo-1-150x78.webp' },
+    { name: 'Governo de Angola', src: '/carrousel/LOGO-GOVERNO-DE-ANGOLA-150x141.webp' },
+    { name: 'Assembleia Nacional', src: '/carrousel/SEMBLEIA-ANGOLANA-logo-150x78.webp' },
+    { name: 'ANPG Petróleos', src: '/carrousel/APNG-150x78.webp' },
+    { name: 'TAAG Linhas Aéreas', src: '/carrousel/TAAGG-150x78.webp' },
 
-  const trustItems = [
-    { icon: ShieldCheck, title: t('hero.trustPremium'), subtitle: t('hero.trustPremiumSub') },
-    { icon: Clock3, title: t('hero.trustFast'), subtitle: t('hero.trustFastSub') },
-    { icon: Award, title: t('hero.trustService'), subtitle: t('hero.trustServiceSub') },
+    { name: 'Banco BFA', src: '/carrousel/BFA-BANCO-DE-ANGOLA-150x78.webp' },
+    { name: 'Banco Atlântico', src: '/carrousel/ATLANTICO-LOGO-MARCA-CLIENTE-DA-RENT-A-CAR-PEPEK-150x78.webp' },
+    { name: 'Standard Bank', src: '/carrousel/standard-150x78.webp' },
+    { name: 'UNICEF Angola', src: '/carrousel/UNICEF-TA-BEM-BOM-150x78.webp' },
+    { name: 'Fidelidade Seguros', src: '/carrousel/fidelidade-150x78.webp' },
+
+    { name: 'DSTV MultiChoice', src: '/carrousel/dstv-150x78.webp' },
+    { name: 'ZAP Angola', src: '/carrousel/zap-150x78.webp' },
+    { name: 'SIC Investigação Criminal', src: '/carrousel/SIC-ANGOOLA-150x78.webp' },
+    { name: 'ELISAL', src: '/carrousel/ELISAL-150x78.webp' },
+    { name: 'Catoca Diamantes', src: '/carrousel/catoca-150x78.webp' },
+
+    { name: 'COSMOS Viagens', src: '/carrousel/COSMO-150x78.webp' },
+    { name: 'HV International', src: '/carrousel/HV-LOGO-1-150x78.webp' },
+    { name: 'FAF Futebol', src: '/carrousel/FAFI-LOGO-150x78.webp' },
+    { name: 'Rede Globo', src: '/carrousel/REDE-GLOBO-CLIENTE-DA-EMPRESA-RENTY-A-CAR-pepek-150x78.webp' },
+    { name: 'CNN Brasil & DW', src: '/carrousel/CNN-BRASIL-150x78.webp' },
   ];
 
+  // Group 5 by 5
+  const logosPerSlide = 5;
+  const slides: Array<typeof clientLogos> = [];
+  for (let i = 0; i < clientLogos.length; i += logosPerSlide) {
+    slides.push(clientLogos.slice(i, i + logosPerSlide));
+  }
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Rotate every 5 seconds with sleek futuristic sliding
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const scrollToBooking = () => {
+    const el = document.getElementById('reserva');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToFleet = () => {
+    const el = document.getElementById('frota');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section id="inicio" className="relative min-h-[760px] overflow-hidden bg-[#020A2A] pt-[100px] text-white lg:min-h-[calc(100vh-20px)] lg:pt-[164px]">
-      <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(210,168,32,.16)_1px,transparent_1px),linear-gradient(90deg,rgba(210,168,32,.12)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,transparent,black)]" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-44 w-full border-t border-[#D2A820]/15 bg-[#06142F] [clip-path:polygon(0_42%,18%_30%,33%_54%,49%_20%,66%_46%,82%_24%,100%_42%,100%_100%,0_100%)]" />
+    <section id="inicio" className="relative bg-[#06142F] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
+      {/* Cinematic Background Image with Dark Vignette */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=2400&q=85"
+          alt="PEPEK Frota Executiva Luanda"
+          className="w-full h-full object-cover object-center filter brightness-[0.24] contrast-[1.25] scale-105 animate-[pulse_10s_ease-in-out_infinite]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#06142F] via-[#06142F]/75 to-[#06142F]/90" />
+        {/* Subtle Radial Glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#0B45D8]/20 rounded-full blur-[160px] pointer-events-none" />
+      </div>
 
-      <div className="container-pepek relative z-10 grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_430px] lg:items-center lg:gap-12 lg:py-14 xl:grid-cols-[minmax(0,1fr)_470px]">
-        <div className="relative min-h-[520px] lg:min-h-[580px]">
-          <div className="relative z-20 max-w-3xl pt-4 lg:pt-10">
-            <p className="mb-5 text-xs font-black uppercase tracking-[0.22em] text-[#D2A820]">{t('hero.tag')}</p>
-            <h1 className="max-w-3xl text-4xl font-black leading-[1.06] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl xl:text-[68px]">
-              {t('hero.quickHeadline')}
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">{t('hero.description')}</p>
+      <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
+        {/* Top Tag */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-bold text-[#8899BB] uppercase tracking-[0.2em] mb-6 w-fit animate-fadeIn">
+          <ShieldCheck className="w-4 h-4 text-[#0B45D8]" />
+          <span>{t('hero.tag')} · Luanda, Angola</span>
+        </div>
 
-            <div className="mt-8 grid max-w-3xl gap-3 sm:grid-cols-3">
-              {trustItems.map(({ icon: Icon, title, subtitle }) => (
-                <div key={title} className="flex items-center gap-3 border-l-2 border-[#D2A820] py-1 pl-3">
-                  <Icon className="h-6 w-6 shrink-0 text-[#D2A820]" />
-                  <div>
-                    <strong className="block text-sm text-white">{title}</strong>
-                    <span className="text-[11px] text-slate-400">{subtitle}</span>
-                  </div>
-                </div>
+        {/* Main Headline */}
+        <div className="max-w-4xl mb-6">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight font-inter">
+            “{t('hero.title')}”
+          </h1>
+          <p className="text-lg sm:text-2xl text-gray-300 font-light mt-5 leading-relaxed max-w-3xl">
+            {t('hero.description')}
+          </p>
+        </div>
+
+        {/* 3 Key Pillars of Trust (Frameless with soft futuristic aura) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mb-10 text-xs sm:text-sm font-semibold text-gray-200">
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
+            <Building2 className="w-5 h-5 text-[#0B45D8] shrink-0" />
+            <span>{t('hero.trustPremium')}</span>
+          </div>
+
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
+            <Award className="w-5 h-5 text-[#0B45D8] shrink-0" />
+            <span>{t('hero.trustService')}</span>
+          </div>
+
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
+            <Clock className="w-5 h-5 text-[#0B45D8] shrink-0" />
+            <span>{t('nav.support247')} · {t('hero.statCoverage')}</span>
+          </div>
+        </div>
+
+        {/* Action Buttons with Futuristic Hover Glow */}
+        <div className="flex flex-wrap items-center gap-4 mb-12">
+          <button
+            type="button"
+            onClick={scrollToBooking}
+            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(11,69,216,0.8)] hover:scale-[1.03] transition-all duration-300"
+          >
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+            <Car className="w-5 h-5" />
+            <span>{t('hero.ctaBooking')}</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          <button
+            type="button"
+            onClick={scrollToFleet}
+            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all duration-300"
+          >
+            <span>{t('hero.ctaFleet')}</span>
+          </button>
+
+          <div className="flex items-center gap-3 text-xs text-gray-300 pl-2">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+            <span>{t('hero.trustFastSub')}</span>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════
+            TOP CLIENT LOGOS — Frameless, Prominent, 5 by 5
+            No Heavy Box Outlines · Pure White Glow & Scale Hover
+           ═══════════════════════════════════════════════════════ */}
+        <div className="pt-6 border-t border-white/10">
+          <div className="flex items-center justify-between gap-4 mb-5">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#8899BB] flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-[#0B45D8]" />
+              <span>{t('clients.title')}</span>
+            </p>
+
+            {/* Futuristic Slide Dots */}
+            <div className="flex items-center gap-1.5">
+              {slides.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
+                    currentSlide === idx
+                      ? 'w-8 bg-[#0B45D8] shadow-[0_0_15px_rgba(11,69,216,1)]'
+                      : 'w-2 bg-white/20 hover:bg-white/45'
+                  }`}
+                  aria-label={`Ver grupo de parceiros ${idx + 1}`}
+                />
               ))}
             </div>
           </div>
 
-          <img
-            src="/rent_car_transparent/NEW-TOYOTA-1-300x300.webp"
-            alt="Viatura executiva PEPEK Grupo"
-            className="pointer-events-none absolute -bottom-8 right-0 z-10 hidden w-[48%] max-w-[440px] object-contain drop-shadow-[0_30px_35px_rgba(0,0,0,.55)] xl:block"
-          />
+          {/* 5-by-5 Frameless Floating Logos Grid */}
+          <div className="relative min-h-[120px] overflow-hidden">
+            {slides.map((group, slideIdx) => (
+              <div
+                key={slideIdx}
+                className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-10 items-center justify-items-center transition-all duration-700 ease-out ${
+                  currentSlide === slideIdx
+                    ? 'opacity-100 translate-x-0 relative pointer-events-auto'
+                    : 'opacity-0 translate-x-16 absolute inset-0 pointer-events-none'
+                }`}
+              >
+                {group.map((client, logoIdx) => (
+                  <div
+                    key={logoIdx}
+                    className="flex items-center justify-center p-2 h-24 sm:h-28 w-full group cursor-pointer"
+                  >
+                    <img
+                      src={client.src}
+                      alt={client.name}
+                      className="max-h-16 sm:max-h-20 max-w-[170px] sm:max-w-[200px] w-auto object-contain filter brightness-[1.2] contrast-[1.3] drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] group-hover:brightness-[1.5] group-hover:scale-115 group-hover:drop-shadow-[0_0_24px_rgba(11,69,216,0.9)] transition-all duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-
-        <form onSubmit={handleAvailability} className="relative z-30 rounded-2xl bg-white p-5 text-[#07133F] shadow-[0_28px_70px_rgba(0,0,0,.35)] sm:p-7">
-          <div className="mb-6 flex items-center gap-3 border-b border-slate-200 pb-5">
-            <CalendarDays className="h-6 w-6 text-[#C79B17]" />
-            <h2 className="text-2xl font-black text-[#07133F]">{t('hero.quickTitle')}</h2>
-          </div>
-
-          <div className="space-y-4">
-            <label className="block text-sm font-bold">
-              <span className="mb-1.5 block">{t('hero.quickPickup')}</span>
-              <span className="relative block">
-                <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-                <input required value={pickup} onChange={(e) => setPickup(e.target.value)} placeholder={t('hero.quickPickupPlaceholder')} className="h-12 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-3 text-sm outline-none transition focus:border-[#D2A820] focus:ring-2 focus:ring-[#D2A820]/20" />
-              </span>
-            </label>
-
-            <label className="block text-sm font-bold">
-              <span className="mb-1.5 block">{t('hero.quickReturn')}</span>
-              <span className="relative block">
-                <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-                <input required value={destination} onChange={(e) => setDestination(e.target.value)} placeholder={t('hero.quickReturnPlaceholder')} className="h-12 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-3 text-sm outline-none transition focus:border-[#D2A820] focus:ring-2 focus:ring-[#D2A820]/20" />
-              </span>
-            </label>
-
-            <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-3">
-              <label className="block text-sm font-bold"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><input required type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="h-12 w-full rounded-lg border border-slate-300 px-3 text-sm focus:border-[#D2A820] focus:outline-none" /></label>
-              <label className="block text-sm font-bold"><span className="mb-1.5 block">{t('hero.quickTime')}</span><input required type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="h-12 w-full rounded-lg border border-slate-300 px-3 text-sm focus:border-[#D2A820] focus:outline-none" /></label>
-            </div>
-
-            <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-3">
-              <label className="block text-sm font-bold"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><input required min={startDate} type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="h-12 w-full rounded-lg border border-slate-300 px-3 text-sm focus:border-[#D2A820] focus:outline-none" /></label>
-              <label className="block text-sm font-bold"><span className="mb-1.5 block">{t('hero.quickTime')}</span><input required type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="h-12 w-full rounded-lg border border-slate-300 px-3 text-sm focus:border-[#D2A820] focus:outline-none" /></label>
-            </div>
-          </div>
-
-          <button type="submit" className="mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-lg bg-[#D2A820] px-5 text-sm font-black uppercase tracking-[0.08em] text-[#020A2A] transition hover:bg-[#E2C06E] focus-visible:outline-[#07133F]">
-            {t('hero.quickSubmit')}
-          </button>
-        </form>
       </div>
     </section>
   );
