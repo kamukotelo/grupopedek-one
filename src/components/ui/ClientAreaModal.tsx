@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Building2, User, Lock, Mail, ArrowRight, ShieldCheck, Loader2, FlaskConical } from 'lucide-react';
-import { DEMO_LOGIN_ROLES, DEMO_PASSWORD } from '../../data/demoUsers';
+import { DEMO_LOGIN_ROLES, DEMO_USERS } from '../../data/demoUsers';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ interface ClientAreaModalProps {
 }
 
 export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClose }) => {
-  const { signIn, requestPasswordReset, isAuthReady } = useAuth();
+  const { signIn, requestPasswordReset, isAuthReady, loginAs } = useAuth();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'corporate' | 'vip'>('corporate');
   const [emailOrNif, setEmailOrNif] = useState('');
@@ -19,7 +19,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [resetMessage, setResetMessage] = useState('');
-  const [showDemoAccess, setShowDemoAccess] = useState(false);
+  const [showDemoAccess, setShowDemoAccess] = useState(true);
 
   if (!isOpen) return null;
 
@@ -111,21 +111,22 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                 className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-[#07133F]"
                 aria-expanded={showDemoAccess}
               >
-                <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider"><FlaskConical className="h-4 w-4 text-[#B68D13]" />Acessos de demonstração</span>
+                <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider"><FlaskConical className="h-4 w-4 text-[#B68D13]" />Entrar num perfil de demonstração</span>
                 <span className="text-[10px] font-bold text-[#B68D13]">{showDemoAccess ? 'Ocultar' : 'Ver perfis'}</span>
               </button>
               {showDemoAccess && (
                 <div className="border-t border-[#D2A820]/25 px-3 pb-3 pt-2">
-                  <p className="mb-2 px-1 text-[10px] font-semibold text-slate-600">Senha comum: <strong className="text-[#07133F]">{DEMO_PASSWORD}</strong></p>
+                  <p className="mb-2 px-1 text-[10px] font-semibold text-slate-600">Escolha um perfil para entrar imediatamente, sem utilizador nem senha.</p>
                   <div className="grid grid-cols-2 gap-1.5">
-                    {Object.keys(DEMO_LOGIN_ROLES).map((login) => (
+                    {Object.entries(DEMO_LOGIN_ROLES).map(([login, role]) => (
                       <button
                         key={login}
                         type="button"
-                        onClick={() => { setEmailOrNif(login); setPassword(DEMO_PASSWORD); setErrorMessage(''); }}
+                        onClick={() => { setErrorMessage(''); loginAs(role); }}
                         className="rounded-lg border border-[#D2A820]/20 bg-white px-2 py-2 text-left text-[10px] font-extrabold text-[#07133F] transition hover:border-[#B68D13] hover:bg-[#FFF4C7]"
                       >
-                        {login}
+                        <span className="block">{DEMO_USERS[role].roleLabel}</span>
+                        <span className="mt-0.5 block font-semibold text-slate-400">Acesso direto</span>
                       </button>
                     ))}
                   </div>
@@ -133,6 +134,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                 </div>
               )}
             </div>
+            <div className="mb-4 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-slate-400 before:h-px before:flex-1 before:bg-slate-200 after:h-px after:flex-1 after:bg-slate-200">Login de conta real</div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">

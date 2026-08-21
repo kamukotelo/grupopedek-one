@@ -62,6 +62,9 @@ expect(demoUserIds.length === 9, `Esperados 9 utilizadores demo; encontrados ${d
 const demoLoginIds = [...demoUsersSource.matchAll(/'[^']+\.demo':\s*'[^']+'/g)];
 expect(demoLoginIds.length === 9, `Esperados 9 logins demo; encontrados ${demoLoginIds.length}`);
 expect(demoUsersSource.includes("DEMO_PASSWORD = 'PepekDemo2026!'"), 'Senha comum de demonstração não está configurada');
+const clientAreaSource = fs.readFileSync('src/components/ui/ClientAreaModal.tsx', 'utf8');
+expect(clientAreaSource.includes('loginAs(role)'), 'Os perfis demo não possuem acesso direto sem senha');
+expect(clientAreaSource.includes('Login de conta real'), 'O login real não está separado dos perfis demonstrativos');
 
 if (failures.length) {
   console.error(failures.map(item => `- ${item}`).join('\n'));

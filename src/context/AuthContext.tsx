@@ -166,9 +166,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [currentUser, isDemoSession]);
 
   const loginAs = (role: UserRole) => {
-    if (!IS_DEMO_MODE) return;
     const user = DEMO_USERS[role];
     if (!user) return;
+    setInvoices(DEMO_INVOICES);
+    setFleetTelemetry(DEMO_FLEET_TELEMETRY);
+    setOdooSync(DEMO_ODOO_SYNC);
     setCurrentUser(user);
     localStorage.setItem('pepek_demo_user', JSON.stringify(user));
     setIsPortalOpen(true);

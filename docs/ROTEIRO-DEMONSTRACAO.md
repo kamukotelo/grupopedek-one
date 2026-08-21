@@ -2,7 +2,7 @@
 
 ## Preparação segura
 
-Os nove acessos demonstrativos podem ser utilizados directamente na Área Cliente. A barra livre de troca de perfis continua reservada ao ambiente local ou a uma implantação de staging com `VITE_DEMO_MODE=true`. Todos os nomes, matrículas, faturas e movimentos apresentados no modo demo são fictícios.
+Os nove perfis demonstrativos podem ser abertos directamente na Área Cliente, com um clique e sem introduzir utilizador ou senha. O formulário abaixo deles permanece reservado às contas reais autenticadas pelo Supabase. Todos os nomes, matrículas, faturas e movimentos apresentados no modo demo são fictícios.
 
 Senha comum dos perfis: `PepekDemo2026!`
 
