@@ -34,17 +34,17 @@ const SCHEMA_ORG = {
 export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ onSelectVehicle }) => (
   <>
     <Helmet>
-      <title>PEPEK GRUPO – Rent-a-Car Executivo & Mobilidade Diplomática em Angola</title>
-      <meta name="description" content="Aluguer de viaturas de luxo em Luanda com ou sem motorista protocolar. Especialistas em serviços diplomáticos, corporativos e eventos de estado. Disponíveis 24/7 nas 18 províncias de Angola." />
-      <meta property="og:title" content="PEPEK GRUPO – Rent-a-Car Executivo Angola" />
-      <meta property="og:description" content="Embaixadas, Multinacionais e Governo escolhem a PEPEK GRUPO. Frota Land Cruiser, Hilux 4x4 e Hiace VIP. Talatona, Luanda." />
+      <title>PEPEK GRUPO – Rent-a-Car Executivo & Mobilidade de Luxo em Angola</title>
+      <meta name="description" content="Aluguer de viaturas de luxo em Luanda com ou sem motorista protocolar. Frota oficial de 47 viaturas: Blindados, Mercedes Classe S, Land Cruiser LC300, Hilux 4x4 e Vans VIP. Talatona, Luanda." />
+      <meta property="og:title" content="PEPEK GRUPO – Rent-a-Car Executivo & Blindados Angola" />
+      <meta property="og:description" content="Embaixadas, Multinacionais e Protocolo de Estado escolhem a PEPEK GRUPO. Frota oficial de 47 modelos em Talatona, Luanda." />
       <meta property="og:url" content="https://pepekgrupo.com" />
       <meta property="og:type" content="website" />
       <link rel="canonical" href="https://pepekgrupo.com/" />
       <script type="application/ld+json">{JSON.stringify(SCHEMA_ORG)}</script>
     </Helmet>
     <Hero />
-    <BookingWidget initialVehicle="SUV Executiva — Land Cruiser Prado / LC300" />
+    <BookingWidget initialVehicle="Novo Toyota Prado" />
     <Services />
     <Fleet onSelectVehicle={onSelectVehicle} />
     <CorporatePortal />

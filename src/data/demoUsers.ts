@@ -84,7 +84,7 @@ export const DEMO_INVOICES: InvoiceItem[] = [
     amountAOA: 4200000, // TODO: PLACEHOLDER
     amountUSD: 4600,    // TODO: PLACEHOLDER
     status: 'paid',
-    description: 'Aluguer Mensal 2x Land Cruiser Prado TXL com Motorista Protocolar (Demo)',
+    description: 'Aluguer Mensal 2x Novo Toyota Prado com Motorista Protocolar (Demo)',
     paymentGateway: 'Multicaixa Express',
     odooInvoiceId: 'INV/DEMO/00001' // TODO: PLACEHOLDER
   },
@@ -96,7 +96,7 @@ export const DEMO_INVOICES: InvoiceItem[] = [
     amountAOA: 1850000, // TODO: PLACEHOLDER
     amountUSD: 2050,    // TODO: PLACEHOLDER
     status: 'pending',
-    description: 'Transfers VIP Aeroporto AIAAN + Escolta Huambo 4x4 Hilux (Demo)',
+    description: 'Transfers VIP Aeroporto AIAAN + Escolta Huambo Toyota Hilux Dupla Cabine (Demo)',
     paymentGateway: 'Stripe',
     odooInvoiceId: 'INV/DEMO/00002' // TODO: PLACEHOLDER
   },
@@ -108,7 +108,7 @@ export const DEMO_INVOICES: InvoiceItem[] = [
     amountAOA: 890000, // TODO: PLACEHOLDER
     amountUSD: 980,    // TODO: PLACEHOLDER
     status: 'pending',
-    description: 'Aluguer Semanal Toyota Hiace VIP 12L — Comitiva Técnica (Demo)',
+    description: 'Aluguer Semanal Mercedes-Benz V300 Class VIP — Comitiva Técnica (Demo)',
     paymentGateway: 'MB WAY',
     odooInvoiceId: 'INV/DEMO/00003' // TODO: PLACEHOLDER
   }
@@ -118,9 +118,9 @@ export const DEMO_INVOICES: InvoiceItem[] = [
 export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   {
     id: 'flt_01',
-    vehicleName: 'Toyota Land Cruiser Prado TXL (2025)',
+    vehicleName: 'Range Rover Blindado 2025',
     plateNumber: 'LD-XX-XX-XX', // TODO: PLACEHOLDER
-    assignedTo: 'Missão Diplomática (Demo)',
+    assignedTo: 'Missão Diplomática de Alto Nível (Demo)',
     status: 'em_circulacao',
     location: 'Talatona ➔ Miramar, Luanda (Demo)',
     fuelLevel: 88,   // TODO: PLACEHOLDER
@@ -130,7 +130,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   },
   {
     id: 'flt_02',
-    vehicleName: 'Toyota Land Cruiser 300 VXR',
+    vehicleName: 'Toyota LC300 2023',
     plateNumber: 'LD-XX-XX-YY', // TODO: PLACEHOLDER
     assignedTo: 'Missão Institucional (Demo)',
     status: 'em_circulacao',
@@ -142,7 +142,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   },
   {
     id: 'flt_03',
-    vehicleName: 'Toyota Hilux Dupla Cabine 4x4',
+    vehicleName: 'Toyota Hilux Dupla Cabine',
     plateNumber: 'HB-XX-XX-XX', // TODO: PLACEHOLDER
     assignedTo: 'Missão Técnica Interior (Demo)',
     status: 'em_circulacao',
@@ -154,7 +154,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   },
   {
     id: 'flt_04',
-    vehicleName: 'Toyota Hiace VIP Executiva 12L',
+    vehicleName: 'Mercedes-Benz V300 Class VIP',
     plateNumber: 'LD-XX-XX-ZZ', // TODO: PLACEHOLDER
     assignedTo: 'Disponível para Despacho Imediato',
     status: 'disponivel_talatona',
@@ -164,7 +164,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   },
   {
     id: 'flt_05',
-    vehicleName: 'Toyota Fortuner 4x4 V6',
+    vehicleName: 'Novo Toyota Prado',
     plateNumber: 'LD-XX-XX-WW', // TODO: PLACEHOLDER
     assignedTo: 'Manutenção Preventiva (Demo)',
     status: 'em_manutencao',

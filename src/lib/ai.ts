@@ -177,95 +177,104 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
     };
   }
 
-  // 6. INTENT: Comparar Viaturas (SUV vs 4x4 vs Van)
-  if (lower.includes('diferença entre') || lower.includes('comparar') || (lower.includes('suv') && lower.includes('4x4')) || (lower.includes('van') && lower.includes('suv'))) {
+  // 6. INTENT: Comparar Viaturas (SUV vs 4x4 vs Van vs Luxo)
+  if (lower.includes('diferença entre') || lower.includes('comparar') || (lower.includes('suv') && lower.includes('4x4')) || (lower.includes('van') && lower.includes('suv')) || lower.includes('blindado')) {
     return {
-      message: 'A Land Cruiser Prado foca-se no conforto e prestígio executivo para até 7 pessoas. Já a Hilux 4x4 é a mais indicada se o trajeto tiver pisos irregulares ou carga no interior de Angola. Se for uma comitiva de equipa, a Van Hiace VIP leva até 12 pessoas com poltronas individuais. Qual destes cenários se aproxima mais do seu plano?',
-      suggestedQuickReplies: ['Land Cruiser Prado', 'Hilux 4x4 Todo-Terreno', 'Van Hiace VIP 12L', 'Comparar no Ecrã']
+      message: 'O Novo Toyota Prado e o LC300 focam-se no prestígio e conforto executivo. Para terrenos acidentados ou missões técnicas, a Toyota Hilux 4x4 é a mais robusta. Para comitivas até 15 passageiros, dispomos da Mercedes V300 Class e Nova Hiace. Se necessita de segurança máxima, temos o Range Rover Blindado 2025.',
+      suggestedQuickReplies: ['Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Mercedes V300 Class', 'Range Rover Blindado']
     };
   }
 
   // 7. INTENT: Detalhes Técnicos de Viatura
   if (lower.includes('quantos lugares') || lower.includes('quantas malas') || lower.includes('ar condicionado') || lower.includes('automática') || lower.includes('combustível')) {
     const isPrado = lower.includes('prado') || lower.includes('lc300') || lower.includes('suv');
-    const isHilux = lower.includes('hilux') || lower.includes('4x4');
-    const isVan = lower.includes('van') || lower.includes('hiace');
+    const isHilux = lower.includes('hilux') || lower.includes('4x4') || lower.includes('pick-up');
+    const isVan = lower.includes('van') || lower.includes('hiace') || lower.includes('v300') || lower.includes('staria');
+    const isBlindado = lower.includes('blindad');
+
+    if (isBlindado) {
+      return {
+        message: 'O nosso Range Rover Blindado 2025 possui blindagem certificada B6/B7, 5 lugares em pele perfurada, vidros balísticos e sistema de comunicação seguro. Disponível com condutor de segurança.',
+        recommendedVehicle: 'Range Rover Blindado 2025',
+        suggestedQuickReplies: ['Ver Ficha do Blindado', 'Saber Diária (1.999.999 Kz)', 'Reservar com Motorista']
+      };
+    }
 
     if (isVan) {
       return {
-        message: 'A nossa Toyota Hiace VIP dispõe de 12 poltronas individuais reclináveis em pele, capacidade para 10 malas grandes, caixa automática e ar condicionado independente para todos os passageiros traseiros.',
-        recommendedVehicle: 'Toyota Hiace VIP 12L',
-        suggestedQuickReplies: ['Ver Fotos da Van', 'Saber Preço Diário', 'Reservar Van VIP']
+        message: 'A Mercedes-Benz V300 Class VIP tem 7 lugares em poltronas reclináveis de luxo, e a Nova Toyota Hiace transporta até 15 passageiros com ar condicionado reforçado e amplo espaço de bagagem.',
+        recommendedVehicle: 'Mercedes-Benz V300 Class',
+        suggestedQuickReplies: ['Ver Mercedes V300', 'Ver Toyota Hiace', 'Reservar Van']
       };
     }
 
     if (isHilux) {
       return {
-        message: 'A Toyota Hilux 4x4 Dupla Cabine tem 5 lugares, caixa de carga reforçada para 6 malas, tração 4x4 com redutoras e ar condicionado tropicalizado.',
-        recommendedVehicle: 'Toyota Hilux 4x4',
-        suggestedQuickReplies: ['Ver Fotos da Hilux', 'Saber Diária da Hilux', 'Reservar para Províncias']
+        message: 'A Toyota Hilux Dupla Cabine 4x4 tem 5 lugares, caixa de carga reforçada, tracção 4x4 com redutoras e ar condicionado tropicalizado (159.999 Kz/dia).',
+        recommendedVehicle: 'Toyota Hilux Dupla Cabine',
+        suggestedQuickReplies: ['Ver Hilux 4x4', 'Saber Diária', 'Reservar para Províncias']
       };
     }
 
     return {
-      message: 'A Land Cruiser Prado tem 7 lugares confortáveis, espaço para 5 malas grandes, tração 4WD permanente, caixa automática e climatização individual Quad-Zone.',
-      recommendedVehicle: 'Toyota Land Cruiser Prado',
-      suggestedQuickReplies: ['Ver Galeria da Prado', 'Reservar Prado', 'Consultar Outra Viatura']
+      message: 'O Toyota LC300 2023 e o Novo Prado têm 7 lugares confortáveis, tracção integral 4WD, caixa automática, climatização independente e acabamentos topo de gama.',
+      recommendedVehicle: 'Toyota LC300 2023',
+      suggestedQuickReplies: ['Ver Toyota LC300', 'Ver Novo Prado', 'Consultar Outra Viatura']
     };
   }
 
   // 8. INTENT: Disponibilidade
   if (lower.includes('disponível') || lower.includes('tem para hoje') || lower.includes('tem vaga') || lower.includes('tem carro')) {
     return {
-      message: 'Temos habitualmente viaturas em prontidão na nossa base de Talatona (SUVs, 4x4 e Vans). Para que datas e que modelo pretendia?',
-      suggestedQuickReplies: ['Para Hoje / Imediato', 'Para Esta Semana', 'SUV Land Cruiser', 'Van Executiva']
+      message: 'Temos viaturas em prontidão na base de Talatona, abrangendo os nossos 47 modelos (desde Económicos a 44.999 Kz/dia até Blindados de Luxo). Para que datas e que modelo pretende?',
+      suggestedQuickReplies: ['Para Hoje / Imediato', 'Para Esta Semana', 'SUV de Luxo / LC300', 'Económico / Urbano']
     };
   }
 
   // 9. INTENT: Como Reservar / Processo
   if (lower.includes('como reservar') || lower.includes('como funciona') || lower.includes('processo') || lower.includes('como alugo')) {
     return {
-      message: 'O processo é simples: escolhe o modelo e as datas aqui no site, e a nossa equipa confirma a alocação de imediato com o envio da confirmação formal. Pretende que o apoie com uma cotação rápida?',
-      suggestedQuickReplies: ['Sim, pedir cotação', 'Prefiro alugar com motorista', 'Prefiro sem motorista']
+      message: 'O processo é direto: seleciona a viatura pretendida no nosso catálogo de 47 viaturas, escolhe as datas e submete a ficha oficial ou confirma diretamente pelo WhatsApp com a Direcção de Operações.',
+      suggestedQuickReplies: ['Sim, pedir cotação', 'Com Motorista Protocolar', 'Livre Condução (Self-Drive)']
     };
   }
 
   // 10. INTENT: Preços e Tarifas Diárias
   if (lower.includes('preço') || lower.includes('quanto custa') || lower.includes('valor') || lower.includes('diária') || lower.includes('tarifa')) {
     return {
-      message: 'As nossas tarifas iniciam nos 135.000 AOA (~€150) para 4x4 Hilux, 185.000 AOA (~€205) para SUV Land Cruiser Prado, e 210.000 AOA (~€230) para Van VIP 12L. Todas as diárias incluem seguro total e apoio 24/7. Para quantos dias necessita da viatura?',
-      suggestedQuickReplies: ['1 a 3 dias', '1 semana', 'Aluguer Mensal', 'Proposta para Empresa']
+      message: 'As nossas diárias oficiais iniciam nos 44.999 Kz para Económicos (Kia Morning / Swift), 149.999 Kz para SUVs (Tucson / Tiggo), 159.999 Kz para Pick-ups 4x4 (Hilux), 289.999 Kz a 599.999 Kz para SUVs Executivos (Prado / LC300) e até 1.999.999 Kz para Blindados de Alto Luxo.',
+      suggestedQuickReplies: ['Económicos (44.999 Kz)', 'SUVs Executivos', 'Vans VIP (359k – 800k)', 'Proposta Corporativa']
     };
   }
 
   // 11. INTENT: Métodos de Pagamento e Moedas
   if (lower.includes('pagamento') || lower.includes('pagar') || lower.includes('cartão') || lower.includes('multicaixa') || lower.includes('euros') || lower.includes('dólares')) {
     return {
-      message: 'Aceitamos Multicaixa e Express em Angola, bem como cartões Visa, Mastercard e MB WAY para clientes em Portugal e Europa. Emitimos faturas formais em Kwanzas (AOA) ou Euros (EUR).',
-      suggestedQuickReplies: ['Faturação para Empresa', 'Pagamento Multicaixa Express', 'Cartão Internacional']
+      message: 'Aceitamos Multicaixa e Multicaixa Express em Angola, bem como cartões Visa, Mastercard e MB WAY para clientes no exterior. Emitimos faturação certificada AGT em Kwanzas (AOA).',
+      suggestedQuickReplies: ['Faturação para Empresa (AGT)', 'Pagamento Multicaixa Express', 'Cartão Internacional']
     };
   }
 
   // 12. INTENT: Faturação para Empresas / Embaixadas
   if (lower.includes('fatura') || lower.includes('factura') || lower.includes('agt') || lower.includes('nif') || lower.includes('empresa') || lower.includes('instituição')) {
     return {
-      message: 'Sim, emitimos faturação certificada em conformidade com a AGT para empresas, ministérios e embaixadas, com possibilidade de conta-corrente corporativa. A faturação será em nome de entidade em Angola ou no exterior?',
-      suggestedQuickReplies: ['Empresa em Angola (AGT)', 'Embaixada / Diplomático', 'Entidade em Portugal / Europa']
+      message: 'Sim, emitimos faturação certificada em conformidade com a AGT para empresas, ministérios e embaixadas, com possibilidade de condições a 30 dias mediante acreditação prévia.',
+      suggestedQuickReplies: ['Empresa em Angola (AGT)', 'Embaixada / Diplomático', 'Entidade no Exterior']
     };
   }
 
   // 13. INTENT: Motorista Bilingue (Protocolo)
   if (lower.includes('motorista') || lower.includes('inglês') || lower.includes('francês') || lower.includes('chauffeur') || lower.includes('condutor')) {
     return {
-      message: 'Dispomos de motoristas profissionais com farda executiva, certificados em condução defensiva e fluentes em Português, Inglês e Francês. Deseja motorista bilingue para a sua reserva?',
-      suggestedQuickReplies: ['Sim, motorista em Inglês', 'Sim, motorista em Francês', 'Apenas em Português', 'Prefiro sem motorista']
+      message: 'Dispomos de serviço de Chauffeur Protocolar (+35.000 Kz/dia) com motoristas fardados, bilingues (Português, Inglês, Francês) e com formação avançada em condução defensiva.',
+      suggestedQuickReplies: ['Sim, motorista em Inglês', 'Sim, motorista em Francês', 'Apenas em Português', 'Livre Condução (Sem motorista)']
     };
   }
 
   // 14. INTENT: Cobertura Geográfica / Províncias
   if (lower.includes('província') || lower.includes('huambo') || lower.includes('bengo') || lower.includes('benguela') || lower.includes('fora de luanda') || lower.includes('interior')) {
     return {
-      message: 'Cobrimos todas as 18 províncias de Angola com bases fixas em Luanda, Huambo e Bengo, e rede de assistência móvel permanente. Para que província planeia deslocar-se?',
+      message: 'Cobrimos todas as 18 províncias de Angola com base principal em Talatona (Luanda) e pólos operacionais no Huambo e Bengo, garantindo assistência técnica contínua.',
       suggestedQuickReplies: ['Huambo', 'Bengo', 'Benguela / Lobito', 'Outra Província']
     };
   }
@@ -273,38 +282,38 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 15. INTENT: Transfer Aeroporto
   if (lower.includes('aeroporto') || lower.includes('transfer') || lower.includes('voo') || lower.includes('aiaan') || lower.includes('4 de fevereiro')) {
     return {
-      message: 'Fazemos transfers VIP nos Aeroportos 4 de Fevereiro e Novo Aeroporto Internacional Dr. António Agostinho Neto (AIAAN). O motorista aguarda no desembarque com placa identificativa. Qual é a data e voo previsto?',
-      suggestedQuickReplies: ['Aeroporto 4 de Fevereiro', 'Aeroporto AIAAN (Novo)', 'Transfer com Land Cruiser', 'Transfer com Van VIP']
+      message: 'Realizamos Transfers VIP no Aeroporto 4 de Fevereiro e no Novo Aeroporto Internacional AIAAN. O nosso motorista aguarda no desembarque com placa identificativa e apoio de bagagem.',
+      suggestedQuickReplies: ['Aeroporto 4 de Fevereiro', 'Aeroporto AIAAN (Novo)', 'Transfer com SUV de Luxo', 'Transfer com Van VIP']
     };
   }
 
   // 16. INTENT: Seguro e Garantias
   if (lower.includes('seguro') || lower.includes('avaria') || lower.includes('acontecer algo') || lower.includes('garantia')) {
     return {
-      message: 'Todas as nossas viaturas dispõem de seguro de cobertura total e garantia de substituição imediata em caso de imprevisto mecânico em qualquer ponto de Angola.',
-      suggestedQuickReplies: ['Ver Ficha das Viaturas', 'Pedir Cotação com Seguro', 'Falar com Consultor']
+      message: 'Todas as 47 viaturas da frota incluem cobertura total e garantia de substituição imediata na estrada em qualquer ponto do país.',
+      suggestedQuickReplies: ['Ver Catálogo da Frota', 'Pedir Cotação com Seguro', 'Falar com Consultor']
     };
   }
 
   // 17. INTENT: Discrição e Protocolo Diplomático
   if (lower.includes('diplomático') || lower.includes('embaixada') || lower.includes('discrição') || lower.includes('confidencial') || lower.includes('segurança')) {
     return {
-      message: 'Trabalhamos regularmente com embaixadas e entidades de estado, garantindo sigilo absoluto, viaturas discretas com vidros de segurança e condutores credenciados.',
-      suggestedQuickReplies: ['Proposta para Embaixada', 'Comboio de Segurança', 'Contactar Gestor Diplomático']
+      message: 'Trabalhamos regularmente com embaixadas, delegações e cimeiras de estado, oferecendo frotas homogéneas, viaturas blindadas B6/B7 e condutores certificados com discrição absoluta.',
+      suggestedQuickReplies: ['Proposta para Embaixada', 'Range Rover Blindado 2025', 'Contactar Gestor Diplomático']
     };
   }
 
   // 18. INTENT: Horário de Funcionamento
   if (lower.includes('horário') || lower.includes('aberto') || lower.includes('fim de semana') || lower.includes('24h') || lower.includes('madrugada')) {
     return {
-      message: 'A nossa central de operações e despacho funciona 24 horas por dia, 7 dias por semana, incluindo feriados e fins de semana.',
+      message: 'A nossa central de operações e despacho em Talatona funciona 24 horas por dia, 7 dias por semana, incluindo feriados.',
       suggestedQuickReplies: ['Fazer Reserva Agora', 'Ligar para a Central', 'Localização em Talatona']
     };
   }
 
   // Resposta Padrão de Cortesia (Curta e Humana)
   return {
-    message: 'Olá! Sou o consultor da central de mobilidade da Pepek Grupo em Talatona. Em que posso ajudar na sua deslocação ou da sua organização hoje?',
+    message: 'Olá! Sou o consultor da central de mobilidade da Pepek Grupo em Talatona. Temos 47 viaturas disponíveis. Em que posso ajudar na sua deslocação hoje?',
     suggestedQuickReplies: ['Recomendar Viatura', 'Preços das Diárias', 'Transfer Aeroporto VIP', 'Falar com Atendimento']
   };
 }
@@ -312,13 +321,13 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
 function generateDynamicReplies(prompt: string, context?: SessionContext): string[] {
   const lower = prompt.toLowerCase();
   if (lower.includes('preço') || lower.includes('quanto')) {
-    return ['SUV Land Cruiser', 'Hilux 4x4 Todo-Terreno', 'Van VIP 12L', 'Pedir Cotação Formal'];
+    return ['Económicos (44.999 Kz)', 'Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Range Rover Blindado'];
   }
   if (lower.includes('aeroporto') || lower.includes('transfer')) {
     return ['Aeroporto 4 de Fevereiro', 'Novo Aeroporto AIAAN', 'Com Motorista Bilingue', 'Fazer Reserva'];
   }
   if (lower.includes('província') || lower.includes('huambo') || lower.includes('bengo')) {
-    return ['Toyota Hilux 4x4', 'Assistência 24/7', 'Pedir Cotação para Viagem'];
+    return ['Toyota Hilux 4x4', 'Toyota Prado', 'Assistência 24/7', 'Pedir Cotação'];
   }
   return ['Recomendar Viatura', 'Preços das Diárias', 'Transfer Aeroporto VIP', 'Falar com um Consultor'];
 }

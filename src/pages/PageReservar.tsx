@@ -10,7 +10,7 @@ export const PageReservar: React.FC = () => (
       <link rel="canonical" href="https://pepekgrupo.com/reservar" />
     </Helmet>
     <div className="pt-28">
-      <BookingWidget initialVehicle="SUV Executiva — Land Cruiser Prado / LC300" />
+      <BookingWidget initialVehicle="Novo Toyota Prado" />
     </div>
   </>
 );
