@@ -92,14 +92,13 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
                   <X className="w-3.5 h-3.5" />
                 </button>
 
-                <div className="aspect-4/3 rounded-xl overflow-hidden bg-[#020A2A] relative">
+                <div className="aspect-4/3 rounded-xl overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#E9EFF6] border border-[#D9DEE7] p-3 flex items-center justify-center relative">
                   <img
                     src={vehicle.primaryImage}
                     alt={vehicle.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain drop-shadow-[0_8px_12px_rgba(7,19,63,0.2)]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <span className="absolute bottom-2 left-2 right-2 text-[11px] font-bold text-white leading-tight">
+                  <span className="absolute bottom-1.5 left-2 right-2 text-[10.5px] font-black text-[#07133F] leading-tight line-clamp-1 bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded shadow-xs text-center">
                     {vehicle.name}
                   </span>
                 </div>

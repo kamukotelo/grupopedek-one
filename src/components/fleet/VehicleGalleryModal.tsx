@@ -38,6 +38,12 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartX = useRef<number | null>(null);
+  const verifiedGallery = (vehicle?.gallery ?? [])
+    .filter((image) => image.url.startsWith('/rent_car/'))
+    .map((image) => ({
+      ...image,
+      url: image.url.replace('/rent_car/', '/rent_car_transparent/')
+    }));
 
   // Reset index when vehicle changes
   useEffect(() => {
@@ -51,29 +57,29 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
       if (!vehicle) return;
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowRight') {
-        setActiveImageIdx((prev) => (prev + 1) % vehicle.gallery.length);
+        setActiveImageIdx((prev) => (prev + 1) % verifiedGallery.length);
       }
       if (e.key === 'ArrowLeft') {
-        setActiveImageIdx((prev) => (prev - 1 + vehicle.gallery.length) % vehicle.gallery.length);
+        setActiveImageIdx((prev) => (prev - 1 + verifiedGallery.length) % verifiedGallery.length);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [vehicle, onClose]);
+  }, [vehicle, onClose, verifiedGallery.length]);
 
   if (!vehicle) return null;
 
-  const currentImg = vehicle.gallery[activeImageIdx] || vehicle.gallery[0];
+  const currentImg = verifiedGallery[activeImageIdx] || verifiedGallery[0];
 
   const handleNext = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    setActiveImageIdx((prev) => (prev + 1) % vehicle.gallery.length);
+    setActiveImageIdx((prev) => (prev + 1) % verifiedGallery.length);
   };
 
   const handlePrev = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    setActiveImageIdx((prev) => (prev - 1 + vehicle.gallery.length) % vehicle.gallery.length);
+    setActiveImageIdx((prev) => (prev - 1 + verifiedGallery.length) % verifiedGallery.length);
   };
 
   // Touch swipe
@@ -146,33 +152,42 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
         <div className="overflow-y-auto flex-1 flex flex-col bg-gray-950">
           {/* Main Visual Display */}
           <div
-            className="relative w-full h-[320px] sm:h-[440px] md:h-[480px] bg-black flex items-center justify-center overflow-hidden shrink-0 group"
+            className={`relative w-full h-[320px] sm:h-[440px] md:h-[480px] flex items-center justify-center overflow-hidden shrink-0 group ${
+              'bg-[#F8FAFC] bg-[url(\'/studio/fleet-studio-background.png\')] bg-cover bg-center p-8 sm:p-12'
+            }`}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
+            {/* Subtle Studio Spotlight for cutouts */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center_75%,rgba(210,168,32,0.12)_0%,transparent_68%)] pointer-events-none" />
+
             <img
               key={currentImg.url}
               src={currentImg.url}
               alt={currentImg.altText}
-              className="w-full h-full object-cover object-center transition-all duration-300 animate-fadeIn"
+              className="transition-all duration-300 animate-fadeIn w-full h-full object-contain object-center drop-shadow-[0_24px_30px_rgba(7,19,63,0.28)] relative z-10"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
             {/* Left / Right Nav */}
-            <button
-              onClick={handlePrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#D2A820] hover:text-[#020A2A] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
+            {verifiedGallery.length > 1 && (
+              <>
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#D2A820] hover:text-[#020A2A] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
 
-            <button
-              onClick={handleNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#D2A820] hover:text-[#020A2A] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#D2A820] hover:text-[#020A2A] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </>
+            )}
 
             {/* Caption & Counter */}
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 pointer-events-none">
@@ -182,14 +197,14 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
 
               <div className="bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 text-white text-xs font-mono font-bold shrink-0">
                 <Camera className="w-3.5 h-3.5 inline mr-1 text-[#D2A820]" />
-                <span>{activeImageIdx + 1} / {vehicle.gallery.length}</span>
+                <span>{activeImageIdx + 1} / {verifiedGallery.length}</span>
               </div>
             </div>
           </div>
 
           {/* Thumbnails Bar */}
-          <div className="bg-[#020A2A] px-4 py-3 border-b border-white/10 flex items-center gap-3 overflow-x-auto no-scrollbar shrink-0">
-            {vehicle.gallery.map((img, idx) => (
+          {verifiedGallery.length > 1 && <div className="bg-[#020A2A] px-4 py-3 border-b border-white/10 flex items-center gap-3 overflow-x-auto no-scrollbar shrink-0">
+            {verifiedGallery.map((img, idx) => (
               <button
                 key={idx}
                 type="button"
@@ -211,7 +226,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                 </span>
               </button>
             ))}
-          </div>
+          </div>}
 
           {/* Specs & Full Content (White Canvas) */}
           <div className="p-6 sm:p-8 bg-white space-y-6 flex-1 text-[#07133F]">

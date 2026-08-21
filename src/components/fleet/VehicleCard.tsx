@@ -34,6 +34,11 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [justBookedFeedback, setJustBookedFeedback] = useState(false);
+  const studioImage = vehicle.primaryImage.replace('/rent_car/', '/rent_car_transparent/');
+  const verifiedPhotoCount = vehicle.gallery.filter((image) => image.url.startsWith('/rent_car/')).length;
+  const verifiedSecondaryImage = vehicle.secondaryImage?.startsWith('/rent_car/')
+    ? vehicle.secondaryImage.replace('/rent_car/', '/rent_car_transparent/')
+    : undefined;
 
   const handleBookingClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -48,47 +53,46 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   };
 
   return (
-    <div className="rounded-3xl border border-[#D9DEE7] bg-white overflow-hidden shadow-md hover:shadow-2xl hover:border-[#D2A820]/70 transition-all duration-300 flex flex-col justify-between group">
+    <div className="rounded-3xl border border-[#D9DEE7] bg-white overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#D2A820]/70 transition-all duration-300 flex flex-col justify-between group">
       {/* ═══════════════════════════════════════════════════════
-          DOMINANT VEHICLE IMAGE AREA (4:3 Ratio, Luxury Presentation)
+          DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
-        className="relative aspect-4/3 overflow-hidden bg-gradient-to-b from-[#07133F] to-[#020A2A] cursor-pointer select-none flex items-center justify-center p-4"
+        className="relative aspect-4/3 overflow-hidden bg-[#F8FAFC] bg-[url('/studio/fleet-studio-background.png')] bg-cover bg-center border-b border-[#D9DEE7] cursor-pointer select-none flex items-center justify-center p-5"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onInspect(vehicle)}
       >
-        {/* Primary Image (4:3 object-contain studio layout) */}
+        {/* Subtle Radial Stage Light */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center_75%,rgba(210,168,32,0.12)_0%,transparent_65%)] pointer-events-none" />
+
+        {/* Primary Studio Cutout Image */}
         <img
-          src={vehicle.primaryImage}
+          src={studioImage}
           alt={vehicle.name}
-          className={`w-full h-full object-contain object-center transition-all duration-500 ease-out group-hover:scale-105 ${
-            isHovered && vehicle.secondaryImage ? 'opacity-0' : 'opacity-100'
+          className={`w-full h-full object-contain object-center transition-all duration-500 ease-out group-hover:scale-105 drop-shadow-[0_16px_18px_rgba(7,19,63,0.22)] ${
+            isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
           loading="lazy"
         />
 
-        {/* Secondary Angle Image (Crossfade on Hover) */}
-        {vehicle.secondaryImage && (
+        {/* Secondary Angle / Interior Image (Crossfade on Hover) */}
+        {verifiedSecondaryImage && (
           <img
-            src={vehicle.secondaryImage}
+            src={verifiedSecondaryImage}
             alt={`${vehicle.name} vista lateral/interior`}
-            className={`absolute inset-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] object-contain object-center transition-all duration-500 ease-out ${
-              isHovered ? 'opacity-100 scale-105' : 'opacity-0'
+            className={`absolute inset-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] object-cover rounded-2xl transition-all duration-500 ease-out shadow-lg ${
+              isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
             loading="lazy"
           />
         )}
 
-        {/* Subtle Luxury Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020A2A]/80 via-transparent to-black/20 pointer-events-none" />
-
-
         {/* Top Badges Area */}
         <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 pointer-events-none z-10">
           <div className="flex flex-wrap items-center gap-1.5">
             {vehicle.badge && (
-              <span className="px-3 py-1 rounded-full bg-[#D2A820] text-[#020A2A] text-[11px] font-black uppercase tracking-wider shadow-md">
+              <span className="px-3 py-1 rounded-full bg-[#07133F] text-[#D2A820] border border-[#D2A820]/30 text-[10.5px] font-black uppercase tracking-wider shadow-sm">
                 {vehicle.badge}
               </span>
             )}
@@ -98,31 +102,18 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           </div>
 
           {/* Photo Count Chip */}
-          <span className="px-2.5 py-1 rounded-full bg-black/60 text-white text-[10px] font-bold backdrop-blur-md border border-white/20 flex items-center gap-1">
+          <span className="px-2.5 py-1 rounded-full bg-[#07133F]/80 text-[#D2A820] text-[10px] font-bold backdrop-blur-md border border-white/10 flex items-center gap-1 shadow-sm">
             <Camera className="w-3 h-3 text-[#D2A820]" />
-            <span>{vehicle.gallery.length} Fotos</span>
+            <span>{verifiedPhotoCount} {verifiedPhotoCount === 1 ? 'Foto' : 'Fotos'}</span>
           </span>
         </div>
 
         {/* Quick View Button Overlay on Hover */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          <span className="px-4 py-2 rounded-full bg-[#07133F]/90 backdrop-blur-md text-[#D2A820] font-bold text-xs border border-[#D2A820]/40 shadow-xl flex items-center gap-1.5">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/10 backdrop-blur-[2px]">
+          <span className="px-4 py-2 rounded-full bg-[#07133F] text-[#D2A820] font-black text-xs border border-[#D2A820] shadow-xl flex items-center gap-1.5 tracking-wide">
             <Eye className="w-4 h-4 text-[#D2A820]" />
             <span>Ver Ficha Técnica Completa</span>
           </span>
-        </div>
-
-        {/* Bottom Overlay Title */}
-        <div className="absolute bottom-3 left-4 right-4 text-white pointer-events-none">
-          <div className="flex items-center gap-1.5 mb-1">
-            <Sparkles className="w-3 h-3 text-[#D2A820]" />
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#D2A820] drop-shadow-sm">
-              {vehicle.categoryLabel}
-            </span>
-          </div>
-          <h3 className="text-lg sm:text-xl font-extrabold text-white leading-tight drop-shadow-md">
-            {vehicle.name}
-          </h3>
         </div>
       </div>
 
@@ -131,6 +122,19 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
          ═══════════════════════════════════════════════════════ */}
       <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-white">
         <div>
+          {/* Header Title inside Content Area */}
+          <div className="mb-3">
+            <div className="flex items-center gap-1.5 mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-[#D2A820]" />
+              <span className="text-[10.5px] font-black uppercase tracking-widest text-[#D2A820]">
+                {vehicle.categoryLabel}
+              </span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-[#07133F] leading-snug">
+              {vehicle.name}
+            </h3>
+          </div>
+
           {/* Price & Location Tag */}
           <div className="flex items-center justify-between mb-4 pb-3.5 border-b border-[#D9DEE7]">
             <div>
@@ -286,5 +290,3 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
     </div>
   );
 };
-
-
