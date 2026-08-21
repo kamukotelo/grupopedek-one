@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
 import { FLEET_CAROUSEL } from '../../data/fleetGallery.generated';
+import { FLEET_UPGRADE_GALLERY } from '../../data/fleetUpgradeGallery';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 
 interface VehicleGalleryModalProps {
@@ -39,8 +40,9 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartX = useRef<number | null>(null);
+  const upgradeGallery = vehicle ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
   const curatedGallery = vehicle ? FLEET_CAROUSEL[vehicle.id] ?? [] : [];
-  const verifiedGallery = [...curatedGallery, ...(vehicle?.gallery ?? [])].map((image) => ({
+  const verifiedGallery = [...upgradeGallery, ...curatedGallery, ...(vehicle?.gallery ?? [])].map((image) => ({
     ...image,
     url: image.url.startsWith('/rent_car/')
       ? image.url.replace('/rent_car/', '/rent_car_hd/')

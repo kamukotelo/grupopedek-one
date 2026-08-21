@@ -77,6 +77,7 @@ const html = `<!doctype html>
         <option value="pending">Sem revisão</option>
       </select>
       <button id="export">Exportar seleção</button>
+      <a class="link" href="/fleet-migration-beta/">Abrir migração beta</a>
     </div>
   </header>
   <main>

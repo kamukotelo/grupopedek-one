@@ -15,6 +15,7 @@ import {
   MapPin
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
+import { getFleetUpgradeCover } from '../../data/fleetUpgradeGallery';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 
 interface VehicleCardProps {
@@ -34,10 +35,11 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [justBookedFeedback, setJustBookedFeedback] = useState(false);
-  const studioImage = vehicle.primaryImage.startsWith('/rent_car/')
+  const upgradeCover = getFleetUpgradeCover(vehicle.id);
+  const studioImage = upgradeCover || (vehicle.primaryImage.startsWith('/rent_car/')
     ? vehicle.primaryImage.replace('/rent_car/', '/rent_car_hd/')
-    : vehicle.primaryImage;
-  const verifiedPhotoCount = vehicle.gallery?.length || 1;
+    : vehicle.primaryImage);
+  const verifiedPhotoCount = (vehicle.gallery?.length || 1) + (upgradeCover ? 1 : 0);
   const verifiedSecondaryImage = vehicle.secondaryImage
     ? vehicle.secondaryImage.startsWith('/rent_car/')
       ? vehicle.secondaryImage.replace('/rent_car/', '/rent_car_hd/')
@@ -99,6 +101,11 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             {vehicle.badge && (
               <span className="px-3 py-1 rounded-full bg-[#07133F] text-[#D2A820] border border-[#D2A820]/30 text-[10.5px] font-black uppercase tracking-wider shadow-sm">
                 {vehicle.badge}
+              </span>
+            )}
+            {upgradeCover && (
+              <span className="px-2.5 py-1 rounded-full bg-[#D2A820] text-[#07133F] text-[10px] font-black uppercase tracking-wider shadow-sm">
+                Nova apresentação
               </span>
             )}
             <span className="px-2.5 py-1 rounded-full bg-[#1E8E5A] text-white text-[10px] font-bold shadow-xs">
