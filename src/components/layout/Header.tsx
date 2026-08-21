@@ -1,7 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import { Phone, Menu, X, MapPin, Mail, User, Calendar } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Phone,
+  Menu,
+  X,
+  MapPin,
+  Mail,
+  User,
+  Calendar,
+  Shield,
+  Radio,
+  Building2,
+  Car,
+  FileText,
+  Compass,
+  Briefcase,
+  Users,
+  Award,
+  Sparkles,
+  Ticket,
+  ChevronRight
+} from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { useAuth } from '../../context/AuthContext';
@@ -11,6 +31,7 @@ export const Header: React.FC = () => {
   const { t } = useTranslation();
   const { currentUser, setIsPortalOpen } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -35,157 +56,233 @@ export const Header: React.FC = () => {
     return () => document.removeEventListener('keydown', onKey);
   }, [mobileMenuOpen]);
 
-  const navLinks = [
-    { to: '/', label: 'Home' },
-    { to: '/quem-somos', label: 'Quem somos' },
-    { to: '/servicos', label: 'Serviços' },
-    { to: '/frota', label: 'Frota' },
-    { to: '/clientes', label: 'Clientes' },
-    { to: '/contactos', label: 'Contactos' }
-  ];
-
-  const scrollToBooking = () => {
-    const el = document.getElementById('reserva');
-    el?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (sectionId: string) => {
+    if (location.pathname !== '/') {
+      navigate(`/#${sectionId}`);
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        el?.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    } else {
+      const el = document.getElementById(sectionId);
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
+  // Bottom tier navigation items (Dark Navy Bar - with icon beside label)
+  const navLinks = [
+    { to: '/', label: 'Início', icon: <Building2 className="w-3.5 h-3.5" /> },
+    { to: '/quem-somos', label: 'Quem Somos', icon: <Award className="w-3.5 h-3.5" /> },
+    { to: '/servicos', label: 'Serviços', icon: <Briefcase className="w-3.5 h-3.5" /> },
+    { to: '/frota', label: 'Frota Oficial (47)', icon: <Car className="w-3.5 h-3.5" /> },
+    { to: '/clientes', label: 'Clientes & Protocolo', icon: <Users className="w-3.5 h-3.5" /> },
+    { to: '/#rotas', label: 'Simulador de Rotas', icon: <Compass className="w-3.5 h-3.5" />, isSection: true, sectionId: 'rotas' },
+    { to: '/#cobertura', label: '18 Províncias', icon: <MapPin className="w-3.5 h-3.5" />, isSection: true, sectionId: 'cobertura' },
+    { to: '/contactos', label: 'Contactos', icon: <Phone className="w-3.5 h-3.5" /> }
+  ];
+
+  // Top tier action items (White Bar - Icon on top, text underneath like FAF structure)
+  const topActions = [
+    {
+      id: 'apoio',
+      label: 'Apoio 24/7',
+      icon: <Shield className="w-5 h-5 stroke-[1.75]" />,
+      action: () => window.open(`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER.replace(/\+/g, '')}?text=Ol%C3%A1%2C%20solicito%20apoio%20da%20Central%2024%2F7%20PEPEK`, '_blank')
+    },
+    {
+      id: 'central',
+      label: 'Em Direto',
+      icon: <Radio className="w-5 h-5 stroke-[1.75] text-[#D2A820] animate-pulse" />,
+      action: () => scrollToSection('rotas')
+    },
+    {
+      id: 'reserva',
+      label: 'Reserva Online',
+      icon: <Ticket className="w-5 h-5 stroke-[1.75]" />,
+      action: () => scrollToSection('reserva')
+    },
+    {
+      id: 'corporate',
+      label: 'Corporate',
+      icon: <Building2 className="w-5 h-5 stroke-[1.75]" />,
+      action: () => navigate('/clientes')
+    },
+    {
+      id: 'frota',
+      label: 'Frota VIP',
+      icon: <Car className="w-5 h-5 stroke-[1.75]" />,
+      action: () => navigate('/frota')
+    },
+    {
+      id: 'portal',
+      label: currentUser ? currentUser.name.split(' ')[0] : 'Área Cliente',
+      icon: <User className="w-5 h-5 stroke-[1.75]" />,
+      action: () => setIsPortalOpen(true),
+      highlight: true
+    }
+  ];
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md">
       {/* ═══════════════════════════════════════════════════════
-          1. TOP UTILITY BAR — Strictly single-line, no-wrap
+          TIER 1: UPPER WHITE BAR (FAF STYLE)
+          - Left: Logo + Stacked Text (PEPEK GRUPO RENT-A-CAR)
+          - Right: Vertical Action Items (Icon Top, Label Bottom)
          ═══════════════════════════════════════════════════════ */}
-      <div
-        className={`hidden lg:flex items-center bg-[#020917] text-gray-300 border-b border-white/5 transition-all duration-300 overflow-hidden whitespace-nowrap ${
-          isScrolled ? 'h-0 opacity-0 border-none pointer-events-none' : 'h-9 opacity-100'
-        }`}
-      >
-        <div className="w-full flex flex-row flex-nowrap items-center justify-between px-6 xl:px-14 2xl:px-20 h-full">
-          {/* ── LEFT: Location · Email ── */}
-          <div className="flex flex-row flex-nowrap items-center gap-3 shrink-0">
-            <div className="inline-flex items-center gap-1.5 text-[11px] text-gray-400 shrink-0">
-              <MapPin className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
-              <span>Talatona, Luanda — Angola</span>
-            </div>
-            <span className="text-gray-700 shrink-0 select-none">|</span>
-            <div className="inline-flex items-center gap-1.5 text-[11px] text-gray-400 shrink-0">
-              <Mail className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
-              <a href="mailto:geral@pepekgrupo.com" className="hover:text-white transition-colors">
-                geral@pepekgrupo.com
-              </a>
-            </div>
-          </div>
-
-          {/* ── RIGHT: Phone · Portal ── */}
-          <div className="flex flex-row flex-nowrap items-center gap-3 shrink-0">
-            <div className="inline-flex items-center gap-1.5 text-[11px] shrink-0">
-              <Phone className="w-3.5 h-3.5 text-[#0B45D8] shrink-0" />
-              <span className="text-gray-400 font-medium">Central 24/7:</span>
-              <a href="tel:+244923719090" className="text-white font-semibold hover:text-[#0B45D8] transition-colors">
-                +244 923 719 090
-              </a>
-              <span className="text-gray-600 select-none">/</span>
-              <a href="tel:+244923000010" className="text-white font-semibold hover:text-[#0B45D8] transition-colors">
-                +244 923 000 010
-              </a>
-            </div>
-            <span className="text-gray-700 shrink-0 select-none">|</span>
-            <button
-              type="button"
-              onClick={() => setIsPortalOpen(true)}
-              className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-gray-300 hover:text-white px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:bg-[#0B45D8] hover:border-[#0B45D8] transition-all cursor-pointer shrink-0"
-            >
-              <User className="w-3 h-3 text-[#0B45D8] shrink-0" />
-              <span className="shrink-0">{currentUser ? currentUser.name.split(' ')[0] : 'Área do Cliente'}</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════
-          2. MAIN NAVBAR (Deep Navy, Prominent Logo, Clean Menu)
-         ═══════════════════════════════════════════════════════ */}
-      <div
-        className={`transition-all duration-300 ${
-          isScrolled
-            ? 'bg-[#030D1F]/98 backdrop-blur-xl shadow-2xl py-3 border-b border-white/10'
-            : 'bg-[#040E24]/95 backdrop-blur-md py-4 border-b border-white/5'
-        }`}
-      >
+      <div className="bg-white border-b border-[#D9DEE7] py-2.5 transition-all duration-300">
         <div className="container-pepek flex items-center justify-between gap-4">
-          {/* Prominent White Logo (Enlarged and Sharp) */}
+          {/* LEFT: Official Identity (Logo + Bold Stacked Typography) */}
           <Link
             to="/"
-            className="flex items-center gap-2 group transition-transform duration-200 hover:scale-[1.02] shrink-0"
+            className="flex items-center gap-3.5 group transition-transform duration-200 hover:scale-[1.01] shrink-0"
             aria-label="PEPEK GRUPO — Página Inicial"
           >
-            <Logo height={64} variant="light" />
+            <div className="h-12 sm:h-14 flex items-center">
+              <img
+                src="/logo.png"
+                alt="PEPEK GRUPO"
+                className="h-full w-auto object-contain"
+              />
+            </div>
+
+            <div className="flex flex-col justify-center leading-none border-l-2 border-[#D2A820] pl-3">
+              <span className="text-[15px] sm:text-[17px] font-black tracking-tight text-[#07133F] uppercase font-sans">
+                PEPEK GRUPO
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-extrabold tracking-widest text-[#D2A820] uppercase mt-0.5">
+                RENT-A-CAR ANGOLA
+              </span>
+              <span className="text-[8.5px] font-bold tracking-wider text-[#697080] uppercase hidden sm:block mt-0.5">
+                Mobilidade Executiva & Protocolar
+              </span>
+            </div>
           </Link>
 
-          {/* Desktop Navigation Links — Centered & Elegant */}
-          <nav className="hidden xl:flex items-center gap-8" aria-label="Navegação principal">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`text-[15px] font-medium tracking-wide transition-colors relative py-1 ${
-                  location.pathname === link.to
-                    ? 'text-amber-400 font-semibold after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-amber-400'
-                    : 'text-gray-200 hover:text-white after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-amber-400 hover:after:w-full after:transition-all after:duration-200'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          {/* RIGHT (Desktop): Vertical Stack Actions (FAF Structure) */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <div className="flex items-center gap-4 xl:gap-6">
+              {topActions.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={item.action}
+                  className={`flex flex-col items-center justify-center gap-1 group py-1 px-2 rounded-xl transition-all cursor-pointer ${
+                    item.highlight
+                      ? 'text-[#07133F] hover:text-[#D2A820]'
+                      : 'text-[#4A5568] hover:text-[#07133F]'
+                  }`}
+                >
+                  <div className="transition-transform group-hover:-translate-y-0.5 text-[#07133F] group-hover:text-[#D2A820]">
+                    {item.icon}
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-center leading-none">
+                    {item.label}
+                  </span>
+                </button>
+              ))}
+            </div>
 
-          {/* Right Action Cluster: Language Switcher + Client Portal + Booking Button */}
-          <div className="hidden lg:flex items-center gap-4 shrink-0">
+            {/* Divider */}
+            <div className="h-8 w-[1px] bg-[#D9DEE7]" />
+
             {/* Language Switcher */}
-            <LanguageSwitcher variant="light" />
+            <LanguageSwitcher variant="dark" />
+          </div>
 
-            {/* Login / Client Portal Button */}
+          {/* RIGHT (Mobile): Compact Controls */}
+          <div className="flex lg:hidden items-center gap-2">
             <button
               type="button"
               onClick={() => setIsPortalOpen(true)}
-              className="text-[14px] font-medium text-gray-200 hover:text-white px-3 py-2 transition-colors cursor-pointer flex items-center gap-1.5"
+              className="p-2 rounded-xl bg-[#F3F5F8] text-[#07133F] border border-[#D9DEE7] hover:bg-gray-100 transition-colors"
+              aria-label="Área do Cliente"
             >
-              <User className="w-4 h-4 text-[#0B45D8]" />
-              <span>{currentUser ? currentUser.name.split(' ')[0] : 'Login'}</span>
+              <User className="w-5 h-5 text-[#07133F]" />
             </button>
 
-            {/* Primary Action: Solicitar Reserva */}
-            <button
-              type="button"
-              onClick={scrollToBooking}
-              className="px-6 py-2.5 rounded-xl bg-[#0B45D8] hover:bg-[#1A58F5] text-white font-bold text-xs transition-all shadow-lg flex items-center gap-2 cursor-pointer hover:shadow-blue-500/25"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Solicitar Reserva</span>
-            </button>
-          </div>
+            <LanguageSwitcher variant="dark" />
 
-          {/* Mobile Menu Trigger */}
-          <div className="flex lg:hidden items-center gap-2">
-            <LanguageSwitcher variant="light" />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors focus:outline-none cursor-pointer"
+              className="p-2 rounded-xl bg-[#07133F] text-white hover:bg-[#020A2A] transition-colors focus:outline-none cursor-pointer"
               aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu de navegação'}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav-drawer"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* ═══════════════════════════════════════════════════════
+          TIER 2: LOWER DARK NAVY BAR (FAF STYLE)
+          - Deep Blue/Navy Background (#020A2A / #07133F)
+          - Icon on the left + Uppercase Nav Links
+         ═══════════════════════════════════════════════════════ */}
+      <div className="hidden lg:block bg-[#020A2A] border-t border-white/10 text-white py-2 px-4">
+        <div className="container-pepek flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
+          <nav className="flex items-center gap-3.5 xl:gap-5 2xl:gap-7 flex-nowrap shrink-0" aria-label="Navegação principal">
+            {navLinks.map((link) => {
+              const isActive = !link.isSection && location.pathname === link.to;
+
+              if (link.isSection) {
+                return (
+                  <button
+                    key={link.label}
+                    type="button"
+                    onClick={() => scrollToSection(link.sectionId!)}
+                    className="flex items-center gap-1.5 text-[11px] xl:text-[11.5px] 2xl:text-[12px] font-extrabold uppercase tracking-wider text-gray-300 hover:text-[#D2A820] py-1 transition-colors cursor-pointer group shrink-0 whitespace-nowrap"
+                  >
+                    <span className="text-[#D2A820] group-hover:scale-110 transition-transform">
+                      {link.icon}
+                    </span>
+                    <span>{link.label}</span>
+                  </button>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`flex items-center gap-1.5 text-[11px] xl:text-[11.5px] 2xl:text-[12px] font-extrabold uppercase tracking-wider py-1 transition-all relative group shrink-0 whitespace-nowrap ${
+                    isActive
+                      ? 'text-[#D2A820] font-black'
+                      : 'text-gray-200 hover:text-[#D2A820]'
+                  }`}
+                >
+                  <span className={`transition-transform group-hover:scale-110 ${isActive ? 'text-[#D2A820]' : 'text-gray-400 group-hover:text-[#D2A820]'}`}>
+                    {link.icon}
+                  </span>
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <span className="absolute -bottom-2 left-0 right-0 h-[2.5px] bg-[#D2A820] rounded-full shadow-[0_0_8px_rgba(210,168,32,0.8)]" />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Quick Direct Hotline Badge */}
+          <div className="hidden 2xl:flex items-center gap-2 text-[11px] font-bold text-gray-300 bg-white/5 px-3 py-1 rounded-full border border-white/10 shrink-0 whitespace-nowrap">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Talatona:</span>
+            <a href="tel:+244923719090" className="text-[#D2A820] hover:underline font-black">
+              +244 923 719 090
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════
+          MOBILE DRAWER
+         ═══════════════════════════════════════════════════════ */}
       {mobileMenuOpen && (
         <div
           id="mobile-nav-drawer"
           ref={drawerRef}
-          className="lg:hidden fixed inset-0 top-[76px] bg-[#030D1F]/98 backdrop-blur-2xl z-40 p-6 flex flex-col justify-between border-t border-white/10 overflow-y-auto"
+          className="lg:hidden fixed inset-0 top-[70px] bg-[#020A2A]/98 backdrop-blur-2xl z-40 p-6 flex flex-col justify-between border-t border-white/10 overflow-y-auto"
           role="dialog"
           aria-modal="true"
           aria-label="Menu de navegação"
@@ -193,51 +290,93 @@ export const Header: React.FC = () => {
             if (e.target === e.currentTarget) setMobileMenuOpen(false);
           }}
         >
-          <nav className="flex flex-col gap-3 pt-2" aria-label="Navegação mobile">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`text-base font-semibold py-3 border-b border-white/5 flex items-center justify-between ${
-                  location.pathname === link.to ? 'text-amber-400' : 'text-gray-100 hover:text-amber-400'
-                }`}
+          {/* Top Quick Actions Grid in Mobile */}
+          <div className="grid grid-cols-3 gap-2.5 mb-6 pb-6 border-b border-white/10">
+            {topActions.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  item.action();
+                }}
+                className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
               >
-                <span>{link.label}</span>
-                <span className="text-xs text-gray-500">➔</span>
-              </Link>
+                <div className="text-[#D2A820] mb-1">
+                  {item.icon}
+                </div>
+                <span className="text-[9.5px] font-extrabold uppercase tracking-wider text-center text-gray-200">
+                  {item.label}
+                </span>
+              </button>
             ))}
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex flex-col gap-1" aria-label="Navegação mobile">
+            {navLinks.map((link) => {
+              if (link.isSection) {
+                return (
+                  <button
+                    key={link.label}
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      scrollToSection(link.sectionId!);
+                    }}
+                    className="flex items-center justify-between text-sm font-bold text-gray-200 hover:text-[#D2A820] py-3 px-3 rounded-xl hover:bg-white/5 transition-colors text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-[#D2A820]">{link.icon}</span>
+                      <span>{link.label}</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-gray-500" />
+                  </button>
+                );
+              }
+
+              const isActive = location.pathname === link.to;
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center justify-between text-sm font-bold py-3 px-3 rounded-xl transition-colors ${
+                    isActive
+                      ? 'bg-[#D2A820] text-[#020A2A]'
+                      : 'text-gray-200 hover:bg-white/5 hover:text-[#D2A820]'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={isActive ? 'text-[#020A2A]' : 'text-[#D2A820]'}>
+                      {link.icon}
+                    </span>
+                    <span>{link.label}</span>
+                  </div>
+                  <ChevronRight className={`w-4 h-4 ${isActive ? 'text-[#020A2A]' : 'text-gray-500'}`} />
+                </Link>
+              );
+            })}
           </nav>
 
+          {/* Footer Info */}
           <div className="pt-6 border-t border-white/10 space-y-3">
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                setIsPortalOpen(true);
+                scrollToSection('reserva');
               }}
-              className="w-full py-3 rounded-xl bg-white/10 text-white font-bold text-sm border border-white/15 flex items-center justify-center gap-2"
+              className="w-full py-3.5 px-6 rounded-xl bg-[#D2A820] hover:bg-[#E1BB38] text-[#020A2A] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg"
             >
-              <User className="w-4 h-4 text-[#0B45D8]" />
-              <span>{currentUser ? `Painel — ${currentUser.name.split(' ')[0]}` : 'Área do Cliente / Login'}</span>
+              <Ticket className="w-4 h-4" />
+              <span>Solicitar Reserva Imediata</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                scrollToBooking();
-              }}
-              className="btn-primary w-full justify-center text-sm py-3.5 font-bold"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Solicitar Reserva Online</span>
-            </button>
-
-            <div className="text-xs text-gray-300 space-y-1 pt-2">
-              <p className="font-semibold text-white">PEPEK GRUPO RENT-A-CAR</p>
-              <p className="text-gray-400">Talatona, Rua Reino do Bailundo, Luanda</p>
-              <p className="text-[#0B45D8] font-bold">+244 923 719 090 / 923 000 010</p>
+            <div className="text-center text-xs text-gray-400 pt-2 space-y-1">
+              <p className="font-bold text-white uppercase tracking-wider">PEPEK GRUPO RENT-A-CAR</p>
+              <p className="text-[11px]">Talatona, Rua Reino do Bailundo · Luanda</p>
+              <p className="text-[#D2A820] font-bold">+244 923 719 090 / 923 000 010</p>
             </div>
           </div>
         </div>
