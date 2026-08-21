@@ -3,16 +3,13 @@ import { HelmetProvider } from 'react-helmet-async';
 import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
 import { Hero } from './components/sections/Hero';
-import { InstitutionalClients } from './components/sections/InstitutionalClients';
 import { BookingWidget } from './components/sections/BookingWidget';
-import { RouteEstimator } from './components/sections/RouteEstimator';
 import { Services } from './components/sections/Services';
 import { Fleet } from './components/sections/Fleet';
 import { CorporatePortal } from './components/sections/CorporatePortal';
 import { CoverageMap } from './components/sections/CoverageMap';
 import { Process } from './components/sections/Process';
 import { About } from './components/sections/About';
-import { Capabilities } from './components/sections/Capabilities';
 import { PaymentSecurity } from './components/sections/PaymentSecurity';
 import { FAQ } from './components/sections/FAQ';
 import { Contact } from './components/sections/Contact';
@@ -35,46 +32,37 @@ export const App: React.FC = () => {
 
         {/* Main Application Flow */}
         <main className="flex-1">
-          {/* 1. Hero Section (Slogan & 4 Pillars) */}
+          {/* Chapter 1: Hero & Embedded Top 5-by-5 Client Logos */}
           <Hero />
 
-          {/* 2. Top Institutional Client Logos (5-second 6-logo stepped rotation) */}
-          <InstitutionalClients />
-
-          {/* 3. Interactive VIP Concierge & Smart Booking Engine */}
+          {/* Chapter 2: Interactive Visual Simulator & Directorate Dossier Registration */}
           <BookingWidget initialVehicle={selectedVehicleForBooking} />
 
-          {/* 4. Executive Route Estimator & Fare Calculator */}
-          <RouteEstimator />
-
-          {/* 5. Core Services (4 Interactive Cards) */}
+          {/* Chapter 3: Executive Services & Diplomatic Protocol */}
           <Services />
 
-          {/* 6. Fleet Showcase with High-Res Technical Specs Modal */}
+          {/* Chapter 4: Fleet Showcase with High-Res Technical Specs Modal */}
           <Fleet onSelectVehicle={(v) => setSelectedVehicleForBooking(v)} />
 
-          {/* 7. Dedicated Corporate & Diplomatic VIP Protocol Section */}
+          {/* Chapter 5: Corporate & Diplomatic Portal */}
           <CorporatePortal />
 
-          {/* 8. Operational Coverage Map (18 Provinces & Hubs) */}
+          {/* Chapter 6: Operational Coverage Map (18 Provinces & Technical Bases) */}
           <CoverageMap />
 
-          {/* 9. Process 'Da Reserva à Chegada' (3 Steps) */}
+          {/* Chapter 7: Operational Process 'Da Reserva ao Destino' */}
           <Process />
 
-          {/* 10. Corporate History & Core Values since 2014 */}
+          {/* Chapter 8: Corporate History & Heritage since 2014 */}
           <About />
 
-          {/* 11. Operational Capabilities & Special Missions */}
-          <Capabilities />
-
-          {/* 12. Payment Security & AGT Compliance Bar */}
+          {/* Chapter 9: AGT Compliance, Invoicing & Payment Security */}
           <PaymentSecurity />
 
-          {/* 13. Frequently Asked Questions (FAQ) */}
+          {/* Chapter 10: Frequently Asked Questions (FAQ) */}
           <FAQ />
 
-          {/* 14. Contact & 24/7 Operations Hub */}
+          {/* Chapter 11: 24/7 Operations Hub & Direct Contacts */}
           <Contact />
         </main>
 
