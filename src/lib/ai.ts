@@ -1,80 +1,90 @@
 import { OFFICIAL_WHATSAPP_NUMBER } from './whatsapp';
+import { FLEET_DATABASE } from '../data/fleetData';
 
 export interface AssistantResponse {
   message: string;
   recommendedVehicle?: string;
-  quoteEstimate?: string;
   suggestedQuickReplies?: string[];
-  bookingDraft?: {
-    service?: string;
-    vehicle?: string;
-    location?: string;
-    withDriver?: boolean;
+  requiresHumanHandover?: boolean;
+  handoverContext?: string;
+}
+
+export interface SessionContext {
+  lastMentionedVehicle?: string;
+  currentIntent?: string;
+  step?: 'idle' | 'awaiting_passengers' | 'awaiting_dates' | 'awaiting_location' | 'ready_to_quote';
+  collectedData?: {
+    passengers?: number;
+    destination?: string;
+    dates?: string;
+    serviceType?: string;
   };
 }
 
-export const PEPEK_DEEP_KNOWLEDGE = `
-Você é o Despachante Executivo & Especialista Técnico da PEPEK GRUPO RENT-A-CAR em Angola.
-Seu nome de atendimento é: Central de Despacho Executivo PEPEK.
-Você atende clientes corporativos, embaixadas, governantes, executivos de topo e particulares com tom sóbrio, educado, extremamente profissional, direto e humano (sem parecer um robô impessoal).
+// ─────────────────────────────────────────────────────────────────────────────
+// PROMPT DE SISTEMA — GEMINI AI (PEPEK GRUPO)
+// ─────────────────────────────────────────────────────────────────────────────
+export const GEMINI_SYSTEM_INSTRUCTIONS = `
+Você é o Gestor de Atendimento da PEPEK GRUPO RENT-A-CAR em Angola.
+Seu objetivo é conversar de forma calorosa, humana, direta e profissional, ajudando o cliente a encontrar a viatura e o serviço de mobilidade ideal.
 
-═══ REGRAS ABSOLUTAS DE ATENDIMENTO ═══
-1. NUNCA mande o cliente para o WhatsApp de imediato antes de qualificá-lo e resolver a dúvida dele diretamente aqui na tela.
-2. Ajude o cliente a escolher o veículo correto conforme a necessidade (cidade vs províncias vs protocolo).
-3. Seja conciso (2 a 4 frases por resposta), direto, com respostas firmes e dados reais.
-4. Quando o cliente fornecer dados de viagem, formalize a pré-reserva, valide o itinerário e confirme o registo.
-5. Ofereça a continuidade: "Posso registar para que um gestor lhe ligue ou prefere o envio do comprovativo formatado para o WhatsApp?"
+═══ PRINCÍPIOS DE TOM E COMPORTAMENTO ═══
+1. LINGUAGEM NATURAL E CONCISA: Responda em 1 a 3 frases curtas, como se estivesse ao telefone ou numa mensagem WhatsApp de um gestor experiente. NUNCA envie blocos gigantescos de texto ou listas intermináveis.
+2. SOM COMO HUMANO, NUNCA COMO SISTEMA: NUNCA use termos de software (ex: "módulo Odoo", "detectámos a sua credencial", "banco de dados", "XML-RPC"). Fale como um consultor da Pepek Grupo fala com um cliente presencialmente em Talatona.
+3. UMA PERGUNTA DE CADA VEZ: Se precisar de mais informações para recomendar uma viatura, faça apenas UMA pergunta por vez (ex: "Quantas pessoas vão viajar consigo?").
+4. MEMÓRIA DE CONVERSA: Lembre-se das viaturas que o cliente já mencionou na conversa atual (ex: "Voltando à Land Cruiser Prado que mencionou...").
+5. SABE QUANDO NÃO SABE: Para preços não tabelados, situações contratuais específicas, reclamações ou cancelamentos, admita com naturalidade e ofereça passar de imediato a um despachante humano no WhatsApp ou chamada. Nunca invente dados.
+6. SEGURANÇA E ANOMINATO: Trate todo visitante como anónimo a menos que ele se identifique expressamente na conversa.
 
-═══ DADOS COMPLETOS DA PEPEK GRUPO ═══
-• Fundação: 2014 (Mais de 10 anos de mercado contínuo em Angola).
-• Sede Principal: Talatona, Rua Reino do Bailundo, Luanda — Angola.
-• Pólos Regionais: Huambo (Planalto Central) e Bengo (Caxito / Litoral Norte).
-• Cobertura: Todas as 18 províncias de Angola com rede móvel de reboque e assistência técnica 24/7.
-• Contactos: +244 923 719 090 / +244 923 000 010 | geral@pepekgrupo.com
-
-═══ FROTA E RECOMENDAÇÕES TÉCNICAS ═══
-1. SUV Executiva de Luxo (Land Cruiser Prado TXL/VX, Land Cruiser 300 VXR, Lexus LX 600):
-   - Ideal para: Membros de direcção, ministros, diplomatas, eventos executivos e conforto supremo em Luanda e vias principais.
-   - Lotação: 7 lugares | 5 malas grandes | Tração 4WD permanente | Ar condicionado duplo | Vidros fumados homologados.
-
-2. 4x4 Todo-Terreno & Campo (Toyota Hilux Dupla Cabine, Toyota Fortuner 4x4):
-   - Ideal para: Missões no interior, províncias (Huambo, Bengo, Benguela, Bié, Lunda Sul, etc.), engenharia, mineração, agro-negócio e terrenos difíceis.
-   - Lotação: 5 lugares | Caixa de carga / 6 malas | 4x4 com redutoras | Suspensão reforçada | Protecção de cárter.
-
-3. Vans Executivas VIP & Minibus (Toyota Hiace VIP 12 lugares, Toyota Quantum, Toyota Coaster 26 lugares):
-   - Ideal para: Delegações diplomáticas, equipas técnicas de multinacionais, comitivas de conferências e transfers de tripulações.
-   - Lotação: 12 a 26 passageiros | Ar condicionado independente para passageiros traseiros | Bancos individuais reclináveis.
-
-4. Comboios Protocolares & Escolta:
-   - Viaturas idênticas em cortejo com motoristas treinados em condução defensiva, escolta e etiqueta de estado.
-
-═══ SERVIÇOS E REGIMES ═══
-• Rent a Car (Livre Condução / Self-Drive): Aluguer diário, semanal ou mensal. Exige BI/Passaporte válido, Carta de condução com +2 anos e caução de garantia.
-• Mobilidade Executiva com Motorista (Chauffeur): Viatura com motorista bilingue (Português, Inglês, Francês) fardado, formado em etiqueta, condução defensiva e sigilo absoluto. Não exige caução do cliente.
-• Transfers Aeroporto (4 de Fevereiro e AIAAN Dr. António Agostinho Neto): Recepção Meet & Greet personalizada no desembarque com placa identificativa e monitorização de voo.
-• Faturação & Pagamentos: Facturas formais AGT em Kwanzas (AOA) ou moedas internacionais (USD/EUR). Aceita Multicaixa, Multicaixa Express (EMIS), transferências BFA/BAI/Atlântico/Standard Bank, Visa, Mastercard e SWIFT.
-
-═══ CLIENTES OFICIAIS DE REFERÊNCIA ═══
-Embaixada dos Estados Unidos da América, Governo de Angola, Assembleia Nacional, ANPG (Agência Nacional de Petróleo e Gás), SONANGOL, TAAG Linhas Aéreas, BFA, Banco Atlântico, Standard Bank, UNICEF, Fidelidade Seguros, DSTV MultiChoice, ZAP, SIC (Serviço de Investigação Criminal), ELISAL, Catoca Diamantes, COSMOS Viagens, HV International, F.A.F (Federação Angolana de Futebol).
+═══ DADOS OFICIAIS PEPEK GRUPO ═══
+• Sede: Talatona, Rua Reino do Bailundo, Luanda — Angola.
+• Pólos de Apoio: Huambo (Planalto Central) e Bengo (Caxito).
+• Linha 24/7: +244 923 719 090 / 923 000 010 | geral@pepekgrupo.com
+• Frota Principal:
+  - SUV Executiva: Toyota Land Cruiser Prado TXL & LC300 VXR (7 lugares, 4WD permanente, luxo protocolar). Diária a partir de 185.000 AOA (~€205 EUR).
+  - 4x4 Todo-Terreno: Toyota Hilux Dupla Cabine 4x4 & Fortuner (5-7 lugares, redutoras, ideal para províncias). Diária a partir de 135.000 AOA (~€150 EUR).
+  - Van VIP: Toyota Hiace VIP Executiva (12 lugares individuais em pele, AC traseiro dedicado). Diária a partir de 210.000 AOA (~€230 EUR).
+  - Comboio Protocolar & Escolta: Viaturas pretas coordenadas para comitivas de estado e cimeiras.
+• Pagamentos: Multicaixa e Express em Angola; Cartões, Multibanco e MB WAY para Portugal e Europa; Faturação AGT em AOA/EUR.
+• Seguros: Cobertura total com viatura de substituição em caso de imprevisto.
 `;
 
-export async function askPepekExecutiveAI(userPrompt: string, history: Array<{ role: 'user' | 'assistant'; content: string }>): Promise<AssistantResponse> {
+// ─────────────────────────────────────────────────────────────────────────────
+// MOTOR PRINCIPAL DE ATENDIMENTO CONVERSACIONAL (GEMINI + FALLBACK HUMANIZADO)
+// ─────────────────────────────────────────────────────────────────────────────
+export async function askPepekExecutiveAI(
+  userPrompt: string,
+  history: Array<{ role: 'user' | 'assistant'; content: string }>,
+  sessionContext?: SessionContext
+): Promise<AssistantResponse> {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: 'user',
-              parts: [{ text: `${PEPEK_DEEP_KNOWLEDGE}\n\nHistórico da conversa: ${JSON.stringify(history)}\n\nMensagem do Cliente: "${userPrompt}"\n\nResponda como um despachante executivo humano, discreto, direto e prestativo em português de Angola. Esclareça tecnicamente e pergunte se deseja firmar a reserva na central.` }]
-            }
-          ]
-        })
-      });
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  {
+                    text: `${GEMINI_SYSTEM_INSTRUCTIONS}
+Contexto da sessão actual: Viatura em foco: "${sessionContext?.lastMentionedVehicle || 'Nenhuma'}".
+Histórico recente da conversa: ${JSON.stringify(history.slice(-6))}
+Pergunta do cliente: "${userPrompt}"
+
+Instrução: Responda diretamente ao cliente com no máximo 2 a 3 frases, tom humano, caloroso e focado em ajudá-lo.`
+                  }
+                ]
+              }
+            ]
+          })
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -82,83 +92,231 @@ export async function askPepekExecutiveAI(userPrompt: string, history: Array<{ r
         if (text) {
           return {
             message: text.trim(),
-            suggestedQuickReplies: generateContextualChips(userPrompt)
+            suggestedQuickReplies: generateDynamicReplies(userPrompt, sessionContext)
           };
         }
       }
     } catch (err) {
-      console.warn('Gemini API call fallback:', err);
+      console.warn('Gemini API call failed, using human intent matcher fallback:', err);
     }
   }
 
-  // Fallback Inteligente de Despachante Humano
-  return generateHumanDispatcherReply(userPrompt);
+  // Motor determinístico de intenções com linguagem natural humana
+  return processIntentMatch(userPrompt, sessionContext);
 }
 
-function generateContextualChips(prompt: string): string[] {
-  const lower = prompt.toLowerCase();
-  if (lower.includes('aeroporto') || lower.includes('transfer')) {
-    return ['Transfer no Aeroporto 4 de Fevereiro', 'Transfer no Novo Aeroporto (AIAAN)', 'Com Motorista Executivo', 'Saber Requisitos'];
-  }
-  if (lower.includes('província') || lower.includes('huambo') || lower.includes('bengo') || lower.includes('campo')) {
-    return ['Toyota Hilux 4x4', 'Toyota Prado 4WD', 'Preço com Motorista', 'Seguro & Assistência 24/7'];
-  }
-  if (lower.includes('empresa') || lower.includes('corporativo') || lower.includes('frotas') || lower.includes('fatura')) {
-    return ['Contrato Mensal de Frota', 'Facturação AGT', 'Viatura de Substituição', 'Falar com Gestor de Contas'];
-  }
-  return ['Toyota Land Cruiser Prado', 'Toyota Hilux 4x4 Todo-Terreno', 'Transfer Aeroporto VIP', 'Contrato para Empresa'];
-}
-
-function generateHumanDispatcherReply(prompt: string): AssistantResponse {
+// ─────────────────────────────────────────────────────────────────────────────
+// MAPA DE INTENTS E RESPOSTAS ESTRUTURADAS (SEM ALUCINAÇÕES)
+// ─────────────────────────────────────────────────────────────────────────────
+function processIntentMatch(prompt: string, context?: SessionContext): AssistantResponse {
   const lower = prompt.toLowerCase();
 
-  if (lower.includes('ajuda') || lower.includes('qual carro') || lower.includes('recomenda') || lower.includes('indeciso')) {
+  // 1. INTENT: Reclamação ou Problema Urgente na Estrada
+  if (
+    lower.includes('avariou') ||
+    lower.includes('problema') ||
+    lower.includes('acidente') ||
+    lower.includes('furo') ||
+    lower.includes('socorro') ||
+    lower.includes('emergência') ||
+    lower.includes('urgente')
+  ) {
     return {
-      message: 'Com certeza. Para deslocações executivas na cidade de Luanda e compromissos protocolares, recomendamos a nossa SUV Land Cruiser Prado ou LC300. Se a sua viagem envolver províncias (Huambo, Bengo ou vias não asfaltadas), a Toyota Hilux 4x4 Dupla Cabine é a viatura mais recomendada pela sua robustez e tracção com redutoras. Qual é o seu itinerário previsto?',
-      recommendedVehicle: 'Land Cruiser Prado / Hilux 4x4',
-      suggestedQuickReplies: ['Deslocação em Luanda', 'Viagem Interprovincial', 'Transfer Aeroporto', 'Aluguer com Motorista']
+      message: 'Lamento imenso a situação. A nossa linha de apoio e reboque 24 horas está em prontidão para intervir imediatamente. Vou transferi-lo agora mesmo para a nossa equipa operacional de emergência.',
+      requiresHumanHandover: true,
+      handoverContext: 'Assistência Urgente / Viatura na Estrada',
+      suggestedQuickReplies: ['Ligar para +244 923 719 090', 'Enviar Localização no WhatsApp']
     };
   }
 
-  if (lower.includes('aeroporto') || lower.includes('transfer') || lower.includes('voo') || lower.includes('desembarque')) {
+  // 2. INTENT: Falar com Humano / Atendimento Direto
+  if (
+    lower.includes('humano') ||
+    lower.includes('pessoa') ||
+    lower.includes('falar com alguém') ||
+    lower.includes('atendente') ||
+    lower.includes('gestor') ||
+    lower.includes('telefone') ||
+    lower.includes('ligar')
+  ) {
     return {
-      message: 'Organizamos o serviço de Transfer VIP nos Aeroportos 4 de Fevereiro e AIAAN. O nosso chauffeur aguarda no desembarque devidamente fardado com placa de identificação da sua entidade, água lacrada e viatura climatizada. Deseja agendar a recepção para que data e voo?',
-      recommendedVehicle: 'SUV Executiva (Prado / LC300)',
-      suggestedQuickReplies: ['Sim, agendar transfer', 'Qual é a viatura utilizada?', 'Ver opções de pagamento', 'Falar com operações']
+      message: 'Com certeza! Pode falar diretamente com um dos nossos consultores em Talatona por WhatsApp ou chamada telefónica.',
+      requiresHumanHandover: true,
+      handoverContext: 'Solicitação de Atendimento Humano',
+      suggestedQuickReplies: ['Abrir WhatsApp da Central', 'Ligar 24/7 (+244 923 719 090)']
     };
   }
 
-  if (lower.includes('preço') || lower.includes('valor') || lower.includes('quanto') || lower.includes('custo') || lower.includes('tabela')) {
+  // 3. INTENT: Alterar ou Cancelar Reserva Existente
+  if (lower.includes('cancelar') || lower.includes('mudar data') || lower.includes('alterar reserva') || lower.includes('trocar data')) {
     return {
-      message: 'Os valores são estruturados consoante o modelo (SUV Executiva, 4x4 de campo, Van VIP), o período (diário, semanal ou mensal) e a opção com ou sem motorista protocolar. Todas as propostas incluem seguro de cobertura total e viatura de substituição. Para quantas diárias e qual o modelo de sua preferência?',
-      suggestedQuickReplies: ['SUV Land Cruiser Prado', 'Hilux 4x4 Todo-Terreno', 'Van VIP 12 Lugares', 'Contrato Mensal Empresa']
+      message: 'Para alterar datas ou cancelar uma reserva confirmada, a nossa equipa de despacho trata disso de imediato com a referência do seu processo. Posso encaminhá-lo para a nossa central agora mesmo.',
+      requiresHumanHandover: true,
+      handoverContext: 'Alteração/Cancelamento de Reserva',
+      suggestedQuickReplies: ['Falar com Despacho no WhatsApp', 'Consultar Política de Cancelamento']
     };
   }
 
-  if (lower.includes('requisito') || lower.includes('documento') || lower.includes('caução') || lower.includes('condições')) {
+  // 4. INTENT: Eventos de Grande Escala ou Cimeiras (10+ viaturas)
+  if (lower.includes('cimeira') || lower.includes('conferência') || lower.includes('50 pessoas') || lower.includes('100 pessoas') || lower.includes('várias viaturas') || lower.includes('grande comitiva')) {
     return {
-      message: 'Para Livre Condução (Self-Drive) é necessária a apresentação de BI ou Passaporte válido, Carta de Condução com mais de 2 anos e caução reembolsável. No regime com Motorista Executivo PEPEK, não é exigida caução ao cliente nem carta de condução, ficando toda a responsabilidade a cargo do nosso chauffeur credenciado.',
-      suggestedQuickReplies: ['Prefiro Com Motorista', 'Prefiro Livre Condução', 'Quero uma Proposta', 'Contactar Central']
+      message: 'Temos vasta experiência na coordenação de frotas completas para cimeiras e eventos internacionais. Para dimensionarmos o comboio e os motoristas dedicados, vou colocá-lo em contacto com o nosso Gestor de Grandes Contas.',
+      requiresHumanHandover: true,
+      handoverContext: 'Comitiva de Grande Escala / Cimeira',
+      suggestedQuickReplies: ['Falar com Gestor de Contas', 'Ver Vans e Minibus VIP']
     };
   }
 
-  if (lower.includes('huambo') || lower.includes('bengo') || lower.includes('província') || lower.includes('interior')) {
+  // 5. INTENT: Pedir Recomendação de Viatura
+  if (lower.includes('qual carro') || lower.includes('que viatura') || lower.includes('qual escolher') || lower.includes('recomenda') || lower.includes('indeciso')) {
     return {
-      message: 'Dispomos de bases permanentes em Luanda, Huambo e Bengo, com autorização de circulação e apoio mecânico móvel 24/7 em todas as 18 províncias de Angola. As nossas viaturas de campo vêm equipadas com pneus adequados, ferramentas de apoio e rastreio GPS. Deseja viatura para quantos passageiros?',
-      recommendedVehicle: 'Toyota Hilux / Fortuner 4x4',
-      suggestedQuickReplies: ['Toyota Hilux 4x4', 'Toyota Prado 4WD', 'Consultar Disponibilidade', 'Falar com Despacho']
+      message: 'Terei todo o gosto em ajudar. Para quantas pessoas será a viagem e o trajeto será em Luanda ou envolverá províncias?',
+      suggestedQuickReplies: ['Até 4 pessoas (Luanda)', 'Grupo até 7 pessoas', 'Comitiva (12+ pessoas)', 'Viagem ao Interior / Províncias']
     };
   }
 
-  if (lower.includes('empresa') || lower.includes('contrato') || lower.includes('fatura') || lower.includes('agt') || lower.includes('embaixada')) {
+  // 6. INTENT: Comparar Viaturas (SUV vs 4x4 vs Van)
+  if (lower.includes('diferença entre') || lower.includes('comparar') || (lower.includes('suv') && lower.includes('4x4')) || (lower.includes('van') && lower.includes('suv'))) {
     return {
-      message: 'Emitimos faturação eletrónica formal em total conformidade com a AGT em Kwanzas (AOA) ou moeda estrangeira (USD/EUR). Para embaixadas e empresas credenciadas, disponibilizamos acordos-quadro de frotas com pagamento a 30 dias e gestor de conta institucional dedicado.',
-      suggestedQuickReplies: ['Solicitar Acordo Corporativo', 'Faturação em AOA', 'Faturação em USD/EUR', 'Falar com Gestor Institucional']
+      message: 'A Land Cruiser Prado foca-se no conforto e prestígio executivo para até 7 pessoas. Já a Hilux 4x4 é a mais indicada se o trajeto tiver pisos irregulares ou carga no interior de Angola. Se for uma comitiva de equipa, a Van Hiace VIP leva até 12 pessoas com poltronas individuais. Qual destes cenários se aproxima mais do seu plano?',
+      suggestedQuickReplies: ['Land Cruiser Prado', 'Hilux 4x4 Todo-Terreno', 'Van Hiace VIP 12L', 'Comparar no Ecrã']
     };
   }
 
+  // 7. INTENT: Detalhes Técnicos de Viatura
+  if (lower.includes('quantos lugares') || lower.includes('quantas malas') || lower.includes('ar condicionado') || lower.includes('automática') || lower.includes('combustível')) {
+    const isPrado = lower.includes('prado') || lower.includes('lc300') || lower.includes('suv');
+    const isHilux = lower.includes('hilux') || lower.includes('4x4');
+    const isVan = lower.includes('van') || lower.includes('hiace');
+
+    if (isVan) {
+      return {
+        message: 'A nossa Toyota Hiace VIP dispõe de 12 poltronas individuais reclináveis em pele, capacidade para 10 malas grandes, caixa automática e ar condicionado independente para todos os passageiros traseiros.',
+        recommendedVehicle: 'Toyota Hiace VIP 12L',
+        suggestedQuickReplies: ['Ver Fotos da Van', 'Saber Preço Diário', 'Reservar Van VIP']
+      };
+    }
+
+    if (isHilux) {
+      return {
+        message: 'A Toyota Hilux 4x4 Dupla Cabine tem 5 lugares, caixa de carga reforçada para 6 malas, tração 4x4 com redutoras e ar condicionado tropicalizado.',
+        recommendedVehicle: 'Toyota Hilux 4x4',
+        suggestedQuickReplies: ['Ver Fotos da Hilux', 'Saber Diária da Hilux', 'Reservar para Províncias']
+      };
+    }
+
+    return {
+      message: 'A Land Cruiser Prado tem 7 lugares confortáveis, espaço para 5 malas grandes, tração 4WD permanente, caixa automática e climatização individual Quad-Zone.',
+      recommendedVehicle: 'Toyota Land Cruiser Prado',
+      suggestedQuickReplies: ['Ver Galeria da Prado', 'Reservar Prado', 'Consultar Outra Viatura']
+    };
+  }
+
+  // 8. INTENT: Disponibilidade
+  if (lower.includes('disponível') || lower.includes('tem para hoje') || lower.includes('tem vaga') || lower.includes('tem carro')) {
+    return {
+      message: 'Temos habitualmente viaturas em prontidão na nossa base de Talatona (SUVs, 4x4 e Vans). Para que datas e que modelo pretendia?',
+      suggestedQuickReplies: ['Para Hoje / Imediato', 'Para Esta Semana', 'SUV Land Cruiser', 'Van Executiva']
+    };
+  }
+
+  // 9. INTENT: Como Reservar / Processo
+  if (lower.includes('como reservar') || lower.includes('como funciona') || lower.includes('processo') || lower.includes('como alugo')) {
+    return {
+      message: 'O processo é simples: escolhe o modelo e as datas aqui no site, e a nossa equipa confirma a alocação de imediato com o envio da confirmação formal. Pretende que o apoie com uma cotação rápida?',
+      suggestedQuickReplies: ['Sim, pedir cotação', 'Prefiro alugar com motorista', 'Prefiro sem motorista']
+    };
+  }
+
+  // 10. INTENT: Preços e Tarifas Diárias
+  if (lower.includes('preço') || lower.includes('quanto custa') || lower.includes('valor') || lower.includes('diária') || lower.includes('tarifa')) {
+    return {
+      message: 'As nossas tarifas iniciam nos 135.000 AOA (~€150) para 4x4 Hilux, 185.000 AOA (~€205) para SUV Land Cruiser Prado, e 210.000 AOA (~€230) para Van VIP 12L. Todas as diárias incluem seguro total e apoio 24/7. Para quantos dias necessita da viatura?',
+      suggestedQuickReplies: ['1 a 3 dias', '1 semana', 'Aluguer Mensal', 'Proposta para Empresa']
+    };
+  }
+
+  // 11. INTENT: Métodos de Pagamento e Moedas
+  if (lower.includes('pagamento') || lower.includes('pagar') || lower.includes('cartão') || lower.includes('multicaixa') || lower.includes('euros') || lower.includes('dólares')) {
+    return {
+      message: 'Aceitamos Multicaixa e Express em Angola, bem como cartões Visa, Mastercard e MB WAY para clientes em Portugal e Europa. Emitimos faturas formais em Kwanzas (AOA) ou Euros (EUR).',
+      suggestedQuickReplies: ['Faturação para Empresa', 'Pagamento Multicaixa Express', 'Cartão Internacional']
+    };
+  }
+
+  // 12. INTENT: Faturação para Empresas / Embaixadas
+  if (lower.includes('fatura') || lower.includes('factura') || lower.includes('agt') || lower.includes('nif') || lower.includes('empresa') || lower.includes('instituição')) {
+    return {
+      message: 'Sim, emitimos faturação certificada em conformidade com a AGT para empresas, ministérios e embaixadas, com possibilidade de conta-corrente corporativa. A faturação será em nome de entidade em Angola ou no exterior?',
+      suggestedQuickReplies: ['Empresa em Angola (AGT)', 'Embaixada / Diplomático', 'Entidade em Portugal / Europa']
+    };
+  }
+
+  // 13. INTENT: Motorista Bilingue (Protocolo)
+  if (lower.includes('motorista') || lower.includes('inglês') || lower.includes('francês') || lower.includes('chauffeur') || lower.includes('condutor')) {
+    return {
+      message: 'Dispomos de motoristas profissionais com farda executiva, certificados em condução defensiva e fluentes em Português, Inglês e Francês. Deseja motorista bilingue para a sua reserva?',
+      suggestedQuickReplies: ['Sim, motorista em Inglês', 'Sim, motorista em Francês', 'Apenas em Português', 'Prefiro sem motorista']
+    };
+  }
+
+  // 14. INTENT: Cobertura Geográfica / Províncias
+  if (lower.includes('província') || lower.includes('huambo') || lower.includes('bengo') || lower.includes('benguela') || lower.includes('fora de luanda') || lower.includes('interior')) {
+    return {
+      message: 'Cobrimos todas as 18 províncias de Angola com bases fixas em Luanda, Huambo e Bengo, e rede de assistência móvel permanente. Para que província planeia deslocar-se?',
+      suggestedQuickReplies: ['Huambo', 'Bengo', 'Benguela / Lobito', 'Outra Província']
+    };
+  }
+
+  // 15. INTENT: Transfer Aeroporto
+  if (lower.includes('aeroporto') || lower.includes('transfer') || lower.includes('voo') || lower.includes('aiaan') || lower.includes('4 de fevereiro')) {
+    return {
+      message: 'Fazemos transfers VIP nos Aeroportos 4 de Fevereiro e Novo Aeroporto Internacional Dr. António Agostinho Neto (AIAAN). O motorista aguarda no desembarque com placa identificativa. Qual é a data e voo previsto?',
+      suggestedQuickReplies: ['Aeroporto 4 de Fevereiro', 'Aeroporto AIAAN (Novo)', 'Transfer com Land Cruiser', 'Transfer com Van VIP']
+    };
+  }
+
+  // 16. INTENT: Seguro e Garantias
+  if (lower.includes('seguro') || lower.includes('avaria') || lower.includes('acontecer algo') || lower.includes('garantia')) {
+    return {
+      message: 'Todas as nossas viaturas dispõem de seguro de cobertura total e garantia de substituição imediata em caso de imprevisto mecânico em qualquer ponto de Angola.',
+      suggestedQuickReplies: ['Ver Ficha das Viaturas', 'Pedir Cotação com Seguro', 'Falar com Consultor']
+    };
+  }
+
+  // 17. INTENT: Discrição e Protocolo Diplomático
+  if (lower.includes('diplomático') || lower.includes('embaixada') || lower.includes('discrição') || lower.includes('confidencial') || lower.includes('segurança')) {
+    return {
+      message: 'Trabalhamos regularmente com embaixadas e entidades de estado, garantindo sigilo absoluto, viaturas discretas com vidros de segurança e condutores credenciados.',
+      suggestedQuickReplies: ['Proposta para Embaixada', 'Comboio de Segurança', 'Contactar Gestor Diplomático']
+    };
+  }
+
+  // 18. INTENT: Horário de Funcionamento
+  if (lower.includes('horário') || lower.includes('aberto') || lower.includes('fim de semana') || lower.includes('24h') || lower.includes('madrugada')) {
+    return {
+      message: 'A nossa central de operações e despacho funciona 24 horas por dia, 7 dias por semana, incluindo feriados e fins de semana.',
+      suggestedQuickReplies: ['Fazer Reserva Agora', 'Ligar para a Central', 'Localização em Talatona']
+    };
+  }
+
+  // Resposta Padrão de Cortesia (Curta e Humana)
   return {
-    message: 'Central de Operações da PEPEK GRUPO à sua inteira disposição. Posso prestar-lhe esclarecimentos técnicos sobre qualquer viatura da nossa frota, estimar itinerários para as províncias ou firmar o registo da sua reserva imediatamente.',
-    suggestedQuickReplies: ['Ver Opções da Frota', 'Como Funciona a Reserva', 'Transfers de Aeroporto', 'Contratos para Empresas']
+    message: 'Olá! Sou o consultor da central de mobilidade da Pepek Grupo em Talatona. Em que posso ajudar na sua deslocação ou da sua organização hoje?',
+    suggestedQuickReplies: ['Recomendar Viatura', 'Preços das Diárias', 'Transfer Aeroporto VIP', 'Falar com Atendimento']
   };
+}
+
+function generateDynamicReplies(prompt: string, context?: SessionContext): string[] {
+  const lower = prompt.toLowerCase();
+  if (lower.includes('preço') || lower.includes('quanto')) {
+    return ['SUV Land Cruiser', 'Hilux 4x4 Todo-Terreno', 'Van VIP 12L', 'Pedir Cotação Formal'];
+  }
+  if (lower.includes('aeroporto') || lower.includes('transfer')) {
+    return ['Aeroporto 4 de Fevereiro', 'Novo Aeroporto AIAAN', 'Com Motorista Bilingue', 'Fazer Reserva'];
+  }
+  if (lower.includes('província') || lower.includes('huambo') || lower.includes('bengo')) {
+    return ['Toyota Hilux 4x4', 'Assistência 24/7', 'Pedir Cotação para Viagem'];
+  }
+  return ['Recomendar Viatura', 'Preços das Diárias', 'Transfer Aeroporto VIP', 'Falar com um Consultor'];
 }
