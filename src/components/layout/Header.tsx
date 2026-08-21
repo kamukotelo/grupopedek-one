@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Phone, MessageSquare, Menu, X, MapPin, Mail, User } from 'lucide-react';
+import { Phone, MessageSquare, Menu, X, MapPin, Mail, User, Calendar } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { ClientAreaModal } from '../ui/ClientAreaModal';
-import { OFFICIAL_WHATSAPP_NUMBER, generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -28,6 +28,11 @@ export const Header: React.FC = () => {
     { href: '#clientes', label: 'Clientes' },
     { href: '#contactos', label: 'Contactos' },
   ];
+
+  const scrollToBooking = () => {
+    const el = document.getElementById('reserva');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -69,7 +74,7 @@ export const Header: React.FC = () => {
                 onClick={() => setClientModalOpen(true)}
                 className="flex items-center gap-1.5 text-gray-300 hover:text-white font-bold px-3 py-0.5 rounded-full bg-white/5 border border-white/10 hover:bg-[#0B45D8] hover:border-[#0B45D8] transition-all cursor-pointer"
               >
-                <User className="w-3 h-3 text-[#0B45D8] group-hover:text-white" />
+                <User className="w-3 h-3 text-[#0B45D8]" />
                 <span>Área do Cliente</span>
               </button>
             </div>
@@ -85,7 +90,7 @@ export const Header: React.FC = () => {
           }`}
         >
           <div className="container-pepek flex items-center justify-between">
-            {/* Official Logo with luminous treatment */}
+            {/* Official Logo */}
             <a href="#inicio" className="flex items-center gap-2 group transition-transform duration-200 hover:scale-[1.03]">
               <Logo height={52} variant="light" />
             </a>
@@ -117,17 +122,15 @@ export const Header: React.FC = () => {
                 <span>Minha Conta</span>
               </button>
 
-              {/* Direct WhatsApp CTA Button */}
-              <a
-                href={generateQuickWhatsAppUrl('Solicitação de Experiência VIP')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-whatsapp text-xs font-bold px-5 py-3 shadow-lg flex items-center gap-2"
+              {/* Discreet, Professional Booking Button */}
+              <button
+                type="button"
+                onClick={scrollToBooking}
+                className="btn-primary text-xs font-bold px-5 py-3 shadow-lg flex items-center gap-2 cursor-pointer"
               >
-                <span className="pulse-ring w-2 h-2 rounded-full bg-white"></span>
-                <MessageSquare className="w-4 h-4" />
-                <span>Solicitar Experiência VIP</span>
-              </a>
+                <Calendar className="w-4 h-4" />
+                <span>Solicitar Reserva</span>
+              </button>
             </div>
 
             {/* Mobile Menu Trigger */}
@@ -135,7 +138,8 @@ export const Header: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setClientModalOpen(true)}
-                className="p-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-1 border border-white/15"
+                className="p-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-1 border border-white/15 cursor-pointer"
+                title="Área do Cliente"
               >
                 <User className="w-4 h-4 text-[#0B45D8]" />
               </button>
@@ -178,21 +182,20 @@ export const Header: React.FC = () => {
                 <span>Aceder à Minha Conta / Área do Cliente</span>
               </button>
 
-              <div className="text-xs text-gray-300 space-y-1.5">
+              <button
+                type="button"
+                onClick={() => { setMobileMenuOpen(false); scrollToBooking(); }}
+                className="btn-primary w-full justify-center text-sm py-3.5 font-bold"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>Solicitar Reserva Online</span>
+              </button>
+
+              <div className="text-xs text-gray-300 space-y-1.5 pt-2">
                 <p className="font-semibold text-white">PEPEK GRUPO RENT-A-CAR</p>
                 <p className="text-gray-400">Talatona, Rua Reino do Bailundo, Luanda</p>
                 <p className="text-[#0B45D8] font-bold">+244 923 719 090 / 923 000 010</p>
               </div>
-
-              <a
-                href={generateQuickWhatsAppUrl('Reserva VIP Mobile')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-whatsapp w-full justify-center text-sm py-3.5 font-bold"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>Solicitar Experiência VIP (WhatsApp)</span>
-              </a>
             </div>
           </div>
         )}
