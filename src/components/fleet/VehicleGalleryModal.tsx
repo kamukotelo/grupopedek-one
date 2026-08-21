@@ -22,6 +22,7 @@ import {
   MessageSquareText
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
+import { FLEET_CAROUSEL } from '../../data/fleetGallery.generated';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 
 interface VehicleGalleryModalProps {
@@ -38,12 +39,13 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartX = useRef<number | null>(null);
-  const verifiedGallery = (vehicle?.gallery ?? [])
-    .filter((image) => image.url.startsWith('/rent_car/'))
-    .map((image) => ({
-      ...image,
-      url: image.url.replace('/rent_car/', '/rent_car_hd/')
-    }));
+  const curatedGallery = vehicle ? FLEET_CAROUSEL[vehicle.id] ?? [] : [];
+  const verifiedGallery = [...curatedGallery, ...(vehicle?.gallery ?? [])].map((image) => ({
+    ...image,
+    url: image.url.startsWith('/rent_car/')
+      ? image.url.replace('/rent_car/', '/rent_car_hd/')
+      : image.url
+  }));
 
   // Reset index when vehicle changes
   useEffect(() => {

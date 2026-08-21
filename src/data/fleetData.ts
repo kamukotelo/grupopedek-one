@@ -57,13 +57,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'rangerover-blindado-2025',
     slug: 'rangerover-blindado-2025',
-    name: 'Range Rover Blindado 2025',
+    name: 'Range Rover Blindado 2026/2027',
     brand: 'Land Rover',
     model: 'Range Rover Blindado',
-    year: '2025',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Máxima Segurança',
+    badge: 'Blindado 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     isArmored: true,
@@ -74,7 +74,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Veículo de alta segurança com blindagem balística de nível internacional, conforto supremo e tecnologia de ponta para transporte de altas individualidades e delegações diplomáticas em Angola.',
     primaryImage: '/rent_car/RANGEROVER-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/RANGEROVER-300x300.webp',
@@ -111,13 +111,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-class-s-2025',
     slug: 'mercedes-class-s-2025',
-    name: 'Mercedes Classe S 2025',
+    name: 'Mercedes Classe S 2026/2027',
     brand: 'Mercedes-Benz',
     model: 'Classe S',
-    year: '2025',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Presidencial',
+    badge: 'Presidencial 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     isFeatured: true,
@@ -127,7 +127,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O padrão de luxo global por excelência. Equipado com bancos traseiros reclináveis tipo Lounge, iluminação ambiente ativa e suspensão inteligente AIRMATIC que anula qualquer imperfeição da via.',
     primaryImage: '/rent_car/MERCEDES-CLS63-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MERCEDES-CLS63-300x300.webp',
@@ -164,13 +164,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'range-rover-novo-modelo',
     slug: 'range-rover-novo-modelo',
-    name: 'Range Rover Novo Modelo',
+    name: 'Range Rover Autobiography 2026',
     brand: 'Land Rover',
     model: 'Range Rover',
-    year: '2024',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Nova Geração',
+    badge: 'Nova Geração 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 1449999,
@@ -179,7 +179,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A mais recente geração do ícone de luxo britânico. Design minimalista exterior e requinte artesanal no habitáculo com tração integral e capacidade de cruzeiro inigualável.',
     primaryImage: '/rent_car/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp',
@@ -215,13 +215,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-g63-2023',
     slug: 'mercedes-g63-2023',
-    name: 'Mercedes G63 2023',
+    name: 'Mercedes-AMG G63 2026',
     brand: 'Mercedes-Benz',
     model: 'G63 AMG',
-    year: '2023',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'AMG Performance',
+    badge: 'AMG Performance 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 999999,
@@ -230,7 +230,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O todo-terreno mais desejado do mundo. Motor 4.0L V8 Biturbo AMG com aceleração estonteante e presença cénica imponente para eventos de prestígio.',
     primaryImage: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp',
@@ -267,13 +267,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'lexus-600',
     slug: 'lexus-600',
-    name: 'Lexus 600',
+    name: 'Lexus LX 600 VIP 2026',
     brand: 'Lexus',
     model: 'LX 600',
-    year: '2023',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Ultra-Luxo',
+    badge: 'VIP Imperial 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 800000,
@@ -282,7 +282,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O SUV topo de gama japonês com fiabilidade inabalável e refinamento artesanal Takumi. 7 lugares amplos e suspensão hidráulica adaptativa para viagens confortáveis.',
     primaryImage: '/rent_car/LEXUS-600-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/LEXUS-600-300x300.webp',
@@ -318,13 +318,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-vito',
     slug: 'mercedes-vito',
-    name: 'Mercedes Vito',
+    name: 'Mercedes Vito Tourer 2026',
     brand: 'Mercedes-Benz',
     model: 'Vito Executiva',
-    year: '2023',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: '9 Lugares VIP',
+    badge: '9 Lugares VIP 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 599999,
@@ -333,7 +333,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Transporte executivo espaçoso para 9 ocupantes com poltronas ergonómicas individuais, ar condicionado traseiro reforçado e espaço generoso para bagagens.',
     primaryImage: '/rent_car/MERCEDES-f-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MERCEDES-f-300x300.webp',
@@ -369,13 +369,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-g63',
     slug: 'mercedes-g63',
-    name: 'Mercedes G63',
+    name: 'Mercedes G63 AMG 2025/2026',
     brand: 'Mercedes-Benz',
     model: 'G63',
-    year: '2022',
+    year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'AMG Clássico',
+    badge: 'AMG Clássico 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 599999,
@@ -384,7 +384,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A clássica força bruta e estatuto do Classe G em configuração diesel robusta e económica com interior em pele e suspensão adaptativa.',
     primaryImage: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp',
@@ -419,13 +419,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-lc300-2023',
     slug: 'toyota-lc300-2023',
-    name: 'Toyota LC300 2023',
+    name: 'Toyota Land Cruiser 300 V6 2026',
     brand: 'Toyota',
     model: 'Land Cruiser 300 VXR',
-    year: '2023',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Mais Solicitado',
+    badge: 'Líder 4x4 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     isFeatured: true,
@@ -435,7 +435,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O topo da frota governamental e diplomática em Angola. Motor 3.3L Twin-Turbo Diesel de 304 CV com suspensão Kinetic Dynamic e 7 lugares de absoluto luxo.',
     primaryImage: '/rent_car/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp',
@@ -472,13 +472,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'lexus-570',
     slug: 'lexus-570',
-    name: 'Lexus 570',
+    name: 'Lexus LX 570 Luxury 2025/2026',
     brand: 'Lexus',
     model: 'LX 570',
-    year: '2021',
+    year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'V8 Potência',
+    badge: 'V8 Potência 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 500000,
@@ -487,7 +487,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'SUV de prestígio clássico com lendário motor 5.7L V8 naturalmente aspirado, interior artesanal e suspensão pneumática de extrema suavidade.',
     primaryImage: '/rent_car/LEXUS_570-E62fReUtK2_INVmKUZaIFQ-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/LEXUS_570-E62fReUtK2_INVmKUZaIFQ-300x300.webp',
@@ -522,13 +522,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'range-rover',
     slug: 'range-rover',
-    name: 'Range Rover',
+    name: 'Range Rover Vogue 2025/2026',
     brand: 'Land Rover',
     model: 'Range Rover Vogue',
-    year: '2021',
+    year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Luxo Clássico',
+    badge: 'Luxo Clássico 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 499999,
@@ -537,7 +537,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Requinte e distinção britânica com suspensão a ar autonivelante, vidros duplos insonorizados e excelente desempenho urbano em Luanda.',
     primaryImage: '/rent_car/RANG-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/RANG-300x300.webp',
@@ -572,13 +572,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-lc-v8-2021',
     slug: 'toyota-lc-v8-2021',
-    name: 'Toyota LC V8 2021',
+    name: 'Toyota LC V8 2025/2026',
     brand: 'Toyota',
     model: 'Land Cruiser 200 V8',
-    year: '2021',
+    year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Lendário V8',
+    badge: 'Lendário V8 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 449999,
@@ -587,7 +587,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O inquebrável Land Cruiser 200 com motor 4.5L V8 Twin-Turbo Diesel. A viatura preferida para viagens interprovinciais com total segurança e potência.',
     primaryImage: '/rent_car/TOYOTA-LC-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTA-LC-300x300.webp',
@@ -623,13 +623,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-cls63',
     slug: 'mercedes-cls63',
-    name: 'Mercedes CLS63',
+    name: 'Mercedes CLS63 AMG 2025/2026',
     brand: 'Mercedes-Benz',
     model: 'CLS 63 AMG',
-    year: '2020',
+    year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Coupé Desportivo',
+    badge: 'Coupé Desportivo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 399999,
@@ -638,7 +638,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Coupé de 4 portas com linhas arrebatadoras e performance de superdesportivo. Ideal para casamentos, produções e chegadas de alto impacto.',
     primaryImage: '/rent_car/MERCEDES-CLS63-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MERCEDES-CLS63-300x300.webp',
@@ -673,13 +673,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-brabus',
     slug: 'mercedes-brabus',
-    name: 'Mercedes Brabus',
+    name: 'Mercedes Brabus Edition 2026',
     brand: 'Mercedes-Benz',
     model: 'Brabus Edition',
-    year: '2021',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Edição Especial',
+    badge: 'Edição Exclusiva 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 399999,
@@ -688,7 +688,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Personalização exclusiva Brabus com kit estético aerodinâmico em fibra de carbono, jantes forjadas e sonoridade desportiva marcante.',
     primaryImage: '/rent_car/MERCEDES_BRABUS-a1w-yJcKQK5-vSp3-fxwJg-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MERCEDES_BRABUS-a1w-yJcKQK5-vSp3-fxwJg-300x300.webp',
@@ -723,13 +723,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'volvo-xc-60',
     slug: 'volvo-xc-60',
-    name: 'Volvo XC60',
+    name: 'Volvo XC60 Ultimate 2026',
     brand: 'Volvo',
     model: 'XC60 Inscription',
-    year: '2022',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Segurança Máxima',
+    badge: 'Híbrido Luxo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 349999,
@@ -738,7 +738,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Design escandinavo elegante e o mais avançado pacote de segurança ativa do mundo (Pilot Assist, City Safety e visão 360°).',
     primaryImage: '/rent_car/VOLVO-XC-60-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/VOLVO-XC-60-300x300.webp',
@@ -774,13 +774,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'new-toyota-prado',
     slug: 'new-toyota-prado',
-    name: 'Novo Toyota Prado',
+    name: 'Novo Toyota Land Cruiser Prado 250 (2026)',
     brand: 'Toyota',
     model: 'Land Cruiser Prado 250',
-    year: '2024',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Último Lançamento',
+    badge: 'Nova Geração 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 349999,
@@ -789,7 +789,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A mais recente geração do Prado com design retro-moderno robusto, novo chassis TNGA-F e tecnologia off-road de última geração.',
     primaryImage: '/rent_car/NEW-TOYOTA-1-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/NEW-TOYOTA-1-300x300.webp',
@@ -825,13 +825,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'nissan-patrol',
     slug: 'nissan-patrol',
-    name: 'Nissan Patrol',
+    name: 'Novo Nissan Patrol Y63 (2026/2027)',
     brand: 'Nissan',
     model: 'Patrol V8 Platinum',
-    year: '2022',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'V8 Rei das Dunas',
+    badge: 'Nova Geração 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 349999,
@@ -840,7 +840,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O gigante dos SUVs com motor 5.6L V8 de 400 CV e depósito colossal de 140 L para autonomia ilimitada em qualquer viagem por Angola.',
     primaryImage: '/rent_car/NISSAN-PATROL-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/NISSAN-PATROL-300x300.webp',
@@ -876,13 +876,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-prado-atual',
     slug: 'toyota-prado-atual',
-    name: 'Toyota Prado Atual',
+    name: 'Toyota Prado TXL 2025/2026',
     brand: 'Toyota',
     model: 'Land Cruiser Prado TXL',
-    year: '2022',
+    year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Popular Executivo',
+    badge: 'Executivo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 289999,
@@ -891,7 +891,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A referência mais fiável para deslocações executivas diárias em Luanda e no interior. 7 lugares, ar condicionado potente e tração 4x4 integral.',
     primaryImage: '/rent_car/NEW-TOYOTA-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/NEW-TOYOTA-300x300.webp',
@@ -927,13 +927,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-fortuner-atual',
     slug: 'toyota-fortuner-atual',
-    name: 'Toyota Fortuner Atual',
+    name: 'Toyota Fortuner VX 2026',
     brand: 'Toyota',
     model: 'Fortuner 2.8 GD-6',
-    year: '2023',
+    year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Versátil 4x4',
+    badge: 'Versátil 4x4 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 229999,
@@ -943,7 +943,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     inconsistentDataNote: 'Marcado para revisão interna de lotação.',
     primaryImage: '/rent_car/TOYOTA-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTA-300x300.webp',
@@ -979,13 +979,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-fortuner-2023',
     slug: 'toyota-fortuner-2023',
-    name: 'Toyota Fortuner 2023',
+    name: 'Toyota Fortuner 2025/2026',
     brand: 'Toyota',
     model: 'Fortuner',
-    year: '2023',
+    year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
-    badge: 'Conforto & Robustez',
+    badge: 'Robustez 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 199999,
@@ -994,7 +994,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'SUV 4x4 espaçosa para 7 ocupantes com ar condicionado reforçado e consumo eficiente em circuitos urbanos ou rurais.',
     primaryImage: '/rent_car/TOYOTA-300x300 (1).webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTA-300x300 (1).webp',
@@ -1034,13 +1034,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-benz-v300-class',
     slug: 'mercedes-benz-v300-class',
-    name: 'Mercedes-Benz V300 Class',
+    name: 'Mercedes-Benz V300d Exclusive 2026',
     brand: 'Mercedes-Benz',
     model: 'Classe V 300d',
-    year: '2023',
+    year: '2026',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: 'Van VIP Maybach',
+    badge: 'VIP JetVan 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     isFeatured: true,
@@ -1050,7 +1050,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O mais luxuoso transporte de passageiros em Angola. 7 poltronas individuais face-a-face em pele com climatização independente, mesa dobrável e acabamentos de altíssimo padrão.',
     primaryImage: '/rent_car/bc-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/bc-300x300.webp',
@@ -1086,13 +1086,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-staria-executiva',
     slug: 'hyundai-staria-executiva',
-    name: 'Hyundai Staria Executiva',
+    name: 'Hyundai Staria Lounge VIP 2026',
     brand: 'Hyundai',
     model: 'Staria Lounge',
-    year: '2023',
+    year: '2026',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: 'Design Futurista',
+    badge: 'Futurista VIP 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 449999,
@@ -1101,7 +1101,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Design espacial futurista com janelas panorâmicas de grandes dimensões, 9 lugares VIP e bancos de relaxamento com apoio de pernas.',
     primaryImage: '/rent_car/HYUNDAI-STARIA-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/HYUNDAI-STARIA-300x300.webp',
@@ -1136,13 +1136,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-coaster',
     slug: 'toyota-coaster',
-    name: 'Toyota Coaster',
+    name: 'Toyota Coaster Executive 2026',
     brand: 'Toyota',
     model: 'Coaster 30L',
-    year: '2022',
+    year: '2026',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: '30 Lugares',
+    badge: '30 Lugares 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 399999,
@@ -1151,7 +1151,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Minibus de grande capacidade para transporte confortável de 30 pessoas com ar condicionado potente para o clima de Angola, microfone e bagageiro.',
     primaryImage: '/rent_car/TOYOTA-coast-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTA-coast-300x300.webp',
@@ -1186,13 +1186,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mercedes-sprinter-atual',
     slug: 'mercedes-sprinter-atual',
-    name: 'Mercedes Sprinter Atual',
+    name: 'Mercedes Sprinter VIP Shuttle 2026',
     brand: 'Mercedes-Benz',
     model: 'Sprinter 21L',
-    year: '2022',
+    year: '2026',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: '21 Lugares Executiva',
+    badge: 'VIP Shuttle 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 369999,
@@ -1201,7 +1201,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Van executiva de 21 lugares com teto alto, poltronas reclináveis individuais em pele, estribo de acesso elétrico e excelente insonorização.',
     primaryImage: '/rent_car/sprinter-furgon-m_tjweHsHe-filters1000x_-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/sprinter-furgon-m_tjweHsHe-filters1000x_-300x300.webp',
@@ -1236,13 +1236,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-staria-atual',
     slug: 'hyundai-staria-atual',
-    name: 'Hyundai Staria Atual',
+    name: 'Hyundai Staria Minibus 2026',
     brand: 'Hyundai',
     model: 'Staria 11L',
-    year: '2023',
+    year: '2026',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: '11 Lugares',
+    badge: '11 Lugares 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 359999,
@@ -1251,7 +1251,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Espaço para 11 pessoas com conforto moderno, saídas de ar condicionado em todas as filas e design contemporâneo.',
     primaryImage: '/rent_car/HYUNDAI-TARIA-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/HYUNDAI-TARIA-300x300.webp',
@@ -1286,13 +1286,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'new-toyota-hiace',
     slug: 'new-toyota-hiace',
-    name: 'Nova Toyota Hiace',
+    name: 'Toyota HiAce Super Grandia 2026',
     brand: 'Toyota',
     model: 'Hiace Novo Modelo 15L',
-    year: '2023',
+    year: '2026',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: '15 Lugares Nova Geração',
+    badge: 'Nova Geração 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 359999,
@@ -1301,7 +1301,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A nova geração da Toyota Hiace com capô dianteiro semi-avançado para maior segurança, 15 lugares e condução suave.',
     primaryImage: '/rent_car/fazer-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/fazer-300x300.webp',
@@ -1336,13 +1336,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-h1',
     slug: 'hyundai-h1',
-    name: 'Hyundai H1',
+    name: 'Hyundai H-1 Royale 2025/2026',
     brand: 'Hyundai',
     model: 'H1 12L',
-    year: '2022',
+    year: '2025',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: '12 Lugares',
+    badge: '12 Lugares 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 349999,
@@ -1351,7 +1351,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Minivan executiva confortável para 12 pessoas com bancos reconfiguráveis, portas laterais de correr em ambos os lados e ar condicionado independente.',
     primaryImage: '/rent_car/HYUNDAI-H1-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/HYUNDAI-H1-300x300.webp',
@@ -1386,13 +1386,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-hiace',
     slug: 'toyota-hiace',
-    name: 'Toyota Hiace',
+    name: 'Toyota HiAce Commuter 2025/2026',
     brand: 'Toyota',
     model: 'Hiace Clássica 15L',
-    year: '2021',
+    year: '2025',
     category: 'vans',
     categoryLabel: 'Vans e Transporte',
-    badge: '15 Lugares Clássica',
+    badge: '15 Lugares 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 199999,
@@ -1401,7 +1401,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A van de trabalho e transporte de passageiros mais robusta e testada em Angola. 15 lugares com ar condicionado e manutenção 100% garantida.',
     primaryImage: '/rent_car/TOYOTA-HIACE-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTA-HIACE-300x300.webp',
@@ -1440,13 +1440,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'jetour-x70',
     slug: 'jetour-x70',
-    name: 'Jetour X70',
+    name: 'Jetour X70 Plus / T2 2026',
     brand: 'Jetour',
     model: 'X70 7L',
-    year: '2023',
+    year: '2026',
     category: 'suvs',
     categoryLabel: 'SUVs',
-    badge: '7 Lugares Espaçoso',
+    badge: 'Modelo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 189999,
@@ -1455,7 +1455,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'SUV moderna com 7 lugares, teto solar panorâmico, ecrã multimédia de 10.1" e excelente relação custo-benefício para famílias e equipas.',
     primaryImage: '/rent_car/JETOUR-X70-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/JETOUR-X70-300x300.webp',
@@ -1490,13 +1490,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-santa-fe',
     slug: 'hyundai-santa-fe',
-    name: 'Hyundai Santa Fé',
+    name: 'Novo Hyundai Santa Fe Calligraphy 2026',
     brand: 'Hyundai',
     model: 'Santa Fé',
-    year: '2022',
+    year: '2026',
     category: 'suvs',
     categoryLabel: 'SUVs',
-    badge: 'Conforto Familiar',
+    badge: 'Nova Geração 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 149999,
@@ -1505,7 +1505,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'SUV refinada com 5 lugares, condução silenciosa, acabamento de topo e tecnologia de assistência ao condutor.',
     primaryImage: '/rent_car/HYUNDAIS-SANTA-FE-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/HYUNDAIS-SANTA-FE-300x300.webp',
@@ -1540,13 +1540,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-tucson',
     slug: 'hyundai-tucson',
-    name: 'Hyundai Tucson',
+    name: 'Hyundai Tucson N-Line 2026',
     brand: 'Hyundai',
     model: 'Tucson',
-    year: '2023',
+    year: '2026',
     category: 'suvs',
     categoryLabel: 'SUVs',
-    badge: 'Design Dinâmico',
+    badge: 'Modelo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 149999,
@@ -1555,7 +1555,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'SUV compacta premium com assinatura luminosa paramétrica oculta, interior digital e condução ágil no trânsito de Luanda.',
     primaryImage: '/rent_car/gdfhgdf-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/gdfhgdf-300x300.webp',
@@ -1590,13 +1590,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'chery-tiggo-7',
     slug: 'chery-tiggo-7',
-    name: 'Chery Tiggo 7',
+    name: 'Chery Tiggo 7 Pro Max 2026',
     brand: 'Chery',
     model: 'Tiggo 7 Pro',
-    year: '2023',
+    year: '2026',
     category: 'suvs',
     categoryLabel: 'SUVs',
-    badge: 'Tecnologia & Conforto',
+    badge: 'Modelo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 149999,
@@ -1605,7 +1605,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'SUV com motor turbo, teto panorâmico, bancos em pele com ajuste elétrico e excelente espaço para 5 passageiros.',
     primaryImage: '/rent_car/Sem-Titulo-2-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/Sem-Titulo-2-300x300.webp',
@@ -1640,13 +1640,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'chery-tiggo-2',
     slug: 'chery-tiggo-2',
-    name: 'Chery Tiggo 2',
+    name: 'Chery Tiggo 2 Pro 2025/2026',
     brand: 'Chery',
     model: 'Tiggo 2',
-    year: '2022',
+    year: '2025',
     category: 'suvs',
     categoryLabel: 'SUVs',
-    badge: 'Crossover Económico',
+    badge: 'Crossover 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 129999,
@@ -1655,7 +1655,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Crossover compacto com altura ao solo elevada para enfrentar pisos irregulares em Luanda, com excelente economia de combustível.',
     primaryImage: '/rent_car/CHERY-TIGGO-2-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/CHERY-TIGGO-2-300x300.webp',
@@ -1690,13 +1690,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-creta',
     slug: 'hyundai-creta',
-    name: 'Hyundai Creta',
+    name: 'Hyundai Creta Smart 2026',
     brand: 'Hyundai',
     model: 'Creta',
-    year: '2023',
+    year: '2026',
     category: 'suvs',
     categoryLabel: 'SUVs',
-    badge: 'SUV Urbana Ágil',
+    badge: 'Modelo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 129999,
@@ -1705,7 +1705,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'SUV compacta muito procurada pela sua robustez, posição de condução elevada, ar condicionado eficiente e facilidade de estacionamento.',
     primaryImage: '/rent_car/HYUNDAI-CRETA-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/HYUNDAI-CRETA-300x300.webp',
@@ -1744,13 +1744,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-lc-hz',
     slug: 'toyota-lc-hz',
-    name: 'Toyota LC HZ',
+    name: 'Toyota Land Cruiser HZJ79 2026',
     brand: 'Toyota',
     model: 'Land Cruiser Série 70 HZJ',
-    year: '2022',
+    year: '2026',
     category: 'pickups',
     categoryLabel: 'Pick-ups e Camiões',
-    badge: 'Mito Todo-Terreno',
+    badge: 'Heavy Duty 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 259999,
@@ -1759,7 +1759,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O clássico Land Cruiser Série 70 com motor diesel 4.2L 1HZ inquebrável, chassis de longarinas reforçado e capacidade para qualquer picada em Angola.',
     primaryImage: '/rent_car/TOYOTA-LC-HZ-1-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTA-LC-HZ-1-300x300.webp',
@@ -1795,13 +1795,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-lc-hz-18p',
     slug: 'toyota-lc-hz-18p',
-    name: 'Toyota LC HZ 18P',
+    name: 'Toyota Land Cruiser 70 Troopy 2026',
     brand: 'Toyota',
     model: 'Land Cruiser Série 78 Troopy',
-    year: '2022',
+    year: '2026',
     category: 'pickups',
     categoryLabel: 'Pick-ups e Camiões',
-    badge: 'Tropas & Expedições',
+    badge: '18 Lugares 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 249999,
@@ -1811,7 +1811,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     inconsistentDataNote: 'Capacidade de 13 passageiros marcada para revisão técnica.',
     primaryImage: '/rent_car/Manual-ou-Automatica-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/Manual-ou-Automatica-300x300.webp',
@@ -1847,13 +1847,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mitsubishi-canter',
     slug: 'mitsubishi-canter',
-    name: 'Mitsubishi Canter',
+    name: 'Mitsubishi Fuso Canter 2026',
     brand: 'Mitsubishi',
     model: 'Canter Caixa Aberta/Fechada',
-    year: '2021',
+    year: '2026',
     category: 'pickups',
     categoryLabel: 'Pick-ups e Camiões',
-    badge: 'Camião Ligeiro',
+    badge: 'Carga Pesada 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 159999,
@@ -1862,7 +1862,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Camião ligeiro de carga com grande capacidade volumétrica e de peso. Ideal para mudanças corporativas, logística de eventos e transporte de equipamentos.',
     primaryImage: '/rent_car/MITSUBISHI-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MITSUBISHI-300x300.webp',
@@ -1897,13 +1897,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'mitsubishi-l200',
     slug: 'mitsubishi-l200',
-    name: 'Mitsubishi L200',
+    name: 'Nova Mitsubishi L200 Triton Athlete 2026',
     brand: 'Mitsubishi',
     model: 'L200 Sportero 4x4',
-    year: '2022',
+    year: '2026',
     category: 'pickups',
     categoryLabel: 'Pick-ups e Camiões',
-    badge: 'Pick-up Resistente',
+    badge: 'Nova Geração 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 159999,
@@ -1912,7 +1912,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Pick-up cabine dupla com sistema de tração Super Select 4WD-II, caixa de carga espaçosa e excelente conforto para 5 ocupantes.',
     primaryImage: '/rent_car/MITSUBISHI-L200-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/MITSUBISHI-L200-300x300.webp',
@@ -1948,13 +1948,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-hilux',
     slug: 'toyota-hilux',
-    name: 'Toyota Hilux',
+    name: 'Nova Toyota Hilux GR Sport 2026',
     brand: 'Toyota',
     model: 'Hilux Dupla Cabine 4x4',
-    year: '2023',
+    year: '2026',
     category: 'pickups',
     categoryLabel: 'Pick-ups e Camiões',
-    badge: 'A Mais Procurada',
+    badge: 'Líder Offroad 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     isFeatured: true,
@@ -1964,7 +1964,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A pick-up número um em Angola. Lendária durabilidade para minas, estaleiros ou viagens a qualquer das 18 províncias.',
     primaryImage: '/rent_car/TOYOTAHILUX-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/TOYOTAHILUX-300x300.webp',
@@ -2005,13 +2005,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'suzuki-swift',
     slug: 'suzuki-swift',
-    name: 'Suzuki Swift',
+    name: 'Novo Suzuki Swift GLX 2026',
     brand: 'Suzuki',
     model: 'Swift 1.2 GLX',
-    year: '2023',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Super Económico',
+    badge: 'Nova Geração 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 69999,
@@ -2020,7 +2020,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Hatchback moderno com design jovial, consumo ultra-baixo (5.0L/100km), ar condicionado potente e facilidade máxima de condução.',
     primaryImage: '/rent_car/SUZUKI-SWIFT-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/SUZUKI-SWIFT-300x300.webp',
@@ -2055,13 +2055,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'suzuki-baleno',
     slug: 'suzuki-baleno',
-    name: 'Suzuki Baleno',
+    name: 'Suzuki Baleno GLX 2026',
     brand: 'Suzuki',
     model: 'Baleno 1.5 GLX',
-    year: '2023',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Espaçoso',
+    badge: 'Económico 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 69999,
@@ -2070,7 +2070,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Hatchback espaçoso com excelente espaço para pernas nos bancos traseiros, bagageira generosa e câmara 360° no modelo de topo.',
     primaryImage: '/rent_car/SUZUKI-BALENO-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/SUZUKI-BALENO-300x300.webp',
@@ -2105,13 +2105,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-i-20',
     slug: 'hyundai-i-20',
-    name: 'Hyundai i20',
+    name: 'Hyundai i20 Premium 2026',
     brand: 'Hyundai',
     model: 'i20',
-    year: '2022',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Design Moderno',
+    badge: 'Modelo 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 59999,
@@ -2120,7 +2120,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Carro citadino europeu com acabamento de qualidade, estabilidade excelente em autoestrada e ar condicionado digital.',
     primaryImage: '/rent_car/i20-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/i20-300x300.webp',
@@ -2155,13 +2155,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'suzuki-spresso',
     slug: 'suzuki-spresso',
-    name: 'Suzuki S-Presso',
+    name: 'Suzuki S-Presso GL 2026',
     brand: 'Suzuki',
     model: 'S-Presso',
-    year: '2023',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Mini-SUV Ágil',
+    badge: 'Urbano 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 59999,
@@ -2170,7 +2170,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Mini-SUV compacta com altura ao solo de 180mm que ultrapassa lombas e buracos com facilidade. Consumo impressionante de 4.5L/100km.',
     primaryImage: '/rent_car/SUZUKI-SPRESSO-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/SUZUKI-SPRESSO-300x300.webp',
@@ -2205,13 +2205,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-starlet',
     slug: 'toyota-starlet',
-    name: 'Toyota Starlet',
+    name: 'Toyota Starlet Cross 2026',
     brand: 'Toyota',
     model: 'Starlet 1.4',
-    year: '2023',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Fiabilidade Toyota',
+    badge: 'Novo Crossover 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 59999,
@@ -2220,7 +2220,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'A fiabilidade lendária da Toyota num formato económico e prático para o dia-a-dia na capital.',
     primaryImage: '/rent_car/starlete-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/starlete-300x300.webp',
@@ -2255,13 +2255,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'hyundai-g-i10',
     slug: 'hyundai-g-i10',
-    name: 'Hyundai Grand i10',
+    name: 'Hyundai Grand i10 Sedan 2026',
     brand: 'Hyundai',
     model: 'Grand i10',
-    year: '2022',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Prático Citadino',
+    badge: 'Económico 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 49999,
@@ -2270,7 +2270,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Carro compacto económico com 5 lugares, fácil de manobrar e estacionar em qualquer rua de Luanda.',
     primaryImage: '/rent_car/HYUNDAI-G.-I10-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/HYUNDAI-G.-I10-300x300.webp',
@@ -2305,13 +2305,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'kia-morning',
     slug: 'kia-morning',
-    name: 'Kia Morning',
+    name: 'Kia Picanto Morning 2026',
     brand: 'Kia',
     model: 'Morning / Picanto',
-    year: '2022',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Super Tarifa',
+    badge: 'Compacto 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 44999,
@@ -2320,7 +2320,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Uma das tarifas mais acessíveis da frota. Ideal para deslocações pontuais, compras ou gestão pessoal.',
     primaryImage: '/rent_car/KIA-MORNING-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/KIA-MORNING-300x300.webp',
@@ -2355,13 +2355,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'suzuki-celerio',
     slug: 'suzuki-celerio',
-    name: 'Suzuki Celerio',
+    name: 'Suzuki Celerio GL 2026',
     brand: 'Suzuki',
     model: 'Celerio',
-    year: '2022',
+    year: '2026',
     category: 'economicos',
     categoryLabel: 'Económicos',
-    badge: 'Mais Económico',
+    badge: 'Económico 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     pricePerDayAOA: 44999,
@@ -2370,7 +2370,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'O campeão da poupança de combustível em Luanda. Condução leve, ar condicionado e manutenção sempre em dia.',
     primaryImage: '/rent_car/Suzuk-celero1-1-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/Suzuk-celero1-1-300x300.webp',
@@ -2409,13 +2409,13 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'limousine',
     slug: 'limousine',
-    name: 'Limousine',
+    name: 'Limousine Presidencial / Gala 2026',
     brand: 'Lincoln / Cadillac',
     model: 'Presidential Stretch Limousine',
-    year: '2023',
+    year: '2026',
     category: 'eventos',
     categoryLabel: 'Eventos Especiais',
-    badge: 'Super VIP & Gala',
+    badge: 'Exclusivo Gala 2026',
     availabilityTag: 'Disponível',
     isAvailable: true,
     isFeatured: true,
@@ -2425,7 +2425,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     description: 'Limousine executiva estendida para 20 ocupantes com bar embutido com flautas de cristal, iluminação estroboscópica de discoteca e fibra ótica, ecrãs LED e privacidade total com divisória acústica.',
     primaryImage: '/rent_car/Aluguer-de-limozine-em-Angola-300x300.webp'
     ,
-    secondaryImage: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=85',
+    secondaryImage: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
         url: '/rent_car/Aluguer-de-limozine-em-Angola-300x300.webp',

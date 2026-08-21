@@ -47,7 +47,7 @@ export const Header: React.FC = () => {
       action: () => navigate('/frota'),
     },
     {
-      label: currentUser ? currentUser.name.split(' ')[0] : 'Área Cliente',
+      label: currentUser ? 'Meu Painel' : 'Área Cliente',
       icon: User,
       action: () => setIsPortalOpen(true),
     },

@@ -125,7 +125,7 @@ export const ClientPortalModal: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-xl sm:text-2xl font-bold text-white font-inter">
-                    {currentUser?.name || 'Portal de Mobilidade PEPEK'}
+                    {currentUser ? `Bem-vindo ao espaço ${currentUser.roleLabel}` : 'Portal de Mobilidade PEPEK'}
                   </h3>
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
                     isAdminOrStaff ? 'bg-amber-600 text-white' : 'bg-[#0B45D8] text-white'
@@ -134,7 +134,7 @@ export const ClientPortalModal: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-xs text-gray-300">
-                  {currentUser?.company} · {currentUser?.roleLabel} {currentUser?.nif ? `· NIF: ${currentUser.nif}` : ''}
+                  {currentUser?.company} · Experiência personalizada {currentUser?.nif ? `· NIF: ${currentUser.nif}` : ''}
                 </p>
               </div>
             </div>

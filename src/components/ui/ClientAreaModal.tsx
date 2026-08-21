@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Building2, User, Lock, Mail, ArrowRight, ShieldCheck, Loader2, FlaskConical } from 'lucide-react';
-import { DEMO_LOGIN_ROLES, DEMO_USERS } from '../../data/demoUsers';
+import { X, Building2, User, Lock, Mail, ArrowRight, ShieldCheck, Loader2, ChevronDown, Sparkles } from 'lucide-react';
+import type { UserRole } from '../../types/auth';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,18 @@ interface ClientAreaModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const PROFILE_CHOICES: Array<{ role: UserRole; group: 'Clientes' | 'Operações' | 'Gestão'; icon: string; title: string; description: string }> = [
+  { role: 'cliente_vip', group: 'Clientes', icon: '👑', title: 'Cliente VIP', description: 'Viaturas, faturas e pedidos prioritários.' },
+  { role: 'cliente_normal', group: 'Clientes', icon: '👤', title: 'Cliente Particular ou PME', description: 'Reservas, pagamentos e acompanhamento.' },
+  { role: 'vendedor', group: 'Operações', icon: '💼', title: 'Consultor Comercial', description: 'Clientes, propostas e oportunidades.' },
+  { role: 'gestor_reservas', group: 'Operações', icon: '🎫', title: 'Gestão de Reservas', description: 'Pedidos, confirmação e despacho.' },
+  { role: 'diretor_frotas', group: 'Operações', icon: '🚙', title: 'Direção de Frotas', description: 'Viaturas, manutenção e disponibilidade.' },
+  { role: 'motorista', group: 'Operações', icon: '🧑🏾‍✈️', title: 'Motorista Protocolar', description: 'Escalas, missões e estado operacional.' },
+  { role: 'contabilista', group: 'Gestão', icon: '📊', title: 'Contabilidade', description: 'Faturas, pagamentos e reconciliação.' },
+  { role: 'gestor_portugal', group: 'Gestão', icon: '🇵🇹', title: 'Gestão Portugal', description: 'Operação internacional e pagamentos.' },
+  { role: 'direcao', group: 'Gestão', icon: '🏛️', title: 'Direção Executiva', description: 'Visão integral do negócio e Odoo.' },
+];
 
 export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClose }) => {
   const { signIn, requestPasswordReset, isAuthReady, loginAs } = useAuth();
@@ -19,7 +31,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [resetMessage, setResetMessage] = useState('');
-  const [showDemoAccess, setShowDemoAccess] = useState(true);
+  const [showRealLogin, setShowRealLogin] = useState(false);
 
   if (!isOpen) return null;
 
@@ -50,7 +62,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden z-10 animate-scaleUp">
+      <div className="relative flex max-h-[94vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl z-10 animate-scaleUp">
         {/* Header with Navy Gradient */}
         <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-6 sm:p-8 text-white relative">
           <button
@@ -61,80 +73,63 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
             <X className="w-5 h-5" />
           </button>
 
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#0B45D8] block mb-1">
-            {t('auth.eyebrow')}
+          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#D2A820] block mb-1">
+            Experiência PEPEK personalizada
           </span>
           <h3 className="text-2xl font-extrabold text-white font-inter">
-            {t('auth.title')}
+            Como deseja explorar o sistema?
           </h3>
           <p className="text-xs text-gray-300 mt-1">
-            {t('auth.subtitle')}
+            Escolha o papel que mais se aproxima da sua realidade. Pode mudar de perfil quando quiser.
           </p>
-
-          {/* Account Type Tabs */}
-          <div className="flex items-center gap-2 mt-6 p-1 bg-white/10 rounded-2xl border border-white/10">
-            <button
-              type="button"
-              onClick={() => { setActiveTab('corporate'); setErrorMessage(''); }}
-              className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                activeTab === 'corporate'
-                  ? 'bg-[#0B45D8] text-white shadow-md'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              <Building2 className="w-3.5 h-3.5" />
-              <span>{t('auth.corporate')}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => { setActiveTab('vip'); setErrorMessage(''); }}
-              className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                activeTab === 'vip'
-                  ? 'bg-[#0B45D8] text-white shadow-md'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              <User className="w-3.5 h-3.5" />
-              <span>{t('auth.private')}</span>
-            </button>
-          </div>
         </div>
 
         {/* Body Content */}
-        <div className="p-6 sm:p-8">
+        <div className="overflow-y-auto p-5 sm:p-7">
           <>
-            <div className="mb-5 overflow-hidden rounded-2xl border border-[#D2A820]/35 bg-[#FFF9E7]">
-              <button
-                type="button"
-                onClick={() => setShowDemoAccess((visible) => !visible)}
-                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-[#07133F]"
-                aria-expanded={showDemoAccess}
-              >
-                <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider"><FlaskConical className="h-4 w-4 text-[#B68D13]" />Entrar num perfil de demonstração</span>
-                <span className="text-[10px] font-bold text-[#B68D13]">{showDemoAccess ? 'Ocultar' : 'Ver perfis'}</span>
-              </button>
-              {showDemoAccess && (
-                <div className="border-t border-[#D2A820]/25 px-3 pb-3 pt-2">
-                  <p className="mb-2 px-1 text-[10px] font-semibold text-slate-600">Escolha um perfil para entrar imediatamente, sem utilizador nem senha.</p>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {Object.entries(DEMO_LOGIN_ROLES).map(([login, role]) => (
+            <div className="mb-5 rounded-2xl border border-[#D2A820]/30 bg-[#FFF9E7] px-4 py-3 text-[11px] text-[#584817]">
+              <span className="flex items-center gap-2 font-extrabold"><Sparkles className="h-4 w-4 text-[#B68D13]" />Entrada imediata, sem senha</span>
+              <span className="mt-1 block text-[10px] text-slate-600">Todos os dados apresentados são fictícios e servem apenas para conhecer a experiência.</span>
+            </div>
+
+            <div className="grid gap-5 lg:grid-cols-3">
+              {(['Clientes', 'Operações', 'Gestão'] as const).map((group) => (
+                <section key={group} aria-labelledby={`grupo-${group}`}>
+                  <div className="mb-2 flex items-center gap-2 px-1">
+                    <span className="grid h-6 w-6 place-items-center rounded-lg bg-[#07133F] text-[10px] font-black text-[#D2A820]">{group === 'Clientes' ? '01' : group === 'Operações' ? '02' : '03'}</span>
+                    <h4 id={`grupo-${group}`} className="text-xs font-black uppercase tracking-[0.12em] text-[#07133F]">{group}</h4>
+                  </div>
+                  <div className="space-y-2">
+                    {PROFILE_CHOICES.filter((profile) => profile.group === group).map((profile) => (
                       <button
-                        key={login}
+                        key={profile.role}
                         type="button"
-                        onClick={() => { setErrorMessage(''); loginAs(role); }}
-                        className="rounded-lg border border-[#D2A820]/20 bg-white px-2 py-2 text-left text-[10px] font-extrabold text-[#07133F] transition hover:border-[#B68D13] hover:bg-[#FFF4C7]"
+                        onClick={() => { setErrorMessage(''); loginAs(profile.role); }}
+                        className="group flex min-h-[82px] w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#D2A820] hover:shadow-md"
                       >
-                        <span className="block">{DEMO_USERS[role].roleLabel}</span>
-                        <span className="mt-0.5 block font-semibold text-slate-400">Acesso direto</span>
+                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#F3F5F8] text-xl transition group-hover:bg-[#FFF4C7]" aria-hidden="true">{profile.icon}</span>
+                        <span className="min-w-0 flex-1">
+                          <strong className="block text-xs text-[#07133F]">{profile.title}</strong>
+                          <span className="mt-1 block text-[10px] leading-snug text-slate-500">{profile.description}</span>
+                        </span>
+                        <ArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#B68D13]" />
                       </button>
                     ))}
                   </div>
-                  <p className="mt-2 px-1 text-[9px] leading-relaxed text-slate-500">Dados totalmente fictícios. Nenhuma cobrança ou operação real será executada.</p>
-                </div>
-              )}
+                </section>
+              ))}
             </div>
-            <div className="mb-4 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-slate-400 before:h-px before:flex-1 before:bg-slate-200 after:h-px after:flex-1 after:bg-slate-200">Login de conta real</div>
+
+            <button type="button" onClick={() => setShowRealLogin((visible) => !visible)} className="mt-6 flex w-full items-center justify-center gap-2 border-t border-slate-200 pt-5 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500 hover:text-[#07133F]" aria-expanded={showRealLogin}>
+              Já possui uma conta PEPEK? Entrar com e-mail
+              <ChevronDown className={`h-4 w-4 transition-transform ${showRealLogin ? 'rotate-180' : ''}`} />
+            </button>
+
+            {showRealLogin && <div className="mx-auto mt-5 max-w-lg rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="mb-4 flex items-center gap-2 rounded-xl bg-white p-1 border border-slate-200">
+              <button type="button" onClick={() => setActiveTab('corporate')} className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold ${activeTab === 'corporate' ? 'bg-[#07133F] text-white' : 'text-slate-500'}`}><Building2 className="mr-2 inline h-3.5 w-3.5" />Empresa</button>
+              <button type="button" onClick={() => setActiveTab('vip')} className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold ${activeTab === 'vip' ? 'bg-[#07133F] text-white' : 'text-slate-500'}`}><User className="mr-2 inline h-3.5 w-3.5" />Particular</button>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
@@ -197,6 +192,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                 <span>{isSubmitting ? t('auth.submitting') : t('auth.submit')}</span>
               </button>
             </form>
+            </div>}
           </>
 
           {/* Footer Note */}

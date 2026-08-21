@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-08-21T19:04:31.625Z",
+  "source": "Wikimedia Commons",
+  "vehicles": {
+    "volvo-xc-60": {
+      "name": "Volvo XC60 Ultimate 2026",
+      "query": "Volvo XC60 2022",
+      "images": [
+        {
+          "file": "/fleet-carousel/volvo-xc-60/01-front.jpg",
+          "angle": "front",
+          "title": "Volvo XC60 RECHARGE Plug-in Hybrid T6 AWD Inscription Expression (5LA-UB420XCP2) front.jpg",
+          "sourcePage": "https://commons.wikimedia.org/wiki/File:Volvo_XC60_RECHARGE_Plug-in_Hybrid_T6_AWD_Inscription_Expression_(5LA-UB420XCP2)_front.jpg",
+          "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Volvo_XC60_RECHARGE_Plug-in_Hybrid_T6_AWD_Inscription_Expression_%285LA-UB420XCP2%29_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "<a href=\"//commons.wikimedia.org/wiki/User:Tokumeigakarinoaoshima\" title=\"User:Tokumeigakarinoaoshima\">Tokumeigakarinoaoshima</a>",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+          "width": 2560,
+          "height": 1920,
+          "downloadedBytes": 691331
+        },
+        {
+          "file": "/fleet-carousel/volvo-xc-60/02-rear.jpg",
+          "angle": "rear",
+          "title": "Volvo XC60 RECHARGE Plug-in Hybrid T6 AWD Inscription Expression (5LA-UB420XCP2) rear.jpg",
+          "sourcePage": "https://commons.wikimedia.org/wiki/File:Volvo_XC60_RECHARGE_Plug-in_Hybrid_T6_AWD_Inscription_Expression_(5LA-UB420XCP2)_rear.jpg",
+          "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Volvo_XC60_RECHARGE_Plug-in_Hybrid_T6_AWD_Inscription_Expression_%285LA-UB420XCP2%29_rear.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "<a href=\"//commons.wikimedia.org/wiki/User:Tokumeigakarinoaoshima\" title=\"User:Tokumeigakarinoaoshima\">Tokumeigakarinoaoshima</a>",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+          "width": 2560,
+          "height": 1920,
+          "downloadedBytes": 752773
+        },
+        {
+          "file": "/fleet-carousel/volvo-xc-60/03-interior.jpg",
+          "angle": "interior",
+          "title": "2023 Volvo XC60 interior.jpg",
+          "sourcePage": "https://commons.wikimedia.org/wiki/File:2023_Volvo_XC60_interior.jpg",
+          "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fe/2023_Volvo_XC60_interior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Deathpallie325&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Deathpallie325 (page does not exist)\">deathpallie325</a>",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+          "width": 4032,
+          "height": 2268,
+          "downloadedBytes": 290246
+        },
+        {
+          "file": "/fleet-carousel/volvo-xc-60/04-exterior.jpg",
+          "angle": "exterior",
+          "title": "Volvo XC60 (SPA), Katowice, Silesian Voivodeship, Poland, January 2022.jpg",
+          "sourcePage": "https://commons.wikimedia.org/wiki/File:Volvo_XC60_(SPA),_Katowice,_Silesian_Voivodeship,_Poland,_January_2022.jpg",
+          "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/80/Volvo_XC60_%28SPA%29%2C_Katowice%2C_Silesian_Voivodeship%2C_Poland%2C_January_2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:MichalPL&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:MichalPL (page does not exist)\">MichalPL</a>",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+          "width": 3376,
+          "height": 2532,
+          "downloadedBytes": 651687
+        }
+      ]
+    }
+  }
+}
