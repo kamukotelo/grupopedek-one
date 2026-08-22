@@ -11,7 +11,7 @@ for (const vehicle of vehicles) {
   vehicle.current = (await fs.readdir(currentDir)).filter((file) => /\.(webp|png|jpe?g)$/i.test(file)).sort().map((file) => `/fleet-carousel/${vehicle.id}/${file}`);
   try {
     const upgradeDir = path.join(root, 'public/fleet-carousel-generated', vehicle.id);
-    vehicle.upgrade = (await fs.readdir(upgradeDir)).filter((file) => /\.(webp|png|jpe?g)$/i.test(file)).sort().map((file) => `/fleet-carousel-generated/${vehicle.id}/${file}`);
+    vehicle.upgrade = (await fs.readdir(upgradeDir)).filter((file) => /\.(webp|png|jpe?g)$/i.test(file) && file !== 'catalog-v1.webp').sort().map((file) => `/fleet-carousel-generated/${vehicle.id}/${file}`);
   } catch { vehicle.upgrade = []; }
 }
 

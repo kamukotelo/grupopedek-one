@@ -16,12 +16,18 @@ const UPGRADE_IDS = [
 export const FLEET_UPGRADE_GALLERY: Record<string, GalleryImage[]> = Object.fromEntries(
   UPGRADE_IDS.map((id) => [
     id,
-    [{
-      url: `/fleet-carousel-generated/${id}/catalog-v1.webp`,
-      caption: 'Nova apresentação premium — múltiplas vistas exteriores e interiores',
-      altText: `${id} — nova apresentação premium da viatura`,
-      type: 'context' as const
-    }]
+    [
+      ['01-exterior-principal.webp', 'Vista exterior principal', 'exterior'],
+      ['02-exterior-traseira.webp', 'Vista exterior traseira', 'exterior'],
+      ['03-exterior-lateral.webp', 'Vista exterior lateral', 'exterior'],
+      ['04-interior-cockpit.webp', 'Cockpit e painel de instrumentos', 'interior'],
+      ['05-interior-passageiros.webp', 'Interior e espaço dos passageiros', 'interior']
+    ].map(([file, caption, type]) => ({
+      url: `/fleet-carousel-generated/${id}/${file}`,
+      caption: `Nova apresentação premium — ${caption}`,
+      altText: `${id} — ${caption.toLowerCase()}`,
+      type: type as GalleryImage['type']
+    }))
   ])
 );
 

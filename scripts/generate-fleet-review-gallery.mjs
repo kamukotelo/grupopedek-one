@@ -17,6 +17,7 @@ for (const vehicle of vehicles) {
   try {
     const generatedFiles = (await fs.readdir(path.join(generatedRoot, vehicle.id)))
       .filter((file) => /\.(webp|jpe?g|png)$/i.test(file))
+      .filter((file) => file !== 'catalog-v1.webp')
       .sort();
     for (const file of generatedFiles) cards.push({ ...vehicle, file, url: `/fleet-carousel-generated/${vehicle.id}/${file}`, source: 'Catálogo gerado por IA' });
   } catch {
