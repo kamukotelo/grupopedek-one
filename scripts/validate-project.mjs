@@ -69,6 +69,12 @@ expect(demoUsersSource.includes('DEMO_OPERATIONAL_RECORDS'), 'Agenda operacional
 expect(demoUsersSource.includes('DEMO_ODOO_EVENTS'), 'Eventos demonstrativos Odoo ausentes');
 expect(demoUsersSource.includes('totalVehiclesSynced: 47'), 'Frota oficial não está representada no estado Odoo demo');
 
+const reviewGallerySource = fs.readFileSync('scripts/generate-fleet-review-gallery.mjs', 'utf8');
+expect(reviewGallerySource.includes("pepek-fleet-image-review-v2"), 'O catálogo de imagens não usa o fluxo seguro de revisão');
+expect(reviewGallerySource.includes("current.rights && current.people && current.plates"), 'A aprovação não exige as três confirmações de segurança');
+expect(reviewGallerySource.includes("Bloqueada: licença incompleta"), 'Imagens sem licença completa não estão bloqueadas');
+expect(reviewGallerySource.includes("Portal oficial para pesquisa"), 'As fontes oficiais do Excel não aparecem no catálogo de pesquisa');
+
 if (failures.length) {
   console.error(failures.map(item => `- ${item}`).join('\n'));
   process.exit(1);
