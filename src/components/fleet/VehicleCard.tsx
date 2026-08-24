@@ -15,7 +15,8 @@ import {
   MapPin
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
-import { getFleetUpgradeCover } from '../../data/fleetUpgradeGallery';
+import { getFleetUpgradeCover, getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
+import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 
 interface VehicleCardProps {
@@ -36,11 +37,17 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [justBookedFeedback, setJustBookedFeedback] = useState(false);
   const upgradeCover = getFleetUpgradeCover(vehicle.id);
-  const studioImage = upgradeCover || (vehicle.primaryImage.startsWith('/rent_car/')
+  const upgradePhotoCount = getFleetUpgradePhotoCount(vehicle.id);
+  const localImageApproved = isFleetLocalImageApproved(vehicle.id);
+  const studioImage = upgradeCover || (!localImageApproved ? FLEET_IMAGE_REVIEW_PLACEHOLDER : vehicle.primaryImage.startsWith('/rent_car/')
     ? vehicle.primaryImage.replace('/rent_car/', '/rent_car_hd/')
     : vehicle.primaryImage);
-  const verifiedPhotoCount = (vehicle.gallery?.length || 1) + (upgradeCover ? 1 : 0);
-  const verifiedSecondaryImage = vehicle.secondaryImage
+  const localPhotoCount = localImageApproved
+    ? vehicle.gallery?.filter((image) => image.url.startsWith('/rent_car/')).length || 1
+    : 0;
+  const verifiedPhotoCount = upgradePhotoCount + localPhotoCount;
+  // Não cruzar o acervo premium com uma fotografia antiga durante o hover.
+  const verifiedSecondaryImage = !upgradeCover && localImageApproved && vehicle.secondaryImage
     ? vehicle.secondaryImage.startsWith('/rent_car/')
       ? vehicle.secondaryImage.replace('/rent_car/', '/rent_car_hd/')
       : vehicle.secondaryImage
@@ -64,20 +71,16 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
-        style={{ backgroundImage: "url('/studio/fleet-studio-background.png')" }}
-        className="relative aspect-4/3 overflow-hidden bg-[#F8FAFC] bg-cover bg-center border-b border-[#D9DEE7] cursor-pointer select-none flex items-center justify-center p-5"
+        className="relative aspect-4/3 overflow-hidden bg-[#07133F] border-b border-[#D9DEE7] cursor-pointer select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onInspect(vehicle)}
       >
-        {/* Subtle Radial Stage Light */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center_75%,rgba(210,168,32,0.12)_0%,transparent_65%)] pointer-events-none" />
-
-        {/* Primary Studio Cutout Image */}
+        {/* A fotografia ocupa sempre toda a área do card. */}
         <img
           src={studioImage}
           alt={vehicle.name}
-          className={`w-full h-full object-contain object-center transition-all duration-500 ease-out group-hover:scale-105 drop-shadow-[0_16px_18px_rgba(7,19,63,0.22)] ${
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-[1.025] ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
           loading="lazy"
@@ -88,7 +91,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           <img
             src={verifiedSecondaryImage}
             alt={`${vehicle.name} vista lateral/interior`}
-            className={`absolute inset-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] object-cover rounded-2xl transition-all duration-500 ease-out shadow-lg ${
+            className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 ease-out ${
               isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
             loading="lazy"
@@ -116,12 +119,12 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           {/* Photo Count Chip */}
           <span className="px-2.5 py-1 rounded-full bg-[#07133F]/80 text-[#D2A820] text-[10px] font-bold backdrop-blur-md border border-white/10 flex items-center gap-1 shadow-sm">
             <Camera className="w-3 h-3 text-[#D2A820]" />
-            <span>{verifiedPhotoCount} {verifiedPhotoCount === 1 ? 'Foto' : 'Fotos'}</span>
+            <span>{verifiedPhotoCount ? `${verifiedPhotoCount} ${verifiedPhotoCount === 1 ? 'Foto' : 'Fotos'}` : 'Imagens em revisão'}</span>
           </span>
         </div>
 
         {/* Quick View Button Overlay on Hover */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/10 backdrop-blur-[2px]">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/15">
           <span className="px-4 py-2 rounded-full bg-[#07133F] text-[#D2A820] font-black text-xs border border-[#D2A820] shadow-xl flex items-center gap-1.5 tracking-wide">
             <Eye className="w-4 h-4 text-[#D2A820]" />
             <span>Ver Ficha Técnica Completa</span>

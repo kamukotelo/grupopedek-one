@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
 import { FLEET_UPGRADE_GALLERY } from '../../data/fleetUpgradeGallery';
+import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 
 interface VehicleGalleryModalProps {
@@ -40,10 +41,19 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const upgradeGallery = vehicle ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
-  const originalLocalGallery = (vehicle?.gallery ?? []).filter((image) => image.url.startsWith('/rent_car/'));
+  const localImageApproved = vehicle ? isFleetLocalImageApproved(vehicle.id) : false;
+  const originalLocalGallery = localImageApproved
+    ? (vehicle?.gallery ?? []).filter((image) => image.url.startsWith('/rent_car/'))
+    : [];
   // A pesquisa externa permanece apenas no acervo de apoio. A frota pública
   // aceita somente material próprio/local ou produzido para este projeto.
-  const verifiedGallery = [...upgradeGallery, ...originalLocalGallery].map((image) => ({
+  const publicGallery = upgradeGallery.length ? upgradeGallery : originalLocalGallery;
+  const verifiedGallery = (publicGallery.length ? publicGallery : [{
+    url: FLEET_IMAGE_REVIEW_PLACEHOLDER,
+    caption: 'Imagens desta viatura em revisão',
+    altText: `${vehicle?.name ?? 'Viatura'} — imagens em revisão`,
+    type: 'context' as const
+  }]).map((image) => ({
     ...image,
     url: image.url.startsWith('/rent_car/')
       ? image.url.replace('/rent_car/', '/rent_car_hd/')

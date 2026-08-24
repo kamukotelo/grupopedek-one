@@ -33,3 +33,6 @@ export const FLEET_UPGRADE_GALLERY: Record<string, GalleryImage[]> = Object.from
 
 export const getFleetUpgradeCover = (vehicleId: string): string | undefined =>
   FLEET_UPGRADE_GALLERY[vehicleId]?.[0]?.url;
+
+export const getFleetUpgradePhotoCount = (vehicleId: string): number =>
+  FLEET_UPGRADE_GALLERY[vehicleId]?.length ?? 0;
