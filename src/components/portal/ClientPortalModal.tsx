@@ -24,7 +24,10 @@ import {
   Activity,
   CalendarCheck,
   Database,
-  Wrench
+  Wrench,
+  LayoutDashboard,
+  Mail,
+  BadgeCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types/auth';
@@ -32,6 +35,7 @@ import { PaymentSimulatorModal } from './PaymentSimulatorModal';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { ClientAreaModal } from '../ui/ClientAreaModal';
 import { DEMO_OPERATIONAL_RECORDS, DEMO_ODOO_EVENTS } from '../../data/demoUsers';
+import { getPortalPermissions } from '../../lib/portalPermissions';
 
 export const ClientPortalModal: React.FC = () => {
   const {
@@ -50,7 +54,7 @@ export const ClientPortalModal: React.FC = () => {
     payInvoice
   } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'fleet' | 'invoices' | 'operations' | 'odoo' | 'request'>('fleet');
+  const [activeTab, setActiveTab] = useState<'overview' | 'fleet' | 'invoices' | 'operations' | 'odoo' | 'request'>('overview');
   const [isSyncing, setIsSyncing] = useState(false);
 
   if (!isPortalOpen) return null;
@@ -69,8 +73,11 @@ export const ClientPortalModal: React.FC = () => {
   const isAdminOrStaff = !!currentUser && !['cliente_vip', 'cliente_normal'].includes(currentUser.role);
   const isVipOrClient = currentUser?.role === 'cliente_vip' || currentUser?.role === 'cliente_normal';
   const isDemoSession = currentUser?.id.startsWith('demo_') ?? false;
-  const canViewFinances = isVipOrClient || ['contabilista', 'gestor_portugal', 'direcao'].includes(currentUser?.role || '');
-  const canViewOdoo = isAdminOrStaff;
+  const permissions = getPortalPermissions(currentUser?.role);
+  const canViewFinances = permissions.finances;
+  const canViewOdoo = permissions.odoo;
+  const pendingInvoices = invoices.filter((invoice) => invoice.status === 'pending' || invoice.status === 'overdue');
+  const activeVehicles = fleetTelemetry.filter((vehicle) => ['em_circulacao', 'em_reserva'].includes(vehicle.status));
 
   const demoRoles: Array<{ role: UserRole; label: string; icon: string; category: 'Cliente' | 'Administrativo' }> = [
     { role: 'cliente_vip', label: 'Cliente VIP Diplomático', icon: '👑', category: 'Cliente' },
@@ -100,7 +107,7 @@ export const ClientPortalModal: React.FC = () => {
                   <button
                     key={d.role}
                     type="button"
-                    onClick={() => { loginAs(d.role); setActiveTab('fleet'); }}
+                    onClick={() => { loginAs(d.role); setActiveTab('overview'); }}
                     className={`px-2.5 py-1 rounded-lg text-[10px] font-extrabold transition-all cursor-pointer flex items-center gap-1 ${
                       currentUser?.role === d.role
                         ? 'bg-[#0B45D8] text-white shadow-xs'
@@ -148,7 +155,7 @@ export const ClientPortalModal: React.FC = () => {
                 </div>
               )}
 
-              {canViewFinances && <button
+              {permissions.fleet && <button
                 onClick={() => setIsPortalOpen(false)}
                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
                 aria-label="Fechar portal"
@@ -163,6 +170,18 @@ export const ClientPortalModal: React.FC = () => {
             <div className="flex items-center gap-2 pt-2">
               <button
                 type="button"
+                onClick={() => setActiveTab('overview')}
+                className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+                  activeTab === 'overview'
+                    ? 'border-[#0B45D8] text-[#0B45D8]'
+                    : 'border-transparent text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                <span>Visão Geral</span>
+              </button>
+              {canViewFinances && <button
+                type="button"
                 onClick={() => setActiveTab('fleet')}
                 className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
                   activeTab === 'fleet'
@@ -172,7 +191,7 @@ export const ClientPortalModal: React.FC = () => {
               >
                 <Car className="w-4 h-4" />
                 <span>{isAdminOrStaff ? 'Gestão da Frota Global' : 'Minhas Viaturas Alocadas'}</span>
-              </button>
+              </button>}
 
               <button
                 type="button"
@@ -190,7 +209,7 @@ export const ClientPortalModal: React.FC = () => {
                 )}
               </button>
 
-              {isAdminOrStaff && (
+              {permissions.operations && (
                 <button
                   type="button"
                   onClick={() => setActiveTab('operations')}
@@ -222,7 +241,7 @@ export const ClientPortalModal: React.FC = () => {
               )}
 
               {/* Client Quick Request: For Clients */}
-              {isVipOrClient && (
+              {permissions.priorityRequest && (
                 <button
                   type="button"
                   onClick={() => setActiveTab('request')}
@@ -250,19 +269,96 @@ export const ClientPortalModal: React.FC = () => {
 
           {/* Modal Tab Content */}
           <div className="p-5 sm:p-7 overflow-y-auto flex-1 bg-gray-50 text-xs">
+            {activeTab === 'overview' && (
+              <div className="space-y-6">
+                <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#B68D13]">Resumo da sua conta</span>
+                    <h4 className="mt-1 text-xl font-black text-[#06142F]">Olá, {currentUser?.name || 'utilizador PEPEK'}</h4>
+                    <p className="mt-1 max-w-2xl text-xs leading-5 text-gray-500">
+                      {isAdminOrStaff
+                        ? 'Consulte o estado da operação, execute tarefas autorizadas e acompanhe os indicadores da sua área.'
+                        : 'Acompanhe viaturas, documentos e pedidos associados à sua conta num único espaço seguro.'}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[10px] font-bold text-emerald-800">
+                    <ShieldCheck className="h-4 w-4" /> Sessão autenticada
+                  </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  <button type="button" disabled={!permissions.fleet} onClick={() => permissions.fleet && setActiveTab('fleet')} className="rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition enabled:hover:-translate-y-0.5 enabled:hover:border-[#0B45D8]/40 disabled:opacity-60">
+                    <Car className="h-5 w-5 text-[#0B45D8]" />
+                    <strong className="mt-3 block text-2xl text-[#06142F]">{permissions.fleet ? (permissions.globalFleet ? activeVehicles.length : Math.min(activeVehicles.length, 2)) : '—'}</strong>
+                    <span className="text-[10px] font-bold text-gray-500">{permissions.globalFleet ? 'Viaturas ativas na operação' : 'Viaturas associadas'}</span>
+                  </button>
+                  <button type="button" disabled={!canViewFinances} onClick={() => canViewFinances && setActiveTab('invoices')} className="rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition enabled:hover:-translate-y-0.5 enabled:hover:border-[#0B45D8]/40 disabled:opacity-60">
+                    <FileText className="h-5 w-5 text-[#B68D13]" />
+                    <strong className="mt-3 block text-2xl text-[#06142F]">{canViewFinances ? pendingInvoices.length : '—'}</strong>
+                    <span className="text-[10px] font-bold text-gray-500">Documentos pendentes</span>
+                  </button>
+                  <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+                    <Clock className="h-5 w-5 text-emerald-600" />
+                    <strong className="mt-3 block text-2xl text-[#06142F]">24/7</strong>
+                    <span className="text-[10px] font-bold text-gray-500">Apoio e assistência PEPEK</span>
+                  </div>
+                  <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+                    <BadgeCheck className="h-5 w-5 text-violet-600" />
+                    <strong className="mt-3 block truncate text-sm text-[#06142F]">{currentUser?.tier || 'Acreditado'}</strong>
+                    <span className="text-[10px] font-bold text-gray-500">Nível de atendimento</span>
+                  </div>
+                </div>
+
+                <div className="grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
+                  <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+                    <div className="border-b border-gray-100 px-5 py-4">
+                      <h5 className="font-black text-[#06142F]">Identificação e organização da conta</h5>
+                      <p className="mt-1 text-[10px] text-gray-500">Dados visíveis apenas durante a sua sessão autenticada.</p>
+                    </div>
+                    <dl className="grid gap-px bg-gray-100 sm:grid-cols-2">
+                      {[
+                        ['Utilizador', currentUser?.name || 'Não indicado', User],
+                        ['Tipo de acesso', currentUser?.roleLabel || 'Cliente', ShieldCheck],
+                        ['Organização', currentUser?.company || 'Conta particular', Building2],
+                        ['E-mail', currentUser?.email || 'Não indicado', Mail],
+                        ['Telefone', currentUser?.phone || 'Não indicado', Phone],
+                        ['NIF / referência', currentUser?.nif || 'Não associado', FileText],
+                      ].map(([label, value, Icon]) => (
+                        <div key={label as string} className="bg-white p-4">
+                          <dt className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider text-gray-400"><Icon className="h-3.5 w-3.5 text-[#0B45D8]" />{label as string}</dt>
+                          <dd className="mt-1 truncate text-xs font-bold text-[#06142F]">{value as string}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </section>
+
+                  <section className="rounded-2xl border border-gray-200 bg-[#06142F] p-5 text-white">
+                    <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#D2A820]">Ações rápidas</span>
+                    <div className="mt-4 space-y-2">
+                      {permissions.fleet && <button type="button" onClick={() => setActiveTab('fleet')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">Consultar viaturas</strong><small className="text-[9px] text-white/55">Estado, motorista e localização</small></span><ArrowUpRight className="h-4 w-4 text-[#D2A820]" /></button>}
+                      {canViewFinances && <button type="button" onClick={() => setActiveTab('invoices')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">Faturas e recibos</strong><small className="text-[9px] text-white/55">Documentos e pagamentos</small></span><ArrowUpRight className="h-4 w-4 text-[#D2A820]" /></button>}
+                      {permissions.priorityRequest && <button type="button" onClick={() => setActiveTab('request')} className="flex w-full items-center justify-between rounded-xl border border-[#D2A820]/30 bg-[#D2A820]/10 p-3 text-left hover:bg-[#D2A820]/15"><span><strong className="block text-xs text-white">Nova requisição</strong><small className="text-[9px] text-white/55">Solicitar apoio prioritário</small></span><ArrowUpRight className="h-4 w-4 text-[#D2A820]" /></button>}
+                      {permissions.operations && <button type="button" onClick={() => setActiveTab('operations')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">Centro de operações</strong><small className="text-[9px] text-white/55">Agenda e controlo autorizado</small></span><ArrowUpRight className="h-4 w-4 text-[#D2A820]" /></button>}
+                    </div>
+                    <a href={generateQuickWhatsAppUrl(`Apoio ao portal: ${currentUser?.name} (${currentUser?.company || 'Particular'})`)} target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-[10px] font-black text-white hover:bg-emerald-500"><Phone className="h-4 w-4" />Falar com apoio PEPEK</a>
+                  </section>
+                </div>
+              </div>
+            )}
+
             {/* Tab 1: Fleet View */}
-            {activeTab === 'fleet' && (
+            {activeTab === 'fleet' && permissions.fleet && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-base font-extrabold text-[#06142F]">
                       {isAdminOrStaff
-                        ? 'Controlo Operacional de Toda a Frota PEPEK'
+                        ? permissions.globalFleet ? 'Controlo Operacional de Toda a Frota PEPEK' : 'Viaturas atribuídas ao seu perfil'
                         : `Viaturas Activas em Nome de ${currentUser?.company || currentUser?.name}`}
                     </h4>
                     <p className="text-gray-500 text-xs">
                       {isAdminOrStaff
-                        ? 'Telemetria GPS, motoristas e estado de manutenção da operação nacional.'
+                        ? permissions.globalFleet ? 'Telemetria GPS, motoristas e estado de manutenção da operação nacional.' : 'Apenas os registos operacionais atribuídos à sua conta.'
                         : 'Viaturas de protocolo e rent-a-car alocadas ao seu contrato.'}
                     </p>
                   </div>
@@ -273,7 +369,7 @@ export const ClientPortalModal: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(isVipOrClient ? fleetTelemetry.slice(0, 2) : fleetTelemetry).map((flt) => (
+                  {(permissions.globalFleet ? fleetTelemetry : fleetTelemetry.slice(0, 2)).map((flt) => (
                     <div
                       key={flt.id}
                       className="p-4 rounded-2xl bg-white border border-gray-200 shadow-xs space-y-3 hover:border-[#0B45D8]/50 transition-colors"
@@ -401,7 +497,7 @@ export const ClientPortalModal: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'operations' && isAdminOrStaff && (
+            {activeTab === 'operations' && permissions.operations && (
               <div className="space-y-5">
                 <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                   <div>
@@ -564,7 +660,7 @@ export const ClientPortalModal: React.FC = () => {
             )}
 
             {/* Tab 4: Quick Request (Client Only) */}
-            {activeTab === 'request' && isVipOrClient && (
+            {activeTab === 'request' && permissions.priorityRequest && (
               <div className="p-6 bg-white rounded-2xl border border-gray-200 space-y-4 max-w-lg mx-auto">
                 <h4 className="text-base font-bold text-[#06142F] text-center">
                   Solicitação Prioritária à Direcção

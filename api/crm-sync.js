@@ -1,8 +1,11 @@
+import { applyApiSecurity, safeEqual, takeRateLimit } from './_security.js';
+
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
+  if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
+  if (takeRateLimit(req, 'crm-sync', 10)) return res.status(429).json({ error: 'Muitos pedidos.' });
   const expectedToken = process.env.CRM_SYNC_TOKEN;
   const suppliedToken = req.headers.authorization?.replace(/^Bearer\s+/i, '');
-  if (!expectedToken || suppliedToken !== expectedToken) {
+  if (!safeEqual(suppliedToken, expectedToken)) {
     return res.status(401).json({ error: 'Não autorizado' });
   }
   if (!process.env.CRM_WEBHOOK_URL) return res.status(503).json({ error: 'CRM não configurado' });

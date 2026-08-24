@@ -1,51 +1,47 @@
-const attempts = new Map();
-
-const clean = (value, max = 300) => typeof value === 'string' ? value.trim().slice(0, max) : '';
-
-const rateLimited = (ip) => {
-  const now = Date.now();
-  const recent = (attempts.get(ip) || []).filter(time => now - time < 60_000);
-  recent.push(now);
-  attempts.set(ip, recent);
-  return recent.length > 5;
-};
+import { applyApiSecurity, cleanText, isIsoDate, takeRateLimit } from './_security.js';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
-  const ip = req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
-  if (rateLimited(ip)) return res.status(429).json({ error: 'Muitos pedidos. Aguarde um minuto.' });
+  if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
+  if (takeRateLimit(req, 'reservations', 5)) return res.status(429).json({ error: 'Muitos pedidos. Aguarde um minuto.' });
 
   const body = req.body || {};
-  const clientName = clean(body.clientName, 150);
-  const clientPhone = clean(body.clientPhone, 50);
-  const clientEmail = clean(body.clientEmail, 150);
+  const clientName = cleanText(body.clientName, 150);
+  const clientPhone = cleanText(body.clientPhone, 50);
+  const clientEmail = cleanText(body.clientEmail, 150).toLowerCase();
   if (!clientName || (!clientPhone && !clientEmail)) {
     return res.status(400).json({ error: 'Nome e telefone ou e-mail são obrigatórios.' });
   }
+  if (clientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail)) return res.status(400).json({ error: 'E-mail inválido.' });
+  if (clientPhone && !/^\+?[0-9 ()-]{7,25}$/.test(clientPhone)) return res.status(400).json({ error: 'Telefone inválido.' });
+  const startDate = cleanText(body.startDate, 10);
+  const endDate = cleanText(body.endDate, 10);
+  if ((startDate && !isIsoDate(startDate)) || (endDate && !isIsoDate(endDate)) || (startDate && endDate && endDate < startDate)) {
+    return res.status(400).json({ error: 'Período da reserva inválido.' });
+  }
 
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !supabaseKey) return res.status(503).json({ error: 'Persistência não configurada.' });
 
   const protocolCode = `PK-DIR-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
   const row = {
     protocol_code: protocolCode,
-    service: clean(body.service, 50) || 'rent-a-car',
-    location: clean(body.location, 100) || 'Luanda',
-    destination: clean(body.destination, 150) || null,
-    start_date: clean(body.startDate, 20) || null,
-    end_date: clean(body.endDate, 20) || null,
-    vehicle_category: clean(body.vehicleCategory, 150) || null,
+    service: cleanText(body.service, 50) || 'rent-a-car',
+    location: cleanText(body.location, 100) || 'Luanda',
+    destination: cleanText(body.destination, 150) || null,
+    start_date: startDate || null,
+    end_date: endDate || null,
+    vehicle_category: cleanText(body.vehicleCategory, 150) || null,
     with_driver: body.withDriver !== false,
     client_name: clientName,
     client_phone: clientPhone,
     client_email: clientEmail || null,
-    company_name: clean(body.companyName, 150) || null,
-    flight_number: clean(body.flightNumber, 50) || null,
-    passengers_count: Number.isFinite(Number(body.passengersCount)) ? Number(body.passengersCount) : null,
-    notes: clean(body.notes, 3000) || null,
+    company_name: cleanText(body.companyName, 150) || null,
+    flight_number: cleanText(body.flightNumber, 50) || null,
+    passengers_count: Number.isInteger(Number(body.passengersCount)) && Number(body.passengersCount) >= 1 && Number(body.passengersCount) <= 100 ? Number(body.passengersCount) : null,
+    notes: cleanText(body.notes, 3000) || null,
     status: 'pending',
-    source: clean(body.source, 50) || 'web',
+    source: cleanText(body.source, 50) || 'web',
   };
 
   const insertResponse = await fetch(`${supabaseUrl}/rest/v1/bookings`, {

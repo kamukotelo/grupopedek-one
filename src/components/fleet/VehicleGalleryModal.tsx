@@ -25,6 +25,7 @@ import { VehicleDetail } from '../../data/fleetData';
 import { FLEET_UPGRADE_GALLERY } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
+import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 interface VehicleGalleryModalProps {
   vehicle: VehicleDetail | null;
@@ -39,6 +40,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
 }) => {
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isAutoPaused, setIsAutoPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const isFlyerCollection = vehicle?.visualCollection === 'flyer';
   const upgradeGallery = vehicle && !isFlyerCollection ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
@@ -83,6 +85,14 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [vehicle, onClose, verifiedGallery.length]);
+
+  useEffect(() => {
+    if (!vehicle || verifiedGallery.length < 2 || isAutoPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => {
+      setActiveImageIdx((current) => (current + 1) % verifiedGallery.length);
+    }, 7000);
+    return () => window.clearInterval(timer);
+  }, [vehicle, verifiedGallery.length, isAutoPaused]);
 
   if (!vehicle) return null;
 
@@ -171,7 +181,11 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
             className={`relative w-full h-[320px] sm:h-[440px] md:h-[480px] flex items-center justify-center overflow-hidden shrink-0 group ${
               'bg-[#F8FAFC] bg-cover bg-center p-8 sm:p-12'
             }`}
-            style={{ backgroundImage: "url('/studio/fleet-studio-background.png')" }}
+            style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}
+            onMouseEnter={() => setIsAutoPaused(true)}
+            onMouseLeave={() => setIsAutoPaused(false)}
+            onFocusCapture={() => setIsAutoPaused(true)}
+            onBlurCapture={() => setIsAutoPaused(false)}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >

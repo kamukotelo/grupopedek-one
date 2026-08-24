@@ -34,6 +34,7 @@ ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS protocol_code VARCHAR(50);
 ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS pickup_time TIME;
 ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS dropoff_time TIME;
 ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS assigned_vehicle_id UUID;
+ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL;
 CREATE UNIQUE INDEX IF NOT EXISTS bookings_protocol_code_idx ON public.bookings(protocol_code) WHERE protocol_code IS NOT NULL;
 CREATE INDEX IF NOT EXISTS bookings_period_idx ON public.bookings(start_date, end_date, status);
 CREATE INDEX IF NOT EXISTS bookings_client_email_idx ON public.bookings(client_email);
@@ -114,33 +115,54 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.fleet_assignments ENABLE ROW LEVEL SECURITY;
 
--- Allow anonymous bookings insert from the web application
-CREATE POLICY "Allow anonymous bookings insert"
-    ON public.bookings
-    FOR INSERT
-    WITH CHECK (true);
+-- Reservations are created only by the server-side /api/reservations endpoint
+-- using the service role. Anonymous browser clients receive no table access.
+DROP POLICY IF EXISTS "Allow anonymous bookings insert" ON public.bookings;
+REVOKE ALL ON public.bookings FROM anon;
 
 -- Allow public read access to fleet & institutional clients
+DROP POLICY IF EXISTS "Allow public read on institutional_clients" ON public.institutional_clients;
 CREATE POLICY "Allow public read on institutional_clients"
     ON public.institutional_clients
     FOR SELECT
     USING (is_active = true);
 
+DROP POLICY IF EXISTS "Allow public read on fleet_vehicles" ON public.fleet_vehicles;
 CREATE POLICY "Allow public read on fleet_vehicles"
     ON public.fleet_vehicles
     FOR SELECT
     USING (is_available = true);
 
+DROP POLICY IF EXISTS "Users read own profile" ON public.profiles;
 CREATE POLICY "Users read own profile" ON public.profiles
     FOR SELECT TO authenticated USING (auth.uid() = id);
+DROP POLICY IF EXISTS "Users update own profile" ON public.profiles;
 CREATE POLICY "Users update own profile" ON public.profiles
     FOR UPDATE TO authenticated USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+-- Customers may update contact fields, never role/tier authorization fields.
+REVOKE UPDATE ON public.profiles FROM authenticated;
+GRANT UPDATE (full_name, phone, company, nif, updated_at) ON public.profiles TO authenticated;
+DROP POLICY IF EXISTS "Users read own invoices" ON public.invoices;
 CREATE POLICY "Users read own invoices" ON public.invoices
     FOR SELECT TO authenticated USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Finance roles read all invoices" ON public.invoices;
+CREATE POLICY "Finance roles read all invoices" ON public.invoices
+    FOR SELECT TO authenticated
+    USING ((auth.jwt() -> 'app_metadata' ->> 'role') IN ('contabilista', 'gestor_portugal', 'direcao'));
+DROP POLICY IF EXISTS "Users read own fleet assignments" ON public.fleet_assignments;
 CREATE POLICY "Users read own fleet assignments" ON public.fleet_assignments
     FOR SELECT TO authenticated USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Fleet roles read all assignments" ON public.fleet_assignments;
+CREATE POLICY "Fleet roles read all assignments" ON public.fleet_assignments
+    FOR SELECT TO authenticated
+    USING ((auth.jwt() -> 'app_metadata' ->> 'role') IN ('gestor_reservas', 'diretor_frotas', 'gestor_portugal', 'direcao'));
 
--- Authenticated users may read their own bookings by account e-mail.
+-- Authenticated users may read only bookings explicitly linked to their UID.
+DROP POLICY IF EXISTS "Users read own bookings" ON public.bookings;
 CREATE POLICY "Users read own bookings" ON public.bookings
     FOR SELECT TO authenticated
-    USING (client_email = (auth.jwt() ->> 'email'));
+    USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Operations roles read all bookings" ON public.bookings;
+CREATE POLICY "Operations roles read all bookings" ON public.bookings
+    FOR SELECT TO authenticated
+    USING ((auth.jwt() -> 'app_metadata' ->> 'role') IN ('gestor_reservas', 'diretor_frotas', 'gestor_portugal', 'direcao'));

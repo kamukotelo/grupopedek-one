@@ -1,12 +1,15 @@
-export default async function handler(req, res) {
-  if (req.method !== 'GET') return res.status(405).json({ error: 'Método não permitido' });
-  const vehicle = String(req.query.vehicle || '').trim();
-  const startDate = String(req.query.startDate || '').trim();
-  const endDate = String(req.query.endDate || '').trim();
-  if (!vehicle || !startDate || !endDate) return res.status(400).json({ status: 'unknown' });
+import { applyApiSecurity, cleanText, isIsoDate, takeRateLimit } from './_security.js';
 
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+export default async function handler(req, res) {
+  if (!applyApiSecurity(req, res, { methods: ['GET'] })) return;
+  if (takeRateLimit(req, 'availability', 30)) return res.status(429).json({ status: 'unknown' });
+  const vehicle = cleanText(req.query.vehicle, 150);
+  const startDate = cleanText(req.query.startDate, 10);
+  const endDate = cleanText(req.query.endDate, 10);
+  if (!vehicle || !isIsoDate(startDate) || !isIsoDate(endDate) || endDate < startDate) return res.status(400).json({ status: 'unknown' });
+
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !supabaseKey) return res.status(503).json({ status: 'unknown' });
 
   const query = new URLSearchParams({

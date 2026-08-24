@@ -1,11 +1,16 @@
+import { applyApiSecurity, cleanText, takeRateLimit } from './_security.js';
+
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
+  if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
+  if (takeRateLimit(req, 'ai', 12)) return res.status(429).json({ error: 'Muitos pedidos. Aguarde um minuto.' });
   if (!process.env.GEMINI_API_KEY) return res.status(503).json({ error: 'Assistente externo não configurado' });
 
-  const userPrompt = String(req.body?.userPrompt || '').trim().slice(0, 1200);
+  const userPrompt = cleanText(req.body?.userPrompt, 1200);
   if (!userPrompt) return res.status(400).json({ error: 'Mensagem obrigatória' });
-  const history = Array.isArray(req.body?.history) ? req.body.history.slice(-6) : [];
-  const vehicle = String(req.body?.sessionContext?.lastMentionedVehicle || 'Nenhuma').slice(0, 150);
+  const history = Array.isArray(req.body?.history)
+    ? req.body.history.slice(-6).map((item) => cleanText(typeof item === 'string' ? item : JSON.stringify(item), 500))
+    : [];
+  const vehicle = cleanText(req.body?.sessionContext?.lastMentionedVehicle || 'Nenhuma', 150);
   const instruction = `Você é o consultor da PEPEK GRUPO RENT-A-CAR em Angola. Responda em 1 a 3 frases, no idioma do cliente, com tom humano e profissional. Faça uma pergunta por vez. Não invente preços, disponibilidade, pagamentos ou políticas. Para reclamações, cancelamentos, emergências e situações contratuais, encaminhe para atendimento humano. Viatura em foco: ${vehicle}. Histórico: ${JSON.stringify(history)}. Pergunta: ${userPrompt}`;
 
   try {

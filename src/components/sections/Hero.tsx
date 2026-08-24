@@ -76,19 +76,20 @@ export const Hero: React.FC = () => {
     !value.trim() || location.toLocaleLowerCase('pt').includes(value.toLocaleLowerCase('pt'))
   ).slice(0, 6);
 
-  // Rotate every 5 seconds with sleek futuristic sliding
+  // Slow automatic rotation gives clients time to identify each item.
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 7000);
     return () => clearInterval(timer);
   }, [slides.length]);
 
   useEffect(() => {
-    if (isLuxuryPaused) return;
+    if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
       setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length);
-    }, 4500);
+    }, 7500);
     return () => window.clearInterval(timer);
   }, [luxuryVehicles.length, isLuxuryPaused]);
 
@@ -199,7 +200,13 @@ export const Hero: React.FC = () => {
         </div>
           </div>
 
-          <aside className="overflow-hidden rounded-[26px] border border-white/15 bg-white text-[#07133F] shadow-[0_28px_70px_rgba(0,0,0,.36)]">
+          <aside
+            className="overflow-hidden rounded-[26px] border border-white/15 bg-white text-[#07133F] shadow-[0_28px_70px_rgba(0,0,0,.36)]"
+            onMouseEnter={() => setIsLuxuryPaused(true)}
+            onMouseLeave={() => setIsLuxuryPaused(false)}
+            onFocusCapture={() => setIsLuxuryPaused(true)}
+            onBlurCapture={() => setIsLuxuryPaused(false)}
+          >
             <div className="relative min-h-[310px] overflow-hidden bg-[#07133F] bg-cover bg-center px-6 pt-5 sm:min-h-[350px] sm:px-7 sm:pt-6" style={{ backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
               <div className="relative z-20 flex items-start justify-between gap-4">
                 <div>
@@ -208,8 +215,8 @@ export const Hero: React.FC = () => {
                   <p className="mt-1 text-sm font-black text-[#D2A820]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
                 </div>
                 <div className="flex gap-1">
-                  <button type="button" onClick={() => { setIsLuxuryPaused(true); setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length); }} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
-                  <button type="button" onClick={() => { setIsLuxuryPaused(true); setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length); }} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
                 </div>
               </div>
               {luxuryVehicles.map((vehicle, index) => (

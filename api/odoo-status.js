@@ -1,10 +1,12 @@
+import { applyApiSecurity, takeRateLimit } from './_security.js';
+
+const ALLOWED_ROLES = new Set(['gestor_reservas', 'diretor_frotas', 'contabilista', 'gestor_portugal', 'direcao']);
+
 export default async function handler(_req, res) {
-  if (_req.method !== 'GET') {
-    res.setHeader('Allow', 'GET');
-    return res.status(405).json({ error: 'Método não permitido' });
-  }
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+  if (!applyApiSecurity(_req, res, { methods: ['GET'] })) return;
+  if (takeRateLimit(_req, 'odoo-status', 30)) return res.status(429).json({ error: 'Muitos pedidos.' });
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const authHeader = _req.headers.authorization || '';
   if (!supabaseUrl || !supabaseKey || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Autenticação necessária' });
@@ -13,6 +15,8 @@ export default async function handler(_req, res) {
     headers: { apikey: supabaseKey, Authorization: authHeader },
   });
   if (!authCheck.ok) return res.status(401).json({ error: 'Sessão inválida' });
+  const user = await authCheck.json();
+  if (!ALLOWED_ROLES.has(user?.app_metadata?.role)) return res.status(403).json({ error: 'Perfil sem autorização' });
   if (!process.env.ODOO_STATUS_URL || !process.env.ODOO_API_TOKEN) {
     return res.status(503).json({ error: 'Odoo não configurado' });
   }

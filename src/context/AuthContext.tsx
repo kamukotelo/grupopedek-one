@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
-import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC, DEMO_LOGIN_ROLES, DEMO_PASSWORD } from '../data/demoUsers';
+import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
 import { supabase } from '../lib/supabase';
+import { getPortalPermissions } from '../lib/portalPermissions';
 
 // Demo can be enabled explicitly in an isolated staging deployment. Keep the
 // public production project without VITE_DEMO_MODE to protect staff personas.
@@ -26,6 +27,7 @@ const safeRole = (value: unknown): UserRole => {
 };
 
 const getStoredDemoUser = (): UserProfile | null => {
+  if (!IS_DEMO_MODE) return null;
   const saved = localStorage.getItem('pepek_demo_user');
   if (!saved) return null;
   try {
@@ -133,9 +135,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     const loadProtectedData = async () => {
+      const permissions = getPortalPermissions(currentUser.role);
       const [invoiceResult, fleetResult] = await Promise.all([
-        supabase.from('invoices').select('*').order('created_at', { ascending: false }),
-        supabase.from('fleet_assignments').select('*').order('created_at', { ascending: false }),
+        permissions.finances
+          ? supabase.from('invoices').select('*').order('created_at', { ascending: false })
+          : Promise.resolve({ data: [], error: null }),
+        permissions.fleet
+          ? supabase.from('fleet_assignments').select('*').order('created_at', { ascending: false })
+          : Promise.resolve({ data: [], error: null }),
       ]);
       if (!invoiceResult.error) setInvoices((invoiceResult.data || []).map((row: any) => ({
         id: row.id,
@@ -166,6 +173,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [currentUser, isDemoSession]);
 
   const loginAs = (role: UserRole) => {
+    if (!IS_DEMO_MODE) return;
     const user = DEMO_USERS[role];
     if (!user) return;
     setInvoices(DEMO_INVOICES);
@@ -177,26 +185,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signIn = async (email: string, password: string) => {
-    const demoLogin = email.trim().toLowerCase() as keyof typeof DEMO_LOGIN_ROLES;
-    const demoRole = DEMO_LOGIN_ROLES[demoLogin];
-    if (demoRole) {
-      if (password !== DEMO_PASSWORD) return { error: 'Credenciais de demonstração inválidas' };
-      const user = DEMO_USERS[demoRole];
-      setCurrentUser(user);
-      setInvoices(DEMO_INVOICES);
-      setFleetTelemetry(DEMO_FLEET_TELEMETRY);
-      setOdooSync(DEMO_ODOO_SYNC);
-      localStorage.setItem('pepek_demo_user', JSON.stringify(user));
-      return {};
-    }
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     return error ? { error: error.message } : {};
   };
 
   const requestPasswordReset = async (email: string) => {
-    if (email.trim().toLowerCase() in DEMO_LOGIN_ROLES) {
-      return { error: 'As contas demo não utilizam recuperação de senha' };
-    }
     const redirectTo = `${window.location.origin}/painel`;
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
     return error ? { error: error.message } : {};

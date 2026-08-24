@@ -1,13 +1,13 @@
+import { applyApiSecurity, takeRateLimit } from './_security.js';
+
 const ALLOWED_ROLES = new Set(['gestor_reservas', 'diretor_frotas', 'contabilista', 'gestor_portugal', 'direcao']);
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Método não permitido' });
-  }
+  if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
+  if (takeRateLimit(req, 'odoo-sync', 5)) return res.status(429).json({ error: 'Muitos pedidos.' });
 
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const authHeader = req.headers.authorization || '';
   if (!supabaseUrl || !supabaseKey || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Autenticação necessária' });

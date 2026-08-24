@@ -23,9 +23,9 @@ const PROFILE_CHOICES: Array<{ role: UserRole; group: 'Clientes' | 'Operações'
 ];
 
 export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClose }) => {
-  const { signIn, requestPasswordReset, isAuthReady, loginAs } = useAuth();
+  const { signIn, requestPasswordReset, isAuthReady, isDemoMode, loginAs } = useAuth();
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'corporate' | 'vip'>('corporate');
+  const [activeTab, setActiveTab] = useState<'corporate' | 'private'>('corporate');
   const [emailOrNif, setEmailOrNif] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,19 +74,19 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
           </button>
 
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#D2A820] block mb-1">
-            Experiência PEPEK personalizada
+            Portal seguro PEPEK
           </span>
           <h3 className="text-2xl font-extrabold text-white font-inter">
-            Como deseja explorar o sistema?
+            Área do Cliente
           </h3>
           <p className="text-xs text-gray-300 mt-1">
-            Escolha o papel que mais se aproxima da sua realidade. Pode mudar de perfil quando quiser.
+            Acesso separado para contas corporativas e clientes particulares.
           </p>
         </div>
 
         {/* Body Content */}
         <div className="overflow-y-auto p-5 sm:p-7">
-          <>
+          {isDemoMode && <>
             <div className="mb-5 rounded-2xl border border-[#D2A820]/30 bg-[#FFF9E7] px-4 py-3 text-[11px] text-[#584817]">
               <span className="flex items-center gap-2 font-extrabold"><Sparkles className="h-4 w-4 text-[#B68D13]" />Entrada imediata, sem senha</span>
               <span className="mt-1 block text-[10px] text-slate-600">Todos os dados apresentados são fictícios e servem apenas para conhecer a experiência.</span>
@@ -124,24 +124,39 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               Já possui uma conta PEPEK? Entrar com e-mail
               <ChevronDown className={`h-4 w-4 transition-transform ${showRealLogin ? 'rotate-180' : ''}`} />
             </button>
+          </>}
 
-            {showRealLogin && <div className="mx-auto mt-5 max-w-lg rounded-2xl border border-slate-200 bg-slate-50 p-5">
-            <div className="mb-4 flex items-center gap-2 rounded-xl bg-white p-1 border border-slate-200">
-              <button type="button" onClick={() => setActiveTab('corporate')} className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold ${activeTab === 'corporate' ? 'bg-[#07133F] text-white' : 'text-slate-500'}`}><Building2 className="mr-2 inline h-3.5 w-3.5" />Empresa</button>
-              <button type="button" onClick={() => setActiveTab('vip')} className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold ${activeTab === 'vip' ? 'bg-[#07133F] text-white' : 'text-slate-500'}`}><User className="mr-2 inline h-3.5 w-3.5" />Particular</button>
+            {(showRealLogin || !isDemoMode) && <div className={`mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-slate-50 p-5 ${isDemoMode ? 'mt-5' : ''}`}>
+            <div className="mb-5 grid gap-3 sm:grid-cols-2" role="tablist" aria-label="Tipo de conta">
+              <button type="button" role="tab" aria-selected={activeTab === 'corporate'} onClick={() => { setActiveTab('corporate'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'corporate' ? 'border-[#D2A820] bg-[#07133F] text-white shadow-lg' : 'border-slate-200 bg-white text-[#07133F]'}`}>
+                <Building2 className={`h-5 w-5 ${activeTab === 'corporate' ? 'text-[#D2A820]' : 'text-[#0B45D8]'}`} />
+                <strong className="mt-3 block text-sm">Conta Corporativa</strong>
+                <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'corporate' ? 'text-white/65' : 'text-slate-500'}`}>Empresas, embaixadas e instituições com contratos, faturas e viaturas alocadas.</span>
+              </button>
+              <button type="button" role="tab" aria-selected={activeTab === 'private'} onClick={() => { setActiveTab('private'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'private' ? 'border-[#D2A820] bg-[#07133F] text-white shadow-lg' : 'border-slate-200 bg-white text-[#07133F]'}`}>
+                <User className={`h-5 w-5 ${activeTab === 'private' ? 'text-[#D2A820]' : 'text-[#0B45D8]'}`} />
+                <strong className="mt-3 block text-sm">Cliente Particular</strong>
+                <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'private' ? 'text-white/65' : 'text-slate-500'}`}>Reservas pessoais, comprovativos, pagamentos e acompanhamento do serviço.</span>
+              </button>
+            </div>
+            <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-[10px] leading-4 text-emerald-800">
+              <ShieldCheck className="mr-1.5 inline h-4 w-4" />
+              Sessão protegida. A PEPEK nunca solicitará a sua palavra-passe por telefone, WhatsApp ou e-mail.
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
-                  {t('auth.email')}
+                  {activeTab === 'corporate' ? 'E-mail corporativo registado' : 'E-mail pessoal registado'}
                 </label>
                 <div className="relative">
                   <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                   <input
-                    type="text"
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
                     value={emailOrNif}
                     onChange={(e) => setEmailOrNif(e.target.value)}
-                    placeholder={activeTab === 'corporate' ? 'ex: direccao@empresa.ao' : 'ex: cliente@email.com'}
+                    placeholder={activeTab === 'corporate' ? 'nome@empresa.ao' : 'cliente@email.com'}
                     className="form-input pl-10"
                     required
                   />
@@ -156,6 +171,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                   <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                   <input
                     type="password"
+                    autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
@@ -193,13 +209,11 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               </button>
             </form>
             </div>}
-          </>
-
           {/* Footer Note */}
           <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>Conexão Segura SSL 256-bit</span>
+              <span>Ligação cifrada e acesso autenticado</span>
             </div>
 
             <a

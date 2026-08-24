@@ -24,8 +24,8 @@ export const Services: React.FC = () => {
   };
 
   useEffect(() => {
-    if (isPaused) return;
-    const timer = window.setInterval(() => selectVehicle(activeIndex + 1), 4800);
+    if (isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => selectVehicle(activeIndex + 1), 7500);
     return () => window.clearInterval(timer);
   }, [activeIndex, isPaused]);
 

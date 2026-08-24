@@ -55,6 +55,11 @@ expect(servicesSource.includes('PUBLIC_FLEET.map'), 'A vitrine de Serviços não
 expect(!servicesSource.includes('images.unsplash.com'), 'A vitrine de Serviços contém imagens genéricas');
 expect(!servicesSource.includes('scrollIntoView'), 'O carrossel de Serviços pode provocar scroll vertical automático');
 expect(servicesSource.includes('rail.scrollTo'), 'O carrossel de Serviços não possui deslocamento horizontal controlado');
+expect(servicesSource.includes('7500'), 'O carrossel de Serviços não está configurado para rotação automática lenta');
+const heroSource = fs.readFileSync('src/components/sections/Hero.tsx', 'utf8');
+expect(heroSource.includes('7500') && heroSource.includes('prefers-reduced-motion'), 'O carrossel principal não possui rotação lenta e acessível');
+const gallerySource = fs.readFileSync('src/components/fleet/VehicleGalleryModal.tsx', 'utf8');
+expect(gallerySource.includes('setInterval') && gallerySource.includes('7000'), 'A galeria de viaturas não possui rotação automática lenta');
 
 const languageSource = fs.readFileSync('src/components/ui/LanguageSwitcher.tsx', 'utf8');
 for (const flag of ['🇦🇴', '🇬🇧', '🇫🇷']) {
@@ -69,15 +74,29 @@ expect(paymentSource.includes('MB WAY / Portugal'), 'Canal Portugal MB WAY ausen
 const demoUsersSource = fs.readFileSync('src/data/demoUsers.ts', 'utf8');
 const demoUserIds = [...demoUsersSource.matchAll(/id:\s*'demo_[^']+'/g)];
 expect(demoUserIds.length === 9, `Esperados 9 utilizadores demo; encontrados ${demoUserIds.length}`);
-const demoLoginIds = [...demoUsersSource.matchAll(/'[^']+\.demo':\s*'[^']+'/g)];
-expect(demoLoginIds.length === 9, `Esperados 9 logins demo; encontrados ${demoLoginIds.length}`);
-expect(demoUsersSource.includes("DEMO_PASSWORD = 'PepekDemo2026!'"), 'Senha comum de demonstração não está configurada');
+expect(!demoUsersSource.includes('DEMO_PASSWORD'), 'Existe uma senha de demonstração hardcoded no frontend');
+expect(!demoUsersSource.includes('DEMO_LOGIN_ROLES'), 'Existem credenciais de demonstração no frontend');
 const clientAreaSource = fs.readFileSync('src/components/ui/ClientAreaModal.tsx', 'utf8');
 expect(clientAreaSource.includes('loginAs(profile.role)'), 'Os perfis demo não possuem acesso direto sem senha');
-expect(clientAreaSource.includes('Já possui uma conta PEPEK?'), 'O login real não está separado dos perfis demonstrativos');
+expect(clientAreaSource.includes('isDemoMode &&'), 'Os perfis demo não estão isolados por ambiente');
+expect(clientAreaSource.includes('Conta Corporativa') && clientAreaSource.includes('Cliente Particular'), 'Os acessos corporativo e particular não estão separados');
+const authSource = fs.readFileSync('src/context/AuthContext.tsx', 'utf8');
+expect(authSource.includes('if (!IS_DEMO_MODE) return;'), 'loginAs não está bloqueado fora do modo demo');
 expect(demoUsersSource.includes('DEMO_OPERATIONAL_RECORDS'), 'Agenda operacional demonstrativa ausente');
 expect(demoUsersSource.includes('DEMO_ODOO_EVENTS'), 'Eventos demonstrativos Odoo ausentes');
 expect(demoUsersSource.includes('totalVehiclesSynced: 46'), 'Frota oficial não está representada no estado Odoo demo');
+
+const securitySource = fs.readFileSync('api/_security.js', 'utf8');
+expect(securitySource.includes('takeRateLimit') && securitySource.includes('applyApiSecurity'), 'Proteções comuns dos endpoints estão ausentes');
+const reservationApiSource = fs.readFileSync('api/reservations.js', 'utf8');
+expect(reservationApiSource.includes('SUPABASE_SERVICE_ROLE_KEY') && !reservationApiSource.includes('VITE_SUPABASE_ANON_KEY'), 'Reservas não estão restritas à credencial do servidor');
+const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
+expect(schemaSource.includes('REVOKE ALL ON public.bookings FROM anon'), 'A escrita anónima em reservas não foi revogada');
+expect(schemaSource.includes('Finance roles read all invoices'), 'O filtro RLS para perfis financeiros está ausente');
+expect(schemaSource.includes('Fleet roles read all assignments'), 'O filtro RLS para responsáveis de frota está ausente');
+const permissionSource = fs.readFileSync('src/lib/portalPermissions.ts', 'utf8');
+expect(permissionSource.includes('Record<UserRole, PortalPermissions>'), 'A matriz central de permissões do portal está ausente');
+expect(permissionSource.includes('motorista: { fleet: true, finances: false, operations: false, odoo: false'), 'O perfil de motorista possui permissões excessivas');
 
 const reviewGallerySource = fs.readFileSync('scripts/generate-fleet-review-gallery.mjs', 'utf8');
 expect(reviewGallerySource.includes("pepek-fleet-image-review-v2"), 'O catálogo de imagens não usa o fluxo seguro de revisão');
