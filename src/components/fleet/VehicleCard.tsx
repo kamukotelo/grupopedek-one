@@ -71,7 +71,8 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
-        className="relative aspect-4/3 overflow-hidden bg-[#07133F] border-b border-[#D9DEE7] cursor-pointer select-none"
+        style={!upgradeCover ? { backgroundImage: "url('/studio/fleet-showroom-background-v2.png')" } : undefined}
+        className="relative aspect-4/3 overflow-hidden bg-[#07133F] bg-cover bg-center border-b border-[#D9DEE7] cursor-pointer select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onInspect(vehicle)}
@@ -80,7 +81,9 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
         <img
           src={studioImage}
           alt={vehicle.name}
-          className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-[1.025] ${
+          className={`absolute inset-0 w-full h-full object-center transition-all duration-500 ease-out group-hover:scale-[1.025] ${
+            upgradeCover ? 'object-cover' : 'object-contain p-8 sm:p-10 drop-shadow-[0_18px_16px_rgba(0,0,0,0.45)]'
+          } ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
           loading="lazy"
