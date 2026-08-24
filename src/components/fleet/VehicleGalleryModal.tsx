@@ -40,10 +40,11 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartX = useRef<number | null>(null);
-  const upgradeGallery = vehicle ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
-  const localImageApproved = vehicle ? isFleetLocalImageApproved(vehicle.id) : false;
+  const isFlyerCollection = vehicle?.visualCollection === 'flyer';
+  const upgradeGallery = vehicle && !isFlyerCollection ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
+  const localImageApproved = vehicle ? isFlyerCollection || isFleetLocalImageApproved(vehicle.id) : false;
   const originalLocalGallery = localImageApproved
-    ? (vehicle?.gallery ?? []).filter((image) => image.url.startsWith('/rent_car/'))
+    ? (vehicle?.gallery ?? []).filter((image) => isFlyerCollection || image.url.startsWith('/rent_car/'))
     : [];
   // A pesquisa externa permanece apenas no acervo de apoio. A frota pública
   // aceita somente material próprio/local ou produzido para este projeto.

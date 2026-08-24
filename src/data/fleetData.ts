@@ -22,6 +22,9 @@ export interface VehicleDetail {
   isFeatured?: boolean;
   pricePerDayAOA: number;
   pricePerDayFormatted: string;
+  transferPriceAOA?: number;
+  transferPriceFormatted?: string;
+  visualCollection?: 'standard' | 'flyer';
   depositAOA?: number;
   description: string;
   primaryImage: string;

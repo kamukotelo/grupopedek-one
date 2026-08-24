@@ -36,14 +36,15 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [justBookedFeedback, setJustBookedFeedback] = useState(false);
-  const upgradeCover = getFleetUpgradeCover(vehicle.id);
+  const isFlyerCollection = vehicle.visualCollection === 'flyer';
+  const upgradeCover = isFlyerCollection ? undefined : getFleetUpgradeCover(vehicle.id);
   const upgradePhotoCount = getFleetUpgradePhotoCount(vehicle.id);
-  const localImageApproved = isFleetLocalImageApproved(vehicle.id);
+  const localImageApproved = isFlyerCollection || isFleetLocalImageApproved(vehicle.id);
   const studioImage = upgradeCover || (!localImageApproved ? FLEET_IMAGE_REVIEW_PLACEHOLDER : vehicle.primaryImage.startsWith('/rent_car/')
     ? vehicle.primaryImage.replace('/rent_car/', '/rent_car_hd/')
     : vehicle.primaryImage);
   const localPhotoCount = localImageApproved
-    ? vehicle.gallery?.filter((image) => image.url.startsWith('/rent_car/')).length || 1
+    ? vehicle.gallery?.filter((image) => isFlyerCollection || image.url.startsWith('/rent_car/')).length || 1
     : 0;
   const verifiedPhotoCount = upgradePhotoCount + localPhotoCount;
   // Não cruzar o acervo premium com uma fotografia antiga durante o hover.
@@ -169,8 +170,13 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
                 {vehicle.pricePerDayFormatted}
               </span>
               <span className="text-[10px] text-[#697080] font-semibold uppercase tracking-wider block">
-                por dia
+                {isFlyerCollection ? 'Full Day' : 'por dia'}
               </span>
+              {vehicle.transferPriceFormatted && (
+                <span className="text-[10px] text-[#1E8E5A] font-bold block mt-1">
+                  Transfer: {vehicle.transferPriceFormatted}
+                </span>
+              )}
             </div>
           </div>
 

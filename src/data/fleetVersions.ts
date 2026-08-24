@@ -1,6 +1,8 @@
 import type { VehicleDetail } from './fleetData';
 
-export type FleetVersion = 'original' | '2026';
+import { FLYER_FLEET_2026 } from './fleetFlyer2026';
+
+export type FleetVersion = 'original' | '2026' | 'flyer';
 
 const ORIGINAL_FLEET_NAMES: Record<string, string> = {
   'rangerover-blindado-2025': 'Range Rover Blindado 2025',
@@ -53,9 +55,11 @@ const ORIGINAL_FLEET_NAMES: Record<string, string> = {
 };
 
 export const getFleetForVersion = (fleet: VehicleDetail[], version: FleetVersion): VehicleDetail[] =>
-  version === '2026'
-    ? fleet
-    : fleet.map((vehicle) => ({
+  version === 'flyer'
+    ? FLYER_FLEET_2026
+    : version === '2026'
+      ? fleet
+      : fleet.map((vehicle) => ({
         ...vehicle,
         name: ORIGINAL_FLEET_NAMES[vehicle.id] ?? vehicle.name
       }));
