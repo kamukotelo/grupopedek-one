@@ -18,6 +18,7 @@ import { VehicleDetail } from '../../data/fleetData';
 import { getFleetUpgradeCover, getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
+import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 interface VehicleCardProps {
   vehicle: VehicleDetail;
@@ -72,7 +73,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
-        style={!upgradeCover ? { backgroundImage: "url('/studio/fleet-showroom-background-v2.png')" } : undefined}
+        style={!upgradeCover ? { backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` } : undefined}
         className="relative aspect-4/3 overflow-hidden bg-[#07133F] bg-cover bg-center border-b border-[#D9DEE7] cursor-pointer select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

@@ -31,6 +31,7 @@ import { askPepekExecutiveAI } from '../../lib/ai';
 import { BookingData } from '../../types';
 import type { VehicleDetail } from '../../data/fleetData';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
+import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 import { useAuth } from '../../context/AuthContext';
 
 interface BookingWidgetProps {
@@ -363,7 +364,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                           : 'border-[#D9DEE7] hover:border-gray-300 bg-white'
                       }`}
                     >
-                      <div className="h-20 sm:h-24 rounded-xl overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#E9EFF6] border border-[#D9DEE7] mb-2 relative flex items-center justify-center p-2">
+                      <div className="h-20 sm:h-24 rounded-xl overflow-hidden bg-cover bg-center border border-[#D9DEE7] mb-2 relative flex items-center justify-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
                         <img src={v.primaryImage} alt={v.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform drop-shadow-[0_8px_10px_rgba(7,19,63,0.18)]" />
                         {selectedVehicle.id === v.id && (
                           <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#D2A820] text-[#020A2A] flex items-center justify-center text-[10px] font-bold shadow-xs">
@@ -381,7 +382,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
                 {/* Selected Vehicle Focus Spotlight Box */}
                 <div className="p-5 rounded-2xl bg-[#020A2A] text-white border border-white/10 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
-                  <div className="w-full sm:w-1/2 h-44 rounded-xl overflow-hidden relative shadow-lg bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#E9EFF6] border border-white/10 flex items-center justify-center p-4">
+                  <div className="w-full sm:w-1/2 h-44 rounded-xl overflow-hidden relative shadow-lg bg-cover bg-center border border-white/10 flex items-center justify-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
                     <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} className="w-full h-full object-contain drop-shadow-[0_16px_20px_rgba(7,19,63,0.3)]" />
                     <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-[#07133F] text-[#D2A820] border border-[#D2A820]/40 text-[10px] font-black uppercase shadow-md">
                       {selectedVehicle.categoryLabel}

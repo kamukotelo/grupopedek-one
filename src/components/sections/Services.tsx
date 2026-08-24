@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, ChevronLeft, ChevronRight, Gauge, Luggage, ShieldCheck, Users } from 'lucide-react';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
+import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 export const Services: React.FC = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ export const Services: React.FC = () => {
               const selected = index === activeIndex;
               return (
                 <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[190px] snap-center overflow-hidden rounded-2xl border text-left transition-all sm:min-w-[230px] ${selected ? 'border-[#D2A820] bg-white shadow-[0_0_30px_rgba(210,168,32,.18)]' : 'border-white/10 bg-white/[0.04] hover:border-white/25'}`}>
-                  <div className="h-36 bg-gradient-to-b from-white to-[#EEF2F7] p-4">
+                  <div className="h-36 bg-cover bg-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
                     <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(7,19,63,.22)] transition-transform duration-500 group-hover:scale-105" />
                   </div>
                   <div className={`px-4 py-3 ${selected ? 'text-[#07133F]' : 'text-white'}`}>
@@ -76,7 +77,7 @@ export const Services: React.FC = () => {
           </div>
 
           <div className="mt-4 grid overflow-hidden rounded-3xl border border-white/10 bg-[#06142F] lg:grid-cols-[1.05fr_.95fr]">
-            <div className="relative min-h-[300px] bg-[radial-gradient(circle_at_50%_35%,rgba(210,168,32,.16),transparent_55%)] p-8 sm:p-10">
+            <div className="relative min-h-[300px] bg-cover bg-center p-8 sm:p-10" style={{ backgroundImage: `url('${getVehicleStudioBackground(activeVehicle)}')` }}>
               <img key={activeVehicle.id} src={activeVehicle.primaryImage} alt={activeVehicle.name} decoding="async" className="h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(0,0,0,.45)] animate-fadeIn" />
             </div>
             <div className="flex flex-col justify-center border-t border-white/10 p-7 lg:border-l lg:border-t-0 lg:p-10">

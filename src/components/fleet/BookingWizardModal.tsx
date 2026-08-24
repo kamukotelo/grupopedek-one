@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import type { VehicleDetail } from '../../data/fleetData';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
+import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 interface BookingWizardModalProps {
@@ -286,11 +287,9 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
                 {/* Quick Vehicle Highlight */}
                 <div className="mt-4 flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#F3F5F8] border border-[#D9DEE7]">
-                  <img
-                    src={selectedVehicle.primaryImage}
-                    alt={selectedVehicle.name}
-                    className="w-32 h-20 object-cover rounded-lg shrink-0 border border-gray-200"
-                  />
+                  <div className="w-32 h-20 rounded-lg shrink-0 border border-gray-200 bg-cover bg-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
+                    <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} className="h-full w-full object-contain drop-shadow-md" />
+                  </div>
                   <div className="flex-1 text-center sm:text-left">
                     <h4 className="font-extrabold text-[#07133F] text-base">{selectedVehicle.name}</h4>
                     <p className="text-xs text-[#697080]">{selectedVehicle.specs.passengers} Passageiros · {selectedVehicle.specs.doors} Portas · {selectedVehicle.specs.transmission} · {selectedVehicle.specs.fuelType}</p>
@@ -653,11 +652,9 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               <div className="bg-white p-6 rounded-2xl border border-[#D9DEE7] shadow-xs space-y-4">
                 <div className="flex items-center justify-between pb-4 border-b border-[#D9DEE7]">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={selectedVehicle.primaryImage}
-                      alt={selectedVehicle.name}
-                      className="w-20 h-14 object-cover rounded-xl border border-gray-200"
-                    />
+                    <div className="w-20 h-14 rounded-xl border border-gray-200 bg-cover bg-center p-1.5" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
+                      <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} className="h-full w-full object-contain drop-shadow-sm" />
+                    </div>
                     <div>
                       <span className="text-[10px] font-bold uppercase text-[#D2A820] tracking-wider block">
                         {selectedVehicle.categoryLabel}

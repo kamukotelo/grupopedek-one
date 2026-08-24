@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
+import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
@@ -199,12 +200,12 @@ export const Hero: React.FC = () => {
           </div>
 
           <aside className="overflow-hidden rounded-[26px] border border-white/15 bg-white text-[#07133F] shadow-[0_28px_70px_rgba(0,0,0,.36)]">
-            <div className="relative min-h-[238px] overflow-hidden bg-[#EEF2F7] px-6 pt-5">
+            <div className="relative min-h-[238px] overflow-hidden bg-[#07133F] bg-cover bg-center px-6 pt-5" style={{ backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
               <div className="relative z-20 flex items-start justify-between gap-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B68D13]">{t('fleet.tag')}</span>
-                  <h2 className="mt-1 max-w-[280px] text-xl font-black text-[#07133F]">{luxuryVehicles[currentLuxury].name}</h2>
-                  <p className="mt-1 text-sm font-black text-[#0B45D8]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-slate-500">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
+                  <h2 className="mt-1 max-w-[280px] text-xl font-black text-white drop-shadow-md">{luxuryVehicles[currentLuxury].name}</h2>
+                  <p className="mt-1 text-sm font-black text-[#D2A820]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
                 </div>
                 <div className="flex gap-1">
                   <button type="button" onClick={() => { setIsLuxuryPaused(true); setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length); }} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
