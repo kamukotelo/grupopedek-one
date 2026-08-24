@@ -22,7 +22,6 @@ import {
   MessageSquareText
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
-import { FLEET_CAROUSEL } from '../../data/fleetGallery.generated';
 import { FLEET_UPGRADE_GALLERY } from '../../data/fleetUpgradeGallery';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 
@@ -41,9 +40,10 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const upgradeGallery = vehicle ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
-  const curatedGallery = vehicle ? FLEET_CAROUSEL[vehicle.id] ?? [] : [];
   const originalLocalGallery = (vehicle?.gallery ?? []).filter((image) => image.url.startsWith('/rent_car/'));
-  const verifiedGallery = [...upgradeGallery, ...curatedGallery, ...originalLocalGallery].map((image) => ({
+  // A pesquisa externa permanece apenas no acervo de apoio. A frota pública
+  // aceita somente material próprio/local ou produzido para este projeto.
+  const verifiedGallery = [...upgradeGallery, ...originalLocalGallery].map((image) => ({
     ...image,
     url: image.url.startsWith('/rent_car/')
       ? image.url.replace('/rent_car/', '/rent_car_hd/')
