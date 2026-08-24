@@ -297,7 +297,7 @@ export const DEMO_ODOO_SYNC: OdooSyncStatus = {
   lastSync: 'Sincronizado há 2 minutos (Demo)',
   odooDb: 'pepek_erp_demo',  // TODO: PLACEHOLDER — nunca usar nome de BD de produção aqui
   serverStatus: 'connected',
-  totalVehiclesSynced: 47,
+  totalVehiclesSynced: 46,
   openInvoicesCount: 4,
   pendingQuotesCount: 7,
   partnersSynced: 186,

@@ -21,7 +21,8 @@ import {
   Sparkles,
   Info
 } from 'lucide-react';
-import { FLEET_DATABASE, VehicleDetail } from '../../data/fleetData';
+import type { VehicleDetail } from '../../data/fleetData';
+import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 interface BookingWizardModalProps {
@@ -39,10 +40,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
   // Form State
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>(() => {
-    const found = FLEET_DATABASE.find(
+    const found = PUBLIC_FLEET.find(
       (v) => v.name.toLowerCase() === (initialVehicleName || '').toLowerCase()
     );
-    return found ? found.id : FLEET_DATABASE[0].id;
+    return found ? found.id : PUBLIC_FLEET[0].id;
   });
 
   const [pickupLocation, setPickupLocation] = useState('Aeroporto Internacional 4 de Fevereiro (LAD)');
@@ -75,7 +76,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   // Sync selected vehicle if prop updates
   React.useEffect(() => {
     if (initialVehicleName) {
-      const found = FLEET_DATABASE.find(
+      const found = PUBLIC_FLEET.find(
         (v) => v.name.toLowerCase() === initialVehicleName.toLowerCase()
       );
       if (found) {
@@ -85,7 +86,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   }, [initialVehicleName]);
 
   const selectedVehicle = useMemo(() => {
-    return FLEET_DATABASE.find((v) => v.id === selectedVehicleId) || FLEET_DATABASE[0];
+    return PUBLIC_FLEET.find((v) => v.id === selectedVehicleId) || PUBLIC_FLEET[0];
   }, [selectedVehicleId]);
 
   // Calculate rental duration in days
@@ -276,7 +277,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   onChange={(e) => setSelectedVehicleId(e.target.value)}
                   className="w-full p-3.5 bg-gray-50 border border-[#D9DEE7] rounded-xl text-sm font-bold text-[#07133F] focus:ring-2 focus:ring-[#D2A820] focus:border-transparent outline-hidden"
                 >
-                  {FLEET_DATABASE.map((v) => (
+                  {PUBLIC_FLEET.map((v) => (
                     <option key={v.id} value={v.id}>
                       {v.name} — {v.categoryLabel} ({v.pricePerDayFormatted}/dia)
                     </option>

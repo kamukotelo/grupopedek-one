@@ -23,13 +23,23 @@ for (const image of transparentFleetImages) {
   expect(hdFleetImages.includes(image), `Versão HD ausente: ${image}`);
 }
 
+const flyerFleetSource = fs.readFileSync('src/data/fleetFlyer2026.ts', 'utf8');
+const flyerFolders = fs.readdirSync('public/fleet-flyer-2026', { withFileTypes: true }).filter(entry => entry.isDirectory());
+expect(flyerFolders.length === 46, `Esperadas 46 pastas da frota dos flyers; encontradas ${flyerFolders.length}`);
+for (const folder of flyerFolders) {
+  expect(fs.existsSync(`public/fleet-flyer-2026/${folder.name}/01-oficial.webp`), `Imagem oficial ausente: ${folder.name}`);
+}
+expect(flyerFleetSource.includes('export const PUBLIC_FLEET = FLYER_FLEET_2026'), 'A frota pública não aponta para os flyers oficiais');
+
 for (const component of [
   'src/components/fleet/VehicleCard.tsx',
   'src/components/fleet/VehicleGalleryModal.tsx',
-  'src/components/sections/Hero.tsx',
-  'src/components/sections/Services.tsx',
 ]) {
   expect(fs.readFileSync(component, 'utf8').includes('/rent_car_hd/'), `Componente sem imagens HD: ${component}`);
+}
+
+for (const component of ['src/components/sections/Hero.tsx', 'src/components/sections/Services.tsx', 'src/components/sections/BookingWidget.tsx', 'src/components/fleet/BookingWizardModal.tsx']) {
+  expect(fs.readFileSync(component, 'utf8').includes('PUBLIC_FLEET'), `Componente não usa a frota pública dos flyers: ${component}`);
 }
 
 for (const path of ['api/reservations.js', 'api/availability.js', 'api/ai.js', 'api/odoo-status.js', 'api/odoo-sync.js']) {
@@ -41,7 +51,7 @@ expect(!bookingSource.includes("from('reservations')"), 'BookingWidget ainda gra
 expect(!fs.readFileSync('src/lib/ai.ts', 'utf8').includes('VITE_GEMINI_API_KEY'), 'Chave Gemini ainda é referenciada no frontend');
 
 const servicesSource = fs.readFileSync('src/components/sections/Services.tsx', 'utf8');
-expect(servicesSource.includes('FLEET_DATABASE.map'), 'A vitrine de Serviços não percorre a frota oficial');
+expect(servicesSource.includes('PUBLIC_FLEET.map'), 'A vitrine de Serviços não percorre a frota oficial dos flyers');
 expect(!servicesSource.includes('images.unsplash.com'), 'A vitrine de Serviços contém imagens genéricas');
 expect(!servicesSource.includes('scrollIntoView'), 'O carrossel de Serviços pode provocar scroll vertical automático');
 expect(servicesSource.includes('rail.scrollTo'), 'O carrossel de Serviços não possui deslocamento horizontal controlado');
@@ -67,7 +77,7 @@ expect(clientAreaSource.includes('loginAs(profile.role)'), 'Os perfis demo não 
 expect(clientAreaSource.includes('Já possui uma conta PEPEK?'), 'O login real não está separado dos perfis demonstrativos');
 expect(demoUsersSource.includes('DEMO_OPERATIONAL_RECORDS'), 'Agenda operacional demonstrativa ausente');
 expect(demoUsersSource.includes('DEMO_ODOO_EVENTS'), 'Eventos demonstrativos Odoo ausentes');
-expect(demoUsersSource.includes('totalVehiclesSynced: 47'), 'Frota oficial não está representada no estado Odoo demo');
+expect(demoUsersSource.includes('totalVehiclesSynced: 46'), 'Frota oficial não está representada no estado Odoo demo');
 
 const reviewGallerySource = fs.readFileSync('scripts/generate-fleet-review-gallery.mjs', 'utf8');
 expect(reviewGallerySource.includes("pepek-fleet-image-review-v2"), 'O catálogo de imagens não usa o fluxo seguro de revisão');

@@ -1,5 +1,4 @@
 import { OFFICIAL_WHATSAPP_NUMBER } from './whatsapp';
-import { FLEET_DATABASE } from '../data/fleetData';
 
 export interface AssistantResponse {
   message: string;

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, ChevronLeft, ChevronRight, Gauge, Luggage, ShieldCheck, Users } from 'lucide-react';
-import { FLEET_DATABASE } from '../../data/fleetData';
+import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 
 export const Services: React.FC = () => {
   const navigate = useNavigate();
@@ -10,10 +10,10 @@ export const Services: React.FC = () => {
   const railRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const activeVehicle = FLEET_DATABASE[activeIndex];
+  const activeVehicle = PUBLIC_FLEET[activeIndex];
 
   const selectVehicle = (index: number) => {
-    const normalized = (index + FLEET_DATABASE.length) % FLEET_DATABASE.length;
+    const normalized = (index + PUBLIC_FLEET.length) % PUBLIC_FLEET.length;
     setActiveIndex(normalized);
     const rail = railRef.current;
     const card = rail?.children[normalized] as HTMLElement | undefined;
@@ -59,12 +59,12 @@ export const Services: React.FC = () => {
           </div>
 
           <div ref={railRef} className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {FLEET_DATABASE.map((vehicle, index) => {
+            {PUBLIC_FLEET.map((vehicle, index) => {
               const selected = index === activeIndex;
               return (
                 <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[190px] snap-center overflow-hidden rounded-2xl border text-left transition-all sm:min-w-[230px] ${selected ? 'border-[#D2A820] bg-white shadow-[0_0_30px_rgba(210,168,32,.18)]' : 'border-white/10 bg-white/[0.04] hover:border-white/25'}`}>
                   <div className="h-36 bg-gradient-to-b from-white to-[#EEF2F7] p-4">
-                    <img src={vehicle.primaryImage.replace('/rent_car/', '/rent_car_hd/')} alt={vehicle.name} loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(7,19,63,.22)] transition-transform duration-500 group-hover:scale-105" />
+                    <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(7,19,63,.22)] transition-transform duration-500 group-hover:scale-105" />
                   </div>
                   <div className={`px-4 py-3 ${selected ? 'text-[#07133F]' : 'text-white'}`}>
                     <span className={`text-[9px] font-black uppercase tracking-widest ${selected ? 'text-[#B68D13]' : 'text-[#D2A820]'}`}>{vehicle.categoryLabel}</span>
@@ -77,7 +77,7 @@ export const Services: React.FC = () => {
 
           <div className="mt-4 grid overflow-hidden rounded-3xl border border-white/10 bg-[#06142F] lg:grid-cols-[1.05fr_.95fr]">
             <div className="relative min-h-[300px] bg-[radial-gradient(circle_at_50%_35%,rgba(210,168,32,.16),transparent_55%)] p-8 sm:p-10">
-              <img key={activeVehicle.id} src={activeVehicle.primaryImage.replace('/rent_car/', '/rent_car_hd/')} alt={activeVehicle.name} decoding="async" className="h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(0,0,0,.45)] animate-fadeIn" />
+              <img key={activeVehicle.id} src={activeVehicle.primaryImage} alt={activeVehicle.name} decoding="async" className="h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(0,0,0,.45)] animate-fadeIn" />
             </div>
             <div className="flex flex-col justify-center border-t border-white/10 p-7 lg:border-l lg:border-t-0 lg:p-10">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D2A820]">{activeVehicle.categoryLabel}</span>

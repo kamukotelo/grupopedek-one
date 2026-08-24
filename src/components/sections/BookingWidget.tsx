@@ -29,7 +29,8 @@ import { submitReservation } from '../../lib/reservations';
 import { generateWhatsAppBookingUrl, OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 import { askPepekExecutiveAI } from '../../lib/ai';
 import { BookingData } from '../../types';
-import { FLEET_DATABASE, VehicleDetail } from '../../data/fleetData';
+import type { VehicleDetail } from '../../data/fleetData';
+import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { useAuth } from '../../context/AuthContext';
 
 interface BookingWidgetProps {
@@ -73,17 +74,17 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
     }
   ];
 
-  // Vehicle catalog sourced from the official FLEET_DATABASE
+  // Vehicle catalog sourced from the official 2026 flyers.
   // Show a curated selection of 8 top vehicles spanning different categories
-  const topVehicles = FLEET_DATABASE.filter(v =>
+  const topVehicles = PUBLIC_FLEET.filter(v =>
     ['rangerover-blindado-2025', 'mercedes-class-s-2025', 'toyota-lc300-2023', 'new-toyota-prado',
      'toyota-hilux', 'mercedes-benz-v300-class', 'hyundai-tucson', 'suzuki-swift'].includes(v.id)
   );
-  const vehicleCatalog = topVehicles.length >= 5 ? topVehicles : FLEET_DATABASE.slice(0, 8);
+  const vehicleCatalog = topVehicles.length >= 5 ? topVehicles : PUBLIC_FLEET.slice(0, 8);
 
   // State Management
   const [selectedService, setSelectedService] = useState('rent-a-car');
-  const [selectedVehicle, setSelectedVehicle] = useState<VehicleDetail>(vehicleCatalog[0] || FLEET_DATABASE[0]);
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleDetail>(vehicleCatalog[0] || PUBLIC_FLEET[0]);
   const [pickupLocation, setPickupLocation] = useState(() => searchParams.get('pickup') || 'Luanda — Sede Talatona / Aeroporto 4 de Fevereiro');
   const [startDate, setStartDate] = useState(() => searchParams.get('startDate') || '');
   const [endDate, setEndDate] = useState(() => searchParams.get('endDate') || '');
@@ -93,7 +94,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   useEffect(() => {
     const urlVehicle = searchParams.get('viatura') || initialVehicle;
     if (urlVehicle) {
-      const match = FLEET_DATABASE.find(
+      const match = PUBLIC_FLEET.find(
         (v) =>
           v.name.toLowerCase().includes(urlVehicle.toLowerCase()) ||
           urlVehicle.toLowerCase().includes(v.name.toLowerCase()) ||
@@ -143,7 +144,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
       const res = await askPepekExecutiveAI(query, []);
       setAiResponse(res.message);
       if (res.recommendedVehicle) {
-        const found = FLEET_DATABASE.find(v => v.name.toLowerCase().includes(res.recommendedVehicle!.toLowerCase()));
+        const found = PUBLIC_FLEET.find(v => v.name.toLowerCase().includes(res.recommendedVehicle!.toLowerCase()));
         if (found) setSelectedVehicle(found);
       }
     } catch {

@@ -94,3 +94,5 @@ export const FLYER_FLEET_2026: VehicleDetail[] = FLYER_VEHICLES.map((entry) => {
   };
 });
 
+// Fonte única da frota apresentada comercialmente no site.
+export const PUBLIC_FLEET = FLYER_FLEET_2026;

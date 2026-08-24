@@ -3,17 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
+import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const luxuryVehicles = [
-    { name: 'Range Rover Blindado 2025', image: '/rent_car_hd/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp', price: '1.999.999 Kz' },
-    { name: 'Mercedes Classe S 2025', image: '/rent_car_hd/MERCEDES-300x300.webp', price: '1.449.999 Kz' },
-    { name: 'Lexus 600', image: '/rent_car_hd/LEXUS-600-300x300.webp', price: '800.000 Kz' },
-    { name: 'Toyota LC300 2023', image: '/rent_car_hd/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp', price: '599.999 Kz' },
-  ];
+  const luxuryVehicles = PUBLIC_FLEET
+    .filter((vehicle) => ['rangerover-blindado-2025', 'mercedes-class-s-2025', 'lexus-600', 'toyota-lc300-2023'].includes(vehicle.id))
+    .map((vehicle) => ({ name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted }));
 
   // 20 Authentic Client Logos grouped in 5 by 5 (4 slides)
   const clientLogos = [
