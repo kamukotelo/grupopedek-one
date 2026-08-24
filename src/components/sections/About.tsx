@@ -147,6 +147,30 @@ export const About: React.FC = () => {
             <div><span className="text-xs font-black uppercase tracking-[0.2em] text-[#F2C94C]">{t('about.teamTag')}</span><h2 style={{ color: '#fff' }} className="mt-4 text-3xl font-black sm:text-5xl">{t('about.teamTitle')}</h2></div>
             <p className="max-w-xl text-sm leading-7 text-white/65">{t('about.teamIntro')}</p>
           </div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-[.72fr_1.28fr]">
+            <figure className="group relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-[#091A39] shadow-2xl shadow-black/20 sm:min-h-[28rem]">
+              <img
+                src="/institutional/direcao-pepek-2026.jpg"
+                alt={t('about.leadershipPhotoAlt')}
+                className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 group-hover:scale-[1.02]"
+                loading="lazy"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#06142F] via-[#06142F]/70 to-transparent px-6 pb-6 pt-20">
+                <figcaption className="text-sm font-black uppercase tracking-[0.16em] text-[#F2C94C]">{t('about.leadershipPhotoLabel')}</figcaption>
+              </div>
+            </figure>
+            <figure className="group relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-[#091A39] shadow-2xl shadow-black/20 sm:min-h-[28rem]">
+              <img
+                src="/institutional/equipa-lideranca-pepek-2026.jpg"
+                alt={t('about.teamPhotoAlt')}
+                className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 group-hover:scale-[1.02]"
+                loading="lazy"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#06142F] via-[#06142F]/70 to-transparent px-6 pb-6 pt-20">
+                <figcaption className="text-sm font-black uppercase tracking-[0.16em] text-[#F2C94C]">{t('about.teamPhotoLabel')}</figcaption>
+              </div>
+            </figure>
+          </div>
           <div className="mt-10 grid gap-px overflow-hidden rounded-3xl bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
             {leadership.map(([name, role]) => (
               <div key={name} className="bg-[#091A39] p-6">

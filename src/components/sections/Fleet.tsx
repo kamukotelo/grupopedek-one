@@ -18,8 +18,8 @@ import {
   CreditCard,
   Truck
 } from 'lucide-react';
-import { FLEET_DATABASE, VehicleDetail, VehicleCategory } from '../../data/fleetData';
-import { FleetVersion, getFleetForVersion } from '../../data/fleetVersions';
+import { VehicleDetail } from '../../data/fleetData';
+import { FLYER_FLEET_2026 } from '../../data/fleetFlyer2026';
 import { VehicleCard } from '../fleet/VehicleCard';
 import { VehicleGalleryModal } from '../fleet/VehicleGalleryModal';
 import { VehicleComparatorModal } from '../fleet/VehicleComparatorModal';
@@ -34,8 +34,6 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
 
   // Category URL Param Sync
   const categoryParam = searchParams.get('categoria') || 'all';
-  const versionParam = searchParams.get('versao');
-  const fleetVersion: FleetVersion = versionParam === 'original' || versionParam === '2026' ? versionParam : 'flyer';
   const [activeCategory, setActiveCategory] = useState<string>(categoryParam);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'popular' | 'price_asc' | 'price_desc' | 'name'>('popular');
@@ -75,17 +73,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
     }
   };
 
-  const handleVersionChange = (version: FleetVersion) => {
-    const nextParams = new URLSearchParams(searchParams);
-    if (version === 'flyer') nextParams.delete('versao');
-    else nextParams.set('versao', version);
-    setSearchParams(nextParams, { replace: true });
-  };
-
-  const versionedFleet = useMemo(
-    () => getFleetForVersion(FLEET_DATABASE, fleetVersion),
-    [fleetVersion]
-  );
+  const versionedFleet = FLYER_FLEET_2026;
 
   const categories = [
     { id: 'all', label: 'Todas as Viaturas', count: versionedFleet.length },
@@ -161,39 +149,8 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
             Conheça a Nossa Frota de Alto Padrão
           </h2>
           <p className="text-sm sm:text-base text-[#697080] leading-relaxed">
-            {fleetVersion === 'original'
-              ? 'Consulte a organização inicial das 47 viaturas PEPEK, preservada para comparação e continuidade operacional.'
-              : fleetVersion === 'flyer'
-                ? 'Coleção oficial dos flyers PEPEK 2026, com 46 viaturas, imagens autorizadas e tarifas Full Day e Transfer.'
-                : 'Explore a versão atualizada com os modelos identificados para 2026/2027, mantendo os mesmos 47 registos da frota.'}
+            Coleção oficial dos flyers PEPEK 2026, com 46 viaturas, imagens autorizadas e tarifas Full Day e Transfer.
           </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8 max-w-5xl" aria-label="Versão da frota">
-          <button
-            type="button"
-            onClick={() => handleVersionChange('original')}
-            className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${fleetVersion === 'original' ? 'bg-[#07133F] text-white border-[#D2A820] shadow-lg' : 'bg-white text-[#07133F] border-[#D9DEE7] hover:border-[#07133F]'}`}
-          >
-            <span className="block text-xs font-black uppercase tracking-wider text-[#D2A820]">Versão preservada</span>
-            <strong className="block mt-1">Frota Original · 47 viaturas</strong>
-          </button>
-          <button
-            type="button"
-            onClick={() => handleVersionChange('2026')}
-            className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${fleetVersion === '2026' ? 'bg-[#07133F] text-white border-[#D2A820] shadow-lg' : 'bg-white text-[#07133F] border-[#D9DEE7] hover:border-[#07133F]'}`}
-          >
-            <span className="block text-xs font-black uppercase tracking-wider text-[#D2A820]">Nova seleção</span>
-            <strong className="block mt-1">Modelos 2026/2027 · 47 viaturas</strong>
-          </button>
-          <button
-            type="button"
-            onClick={() => handleVersionChange('flyer')}
-            className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${fleetVersion === 'flyer' ? 'bg-[#07133F] text-white border-[#D2A820] shadow-lg' : 'bg-white text-[#07133F] border-[#D9DEE7] hover:border-[#07133F]'}`}
-          >
-            <span className="block text-xs font-black uppercase tracking-wider text-[#D2A820]">Tabela oficial 2026</span>
-            <strong className="block mt-1">Viaturas dos Flyers · 46 viaturas</strong>
-          </button>
         </div>
 
         {/* ═══════════════════════════════════════════════════════

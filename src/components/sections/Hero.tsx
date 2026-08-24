@@ -200,7 +200,7 @@ export const Hero: React.FC = () => {
           </div>
 
           <aside className="overflow-hidden rounded-[26px] border border-white/15 bg-white text-[#07133F] shadow-[0_28px_70px_rgba(0,0,0,.36)]">
-            <div className="relative min-h-[238px] overflow-hidden bg-[#07133F] bg-cover bg-center px-6 pt-5" style={{ backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
+            <div className="relative min-h-[310px] overflow-hidden bg-[#07133F] bg-cover bg-center px-6 pt-5 sm:min-h-[350px] sm:px-7 sm:pt-6" style={{ backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
               <div className="relative z-20 flex items-start justify-between gap-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B68D13]">{t('fleet.tag')}</span>
@@ -217,7 +217,7 @@ export const Hero: React.FC = () => {
                   key={vehicle.name}
                   src={vehicle.image}
                   alt={vehicle.name}
-                  className={`absolute bottom-[-46px] left-1/2 h-[235px] w-[110%] -translate-x-1/2 scale-125 object-contain drop-shadow-[0_24px_24px_rgba(7,19,63,.3)] transition-all duration-700 ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                  className={`absolute bottom-[-18px] left-1/2 h-[280px] w-[112%] -translate-x-1/2 object-contain drop-shadow-[0_24px_24px_rgba(7,19,63,.38)] transition-all duration-700 sm:bottom-[-22px] sm:h-[325px] ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 />
               ))}
             </div>
