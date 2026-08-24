@@ -34,7 +34,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
 
   // Category URL Param Sync
   const categoryParam = searchParams.get('categoria') || 'all';
-  const fleetVersion: FleetVersion = searchParams.get('versao') === 'original' ? 'original' : '2026';
+  const fleetVersion: FleetVersion = searchParams.get('versao') === '2026' ? '2026' : 'original';
   const [activeCategory, setActiveCategory] = useState<string>(categoryParam);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'popular' | 'price_asc' | 'price_desc' | 'name'>('popular');
@@ -76,7 +76,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
 
   const handleVersionChange = (version: FleetVersion) => {
     const nextParams = new URLSearchParams(searchParams);
-    if (version === 'original') nextParams.set('versao', 'original');
+    if (version === '2026') nextParams.set('versao', '2026');
     else nextParams.delete('versao');
     setSearchParams(nextParams, { replace: true });
   };
