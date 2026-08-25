@@ -33,7 +33,7 @@ export const CorporatePortal: React.FC = () => {
   return (
     <section className="section-padding bg-white relative">
       <div className="container-pepek">
-        <div className="rounded-3xl bg-gradient-to-br from-[#06142F] via-[#0A1E42] to-[#06142F] text-white p-8 sm:p-12 lg:p-16 border border-white/10 shadow-2xl relative overflow-hidden">
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#09172C] via-[#0C2E60] to-[#09172C] p-8 text-white shadow-2xl sm:p-12 lg:p-16">
           {/* Background accent lines */}
           <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-[#0B45D8]/20 rounded-full blur-3xl pointer-events-none" />
 

@@ -8,11 +8,11 @@ export const PaymentSecurity: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           {/* Left info */}
           <div className="max-w-md">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#0B45D8] uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#236199] uppercase tracking-wider mb-1">
               <ShieldCheck className="w-4 h-4" />
               <span>Transparência & Conformidade Fiscal</span>
             </div>
-            <h3 className="text-xl font-bold text-[#06142F]">
+            <h3 className="text-xl font-bold text-[#09172C]">
               Métodos de Pagamento Oficiais Aceites
             </h3>
             <p className="text-xs text-gray-500 mt-1">
@@ -23,7 +23,7 @@ export const PaymentSecurity: React.FC = () => {
           {/* Right badges */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full lg:w-auto">
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-[#0B45D8] shrink-0" />
+              <CreditCard className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
                 <span className="text-xs font-bold text-gray-900 block">Multicaixa & Express</span>
                 <span className="text-[10px] text-gray-500">Rede EMIS Angola</span>
@@ -31,7 +31,7 @@ export const PaymentSecurity: React.FC = () => {
             </div>
 
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
-              <Landmark className="w-5 h-5 text-[#0B45D8] shrink-0" />
+              <Landmark className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
                 <span className="text-xs font-bold text-gray-900 block">Banca Nacional</span>
                 <span className="text-[10px] text-gray-500">BFA · BAI · Atlântico</span>
@@ -39,7 +39,7 @@ export const PaymentSecurity: React.FC = () => {
             </div>
 
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-[#0B45D8] shrink-0" />
+              <CreditCard className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
                 <span className="text-xs font-bold text-gray-900 block">Cartões Globais</span>
                 <span className="text-[10px] text-gray-500">Visa · Mastercard</span>

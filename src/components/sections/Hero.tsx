@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
+import { ShieldCheck, ChevronRight, ChevronLeft, Clock, Car, CalendarDays, MapPin, UserCheck } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
@@ -14,41 +14,6 @@ export const Hero: React.FC = () => {
     .filter((vehicle) => ['rangerover-blindado-2025', 'mercedes-class-s-2025', 'lexus-600', 'toyota-lc300-2023'].includes(vehicle.id))
     .map((vehicle) => ({ name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted }));
 
-  // 20 Authentic Client Logos grouped in 5 by 5 (4 slides)
-  const clientLogos = [
-    { name: 'Embaixada Americana', src: '/carrousel/america-american-EMBASSADAlogo-1-150x78.webp' },
-    { name: 'Governo de Angola', src: '/carrousel/LOGO-GOVERNO-DE-ANGOLA-150x141.webp' },
-    { name: 'Assembleia Nacional', src: '/carrousel/SEMBLEIA-ANGOLANA-logo-150x78.webp' },
-    { name: 'ANPG Petróleos', src: '/carrousel/APNG-150x78.webp' },
-    { name: 'TAAG Linhas Aéreas', src: '/carrousel/TAAGG-150x78.webp' },
-
-    { name: 'Banco BFA', src: '/carrousel/BFA-BANCO-DE-ANGOLA-150x78.webp' },
-    { name: 'Banco Atlântico', src: '/carrousel/ATLANTICO-LOGO-MARCA-CLIENTE-DA-RENT-A-CAR-PEPEK-150x78.webp' },
-    { name: 'Standard Bank', src: '/carrousel/standard-150x78.webp' },
-    { name: 'UNICEF Angola', src: '/carrousel/UNICEF-TA-BEM-BOM-150x78.webp' },
-    { name: 'Fidelidade Seguros', src: '/carrousel/fidelidade-150x78.webp' },
-
-    { name: 'DSTV MultiChoice', src: '/carrousel/dstv-150x78.webp' },
-    { name: 'ZAP Angola', src: '/carrousel/zap-150x78.webp' },
-    { name: 'SIC Investigação Criminal', src: '/carrousel/SIC-ANGOOLA-150x78.webp' },
-    { name: 'ELISAL', src: '/carrousel/ELISAL-150x78.webp' },
-    { name: 'Catoca Diamantes', src: '/carrousel/catoca-150x78.webp' },
-
-    { name: 'COSMOS Viagens', src: '/carrousel/COSMO-150x78.webp' },
-    { name: 'HV International', src: '/carrousel/HV-LOGO-1-150x78.webp' },
-    { name: 'FAF Futebol', src: '/carrousel/FAFI-LOGO-150x78.webp' },
-    { name: 'Rede Globo', src: '/carrousel/REDE-GLOBO-CLIENTE-DA-EMPRESA-RENTY-A-CAR-pepek-150x78.webp' },
-    { name: 'CNN Brasil & DW', src: '/carrousel/CNN-BRASIL-150x78.webp' },
-  ];
-
-  // Group 5 by 5
-  const logosPerSlide = 5;
-  const slides: Array<typeof clientLogos> = [];
-  for (let i = 0; i < clientLogos.length; i += logosPerSlide) {
-    slides.push(clientLogos.slice(i, i + logosPerSlide));
-  }
-
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [currentLuxury, setCurrentLuxury] = useState(0);
   const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
   const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable' | 'unknown'>('idle');
@@ -75,15 +40,6 @@ export const Hero: React.FC = () => {
   const filteredLocations = (value: string) => locationSuggestions.filter((location) =>
     !value.trim() || location.toLocaleLowerCase('pt').includes(value.toLocaleLowerCase('pt'))
   ).slice(0, 6);
-
-  // Slow automatic rotation gives clients time to identify each item.
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
 
   useEffect(() => {
     if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -122,23 +78,21 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="inicio" className="relative bg-[#06142F] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
+    <section id="inicio" className="relative flex min-h-[92vh] select-none flex-col justify-between overflow-hidden bg-[#0C2E60] pb-0 pt-28 text-white lg:pt-32">
       {/* Cinematic Background Image with Dark Vignette */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=2400&q=85"
           alt="PEPEK Frota Executiva Luanda"
-          className="w-full h-full object-cover object-center filter brightness-[0.24] contrast-[1.25] scale-105 animate-[pulse_10s_ease-in-out_infinite]"
+          className="h-full w-full scale-105 object-cover object-center brightness-[.58] contrast-[1.08] saturate-[.8]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06142F] via-[#06142F]/75 to-[#06142F]/90" />
-        {/* Subtle Radial Glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#0B45D8]/20 rounded-full blur-[160px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(9,23,44,.97)_0%,rgba(12,46,96,.88)_47%,rgba(12,46,96,.6)_100%)]" />
       </div>
 
-      <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
+      <div className="container-pepek relative z-10 flex flex-1 flex-col justify-center pb-8">
         {/* Top Tag */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-bold text-[#8899BB] uppercase tracking-[0.2em] mb-6 w-fit animate-fadeIn">
-          <ShieldCheck className="w-4 h-4 text-[#0B45D8]" />
+        <div className="mb-5 inline-flex w-fit items-center gap-2 text-xs font-bold uppercase tracking-[.08em] text-white/90">
+          <ShieldCheck className="h-4 w-4 text-[#FEC228]" />
           <span>{t('hero.tag')} · Luanda, Angola</span>
         </div>
 
@@ -146,38 +100,21 @@ export const Hero: React.FC = () => {
           <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight font-inter">
-            “{t('hero.title')}”
+          <h1 className="max-w-3xl text-4xl font-extrabold uppercase leading-[1.04] tracking-[-.035em] text-white sm:text-6xl lg:text-7xl">
+            {t('hero.visualLead')} <span className="text-[#FEC228]">{t('hero.visualAccent')}</span> {t('hero.visualTail')}
           </h1>
-          <p className="text-lg sm:text-2xl text-gray-300 font-light mt-5 leading-relaxed max-w-4xl">
+          <p className="mt-5 max-w-2xl text-base font-medium leading-relaxed text-white/75 sm:text-lg">
             {t('hero.description')}
           </p>
         </div>
 
         {/* 3 Key Pillars of Trust (Frameless with soft futuristic aura) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mb-10 text-xs sm:text-sm font-semibold text-gray-200">
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
-            <Building2 className="w-5 h-5 text-[#0B45D8] shrink-0" />
-            <span>{t('hero.trustPremium')}</span>
-          </div>
-
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
-            <Award className="w-5 h-5 text-[#0B45D8] shrink-0" />
-            <span>{t('hero.trustService')}</span>
-          </div>
-
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
-            <Clock className="w-5 h-5 text-[#0B45D8] shrink-0" />
-            <span>{t('nav.support247')} · {t('hero.statCoverageSub')}</span>
-          </div>
-        </div>
-
         {/* Action Buttons with Futuristic Hover Glow */}
         <div className="flex flex-wrap items-center gap-4 mb-10">
           <button
             type="button"
             onClick={scrollToBooking}
-            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(11,69,216,0.8)] hover:scale-[1.03] transition-all duration-300"
+            className="btn-primary group relative flex cursor-pointer items-center gap-2.5 overflow-hidden px-7 py-4 text-xs font-extrabold uppercase"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
             <Car className="w-5 h-5" />
@@ -188,7 +125,7 @@ export const Hero: React.FC = () => {
           <button
             type="button"
             onClick={scrollToFleet}
-            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all duration-300"
+            className="btn-outline flex cursor-pointer items-center gap-2 px-7 py-4 text-xs font-extrabold uppercase"
           >
             <span>{t('hero.ctaFleet')}</span>
           </button>
@@ -201,22 +138,22 @@ export const Hero: React.FC = () => {
           </div>
 
           <aside
-            className="overflow-hidden rounded-[26px] border border-white/15 bg-white text-[#07133F] shadow-[0_28px_70px_rgba(0,0,0,.36)]"
+            className="overflow-hidden rounded-2xl border border-white/15 bg-white text-[#09172C] shadow-[0_24px_60px_rgba(0,0,0,.28)]"
             onMouseEnter={() => setIsLuxuryPaused(true)}
             onMouseLeave={() => setIsLuxuryPaused(false)}
             onFocusCapture={() => setIsLuxuryPaused(true)}
             onBlurCapture={() => setIsLuxuryPaused(false)}
           >
-            <div className="relative min-h-[310px] overflow-hidden bg-[#07133F] bg-cover bg-center px-6 pt-5 sm:min-h-[350px] sm:px-7 sm:pt-6" style={{ backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
+            <div className="relative min-h-[300px] overflow-hidden bg-[#0C2E60] bg-cover bg-center px-6 pt-5 sm:min-h-[340px] sm:px-7 sm:pt-6" style={{ backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
               <div className="relative z-20 flex items-start justify-between gap-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B68D13]">{t('fleet.tag')}</span>
+                  <span className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#FEC228]">{t('fleet.tag')}</span>
                   <h2 className="mt-1 max-w-[280px] text-xl font-black text-white drop-shadow-md">{luxuryVehicles[currentLuxury].name}</h2>
-                  <p className="mt-1 text-sm font-black text-[#D2A820]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
+                  <p className="mt-1 text-sm font-extrabold text-[#FEC228]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
                 </div>
                 <div className="flex gap-1">
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#07133F] hover:border-[#D2A820]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-lg border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-lg border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
                 </div>
               </div>
               {luxuryVehicles.map((vehicle, index) => (
@@ -231,8 +168,8 @@ export const Hero: React.FC = () => {
 
             <form onSubmit={handleQuickAvailability} className="p-5 sm:p-6">
               <div className="mb-4 flex items-center gap-2.5">
-                <CalendarDays className="h-5 w-5 text-[#B68D13]" />
-                <h3 className="text-lg font-black text-[#07133F]">{t('hero.quickTitle')}</h3>
+                <CalendarDays className="h-5 w-5 text-[#E4AD28]" />
+                <h3 className="text-lg font-extrabold text-[#09172C]">{t('hero.quickTitle')}</h3>
               </div>
               <label className="relative block text-xs font-extrabold text-slate-700">
                 <span className="mb-1.5 block">{t('hero.quickPickup')}</span>
@@ -263,53 +200,25 @@ export const Hero: React.FC = () => {
                 <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><span className="relative block"><input required min={startDate || today} type="date" value={endDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#D2A820]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B68D13]" /></span></label>
               </div>
               {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-red-50 p-2 text-[11px] font-bold text-red-700">Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.</p>}
-              <button type="submit" disabled={availabilityStatus === 'checking'} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#D2A820] px-4 text-xs font-black uppercase tracking-[0.08em] text-[#020A2A] transition hover:bg-[#E2C06E] disabled:opacity-60">
+              <button type="submit" disabled={availabilityStatus === 'checking'} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#FEC228] px-4 text-xs font-extrabold uppercase tracking-[0.08em] text-[#09172C] transition hover:bg-[#FFD45F] disabled:opacity-60">
                 {availabilityStatus === 'checking' ? 'A verificar…' : t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
               </button>
             </form>
           </aside>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════
-            TOP CLIENT LOGOS — Frameless, Prominent, 5 by 5
-            No Heavy Box Outlines · Pure White Glow & Scale Hover
-           ═══════════════════════════════════════════════════════ */}
-        <div className="pt-6 border-t border-white/10">
-          <div className="flex items-center justify-between gap-4 mb-5">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#8899BB] flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#0B45D8]" />
-              <span>{t('clients.title')}</span>
-            </p>
-
-          </div>
-
-          {/* 5-by-5 Frameless Floating Logos Grid */}
-          <div className="relative min-h-[120px] overflow-hidden">
-            {slides.map((group, slideIdx) => (
-              <div
-                key={slideIdx}
-                className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-10 items-center justify-items-center transition-all duration-700 ease-out ${
-                  currentSlide === slideIdx
-                    ? 'opacity-100 translate-x-0 relative pointer-events-auto'
-                    : 'opacity-0 translate-x-16 absolute inset-0 pointer-events-none'
-                }`}
-              >
-                {group.map((client, logoIdx) => (
-                  <div
-                    key={logoIdx}
-                    className="flex items-center justify-center p-2 h-24 sm:h-28 w-full group cursor-pointer"
-                  >
-                    <img
-                      src={client.src}
-                      alt={client.name}
-                      className="max-h-16 sm:max-h-20 max-w-[170px] sm:max-w-[200px] w-auto object-contain filter brightness-[1.2] contrast-[1.3] drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] group-hover:brightness-[1.5] group-hover:scale-115 group-hover:drop-shadow-[0_0_24px_rgba(11,69,216,0.9)] transition-all duration-300"
-                      loading="lazy"
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+      </div>
+      <div className="relative z-10 mt-4 border-t border-white/10 bg-[#09172C]/92">
+        <div className="container-pepek grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            [Clock, t('nav.support247'), t('hero.statAssistanceSub')],
+            [Car, t('hero.trustPremium'), t('hero.trustPremiumSub')],
+            [UserCheck, t('hero.visualDrivers'), t('hero.visualDriversSub')],
+            [MapPin, t('hero.statCoverage'), t('hero.statCoverageSub')],
+          ].map(([Icon, title, description], index) => {
+            const TrustIcon = Icon as typeof Clock;
+            return <div key={index} className="flex min-h-24 items-center gap-4 border-white/10 px-5 py-5 sm:border-r"><TrustIcon className="h-8 w-8 shrink-0 text-[#FEC228]" /><div><strong className="block text-xs font-extrabold uppercase text-white">{title as string}</strong><span className="mt-1 block text-[11px] leading-4 text-white/60">{description as string}</span></div></div>;
+          })}
         </div>
       </div>
     </section>

@@ -11,6 +11,8 @@ import { FAQ } from '../components/sections/FAQ';
 import { Contact } from '../components/sections/Contact';
 import { CoverageMap } from '../components/sections/CoverageMap';
 import { BookingWidget } from '../components/sections/BookingWidget';
+import { InstitutionalClients } from '../components/sections/InstitutionalClients';
+import { BrandCTA } from '../components/sections/BrandCTA';
 
 const SCHEMA_ORG = {
   "@context": "https://schema.org",
@@ -53,6 +55,8 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ o
     <About />
     <PaymentSecurity />
     <FAQ />
+    <BrandCTA />
+    <InstitutionalClients />
     <Contact />
   </>
 );

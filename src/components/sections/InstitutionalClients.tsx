@@ -51,11 +51,11 @@ export const InstitutionalClients: React.FC = () => {
   }, [slides.length]);
 
   return (
-    <section className="bg-[#030D1F] py-8 border-b border-white/10 relative overflow-hidden select-none">
+    <section className="relative select-none overflow-hidden border-y border-slate-200 bg-white py-10">
       <div className="container-pepek">
         {/* Subtle, discreet header strip */}
         <div className="flex items-center justify-between gap-4 mb-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8899BB]">
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#236199]">
             Confiança Institucional & Entidades de Referência
           </p>
 
@@ -67,8 +67,8 @@ export const InstitutionalClients: React.FC = () => {
                 onClick={() => setCurrentSlide(idx)}
                 className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                   currentSlide === idx
-                    ? 'w-6 bg-[#0B45D8]'
-                    : 'w-1.5 bg-white/20 hover:bg-white/40'
+                    ? 'w-6 bg-[#FEC228]'
+                    : 'w-1.5 bg-slate-300 hover:bg-slate-400'
                 }`}
                 aria-label={`Ver grupo ${idx + 1}`}
               />
@@ -90,12 +90,12 @@ export const InstitutionalClients: React.FC = () => {
               {group.map((client, logoIdx) => (
                 <div
                   key={logoIdx}
-                  className="flex items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#0B45D8]/50 hover:bg-white/[0.06] transition-all h-20 group"
+                  className="group flex h-20 items-center justify-center rounded-lg border border-slate-100 bg-[#F5F6F6] p-3 transition-all hover:border-[#FEC228] hover:bg-white"
                 >
                   <img
                     src={client.src}
                     alt={client.name}
-                    className="max-h-11 max-w-[130px] w-auto object-contain filter brightness-[0.9] contrast-[1.15] opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                    className="max-h-11 max-w-[130px] w-auto object-contain opacity-85 grayscale-[15%] transition-all duration-300 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0"
                     loading="lazy"
                   />
                 </div>

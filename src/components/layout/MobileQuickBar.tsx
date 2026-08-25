@@ -17,7 +17,7 @@ export const MobileQuickBar: React.FC = () => {
 
   return (
     <div
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#06142F]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl"
+      className="fixed bottom-0 left-0 right-0 z-30 border-t border-white/10 bg-[#09172C]/95 shadow-2xl backdrop-blur-xl lg:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
       <div className="flex items-center justify-between gap-2 px-4 py-2.5">
@@ -35,7 +35,7 @@ export const MobileQuickBar: React.FC = () => {
         <button
           type="button"
           onClick={scrollToBooking}
-          className="flex-1 py-3 px-3 rounded-xl bg-[#0B45D8] text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:bg-[#1A58F5] transition-colors cursor-pointer"
+          className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-[#FEC228] px-3 py-3 text-[11px] font-bold text-[#09172C] shadow-md transition-colors hover:bg-[#FFD45F]"
           aria-label="Solicitar reserva de viatura"
         >
           <Calendar className="w-3.5 h-3.5" />

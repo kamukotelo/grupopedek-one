@@ -135,20 +135,20 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   };
 
   return (
-    <section id="frota" className="section-padding bg-[#F3F5F8] relative">
+    <section id="frota" className="section-padding relative bg-[#0C2E60] text-white">
       <div className="container-pepek">
         {/* ═══════════════════════════════════════════════════════
             SECTION HEADER
            ═══════════════════════════════════════════════════════ */}
         <div className="max-w-4xl mb-8">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#07133F] text-[#D2A820] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
+          <div className="mb-3.5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.12em] text-[#FEC228]">
             <Car className="w-3.5 h-3.5" />
             <span>Frota Executiva · Disponibilidade sob consulta</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#07133F] tracking-tight mb-3">
+          <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Conheça a Nossa Frota de Alto Padrão
           </h2>
-          <p className="text-sm sm:text-base text-[#697080] leading-relaxed">
+          <p className="text-sm leading-relaxed text-white/65 sm:text-base">
             Coleção oficial dos flyers PEPEK 2026, com 46 viaturas, imagens autorizadas e tarifas Full Day e Transfer.
           </p>
         </div>
@@ -156,7 +156,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         {/* ═══════════════════════════════════════════════════════
             QUICK SEARCH HERO BAR
            ═══════════════════════════════════════════════════════ */}
-        <div className="bg-[#020A2A] text-white p-5 sm:p-7 rounded-3xl shadow-xl border border-white/10 mb-10">
+        <div className="mb-10 rounded-2xl border border-white/10 bg-[#09172C] p-5 text-white shadow-xl sm:p-7">
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D2A820]">
               <Sparkles className="w-4 h-4" />
@@ -260,13 +260,13 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
                 onClick={() => handleCategoryChange(cat.id)}
                 className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
                   isActive
-                    ? 'bg-[#D2A820] text-[#020A2A] shadow-md scale-102'
-                    : 'bg-white text-[#07133F] border border-[#D9DEE7] hover:border-[#07133F] hover:bg-gray-50'
+                    ? 'bg-[#FEC228] text-[#09172C] shadow-md scale-102'
+                    : 'bg-white text-[#09172C] border border-white/20 hover:border-[#FEC228] hover:bg-[#F5F6F6]'
                 }`}
               >
                 <span>{cat.label}</span>
                 <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
-                  isActive ? 'bg-[#020A2A] text-[#D2A820]' : 'bg-[#F3F5F8] text-[#697080]'
+                  isActive ? 'bg-[#09172C] text-[#FEC228]' : 'bg-[#F5F6F6] text-[#555B64]'
                 }`}>
                   {cat.count}
                 </span>
@@ -324,7 +324,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         {/* ═══════════════════════════════════════════════════════
             4-STEP BOOKING GUIDE BAR
            ═══════════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 mb-10 p-5 rounded-3xl bg-white border border-[#D9DEE7] shadow-xs text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 mb-10 p-5 rounded-2xl bg-white border border-[#D9DEE7] shadow-xs text-xs">
           <div className="flex items-start gap-3 p-2">
             <div className="w-8 h-8 rounded-xl bg-[#07133F] text-[#D2A820] flex items-center justify-center font-black shrink-0 shadow-xs">
               1

@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════
-   PEPEK GRUPO — Design System (Espaçoso & Premium)
-   Paleta: Azul-marinho #06142F | Azul real #0B45D8
+   PEPEK GRUPO — Design System harmonizado com a proposta institucional
+   Paleta: Azul profundo #09172C | Azul PEPEK #0C2E60 | Amarelo #FEC228
    ═══════════════════════════════════════════════ */
 
 @layer base {
   :root {
-    --navy: #06142F;
-    --navy-light: #0A1E42;
-    --navy-dark: #030D1F;
-    --royal: #0B45D8;
-    --royal-light: #1A58F5;
-    --royal-dark: #0835A8;
-    --gold: #C9A84C;
-    --gold-light: #E2C06E;
+    --navy: #09172C;
+    --navy-light: #0C2E60;
+    --navy-dark: #061225;
+    --royal: #236199;
+    --royal-light: #2F73AD;
+    --royal-dark: #174A7A;
+    --gold: #FEC228;
+    --gold-light: #FFD45F;
+    --gold-dark: #E4AD28;
     --white: #FFFFFF;
-    --gray-50: #F8FAFC;
+    --gray-50: #F5F6F6;
     --gray-100: #F1F5F9;
     --gray-200: #E2E8F0;
     --gray-300: #CBD5E1;
@@ -28,9 +29,9 @@
     --gray-900: #0F172A;
     --metallic: #8899BB;
     --radius-sm: 8px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-    --radius-xl: 36px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
     --shadow-sm: 0 2px 8px rgba(6,20,47,0.08);
     --shadow-md: 0 8px 24px rgba(6,20,47,0.12);
     --shadow-lg: 0 16px 48px rgba(6,20,47,0.18);
@@ -50,7 +51,7 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
     font-size: 16px;
     line-height: 1.65;
     color: var(--gray-800);
@@ -62,7 +63,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     line-height: 1.18;
     font-weight: 800;
     color: var(--navy);
@@ -239,8 +240,8 @@
   .shadow-royal { box-shadow: var(--shadow-royal); }
   .shadow-xl-navy { box-shadow: var(--shadow-xl); }
 
-  .font-editorial { font-family: 'Playfair Display', Georgia, serif; }
-  .font-inter     { font-family: 'Inter', sans-serif; }
+  .font-editorial { font-family: 'Montserrat', sans-serif; }
+  .font-inter     { font-family: 'Montserrat', sans-serif; }
 
   /* ── Expansive Section & Container Widths (Desapertado) ── */
   .section-padding {
@@ -284,9 +285,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 1.05rem 2.4rem;
-    background: var(--royal);
-    color: var(--white);
+    padding: 1rem 2rem;
+    background: var(--gold);
+    color: var(--navy);
     font-weight: 700;
     font-size: 0.9375rem;
     letter-spacing: 0.01em;
@@ -296,13 +297,13 @@
     transition: all 0.25s ease;
     text-decoration: none;
     white-space: nowrap;
-    box-shadow: var(--shadow-royal);
+    box-shadow: 0 10px 28px rgba(254,194,40,.22);
   }
 
   .btn-primary:hover {
-    background: var(--royal-light);
+    background: var(--gold-light);
     transform: translateY(-2px);
-    box-shadow: 0 16px 48px rgba(11,69,216,0.45);
+    box-shadow: 0 14px 34px rgba(254,194,40,.3);
   }
 
   .btn-primary:active { transform: translateY(0); }
@@ -318,7 +319,7 @@
     font-size: 0.9375rem;
     letter-spacing: 0.01em;
     border-radius: var(--radius-sm);
-    border: 2px solid rgba(255,255,255,0.4);
+    border: 2px solid var(--gold);
     cursor: pointer;
     transition: all 0.25s ease;
     text-decoration: none;
@@ -326,8 +327,8 @@
   }
 
   .btn-outline:hover {
-    background: rgba(255,255,255,0.12);
-    border-color: rgba(255,255,255,0.85);
+    background: rgba(254,194,40,.1);
+    border-color: var(--gold-light);
     transform: translateY(-2px);
   }
 
@@ -420,7 +421,7 @@
     font-size: 0.9375rem;
     color: var(--gray-800);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .form-input:focus {
@@ -444,7 +445,7 @@
     background-position: right 14px center;
     padding-right: 2.8rem;
     transition: border-color 0.2s ease;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .form-select:focus {

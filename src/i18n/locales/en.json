@@ -31,6 +31,11 @@
   "hero": {
     "tag": "Premium Mobility in Angola",
     "title": "We move those who move Angola.",
+    "visualLead": "Premium",
+    "visualAccent": "experience",
+    "visualTail": "in every kilometre",
+    "visualDrivers": "Professional chauffeurs",
+    "visualDriversSub": "Bilingual, trained and discreet",
     "description": "Since 2014, PEPEK GRUPO has been the trusted partner for embassies, government entities, leading corporations, and executives for luxury car rental, protocol, and strategic mobility across the country.",
     "ctaBooking": "Request Reservation",
     "ctaFleet": "Explore Fleet",
@@ -204,6 +209,10 @@
     "rolePeople": "Human Resources",
     "roleMarketing": "Marketing",
     "roleExecutiveAssistant": "Executive Assistant"
+  },
+  "brandCta": {
+    "title": "Ready to elevate your mobility experience?",
+    "subtitle": "Book now and travel with comfort, confidence and class."
   },
   "capabilities": {
     "tag": "Proven Operational Capabilities",

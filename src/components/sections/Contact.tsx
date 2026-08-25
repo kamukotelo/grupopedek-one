@@ -49,7 +49,7 @@ export const Contact: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column: Direct Info & Channels */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-8 rounded-2xl bg-[#06142F] text-white space-y-6">
+            <div className="p-8 rounded-2xl bg-[#09172C] text-white space-y-6">
               <h3 className="text-xl font-bold text-white mb-2">
                 Central de Atendimento 24/7
               </h3>
@@ -60,9 +60,9 @@ export const Contact: React.FC = () => {
               <div className="space-y-4 pt-2">
                 <a
                   href={`tel:+${OFFICIAL_WHATSAPP_NUMBER}`}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#0B45D8] transition-colors"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#FEC228] transition-colors"
                 >
-                  <div className="p-2.5 rounded-lg bg-[#0B45D8] text-white">
+                  <div className="p-2.5 rounded-lg bg-[#236199] text-white">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
@@ -88,9 +88,9 @@ export const Contact: React.FC = () => {
 
                 <a
                   href="mailto:geral@pepekgrupo.com"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#0B45D8] transition-colors"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#FEC228] transition-colors"
                 >
-                  <div className="p-2.5 rounded-lg bg-[#0B45D8] text-white">
+                  <div className="p-2.5 rounded-lg bg-[#236199] text-white">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
@@ -102,11 +102,11 @@ export const Contact: React.FC = () => {
 
               <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-gray-300">
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[#0B45D8] shrink-0" />
+                  <MapPin className="w-4 h-4 text-[#FEC228] shrink-0" />
                   <span>Sede: Luanda · Pólos Operacionais: Huambo & Bengo</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#0B45D8] shrink-0" />
+                  <Clock className="w-4 h-4 text-[#FEC228] shrink-0" />
                   <span>{t('contact.hours')}</span>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export const Contact: React.FC = () => {
           {/* Right Column: Direct Message Form */}
           <div className="lg:col-span-7">
             <div className="p-8 sm:p-10 rounded-2xl bg-white border border-gray-200 shadow-sm">
-              <h3 className="text-2xl font-bold text-[#06142F] mb-2">
+              <h3 className="text-2xl font-bold text-[#09172C] mb-2">
                 Envie-nos uma Mensagem
               </h3>
               <p className="text-sm text-gray-500 mb-6">
