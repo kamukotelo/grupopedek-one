@@ -41,6 +41,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAutoPaused, setIsAutoPaused] = useState(false);
+  const [catalogGallery, setCatalogGallery] = useState<VehicleDetail['gallery']>([]);
   const touchStartX = useRef<number | null>(null);
   const isFlyerCollection = vehicle?.visualCollection === 'flyer';
   const upgradeGallery = vehicle && !isFlyerCollection ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
@@ -50,7 +51,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
     : [];
   // A pesquisa externa permanece apenas no acervo de apoio. A frota pública
   // aceita somente material próprio/local ou produzido para este projeto.
-  const publicGallery = upgradeGallery.length ? upgradeGallery : originalLocalGallery;
+  const publicGallery = upgradeGallery.length ? upgradeGallery : catalogGallery.length ? catalogGallery : originalLocalGallery;
   const verifiedGallery = (publicGallery.length ? publicGallery : [{
     url: FLEET_IMAGE_REVIEW_PLACEHOLDER,
     caption: 'Imagens desta viatura em revisão',
@@ -68,6 +69,40 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
     setActiveImageIdx(0);
     setIsFullscreen(false);
   }, [vehicle]);
+
+  // The review catalogue is the single source of truth for researched images.
+  // It is loaded on demand so the main fleet bundle remains fast.
+  useEffect(() => {
+    let cancelled = false;
+    setCatalogGallery([]);
+    if (!vehicle || upgradeGallery.length) return;
+
+    fetch('/fleet-carousel/manifest.json')
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error('Manifest unavailable')))
+      .then((manifest) => {
+        const images = manifest?.vehicles?.[vehicle.id]?.images;
+        if (cancelled || !Array.isArray(images)) return;
+        setCatalogGallery(images.map((image: { file: string; label?: string }, index: number) => {
+          const source = `${image.file ?? ''}`;
+          const normalized = `${image.label ?? ''} ${source}`.toLowerCase();
+          const type: VehicleDetail['gallery'][number]['type'] = normalized.includes('interior')
+            ? 'interior'
+            : normalized.includes('rear') || normalized.includes('traseira') || normalized.includes('side') || normalized.includes('lateral')
+              ? 'exterior_side'
+              : 'exterior_front';
+          const fallbackCaptions = ['Vista exterior principal', 'Vista traseira', 'Vista lateral', 'Cockpit e painel', 'Interior de passageiros'];
+          return {
+            url: source,
+            caption: image.label || fallbackCaptions[index] || `Vista ${index + 1}`,
+            altText: `${vehicle.name} — ${image.label || fallbackCaptions[index] || `vista ${index + 1}`}`,
+            type
+          };
+        }));
+      })
+      .catch(() => undefined);
+
+    return () => { cancelled = true; };
+  }, [vehicle, upgradeGallery.length]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -176,11 +211,9 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
 
         {/* Scrollable Content */}
         <div className="overflow-y-auto flex-1 flex flex-col bg-gray-950">
-          {/* Main Visual Display */}
+          {/* Complete visual dossier: the selected vehicle and every available view. */}
           <div
-            className={`relative w-full h-[320px] sm:h-[440px] md:h-[480px] flex items-center justify-center overflow-hidden shrink-0 group ${
-              'bg-[#F8FAFC] bg-cover bg-center p-8 sm:p-12'
-            }`}
+            className="relative w-full shrink-0 bg-[#D9DDE2] p-2 sm:p-3"
             style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}
             onMouseEnter={() => setIsAutoPaused(true)}
             onMouseLeave={() => setIsAutoPaused(false)}
@@ -189,17 +222,23 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Subtle Studio Spotlight for cutouts */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center_75%,rgba(210,168,32,0.12)_0%,transparent_68%)] pointer-events-none" />
-
-            <img
-              key={currentImg.url}
-              src={currentImg.url}
-              alt={currentImg.altText}
-              className="transition-all duration-300 animate-fadeIn w-full h-full object-contain object-center drop-shadow-[0_24px_30px_rgba(9,23,44,0.28)] relative z-10"
-            />
-
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+            <div className="relative z-10 grid grid-cols-2 gap-1.5 overflow-hidden rounded-xl bg-[#0C3D73] shadow-2xl">
+              <button type="button" onClick={() => setActiveImageIdx(0)} className="group relative col-span-2 h-[260px] overflow-hidden bg-[#174B86] sm:h-[390px]">
+                <img src={verifiedGallery[0].url} alt={verifiedGallery[0].altText} className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-[1.025] sm:p-7" />
+                <span className="absolute bottom-3 left-3 rounded-full bg-[#09172C]/90 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">{verifiedGallery[0].caption}</span>
+              </button>
+              {verifiedGallery.slice(1, 5).map((image, index) => (
+                <button key={image.url} type="button" onClick={() => setActiveImageIdx(index + 1)} className="group relative h-36 overflow-hidden bg-[#174B86] sm:h-52">
+                  <img src={image.url} alt={image.altText} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#09172C] to-transparent px-3 pb-2 pt-8 text-left text-[11px] font-bold text-white sm:text-xs">{image.caption}</span>
+                </button>
+              ))}
+              {Array.from({ length: Math.max(0, 5 - verifiedGallery.length) }).map((_, index) => (
+                <div key={`pending-${index}`} className="flex h-36 items-center justify-center bg-[#174B86]/90 p-4 text-center sm:h-52">
+                  <div><Camera className="mx-auto mb-2 h-6 w-6 text-[#FEC228]" /><p className="text-xs font-bold text-white">Vista em produção e validação</p><p className="mt-1 text-[10px] text-white/65">Sem imagem genérica</p></div>
+                </div>
+              ))}
+            </div>
 
             {/* Left / Right Nav */}
             {verifiedGallery.length > 1 && (
@@ -220,17 +259,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               </>
             )}
 
-            {/* Caption & Counter */}
-            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 pointer-events-none">
-              <div className="bg-black/75 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/15 text-white max-w-xl">
-                <p className="text-xs sm:text-sm font-semibold">{currentImg.caption}</p>
-              </div>
-
-              <div className="bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 text-white text-xs font-mono font-bold shrink-0">
-                <Camera className="w-3.5 h-3.5 inline mr-1 text-[#FEC228]" />
-                <span>{activeImageIdx + 1} / {verifiedGallery.length}</span>
-              </div>
-            </div>
+            <div className="pointer-events-none absolute right-5 top-5 z-20 rounded-full border border-white/15 bg-[#09172C]/90 px-3 py-1.5 text-xs font-bold text-[#FEC228] backdrop-blur"><Camera className="mr-1 inline h-3.5 w-3.5" />{verifiedGallery.length} {verifiedGallery.length === 1 ? 'Foto' : 'Fotos'}</div>
           </div>
 
           {/* Thumbnails Bar */}
