@@ -15,7 +15,7 @@ import {
   MapPin
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
-import { getFleetUpgradeCover, getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
+import { getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 import { getVehicleStudioBackground } from '../../data/fleetPresentation';
@@ -38,18 +38,17 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [justBookedFeedback, setJustBookedFeedback] = useState(false);
   const isFlyerCollection = vehicle.visualCollection === 'flyer';
-  const upgradeCover = isFlyerCollection ? undefined : getFleetUpgradeCover(vehicle.id);
   const upgradePhotoCount = getFleetUpgradePhotoCount(vehicle.id);
   const localImageApproved = isFlyerCollection || isFleetLocalImageApproved(vehicle.id);
-  const studioImage = upgradeCover || (!localImageApproved ? FLEET_IMAGE_REVIEW_PLACEHOLDER : vehicle.primaryImage.startsWith('/rent_car/')
+  const studioImage = !localImageApproved ? FLEET_IMAGE_REVIEW_PLACEHOLDER : vehicle.primaryImage.startsWith('/rent_car/')
     ? vehicle.primaryImage.replace('/rent_car/', '/rent_car_hd/')
-    : vehicle.primaryImage);
+    : vehicle.primaryImage;
   const localPhotoCount = localImageApproved
     ? vehicle.gallery?.filter((image) => isFlyerCollection || image.url.startsWith('/rent_car/')).length || 1
     : 0;
   const verifiedPhotoCount = upgradePhotoCount + localPhotoCount;
   // Não cruzar o acervo premium com uma fotografia antiga durante o hover.
-  const verifiedSecondaryImage = !upgradeCover && localImageApproved && vehicle.secondaryImage
+  const verifiedSecondaryImage = localImageApproved && vehicle.secondaryImage
     ? vehicle.secondaryImage.startsWith('/rent_car/')
       ? vehicle.secondaryImage.replace('/rent_car/', '/rent_car_hd/')
       : vehicle.secondaryImage
@@ -73,7 +72,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
-        style={!upgradeCover ? { backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` } : undefined}
+        style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}
         className="relative aspect-4/3 overflow-hidden bg-[#09172C] bg-cover bg-center border-b border-[#E2E8F0] cursor-pointer select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -83,9 +82,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
         <img
           src={studioImage}
           alt={vehicle.name}
-          className={`absolute inset-0 w-full h-full object-center transition-all duration-500 ease-out group-hover:scale-[1.025] ${
-            upgradeCover ? 'object-cover' : 'object-contain p-8 sm:p-10 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)]'
-          } ${
+          className={`absolute inset-0 w-full h-full object-center object-contain p-8 sm:p-10 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] transition-all duration-500 ease-out group-hover:scale-[1.025] ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
           loading="lazy"
@@ -109,11 +106,6 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             {vehicle.badge && (
               <span className="px-3 py-1 rounded-full bg-[#09172C] text-[#FEC228] border border-[#FEC228]/30 text-[10.5px] font-extrabold uppercase tracking-wider shadow-sm">
                 {vehicle.badge}
-              </span>
-            )}
-            {upgradeCover && (
-              <span className="px-2.5 py-1 rounded-full bg-[#FEC228] text-[#09172C] text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
-                Nova apresentação
               </span>
             )}
             <span className="px-2.5 py-1 rounded-full bg-[#236199] text-white text-[10px] font-bold shadow-xs">

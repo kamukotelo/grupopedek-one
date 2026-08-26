@@ -22,7 +22,7 @@ import {
   MessageSquareText
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
-import { FLEET_UPGRADE_GALLERY } from '../../data/fleetUpgradeGallery';
+import { getFleetPeopleFreeInteriors } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
 import { getVehicleStudioBackground } from '../../data/fleetPresentation';
@@ -43,14 +43,16 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [isAutoPaused, setIsAutoPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const isFlyerCollection = vehicle?.visualCollection === 'flyer';
-  const upgradeGallery = vehicle && !isFlyerCollection ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
+  const peopleFreeInteriors = vehicle ? getFleetPeopleFreeInteriors(vehicle.id) : [];
   const localImageApproved = vehicle ? isFlyerCollection || isFleetLocalImageApproved(vehicle.id) : false;
   const originalLocalGallery = localImageApproved
     ? (vehicle?.gallery ?? []).filter((image) => isFlyerCollection || image.url.startsWith('/rent_car/'))
     : [];
   // A pesquisa externa permanece apenas no acervo de apoio. A frota pública
   // aceita somente material próprio/local ou produzido para este projeto.
-  const publicGallery = upgradeGallery.length ? upgradeGallery : originalLocalGallery;
+  // A capa exterior vem sempre do catálogo oficial com fundo transparente.
+  // As únicas imagens adicionais publicadas são interiores sem pessoas.
+  const publicGallery = [...originalLocalGallery, ...peopleFreeInteriors];
   const verifiedGallery = (publicGallery.length ? publicGallery : [{
     url: FLEET_IMAGE_REVIEW_PLACEHOLDER,
     caption: 'Imagens desta viatura em revisão',
@@ -192,7 +194,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               </button>
               {verifiedGallery.slice(1, 5).map((image, index) => (
                 <button key={image.url} type="button" onClick={() => setActiveImageIdx(index + 1)} className="group relative h-36 overflow-hidden bg-[#174B86] sm:h-52">
-                  <img src={image.url} alt={image.altText} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                  <img src={image.url} alt={image.altText} className={`h-full w-full transition-transform duration-500 group-hover:scale-105 ${image.type === 'interior' ? 'object-cover' : 'object-contain p-3'}`} loading="lazy" />
                   <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#09172C] to-transparent px-3 pb-2 pt-8 text-left text-[11px] font-bold text-white sm:text-xs">{image.caption}</span>
                 </button>
               ))}
@@ -241,7 +243,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                 <img
                   src={img.url}
                   alt={img.altText}
-                  className="w-full h-full object-cover"
+                  className={img.type === 'interior' ? 'w-full h-full object-cover' : 'w-full h-full object-contain p-1'}
                   loading="lazy"
                 />
                 <span className="absolute bottom-1 right-1 text-[9px] bg-black/80 px-1 py-0.2 rounded font-mono text-white">

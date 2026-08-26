@@ -34,5 +34,10 @@ export const FLEET_UPGRADE_GALLERY: Record<string, GalleryImage[]> = Object.from
 export const getFleetUpgradeCover = (vehicleId: string): string | undefined =>
   FLEET_UPGRADE_GALLERY[vehicleId]?.[0]?.url;
 
+// Apenas estas vistas internas são usadas na frota pública. Foram produzidas
+// para o projeto e verificadas sem condutores, passageiros ou pessoas ao fundo.
+export const getFleetPeopleFreeInteriors = (vehicleId: string): GalleryImage[] =>
+  (FLEET_UPGRADE_GALLERY[vehicleId] ?? []).filter((image) => image.type === 'interior');
+
 export const getFleetUpgradePhotoCount = (vehicleId: string): number =>
-  FLEET_UPGRADE_GALLERY[vehicleId]?.length ?? 0;
+  getFleetPeopleFreeInteriors(vehicleId).length;
