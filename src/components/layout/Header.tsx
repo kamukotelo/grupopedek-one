@@ -97,7 +97,7 @@ export const Header: React.FC = () => {
               aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? <X className="h-5 w-5 animate-scaleUp" /> : <Menu className="h-5 w-5 animate-scaleUp" />}
             </button>
           </div>
         </div>
@@ -105,10 +105,16 @@ export const Header: React.FC = () => {
 
       <div className="hidden bg-[#0C3D73] text-white lg:block">
         <nav className="container-pepek flex h-12 items-stretch justify-center" aria-label="Navegação principal">
-          {navLinks.map(({ to, label, icon: Icon }) => {
+          {navLinks.map(({ to, label, icon: Icon }, index) => {
             const active = location.pathname === to;
-            const classes = `group flex flex-1 items-center justify-center gap-2 border-l border-white/10 px-3 text-[11px] font-extrabold uppercase tracking-[0.08em] transition-colors last:border-r ${active ? 'bg-[#FEC228] text-[#0C3D73]' : 'text-white/90 hover:bg-white/10 hover:text-[#FEC228]'}`;
-            return <Link key={label} to={to} className={classes}><Icon className="h-4 w-4 shrink-0" /><span className="whitespace-nowrap">{label}</span></Link>;
+            const classes = `pepek-nav-item group relative flex flex-1 items-center justify-center gap-2 overflow-hidden border-l border-white/10 px-3 text-[11px] font-extrabold uppercase tracking-[0.08em] transition-[color,background-color,transform] duration-300 last:border-r ${active ? 'is-active bg-[#FEC228] text-[#0C3D73]' : 'text-white/90 hover:bg-white/10 hover:text-[#FEC228]'}`;
+            return (
+              <Link key={label} to={to} className={classes} style={{ '--nav-order': index } as React.CSSProperties}>
+                <Icon className="pepek-nav-icon h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110" />
+                <span className="relative z-10 whitespace-nowrap">{label}</span>
+                <span aria-hidden="true" className="pepek-nav-line absolute inset-x-3 bottom-0 h-0.5 origin-center bg-[#FEC228]" />
+              </Link>
+            );
           })}
         </nav>
       </div>
@@ -129,15 +135,15 @@ export const Header: React.FC = () => {
             ))}
           </div>
           <nav className="space-y-1" aria-label="Navegação móvel">
-            {navLinks.map(({ to, label, icon: Icon }) => {
+            {navLinks.map(({ to, label, icon: Icon }, index) => {
               const content = (
                 <>
                   <span className="flex items-center gap-3"><Icon className="h-4 w-4 text-[#FEC228]" />{label}</span>
                   <ChevronRight className="h-4 w-4 text-slate-500" />
                 </>
               );
-              const className = "flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-bold hover:bg-white/5";
-              return <Link key={label} to={to} className={className}>{content}</Link>;
+              const className = "pepek-mobile-nav-item flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-bold transition-[background-color,transform] duration-300 hover:translate-x-1 hover:bg-white/5";
+              return <Link key={label} to={to} className={className} style={{ '--nav-order': index } as React.CSSProperties}>{content}</Link>;
             })}
           </nav>
         </div>

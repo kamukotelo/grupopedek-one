@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
+import { ShieldCheck, ChevronRight, ChevronLeft, Headphones, CarFront, UserRoundCheck, MapPinned, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
@@ -111,13 +111,14 @@ export const Hero: React.FC = () => {
   return (
     <section id="inicio" className="relative bg-[#0C3D73] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
       {/* Cinematic Background Image with Dark Vignette */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0" data-future-video-stage aria-label="Área visual preparada para o futuro vídeo institucional">
         <img
-          src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=2400&q=85"
-          alt="PEPEK Frota Executiva Luanda"
-          className="w-full h-full object-cover object-center filter brightness-[0.24] contrast-[1.25] scale-105 animate-[pulse_10s_ease-in-out_infinite]"
+          src="/fleet-carousel-generated/rangerover-blindado-2025/01-exterior-principal.webp"
+          alt="Range Rover da frota executiva PEPEK — imagem temporária para o futuro vídeo institucional"
+          className="h-full w-full scale-[1.02] object-cover object-center brightness-[0.58] contrast-[1.12]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0C3D73] via-[#0C3D73]/78 to-[#174B86]/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0C3D73]/95 via-[#0C3D73]/76 to-[#174B86]/44" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0C3D73] via-transparent to-[#0C3D73]/65" />
         {/* Subtle Radial Glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#236199]/20 rounded-full blur-[160px] pointer-events-none" />
       </div>
@@ -139,24 +140,6 @@ export const Hero: React.FC = () => {
           <p className="text-lg sm:text-2xl text-gray-300 font-light mt-5 leading-relaxed max-w-4xl">
             {t('hero.description')}
           </p>
-        </div>
-
-        {/* 3 Key Pillars of Trust (Frameless with soft futuristic aura) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mb-10 text-xs sm:text-sm font-semibold text-gray-200">
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
-            <Building2 className="w-5 h-5 text-[#236199] shrink-0" />
-            <span>{t('hero.trustPremium')}</span>
-          </div>
-
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
-            <Award className="w-5 h-5 text-[#236199] shrink-0" />
-            <span>{t('hero.trustService')}</span>
-          </div>
-
-          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xs hover:bg-white/[0.08] transition-all duration-300">
-            <Clock className="w-5 h-5 text-[#236199] shrink-0" />
-            <span>{t('nav.support247')} · {t('hero.statCoverageSub')}</span>
-          </div>
         </div>
 
         {/* Action Buttons with Futuristic Hover Glow */}
@@ -255,6 +238,26 @@ export const Hero: React.FC = () => {
               </button>
             </form>
           </aside>
+        </div>
+
+        {/* Operational differentiators — prepared from the approved flyer icon language. */}
+        <div className="mt-7 grid overflow-hidden rounded-2xl border border-white/10 bg-[#09172C]/92 shadow-[0_18px_45px_rgba(4,16,38,.24)] backdrop-blur-md sm:grid-cols-2 xl:grid-cols-4">
+          {[
+            { Icon: Headphones, title: t('hero.featureSupportTitle'), detail: t('hero.featureSupportDetail') },
+            { Icon: CarFront, title: t('hero.featureFleetTitle'), detail: t('hero.featureFleetDetail') },
+            { Icon: UserRoundCheck, title: t('hero.featureDriversTitle'), detail: t('hero.featureDriversDetail') },
+            { Icon: MapPinned, title: t('hero.featureCoverageTitle'), detail: t('hero.featureCoverageDetail') },
+          ].map(({ Icon, title, detail }) => (
+            <div key={title} className="group flex min-h-[138px] items-center gap-4 border-white/10 px-5 py-6 transition-colors hover:bg-white/[0.05] sm:border-l first:border-l-0 xl:px-6">
+              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-[#FEC228]/40 bg-[#0C3D73] text-[#FEC228] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105">
+                <Icon className="h-9 w-9 stroke-[1.65]" />
+              </div>
+              <div>
+                <h3 className="text-sm font-extrabold uppercase tracking-[0.02em] text-white">{title}</h3>
+                <p className="mt-1 whitespace-pre-line text-sm leading-snug text-white/80">{detail}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Client logos use one continuous light stage so every official colourway

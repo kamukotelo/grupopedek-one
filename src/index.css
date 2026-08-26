@@ -590,6 +590,43 @@
     transform: translateX(2px);
   }
 
+  /* Main navigation: restrained motion that reinforces focus and direction. */
+  @keyframes pepek-nav-arrival {
+    from { opacity: 0; transform: translateY(-9px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pepek-nav-active-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+
+  .pepek-nav-item {
+    animation: pepek-nav-arrival 480ms cubic-bezier(.22, 1, .36, 1) both;
+    animation-delay: calc(var(--nav-order, 0) * 55ms + 90ms);
+  }
+
+  .pepek-nav-item::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(105deg, transparent 28%, rgba(255,255,255,.13) 48%, transparent 68%);
+    transform: translateX(-125%);
+    transition: transform 620ms cubic-bezier(.22, 1, .36, 1);
+    pointer-events: none;
+  }
+
+  .pepek-nav-item:hover::before { transform: translateX(125%); }
+  .pepek-nav-line { transform: scaleX(0); transition: transform 300ms cubic-bezier(.22, 1, .36, 1); }
+  .pepek-nav-item:hover .pepek-nav-line { transform: scaleX(1); }
+  .pepek-nav-item.is-active .pepek-nav-line { background: #0C3D73; transform: scaleX(.72); }
+  .pepek-nav-item.is-active .pepek-nav-icon { animation: pepek-nav-active-float 2.8s ease-in-out infinite; }
+
+  .pepek-mobile-nav-item {
+    animation: fadeIn 360ms cubic-bezier(.22, 1, .36, 1) both;
+    animation-delay: calc(var(--nav-order, 0) * 45ms + 70ms);
+  }
+
   /* ── No-scrollbar utility ── */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

@@ -63,7 +63,15 @@
     "trustFast": "Fast process",
     "trustFastSub": "Response in minutes",
     "trustService": "Excellent service",
-    "trustServiceSub": "Attention to every detail"
+    "trustServiceSub": "Attention to every detail",
+    "featureSupportTitle": "24/7 service",
+    "featureSupportDetail": "Support available\n24 hours a day",
+    "featureFleetTitle": "Premium fleet",
+    "featureFleetDetail": "Modern, certified\nvehicles",
+    "featureDriversTitle": "Professional chauffeurs",
+    "featureDriversDetail": "Bilingual, trained\nand discreet",
+    "featureCoverageTitle": "National presence",
+    "featureCoverageDetail": "Luanda, Icolo e Bengo,\nLobito, Huambo and nationwide"
   },
   "booking": {
     "title": "Smart Booking & Fast Quote",
