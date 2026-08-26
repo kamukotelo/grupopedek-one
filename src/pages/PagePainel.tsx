@@ -18,7 +18,7 @@ export const PagePainel: React.FC = () => {
         <title>Painel de Gestão – PEPEK GRUPO</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <div className="min-h-screen bg-[#09172C] flex items-center justify-center pt-28">
+      <div className="min-h-screen bg-[#0C3D73] flex items-center justify-center pt-28">
         {!currentUser && (
           <div className="text-center text-white space-y-4 p-8">
             <h1 className="text-2xl font-bold">Área Reservada</h1>

@@ -81,7 +81,7 @@ export const RouteEstimator: React.FC = () => {
   const currentRoute = routes.find(r => r.id === selectedRouteId) || routes[0];
 
   return (
-    <section id="rotas" className="section-padding bg-gradient-to-b from-[#09172C] to-[#09172C] text-white relative overflow-hidden">
+    <section id="rotas" className="section-padding bg-gradient-to-b from-[#0C3D73] to-[#174B86] text-white relative overflow-hidden">
       {/* Background visual glow */}
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#FEC228]/10 rounded-full blur-3xl pointer-events-none" />
 

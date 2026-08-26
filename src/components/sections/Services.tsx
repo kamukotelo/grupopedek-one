@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, ChevronLeft, ChevronRight, Gauge, Luggage, ShieldCheck, Users } from 'lucide-react';
+import { ArrowRight, BriefcaseBusiness, Building2, CalendarCheck, ChevronLeft, ChevronRight, CircleGauge, Gauge, Luggage, Plane, ShieldCheck, Users } from 'lucide-react';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 
@@ -12,6 +12,14 @@ export const Services: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const activeVehicle = PUBLIC_FLEET[activeIndex];
+  const serviceItems = [
+    ['services.transferTitle', 'services.transferDesc', Plane, 'group-hover:-translate-y-2 group-hover:translate-x-2'],
+    ['services.executiveTitle', 'services.executiveDesc', BriefcaseBusiness, 'group-hover:-translate-y-2'],
+    ['services.corporateTitle', 'services.corporateDesc', Building2, 'group-hover:scale-110'],
+    ['services.eventsTitle', 'services.eventsDesc', CalendarCheck, 'group-hover:-translate-y-1 group-hover:rotate-6'],
+    ['services.chauffeurTitle', 'services.chauffeurDesc', CircleGauge, 'group-hover:rotate-12'],
+    ['services.securityTitle', 'services.securityDesc', ShieldCheck, 'group-hover:scale-110'],
+  ] as const;
 
   const selectVehicle = (index: number) => {
     const normalized = (index + PUBLIC_FLEET.length) % PUBLIC_FLEET.length;
@@ -41,6 +49,20 @@ export const Services: React.FC = () => {
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#555B64] sm:text-base">{t('servicesCarousel.description')}</p>
         </div>
 
+        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          {serviceItems.map(([title, description, Icon, motion], index) => (
+            <article key={title} className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white px-5 py-7 text-center shadow-[0_10px_28px_rgba(9,23,44,.05)] transition duration-300 hover:-translate-y-2 hover:border-[#FEC228] hover:shadow-[0_20px_38px_rgba(9,23,44,.12)]">
+              <span className="absolute right-3 top-2 text-[10px] font-extrabold text-[#236199]/25">0{index + 1}</span>
+              <div className="mx-auto flex h-20 items-center justify-center text-[#FEC228]">
+                <Icon className={`h-14 w-14 stroke-[1.7] transition-transform duration-500 ${motion}`} />
+              </div>
+              <h3 className="mt-3 text-base font-extrabold text-[#09172C]">{t(title)}</h3>
+              <p className="mt-3 text-xs leading-5 text-[#555B64]">{t(description)}</p>
+              <span className="mx-auto mt-5 block h-0.5 w-0 bg-[#FEC228] transition-all duration-500 group-hover:w-12" />
+            </article>
+          ))}
+        </div>
+
         <div
           className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_12px_32px_rgba(9,23,44,.06)] sm:p-6"
           onMouseEnter={() => setIsPaused(true)}
@@ -63,20 +85,26 @@ export const Services: React.FC = () => {
             {PUBLIC_FLEET.map((vehicle, index) => {
               const selected = index === activeIndex;
               return (
-                <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[190px] snap-center overflow-hidden rounded-xl border text-left transition-all sm:min-w-[230px] ${selected ? 'border-[#FEC228] bg-white shadow-[0_10px_28px_rgba(9,23,44,.12)]' : 'border-slate-200 bg-[#F5F6F6] hover:border-[#236199]/40'}`}>
+                <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[220px] snap-center overflow-hidden rounded-xl border text-left transition-all sm:min-w-[260px] ${selected ? 'border-[#FEC228] bg-[#174B86] shadow-[0_14px_30px_rgba(9,23,44,.2)]' : 'border-[#236199]/45 bg-[#0C3D73] hover:border-[#FEC228]/70 hover:bg-[#174B86]'}`}>
                   <div className="h-36 bg-cover bg-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
                     <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(9,23,44,.22)] transition-transform duration-500 group-hover:scale-105" />
                   </div>
-                  <div className="px-4 py-3 text-[#09172C]">
-                    <span className={`text-[9px] font-extrabold uppercase tracking-widest ${selected ? 'text-[#E4AD28]' : 'text-[#236199]'}`}>{vehicle.categoryLabel}</span>
-                    <strong className="mt-1 block truncate text-sm">{vehicle.name}</strong>
+                  <div className="px-4 pb-4 pt-3 text-white">
+                    <strong className="block truncate text-base font-extrabold">{vehicle.name}</strong>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      <span className="rounded bg-[#FEC228] px-2.5 py-1 text-[8px] font-extrabold uppercase tracking-wider text-[#09172C]">{vehicle.categoryLabel}</span>
+                      <span className="rounded border border-white/70 px-2.5 py-1 text-[8px] font-extrabold uppercase tracking-wider text-white">{vehicle.specs.transmission}</span>
+                    </div>
+                    <div className="mt-3 flex items-center gap-2 border-b border-white/35 pb-3 text-[10px] text-white/80"><Users className="h-3.5 w-3.5 text-[#FEC228]" />{vehicle.specs.passengers} {t('servicesCarousel.passengers')}</div>
+                    <span className="mt-3 block text-[9px] text-white/65">{t('fleet.from')}</span>
+                    <strong className="mt-0.5 block text-base font-extrabold text-[#FEC228]">{vehicle.pricePerDayFormatted} / {t('fleet.day')}</strong>
                   </div>
                 </button>
               );
             })}
           </div>
 
-          <div className="mt-4 grid overflow-hidden rounded-2xl border border-white/10 bg-[#0C2E60] lg:grid-cols-[1.05fr_.95fr]">
+          <div className="mt-4 grid overflow-hidden rounded-2xl border border-white/10 bg-[#0C3D73] lg:grid-cols-[1.05fr_.95fr]">
             <div className="relative min-h-[300px] bg-cover bg-center p-8 sm:p-10" style={{ backgroundImage: `url('${getVehicleStudioBackground(activeVehicle)}')` }}>
               <img key={activeVehicle.id} src={activeVehicle.primaryImage} alt={activeVehicle.name} decoding="async" className="h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(9,23,44,.45)] animate-fadeIn" />
             </div>

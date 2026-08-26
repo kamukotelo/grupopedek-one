@@ -42,7 +42,7 @@ export const FleetShowcase: React.FC = () => {
   return (
     <section
       id="frota-destaque"
-      className="relative overflow-hidden bg-[#0C2E60] py-16 text-white sm:py-20"
+      className="relative overflow-hidden bg-[#0C3D73] py-16 text-white sm:py-20"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}

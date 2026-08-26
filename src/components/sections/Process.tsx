@@ -27,7 +27,7 @@ export const Process: React.FC = () => {
   ];
 
   return (
-    <section id="como-funciona" className="section-padding relative bg-[#09172C] text-white">
+    <section id="como-funciona" className="section-padding relative bg-[#0C3D73] text-white">
       <div className="container-pepek">
         <div className="max-w-3xl mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-semibold text-[#8899BB] uppercase tracking-widest mb-4">

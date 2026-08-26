@@ -17,7 +17,7 @@ export const MobileQuickBar: React.FC = () => {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-30 border-t border-white/10 bg-[#09172C]/95 shadow-2xl backdrop-blur-xl lg:hidden"
+      className="fixed bottom-0 left-0 right-0 z-30 border-t border-white/15 bg-[#0C3D73]/95 shadow-2xl backdrop-blur-xl lg:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
       <div className="flex items-center justify-between gap-2 px-4 py-2.5">

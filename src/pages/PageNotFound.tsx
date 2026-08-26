@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 export const PageNotFound: React.FC = () => {
   const { t } = useTranslation();
   return (
-  <section className="flex min-h-[75vh] items-center bg-[#09172C] px-6 pb-20 pt-40 text-white">
+  <section className="flex min-h-[75vh] items-center bg-[#0C3D73] px-6 pb-20 pt-40 text-white">
     <Helmet>
       <title>{t('notFound.metaTitle')} | PEPEK GRUPO</title>
       <meta name="robots" content="noindex, nofollow" />

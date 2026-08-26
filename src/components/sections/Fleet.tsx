@@ -135,7 +135,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   };
 
   return (
-    <section id="frota" className="section-padding relative bg-[#0C2E60] text-white">
+    <section id="frota" className="section-padding relative bg-[#0C3D73] text-white">
       <div className="container-pepek">
         {/* ═══════════════════════════════════════════════════════
             SECTION HEADER
@@ -149,7 +149,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
             Conheça a Nossa Frota de Alto Padrão
           </h2>
           <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-            Coleção oficial dos flyers PEPEK 2026, com 46 viaturas, imagens autorizadas e tarifas Full Day e Transfer.
+            Coleção oficial PEPEK 2026 com {versionedFleet.length} viaturas, imagens autorizadas e tarifas Full Day e Transfer.
           </p>
         </div>
 

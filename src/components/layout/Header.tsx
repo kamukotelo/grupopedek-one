@@ -93,7 +93,7 @@ export const Header: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="grid h-10 w-10 place-items-center rounded-lg bg-[#09172C] text-white"
+              className="grid h-10 w-10 place-items-center rounded-lg bg-[#0C3D73] text-white"
               aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={mobileMenuOpen}
             >
@@ -103,18 +103,18 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      <div className="hidden bg-[#09172C] text-white lg:block">
+      <div className="hidden bg-[#0C3D73] text-white lg:block">
         <nav className="container-pepek flex h-12 items-stretch justify-center" aria-label="Navegação principal">
           {navLinks.map(({ to, label, icon: Icon }) => {
             const active = location.pathname === to;
-            const classes = `group flex flex-1 items-center justify-center gap-2 border-l border-white/10 px-3 text-[11px] font-extrabold uppercase tracking-[0.08em] transition-colors last:border-r ${active ? 'bg-[#FEC228] text-[#09172C]' : 'text-slate-200 hover:bg-white/5 hover:text-[#FEC228]'}`;
+            const classes = `group flex flex-1 items-center justify-center gap-2 border-l border-white/10 px-3 text-[11px] font-extrabold uppercase tracking-[0.08em] transition-colors last:border-r ${active ? 'bg-[#FEC228] text-[#0C3D73]' : 'text-white/90 hover:bg-white/10 hover:text-[#FEC228]'}`;
             return <Link key={label} to={to} className={classes}><Icon className="h-4 w-4 shrink-0" /><span className="whitespace-nowrap">{label}</span></Link>;
           })}
         </nav>
       </div>
 
       {mobileMenuOpen && (
-        <div className="fixed inset-x-0 bottom-0 top-[76px] overflow-y-auto bg-[#09172C] p-5 text-white lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 top-[76px] overflow-y-auto bg-[#0C3D73] p-5 text-white lg:hidden">
           <div className="mb-5 grid grid-cols-3 gap-2 border-b border-white/10 pb-5">
             {topActions.map(({ label, icon: Icon, action }) => (
               <button

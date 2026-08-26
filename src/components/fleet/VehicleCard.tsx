@@ -68,7 +68,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-[#E2E8F0] bg-white overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#FEC228]/70 transition-all duration-300 flex flex-col justify-between group">
+    <div className="rounded-2xl border border-[#236199]/55 bg-[#174B86] overflow-hidden shadow-sm hover:-translate-y-1 hover:shadow-2xl hover:border-[#FEC228]/80 transition-all duration-300 flex flex-col justify-between group">
       {/* ═══════════════════════════════════════════════════════
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
@@ -140,7 +140,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
       {/* ═══════════════════════════════════════════════════════
           CARD CONTENT & SPECIFICATIONS
          ═══════════════════════════════════════════════════════ */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-white">
+      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-[#174B86] text-white">
         <div>
           {/* Header Title inside Content Area */}
           <div className="mb-3">
@@ -150,51 +150,51 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
                 {vehicle.categoryLabel}
               </span>
             </div>
-            <h3 className="text-lg sm:text-xl font-extrabold text-[#09172C] leading-snug">
+            <h3 className="text-lg sm:text-xl font-extrabold text-white leading-snug">
               {vehicle.name}
             </h3>
           </div>
 
           {/* Price & Location Tag */}
-          <div className="flex items-center justify-between mb-4 pb-3.5 border-b border-[#E2E8F0]">
+          <div className="flex items-center justify-between mb-4 pb-3.5 border-b border-white/35">
             <div>
-              <div className="flex items-center gap-1.5 text-[11px] text-[#236199] font-semibold">
-                <MapPin className="w-3.5 h-3.5 text-[#09172C]" />
+              <div className="flex items-center gap-1.5 text-[11px] text-white/85 font-semibold">
+                <MapPin className="w-3.5 h-3.5 text-[#FEC228]" />
                 <span>Despacho em Talatona & Luanda</span>
               </div>
-              <p className="text-[11px] text-[#555B64] mt-0.5 font-medium">
+              <p className="text-[11px] text-white/55 mt-0.5 font-medium">
                 {vehicle.brand} · {vehicle.model}
               </p>
             </div>
             <div className="text-right">
-              <span className="text-lg sm:text-xl font-extrabold text-[#09172C] block leading-tight">
+              <span className="text-lg sm:text-xl font-extrabold text-[#FEC228] block leading-tight">
                 {vehicle.pricePerDayFormatted}
               </span>
-              <span className="text-[10px] text-[#555B64] font-semibold uppercase tracking-wider block">
+              <span className="text-[10px] text-white/60 font-semibold uppercase tracking-wider block">
                 {isFlyerCollection ? 'Full Day' : 'por dia'}
               </span>
               {vehicle.transferPriceFormatted && (
-                <span className="text-[10px] text-[#236199] font-bold block mt-1">
+                <span className="text-[10px] text-white font-bold block mt-1">
                   Transfer: {vehicle.transferPriceFormatted}
                 </span>
               )}
             </div>
           </div>
 
-          <p className="text-xs text-[#555B64] mb-4 leading-relaxed line-clamp-2">
+          <p className="text-xs text-white/70 mb-4 leading-relaxed line-clamp-2">
             {vehicle.description}
           </p>
 
           {/* ═══════════════════════════════════════════════════════
               5 GOLD LINEAR ICONS INSIDE NAVY CIRCLES
              ═══════════════════════════════════════════════════════ */}
-          <div className="grid grid-cols-5 gap-1.5 py-3 px-2 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0] mb-4 text-center">
+          <div className="grid grid-cols-5 gap-1.5 py-3 px-2 rounded-2xl bg-[#0C3D73] border border-white/15 mb-4 text-center">
             {/* 1. Passageiros */}
             <div className="flex flex-col items-center gap-1" title="Capacidade de passageiros">
               <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
                 <Users className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#09172C]">{vehicle.specs.passengers} Pass.</span>
+              <span className="text-[10px] font-bold text-white">{vehicle.specs.passengers} Pass.</span>
             </div>
 
             {/* 2. Portas */}
@@ -202,7 +202,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
                 <DoorClosed className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#09172C]">{vehicle.specs.doors} Portas</span>
+              <span className="text-[10px] font-bold text-white">{vehicle.specs.doors} Portas</span>
             </div>
 
             {/* 3. Transmissão */}
@@ -210,7 +210,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
                 <Settings2 className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#09172C] truncate max-w-[50px]">{vehicle.specs.transmission.split(' ')[0]}</span>
+              <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{vehicle.specs.transmission.split(' ')[0]}</span>
             </div>
 
             {/* 4. Combustível */}
@@ -218,7 +218,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
                 <Fuel className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#09172C] truncate max-w-[50px]">{vehicle.specs.fuelType.split(' ')[0]}</span>
+              <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{vehicle.specs.fuelType.split(' ')[0]}</span>
             </div>
 
             {/* 5. Depósito / Tracção */}
@@ -226,15 +226,15 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
                 <Gauge className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#09172C] truncate max-w-[50px]">
+              <span className="text-[10px] font-bold text-white truncate max-w-[50px]">
                 {vehicle.specs.tankCapacity || vehicle.specs.traction?.split(' ')[0] || '4x4'}
               </span>
             </div>
           </div>
 
           {/* Quick Value Badge */}
-          <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-xl bg-[#FEC228]/60 border border-[#E4AD28]/60 text-[11px] text-[#09172C]">
-            <ShieldCheck className="w-4 h-4 text-[#FEC228] shrink-0" />
+          <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-xl bg-[#FEC228] border border-[#E4AD28] text-[11px] text-[#09172C]">
+            <ShieldCheck className="w-4 h-4 text-[#09172C] shrink-0" />
             <span className="font-medium">Seguro Total VIP · Motorista Opcional · Apoio 24h</span>
           </div>
         </div>
@@ -248,9 +248,9 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             <button
               type="button"
               onClick={() => onInspect(vehicle)}
-              className="py-2.5 px-2 rounded-xl border border-[#E2E8F0] hover:border-[#09172C] text-[#09172C] hover:bg-[#F5F6F6] text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-white"
+              className="py-2.5 px-2 rounded-xl border border-white/40 hover:border-[#FEC228] text-white hover:bg-white/10 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-transparent"
             >
-              <Eye className="w-3.5 h-3.5 text-[#09172C]" />
+              <Eye className="w-3.5 h-3.5 text-[#FEC228]" />
               <span className="hidden sm:inline">Ver detalhes</span>
               <span className="sm:hidden">Detalhes</span>
             </button>

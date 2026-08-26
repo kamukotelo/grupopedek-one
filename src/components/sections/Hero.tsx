@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, CalendarDays, MapPin } from 'lucide-react';
+import { ShieldCheck, ChevronRight, ChevronLeft, Award, Building2, Clock, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
@@ -13,6 +13,31 @@ export const Hero: React.FC = () => {
   const luxuryVehicles = PUBLIC_FLEET
     .filter((vehicle) => ['rangerover-blindado-2025', 'mercedes-class-s-2025', 'lexus-600', 'toyota-lc300-2023'].includes(vehicle.id))
     .map((vehicle) => ({ name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted }));
+
+  const clientLogos = [
+    { name: 'Sonangol', src: '/clients-color/sonangol.png' },
+    { name: 'TotalEnergies', src: '/clients-color/totalenergies.webp' },
+    { name: 'Unitel', src: '/clients-color/unitel.svg' },
+    { name: 'BAI', src: '/clients-color/bai.svg' },
+    { name: 'Governo de Angola', src: '/clients-color/governo-angola.png' },
+    { name: 'Fundo de Garantia de Crédito', src: '/clients-color/fgc.png' },
+    { name: 'Embaixada Americana', src: '/clients-color/embassy.png' },
+    { name: 'Assembleia Nacional', src: '/clients-color/assembleia.png' },
+    { name: 'ANPG Petróleos', src: '/clients-color/anpg.png' },
+    { name: 'TAAG Linhas Aéreas', src: '/clients-color/taag.png' },
+    { name: 'Banco BFA', src: '/clients-color/bai.svg' },
+    { name: 'Banco Atlântico', src: '/clients-color/atlantico.png' },
+    { name: 'Standard Bank', src: '/clients-color/standard.png' },
+    { name: 'UNICEF Angola', src: '/clients-color/unicef.png' },
+    { name: 'Fidelidade Seguros', src: '/clients-color/fidelidade.png' },
+    { name: 'DSTV MultiChoice', src: '/clients-color/dstv.png' },
+    { name: 'ZAP Angola', src: '/clients-color/zap.png' },
+    { name: 'Catoca Diamantes', src: '/clients-color/catoca.png' },
+    { name: 'Rede Globo', src: '/clients-color/globo.png' },
+    { name: 'CNN Brasil', src: '/clients-color/cnn.png' },
+  ];
+  const slides = Array.from({ length: Math.ceil(clientLogos.length / 5) }, (_, index) => clientLogos.slice(index * 5, index * 5 + 5));
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const [currentLuxury, setCurrentLuxury] = useState(0);
   const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
@@ -40,6 +65,12 @@ export const Hero: React.FC = () => {
   const filteredLocations = (value: string) => locationSuggestions.filter((location) =>
     !value.trim() || location.toLocaleLowerCase('pt').includes(value.toLocaleLowerCase('pt'))
   ).slice(0, 6);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => setCurrentSlide((current) => (current + 1) % slides.length), 7000);
+    return () => window.clearInterval(timer);
+  }, [slides.length]);
 
   useEffect(() => {
     if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -78,7 +109,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="inicio" className="relative bg-[#09172C] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
+    <section id="inicio" className="relative bg-[#0C3D73] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
       {/* Cinematic Background Image with Dark Vignette */}
       <div className="absolute inset-0 z-0">
         <img
@@ -86,7 +117,7 @@ export const Hero: React.FC = () => {
           alt="PEPEK Frota Executiva Luanda"
           className="w-full h-full object-cover object-center filter brightness-[0.24] contrast-[1.25] scale-105 animate-[pulse_10s_ease-in-out_infinite]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#09172C] via-[#09172C]/75 to-[#09172C]/90" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0C3D73] via-[#0C3D73]/78 to-[#174B86]/90" />
         {/* Subtle Radial Glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#236199]/20 rounded-full blur-[160px] pointer-events-none" />
       </div>
@@ -226,18 +257,25 @@ export const Hero: React.FC = () => {
           </aside>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════
-            TOP CLIENT LOGOS — Frameless, Prominent, 5 by 5
-            No Heavy Box Outlines · Pure White Glow & Scale Hover
-           ═══════════════════════════════════════════════════════ */}
-        <div className="mt-6 overflow-hidden rounded-2xl bg-white">
-          <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <img
-              src="/clients-original/client-strip-original.png"
-              alt={t('clients.title')}
-              className="h-auto min-w-[920px] object-contain sm:min-w-full"
-              loading="lazy"
-            />
+        {/* Client logos use one continuous light stage so every official colourway
+            remains legible without introducing individual logo cards. */}
+        <div className="mt-6 rounded-2xl bg-white px-5 py-5 shadow-[0_18px_45px_rgba(4,16,38,0.24)] sm:px-8">
+          <div className="mb-3 flex items-center justify-between gap-4">
+            <p className="flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#236199]">
+              <Sparkles className="h-3.5 w-3.5 text-[#E4AD28]" />
+              <span>{t('clients.title')}</span>
+            </p>
+          </div>
+          <div className="relative min-h-[120px] overflow-hidden">
+            {slides.map((group, slideIndex) => (
+              <div key={slideIndex} className={`grid grid-cols-2 items-center justify-items-center gap-6 transition-all duration-700 ease-out sm:grid-cols-3 sm:gap-10 md:grid-cols-5 ${currentSlide === slideIndex ? 'relative translate-x-0 opacity-100' : 'pointer-events-none absolute inset-0 translate-x-16 opacity-0'}`}>
+                {group.map((client) => (
+                  <div key={client.name} className="group flex h-24 w-full items-center justify-center p-3 sm:h-28">
+                    <img src={client.src} alt={client.name} className="h-16 w-full max-w-[170px] object-contain drop-shadow-[0_4px_9px_rgba(9,23,44,.16)] transition-transform duration-300 group-hover:scale-110 sm:h-20 sm:max-w-[200px]" loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>

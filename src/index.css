@@ -2,13 +2,13 @@
 
 /* ═══════════════════════════════════════════════
    PEPEK GRUPO — Design System harmonizado com a proposta institucional
-   Paleta: Azul profundo #09172C | Azul PEPEK #0C2E60 | Amarelo #FEC228
+   Paleta: Azul profundo #09172C | Azul institucional #0C3D73 | Amarelo #FEC228
    ═══════════════════════════════════════════════ */
 
 @layer base {
   :root {
     --navy: #09172C;
-    --navy-light: #0C2E60;
+    --navy-light: #0C3D73;
     --navy-dark: #061225;
     --royal: #236199;
     --royal-light: #2F73AD;
@@ -160,7 +160,7 @@
   overflow: hidden;
   pointer-events: none;
   user-select: none;
-  background: radial-gradient(circle at 50% 48%, #236199 0, #0C2E60 30%, #09172C 72%);
+  background: radial-gradient(circle at 50% 48%, #236199 0, #174B86 36%, #0C3D73 76%);
   transition: background-color .6s ease, opacity .55s ease;
 }
 
@@ -227,7 +227,7 @@
   transition: opacity .18s ease;
 }
 
-.pepek-intro--departing { background: rgba(9, 23, 44, 0); }
+.pepek-intro--departing { background: rgba(12, 61, 115, 0); }
 .pepek-intro--departing .pepek-intro__grid,
 .pepek-intro--departing .pepek-intro__horizon,
 .pepek-intro--departing .pepek-intro__speed-lines,

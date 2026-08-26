@@ -49,7 +49,7 @@ export const Contact: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column: Direct Info & Channels */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-8 rounded-2xl bg-[#09172C] text-white space-y-6">
+            <div className="p-8 rounded-2xl bg-[#0C3D73] text-white space-y-6">
               <h3 className="text-xl font-bold text-white mb-2">
                 Central de Atendimento 24/7
               </h3>
