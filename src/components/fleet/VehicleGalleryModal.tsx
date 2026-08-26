@@ -41,7 +41,6 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAutoPaused, setIsAutoPaused] = useState(false);
-  const [catalogGallery, setCatalogGallery] = useState<VehicleDetail['gallery']>([]);
   const touchStartX = useRef<number | null>(null);
   const isFlyerCollection = vehicle?.visualCollection === 'flyer';
   const upgradeGallery = vehicle && !isFlyerCollection ? FLEET_UPGRADE_GALLERY[vehicle.id] ?? [] : [];
@@ -51,7 +50,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
     : [];
   // A pesquisa externa permanece apenas no acervo de apoio. A frota pública
   // aceita somente material próprio/local ou produzido para este projeto.
-  const publicGallery = upgradeGallery.length ? upgradeGallery : catalogGallery.length ? catalogGallery : originalLocalGallery;
+  const publicGallery = upgradeGallery.length ? upgradeGallery : originalLocalGallery;
   const verifiedGallery = (publicGallery.length ? publicGallery : [{
     url: FLEET_IMAGE_REVIEW_PLACEHOLDER,
     caption: 'Imagens desta viatura em revisão',
@@ -69,40 +68,6 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
     setActiveImageIdx(0);
     setIsFullscreen(false);
   }, [vehicle]);
-
-  // The review catalogue is the single source of truth for researched images.
-  // It is loaded on demand so the main fleet bundle remains fast.
-  useEffect(() => {
-    let cancelled = false;
-    setCatalogGallery([]);
-    if (!vehicle || upgradeGallery.length) return;
-
-    fetch('/fleet-carousel/manifest.json')
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error('Manifest unavailable')))
-      .then((manifest) => {
-        const images = manifest?.vehicles?.[vehicle.id]?.images;
-        if (cancelled || !Array.isArray(images)) return;
-        setCatalogGallery(images.map((image: { file: string; label?: string }, index: number) => {
-          const source = `${image.file ?? ''}`;
-          const normalized = `${image.label ?? ''} ${source}`.toLowerCase();
-          const type: VehicleDetail['gallery'][number]['type'] = normalized.includes('interior')
-            ? 'interior'
-            : normalized.includes('rear') || normalized.includes('traseira') || normalized.includes('side') || normalized.includes('lateral')
-              ? 'exterior_side'
-              : 'exterior_front';
-          const fallbackCaptions = ['Vista exterior principal', 'Vista traseira', 'Vista lateral', 'Cockpit e painel', 'Interior de passageiros'];
-          return {
-            url: source,
-            caption: image.label || fallbackCaptions[index] || `Vista ${index + 1}`,
-            altText: `${vehicle.name} — ${image.label || fallbackCaptions[index] || `vista ${index + 1}`}`,
-            type
-          };
-        }));
-      })
-      .catch(() => undefined);
-
-    return () => { cancelled = true; };
-  }, [vehicle, upgradeGallery.length]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -130,8 +95,6 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   }, [vehicle, verifiedGallery.length, isAutoPaused]);
 
   if (!vehicle) return null;
-
-  const currentImg = verifiedGallery[activeImageIdx] || verifiedGallery[0];
 
   const handleNext = (e?: React.MouseEvent) => {
     e?.stopPropagation();
