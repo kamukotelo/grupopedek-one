@@ -75,13 +75,13 @@ export const Contact: React.FC = () => {
                   href={generateQuickWhatsAppUrl('Atendimento Geral')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 hover:bg-[#25D366]/20 transition-colors"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-[#236199]/10 border border-[#236199]/30 hover:bg-[#236199]/20 transition-colors"
                 >
-                  <div className="p-2.5 rounded-lg bg-[#25D366] text-white">
+                  <div className="p-2.5 rounded-lg bg-[#236199] text-white">
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs text-emerald-300 block">WhatsApp Executivo</span>
+                    <span className="text-xs text-[#236199] block">WhatsApp Executivo</span>
                     <span className="text-sm font-bold text-white">+244 923 719 090</span>
                   </div>
                 </a>
@@ -195,14 +195,14 @@ export const Contact: React.FC = () => {
                 </button>
 
                 {submitError && (
-                  <div role="alert" className="p-3 bg-red-50 text-red-800 rounded-lg text-xs">
+                  <div role="alert" className="p-3 bg-[#FEC228] text-[#E4AD28] rounded-lg text-xs">
                     {submitError} Pode contactar-nos diretamente pelo WhatsApp ou telefone.
                   </div>
                 )}
 
                 {sent && (
-                  <div className="p-3 bg-green-50 text-green-800 rounded-lg text-xs flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                  <div className="p-3 bg-[#236199] text-[#236199] rounded-lg text-xs flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#236199]" />
                     <span>Mensagem registada e canal WhatsApp aberto com a nossa central!</span>
                   </div>
                 )}

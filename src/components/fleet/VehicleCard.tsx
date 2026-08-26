@@ -68,13 +68,13 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   };
 
   return (
-    <div className="rounded-3xl border border-[#D9DEE7] bg-white overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#D2A820]/70 transition-all duration-300 flex flex-col justify-between group">
+    <div className="rounded-2xl border border-[#E2E8F0] bg-white overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#FEC228]/70 transition-all duration-300 flex flex-col justify-between group">
       {/* ═══════════════════════════════════════════════════════
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
         style={!upgradeCover ? { backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` } : undefined}
-        className="relative aspect-4/3 overflow-hidden bg-[#07133F] bg-cover bg-center border-b border-[#D9DEE7] cursor-pointer select-none"
+        className="relative aspect-4/3 overflow-hidden bg-[#09172C] bg-cover bg-center border-b border-[#E2E8F0] cursor-pointer select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onInspect(vehicle)}
@@ -84,7 +84,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           src={studioImage}
           alt={vehicle.name}
           className={`absolute inset-0 w-full h-full object-center transition-all duration-500 ease-out group-hover:scale-[1.025] ${
-            upgradeCover ? 'object-cover' : 'object-contain p-8 sm:p-10 drop-shadow-[0_18px_16px_rgba(0,0,0,0.45)]'
+            upgradeCover ? 'object-cover' : 'object-contain p-8 sm:p-10 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)]'
           } ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
@@ -107,31 +107,31 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
         <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 pointer-events-none z-10">
           <div className="flex flex-wrap items-center gap-1.5">
             {vehicle.badge && (
-              <span className="px-3 py-1 rounded-full bg-[#07133F] text-[#D2A820] border border-[#D2A820]/30 text-[10.5px] font-black uppercase tracking-wider shadow-sm">
+              <span className="px-3 py-1 rounded-full bg-[#09172C] text-[#FEC228] border border-[#FEC228]/30 text-[10.5px] font-extrabold uppercase tracking-wider shadow-sm">
                 {vehicle.badge}
               </span>
             )}
             {upgradeCover && (
-              <span className="px-2.5 py-1 rounded-full bg-[#D2A820] text-[#07133F] text-[10px] font-black uppercase tracking-wider shadow-sm">
+              <span className="px-2.5 py-1 rounded-full bg-[#FEC228] text-[#09172C] text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
                 Nova apresentação
               </span>
             )}
-            <span className="px-2.5 py-1 rounded-full bg-[#1E8E5A] text-white text-[10px] font-bold shadow-xs">
+            <span className="px-2.5 py-1 rounded-full bg-[#236199] text-white text-[10px] font-bold shadow-xs">
               {vehicle.availabilityTag || 'Disponível'}
             </span>
           </div>
 
           {/* Photo Count Chip */}
-          <span className="px-2.5 py-1 rounded-full bg-[#07133F]/80 text-[#D2A820] text-[10px] font-bold backdrop-blur-md border border-white/10 flex items-center gap-1 shadow-sm">
-            <Camera className="w-3 h-3 text-[#D2A820]" />
+          <span className="px-2.5 py-1 rounded-full bg-[#09172C]/80 text-[#FEC228] text-[10px] font-bold backdrop-blur-md border border-white/10 flex items-center gap-1 shadow-sm">
+            <Camera className="w-3 h-3 text-[#FEC228]" />
             <span>{verifiedPhotoCount ? `${verifiedPhotoCount} ${verifiedPhotoCount === 1 ? 'Foto' : 'Fotos'}` : 'Imagens em revisão'}</span>
           </span>
         </div>
 
         {/* Quick View Button Overlay on Hover */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/15">
-          <span className="px-4 py-2 rounded-full bg-[#07133F] text-[#D2A820] font-black text-xs border border-[#D2A820] shadow-xl flex items-center gap-1.5 tracking-wide">
-            <Eye className="w-4 h-4 text-[#D2A820]" />
+          <span className="px-4 py-2 rounded-full bg-[#09172C] text-[#FEC228] font-extrabold text-xs border border-[#FEC228] shadow-xl flex items-center gap-1.5 tracking-wide">
+            <Eye className="w-4 h-4 text-[#FEC228]" />
             <span>Ver Ficha Técnica Completa</span>
           </span>
         </div>
@@ -145,96 +145,96 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           {/* Header Title inside Content Area */}
           <div className="mb-3">
             <div className="flex items-center gap-1.5 mb-1">
-              <Sparkles className="w-3.5 h-3.5 text-[#D2A820]" />
-              <span className="text-[10.5px] font-black uppercase tracking-widest text-[#D2A820]">
+              <Sparkles className="w-3.5 h-3.5 text-[#FEC228]" />
+              <span className="text-[10.5px] font-extrabold uppercase tracking-widest text-[#FEC228]">
                 {vehicle.categoryLabel}
               </span>
             </div>
-            <h3 className="text-lg sm:text-xl font-black text-[#07133F] leading-snug">
+            <h3 className="text-lg sm:text-xl font-extrabold text-[#09172C] leading-snug">
               {vehicle.name}
             </h3>
           </div>
 
           {/* Price & Location Tag */}
-          <div className="flex items-center justify-between mb-4 pb-3.5 border-b border-[#D9DEE7]">
+          <div className="flex items-center justify-between mb-4 pb-3.5 border-b border-[#E2E8F0]">
             <div>
-              <div className="flex items-center gap-1.5 text-[11px] text-[#1E8E5A] font-semibold">
-                <MapPin className="w-3.5 h-3.5 text-[#07133F]" />
+              <div className="flex items-center gap-1.5 text-[11px] text-[#236199] font-semibold">
+                <MapPin className="w-3.5 h-3.5 text-[#09172C]" />
                 <span>Despacho em Talatona & Luanda</span>
               </div>
-              <p className="text-[11px] text-[#697080] mt-0.5 font-medium">
+              <p className="text-[11px] text-[#555B64] mt-0.5 font-medium">
                 {vehicle.brand} · {vehicle.model}
               </p>
             </div>
             <div className="text-right">
-              <span className="text-lg sm:text-xl font-black text-[#07133F] block leading-tight">
+              <span className="text-lg sm:text-xl font-extrabold text-[#09172C] block leading-tight">
                 {vehicle.pricePerDayFormatted}
               </span>
-              <span className="text-[10px] text-[#697080] font-semibold uppercase tracking-wider block">
+              <span className="text-[10px] text-[#555B64] font-semibold uppercase tracking-wider block">
                 {isFlyerCollection ? 'Full Day' : 'por dia'}
               </span>
               {vehicle.transferPriceFormatted && (
-                <span className="text-[10px] text-[#1E8E5A] font-bold block mt-1">
+                <span className="text-[10px] text-[#236199] font-bold block mt-1">
                   Transfer: {vehicle.transferPriceFormatted}
                 </span>
               )}
             </div>
           </div>
 
-          <p className="text-xs text-[#697080] mb-4 leading-relaxed line-clamp-2">
+          <p className="text-xs text-[#555B64] mb-4 leading-relaxed line-clamp-2">
             {vehicle.description}
           </p>
 
           {/* ═══════════════════════════════════════════════════════
               5 GOLD LINEAR ICONS INSIDE NAVY CIRCLES
              ═══════════════════════════════════════════════════════ */}
-          <div className="grid grid-cols-5 gap-1.5 py-3 px-2 rounded-2xl bg-[#F3F5F8] border border-[#D9DEE7] mb-4 text-center">
+          <div className="grid grid-cols-5 gap-1.5 py-3 px-2 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0] mb-4 text-center">
             {/* 1. Passageiros */}
             <div className="flex flex-col items-center gap-1" title="Capacidade de passageiros">
-              <div className="w-8 h-8 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                <Users className="w-4 h-4 text-[#D2A820]" />
+              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                <Users className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#07133F]">{vehicle.specs.passengers} Pass.</span>
+              <span className="text-[10px] font-bold text-[#09172C]">{vehicle.specs.passengers} Pass.</span>
             </div>
 
             {/* 2. Portas */}
             <div className="flex flex-col items-center gap-1" title="Número de portas">
-              <div className="w-8 h-8 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                <DoorClosed className="w-4 h-4 text-[#D2A820]" />
+              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                <DoorClosed className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#07133F]">{vehicle.specs.doors} Portas</span>
+              <span className="text-[10px] font-bold text-[#09172C]">{vehicle.specs.doors} Portas</span>
             </div>
 
             {/* 3. Transmissão */}
             <div className="flex flex-col items-center gap-1" title="Transmissão">
-              <div className="w-8 h-8 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                <Settings2 className="w-4 h-4 text-[#D2A820]" />
+              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                <Settings2 className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#07133F] truncate max-w-[50px]">{vehicle.specs.transmission.split(' ')[0]}</span>
+              <span className="text-[10px] font-bold text-[#09172C] truncate max-w-[50px]">{vehicle.specs.transmission.split(' ')[0]}</span>
             </div>
 
             {/* 4. Combustível */}
             <div className="flex flex-col items-center gap-1" title="Tipo de combustível">
-              <div className="w-8 h-8 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                <Fuel className="w-4 h-4 text-[#D2A820]" />
+              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                <Fuel className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#07133F] truncate max-w-[50px]">{vehicle.specs.fuelType.split(' ')[0]}</span>
+              <span className="text-[10px] font-bold text-[#09172C] truncate max-w-[50px]">{vehicle.specs.fuelType.split(' ')[0]}</span>
             </div>
 
             {/* 5. Depósito / Tracção */}
             <div className="flex flex-col items-center gap-1" title={vehicle.specs.tankCapacity ? `Depósito: ${vehicle.specs.tankCapacity}` : 'Tracção'}>
-              <div className="w-8 h-8 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                <Gauge className="w-4 h-4 text-[#D2A820]" />
+              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                <Gauge className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-[#07133F] truncate max-w-[50px]">
+              <span className="text-[10px] font-bold text-[#09172C] truncate max-w-[50px]">
                 {vehicle.specs.tankCapacity || vehicle.specs.traction?.split(' ')[0] || '4x4'}
               </span>
             </div>
           </div>
 
           {/* Quick Value Badge */}
-          <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-xl bg-amber-50/60 border border-amber-200/60 text-[11px] text-[#07133F]">
-            <ShieldCheck className="w-4 h-4 text-[#D2A820] shrink-0" />
+          <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-xl bg-[#FEC228]/60 border border-[#E4AD28]/60 text-[11px] text-[#09172C]">
+            <ShieldCheck className="w-4 h-4 text-[#FEC228] shrink-0" />
             <span className="font-medium">Seguro Total VIP · Motorista Opcional · Apoio 24h</span>
           </div>
         </div>
@@ -248,9 +248,9 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             <button
               type="button"
               onClick={() => onInspect(vehicle)}
-              className="py-2.5 px-2 rounded-xl border border-[#D9DEE7] hover:border-[#07133F] text-[#07133F] hover:bg-[#F3F5F8] text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-white"
+              className="py-2.5 px-2 rounded-xl border border-[#E2E8F0] hover:border-[#09172C] text-[#09172C] hover:bg-[#F5F6F6] text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-white"
             >
-              <Eye className="w-3.5 h-3.5 text-[#07133F]" />
+              <Eye className="w-3.5 h-3.5 text-[#09172C]" />
               <span className="hidden sm:inline">Ver detalhes</span>
               <span className="sm:hidden">Detalhes</span>
             </button>
@@ -259,7 +259,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             <button
               type="button"
               onClick={handleWhatsAppInquiry}
-              className="py-2.5 px-2 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs"
+              className="py-2.5 px-2 rounded-xl bg-[#236199] hover:bg-[#0C2E60] text-white text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs"
               title="Consultar no WhatsApp oficial da Central"
             >
               <MessageSquareText className="w-3.5 h-3.5" />
@@ -270,10 +270,10 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             <button
               type="button"
               onClick={handleBookingClick}
-              className={`text-xs font-black py-2.5 px-2 rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-all shadow-md ${
+              className={`text-xs font-extrabold py-2.5 px-2 rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-all shadow-md ${
                 justBookedFeedback
-                  ? 'bg-[#1E8E5A] text-white'
-                  : 'bg-[#D2A820] hover:bg-[#E1BB38] text-[#020A2A]'
+                  ? 'bg-[#236199] text-white'
+                  : 'bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C]'
               }`}
             >
               {justBookedFeedback ? (
@@ -283,7 +283,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
                 </>
               ) : (
                 <>
-                  <Calendar className="w-3.5 h-3.5 text-[#020A2A]" />
+                  <Calendar className="w-3.5 h-3.5 text-[#09172C]" />
                   <span className="hidden sm:inline">Reservar agora</span>
                   <span className="sm:hidden">Reservar</span>
                 </>
@@ -297,13 +297,13 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             onClick={() => onToggleCompare(vehicle)}
             className={`w-full py-1.5 px-3 rounded-xl text-[11px] font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer border ${
               isCompared
-                ? 'bg-amber-50 border-[#D2A820] text-[#020A2A] font-bold'
-                : 'bg-[#F3F5F8] border-[#D9DEE7] text-[#697080] hover:bg-gray-100 hover:text-[#07133F]'
+                ? 'bg-[#FEC228] border-[#FEC228] text-[#09172C] font-bold'
+                : 'bg-[#F5F6F6] border-[#E2E8F0] text-[#555B64] hover:bg-gray-100 hover:text-[#09172C]'
             }`}
           >
             {isCompared ? (
               <>
-                <Check className="w-3 h-3 text-[#D2A820]" />
+                <Check className="w-3 h-3 text-[#FEC228]" />
                 <span>Na Lista de Comparação (Remover)</span>
               </>
             ) : (

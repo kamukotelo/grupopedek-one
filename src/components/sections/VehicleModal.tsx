@@ -18,7 +18,7 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden z-10 max-h-[92vh] flex flex-col animate-scaleUp">
+      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden z-10 max-h-[92vh] flex flex-col animate-scaleUp">
         {/* Header Bar */}
         <div className="relative h-72 sm:h-80 bg-gray-950 overflow-hidden shrink-0">
           <img
@@ -40,7 +40,7 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
           {/* Vehicle Title & Badge */}
           <div className="absolute bottom-6 left-6 right-6 text-white">
             {vehicle.badge && (
-              <span className="inline-block px-3 py-1 rounded-full bg-[#0B45D8] text-[11px] font-extrabold uppercase tracking-wider mb-2 shadow">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#236199] text-[11px] font-extrabold uppercase tracking-wider mb-2 shadow">
                 {vehicle.badge}
               </span>
             )}
@@ -63,7 +63,7 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
           {/* Technical Specs Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-gray-50 border border-gray-200 text-xs">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-white shadow-xs text-[#0B45D8]">
+              <div className="p-2 rounded-xl bg-white shadow-xs text-[#236199]">
                 <Users className="w-4 h-4" />
               </div>
               <div>
@@ -73,7 +73,7 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-white shadow-xs text-[#0B45D8]">
+              <div className="p-2 rounded-xl bg-white shadow-xs text-[#236199]">
                 <Briefcase className="w-4 h-4" />
               </div>
               <div>
@@ -83,7 +83,7 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-white shadow-xs text-[#0B45D8]">
+              <div className="p-2 rounded-xl bg-white shadow-xs text-[#236199]">
                 <Settings2 className="w-4 h-4" />
               </div>
               <div>
@@ -93,7 +93,7 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-white shadow-xs text-[#0B45D8]">
+              <div className="p-2 rounded-xl bg-white shadow-xs text-[#236199]">
                 <Gauge className="w-4 h-4" />
               </div>
               <div>
@@ -117,7 +117,7 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
                 'Rastreio por Satélite & Assistência 24/7'
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2 text-xs font-medium text-gray-800">
-                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <Check className="w-4 h-4 text-[#236199] shrink-0" />
                   <span>{item}</span>
                 </div>
               ))}
@@ -125,8 +125,8 @@ export const VehicleModal: React.FC<VehicleModalProps> = ({ vehicle, onClose, on
           </div>
 
           {/* Trust Banner */}
-          <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200/80 flex items-center gap-3 text-xs text-[#06142F]">
-            <ShieldCheck className="w-5 h-5 text-[#0B45D8] shrink-0" />
+          <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200/80 flex items-center gap-3 text-xs text-[#09172C]">
+            <ShieldCheck className="w-5 h-5 text-[#236199] shrink-0" />
             <span>
               <strong>Garantia PEPEK:</strong> Viatura de substituição imediata em caso de qualquer eventualidade técnica em qualquer província.
             </span>

@@ -32,13 +32,13 @@ export const App: React.FC = () => {
         {/* Lightweight splash screen */}
         <SplashScreen />
 
-        <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#0B45D8] selection:text-white pb-14 lg:pb-0">
+        <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#236199] selection:text-white pb-14 lg:pb-0">
           {/* Sticky navigation header */}
           <Header />
 
           {/* Page router — real URLs, each with individual SEO metadata */}
           <main className="flex-1">
-            <Suspense fallback={<div className="min-h-screen bg-[#06142F]" aria-label="A carregar página" />}>
+            <Suspense fallback={<div className="min-h-screen bg-[#09172C]" aria-label="A carregar página" />}>
             <Routes>
               {/* Home — Hero + all sections + primary CTA */}
               <Route path="/" element={<PageHome onSelectVehicle={setSelectedVehicle} />} />

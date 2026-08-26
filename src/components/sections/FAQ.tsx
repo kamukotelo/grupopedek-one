@@ -63,16 +63,16 @@ export const FAQ: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="border border-gray-200 rounded-2xl overflow-hidden transition-all bg-gray-50/50 hover:border-[#0B45D8]/40"
+                className="border border-gray-200 rounded-2xl overflow-hidden transition-all bg-gray-50/50 hover:border-[#236199]/40"
               >
                 <button
                   type="button"
                   onClick={() => toggleFaq(idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-[#06142F] cursor-pointer"
+                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-[#09172C] cursor-pointer"
                 >
                   <span>{item.q}</span>
                   <div className={`p-2 rounded-full bg-white border border-gray-200 shrink-0 transition-transform duration-200 ${
-                    isOpen ? 'rotate-180 bg-[#0B45D8] text-white border-[#0B45D8]' : 'text-gray-500'
+                    isOpen ? 'rotate-180 bg-[#236199] text-white border-[#236199]' : 'text-gray-500'
                   }`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
@@ -91,7 +91,7 @@ export const FAQ: React.FC = () => {
         {/* Bottom CTA for unlisted questions */}
         <div className="mt-12 p-6 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-4xl">
           <div className="flex items-center gap-3">
-            <Phone className="w-5 h-5 text-[#0B45D8]" />
+            <Phone className="w-5 h-5 text-[#236199]" />
             <span className="text-sm font-semibold text-gray-800">
               Tem alguma dúvida específica sobre uma operação de grande escala?
             </span>

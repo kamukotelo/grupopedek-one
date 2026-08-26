@@ -27,7 +27,7 @@ export const MobileQuickBar: React.FC = () => {
           className="flex-1 py-3 px-3 rounded-xl bg-white/10 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 border border-white/10 hover:bg-white/20 transition-colors"
           aria-label="Ligar para a PEPEK GRUPO 24/7"
         >
-          <Phone className="w-3.5 h-3.5 text-[#0B45D8]" />
+          <Phone className="w-3.5 h-3.5 text-[#236199]" />
           <span>Ligar 24/7</span>
         </a>
 
@@ -47,7 +47,7 @@ export const MobileQuickBar: React.FC = () => {
           href={generateQuickWhatsAppUrl('Atendimento Mobile')}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-3 px-3 rounded-xl bg-[#25D366] text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:bg-emerald-600 transition-colors"
+          className="flex-1 py-3 px-3 rounded-xl bg-[#236199] text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:bg-[#236199] transition-colors"
           aria-label="Contactar via WhatsApp"
         >
           <MessageSquare className="w-3.5 h-3.5" />

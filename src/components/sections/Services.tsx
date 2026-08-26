@@ -31,7 +31,7 @@ export const Services: React.FC = () => {
 
   return (
     <section id="servicos" className="relative overflow-hidden bg-[#F5F6F6] py-20 sm:py-24">
-      <div className="absolute inset-0 opacity-[0.035]" style={{ backgroundImage: 'linear-gradient(rgba(11,69,216,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(11,69,216,.8) 1px,transparent 1px)', backgroundSize: '60px 60px' }} />
+      <div className="absolute inset-0 opacity-[0.035]" style={{ backgroundImage: 'linear-gradient(rgba(35,97,153,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(35,97,153,.8) 1px,transparent 1px)', backgroundSize: '60px 60px' }} />
       <div className="absolute left-1/2 top-0 h-[350px] w-[900px] -translate-x-1/2 rounded-full bg-[#236199]/8 blur-[140px]" />
 
       <div className="container-pepek relative z-10">
@@ -65,10 +65,10 @@ export const Services: React.FC = () => {
               return (
                 <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[190px] snap-center overflow-hidden rounded-xl border text-left transition-all sm:min-w-[230px] ${selected ? 'border-[#FEC228] bg-white shadow-[0_10px_28px_rgba(9,23,44,.12)]' : 'border-slate-200 bg-[#F5F6F6] hover:border-[#236199]/40'}`}>
                   <div className="h-36 bg-cover bg-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
-                    <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(7,19,63,.22)] transition-transform duration-500 group-hover:scale-105" />
+                    <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(9,23,44,.22)] transition-transform duration-500 group-hover:scale-105" />
                   </div>
                   <div className="px-4 py-3 text-[#09172C]">
-                    <span className={`text-[9px] font-black uppercase tracking-widest ${selected ? 'text-[#E4AD28]' : 'text-[#236199]'}`}>{vehicle.categoryLabel}</span>
+                    <span className={`text-[9px] font-extrabold uppercase tracking-widest ${selected ? 'text-[#E4AD28]' : 'text-[#236199]'}`}>{vehicle.categoryLabel}</span>
                     <strong className="mt-1 block truncate text-sm">{vehicle.name}</strong>
                   </div>
                 </button>
@@ -78,11 +78,11 @@ export const Services: React.FC = () => {
 
           <div className="mt-4 grid overflow-hidden rounded-2xl border border-white/10 bg-[#0C2E60] lg:grid-cols-[1.05fr_.95fr]">
             <div className="relative min-h-[300px] bg-cover bg-center p-8 sm:p-10" style={{ backgroundImage: `url('${getVehicleStudioBackground(activeVehicle)}')` }}>
-              <img key={activeVehicle.id} src={activeVehicle.primaryImage} alt={activeVehicle.name} decoding="async" className="h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(0,0,0,.45)] animate-fadeIn" />
+              <img key={activeVehicle.id} src={activeVehicle.primaryImage} alt={activeVehicle.name} decoding="async" className="h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(9,23,44,.45)] animate-fadeIn" />
             </div>
             <div className="flex flex-col justify-center border-t border-white/10 p-7 lg:border-l lg:border-t-0 lg:p-10">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#FEC228]">{activeVehicle.categoryLabel}</span>
-              <h3 className="mt-2 text-2xl font-black text-white sm:text-3xl">{activeVehicle.name}</h3>
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">{activeVehicle.categoryLabel}</span>
+              <h3 className="mt-2 text-2xl font-extrabold text-white sm:text-3xl">{activeVehicle.name}</h3>
               <p className="mt-4 text-sm leading-relaxed text-slate-300">{activeVehicle.description}</p>
               <div className="mt-6 grid grid-cols-2 gap-3 text-xs text-slate-200">
                 <span className="flex items-center gap-2 rounded-xl bg-white/5 p-3"><Users className="h-4 w-4 text-[#FEC228]" />{activeVehicle.specs.passengers} {t('servicesCarousel.passengers')}</span>

@@ -132,7 +132,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#020A2A]/90 backdrop-blur-lg animate-fadeIn select-none overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#09172C]/90 backdrop-blur-lg animate-fadeIn select-none overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >
@@ -143,12 +143,12 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
       <div
         className={`relative w-full ${
           isFullscreen ? 'max-w-7xl h-[96vh]' : 'max-w-5xl max-h-[92vh]'
-        } bg-white rounded-3xl shadow-2xl overflow-hidden z-10 my-auto border border-[#D9DEE7] animate-scaleUp flex flex-col transition-all duration-300`}
+        } bg-white rounded-2xl shadow-2xl overflow-hidden z-10 my-auto border border-[#E2E8F0] animate-scaleUp flex flex-col transition-all duration-300`}
       >
         {/* Header */}
-        <div className="bg-[#020A2A] text-white px-5 sm:px-7 py-4 flex items-center justify-between border-b border-white/10 shrink-0">
+        <div className="bg-[#09172C] text-white px-5 sm:px-7 py-4 flex items-center justify-between border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1 rounded-full bg-[#D2A820] text-[10px] font-black uppercase tracking-wider text-[#020A2A]">
+            <span className="px-3 py-1 rounded-full bg-[#FEC228] text-[10px] font-extrabold uppercase tracking-wider text-[#09172C]">
               {vehicle.categoryLabel}
             </span>
             <h3 className="text-base sm:text-lg font-bold text-white truncate max-w-[280px] sm:max-w-md">
@@ -196,7 +196,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               key={currentImg.url}
               src={currentImg.url}
               alt={currentImg.altText}
-              className="transition-all duration-300 animate-fadeIn w-full h-full object-contain object-center drop-shadow-[0_24px_30px_rgba(7,19,63,0.28)] relative z-10"
+              className="transition-all duration-300 animate-fadeIn w-full h-full object-contain object-center drop-shadow-[0_24px_30px_rgba(9,23,44,0.28)] relative z-10"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
@@ -206,14 +206,14 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               <>
                 <button
                   onClick={handlePrev}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#D2A820] hover:text-[#020A2A] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#FEC228] hover:text-[#09172C] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
 
                 <button
                   onClick={handleNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#D2A820] hover:text-[#020A2A] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-[#FEC228] hover:text-[#09172C] transition-all cursor-pointer backdrop-blur-md opacity-80 group-hover:opacity-100"
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>
@@ -227,14 +227,14 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               </div>
 
               <div className="bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 text-white text-xs font-mono font-bold shrink-0">
-                <Camera className="w-3.5 h-3.5 inline mr-1 text-[#D2A820]" />
+                <Camera className="w-3.5 h-3.5 inline mr-1 text-[#FEC228]" />
                 <span>{activeImageIdx + 1} / {verifiedGallery.length}</span>
               </div>
             </div>
           </div>
 
           {/* Thumbnails Bar */}
-          {verifiedGallery.length > 1 && <div className="bg-[#020A2A] px-4 py-3 border-b border-white/10 flex items-center gap-3 overflow-x-auto no-scrollbar shrink-0">
+          {verifiedGallery.length > 1 && <div className="bg-[#09172C] px-4 py-3 border-b border-white/10 flex items-center gap-3 overflow-x-auto no-scrollbar shrink-0">
             {verifiedGallery.map((img, idx) => (
               <button
                 key={idx}
@@ -242,7 +242,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                 onClick={() => setActiveImageIdx(idx)}
                 className={`relative w-20 sm:w-28 h-14 sm:h-18 rounded-xl overflow-hidden shrink-0 border-2 transition-all cursor-pointer ${
                   activeImageIdx === idx
-                    ? 'border-[#D2A820] scale-105 shadow-[0_0_15px_rgba(210,168,32,0.8)]'
+                    ? 'border-[#FEC228] scale-105 shadow-[0_0_15px_rgba(210,168,32,0.8)]'
                     : 'border-white/20 opacity-60 hover:opacity-100'
                 }`}
               >
@@ -260,111 +260,111 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
           </div>}
 
           {/* Specs & Full Content (White Canvas) */}
-          <div className="p-6 sm:p-8 bg-white space-y-6 flex-1 text-[#07133F]">
+          <div className="p-6 sm:p-8 bg-white space-y-6 flex-1 text-[#09172C]">
             {/* Header & Price */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#D9DEE7]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#D2A820] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#FEC228] block mb-1">
                   {vehicle.brand} · {vehicle.model} {vehicle.year ? `(${vehicle.year})` : ''}
                 </span>
-                <h4 className="text-2xl sm:text-3xl font-extrabold text-[#07133F]">
+                <h4 className="text-2xl sm:text-3xl font-extrabold text-[#09172C]">
                   {vehicle.name}
                 </h4>
               </div>
 
-              <div className="text-left sm:text-right bg-[#F3F5F8] p-4 px-6 rounded-2xl border border-[#D9DEE7] shrink-0">
-                <span className="text-[10px] text-[#697080] font-bold uppercase block">Tarifa Oficial por Dia</span>
-                <div className="text-xl sm:text-2xl font-black text-[#07133F]">
+              <div className="text-left sm:text-right bg-[#F5F6F6] p-4 px-6 rounded-2xl border border-[#E2E8F0] shrink-0">
+                <span className="text-[10px] text-[#555B64] font-bold uppercase block">Tarifa Oficial por Dia</span>
+                <div className="text-xl sm:text-2xl font-extrabold text-[#09172C]">
                   {vehicle.pricePerDayFormatted}
                 </div>
-                <span className="text-xs font-bold text-[#1E8E5A]">Disponibilidade em Talatona & Luanda</span>
+                <span className="text-xs font-bold text-[#236199]">Disponibilidade em Talatona & Luanda</span>
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-sm sm:text-base text-[#697080] leading-relaxed">
+            <p className="text-sm sm:text-base text-[#555B64] leading-relaxed">
               {vehicle.description}
             </p>
 
             {/* 5 Core Specs Grid with Gold Icons inside Navy Circles */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 p-4 rounded-2xl bg-[#F3F5F8] border border-[#D9DEE7] text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 p-4 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0] text-xs">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                  <Users className="w-5 h-5 text-[#D2A820]" />
+                <div className="w-10 h-10 rounded-xl bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                  <Users className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#697080] block text-[10px] uppercase font-bold">Lotação</span>
-                  <span className="font-extrabold text-[#07133F]">{vehicle.specs.passengers} Passageiros</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Lotação</span>
+                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.passengers} Passageiros</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                  <DoorClosed className="w-5 h-5 text-[#D2A820]" />
+                <div className="w-10 h-10 rounded-xl bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                  <DoorClosed className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#697080] block text-[10px] uppercase font-bold">Portas</span>
-                  <span className="font-extrabold text-[#07133F]">{vehicle.specs.doors} Portas</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Portas</span>
+                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.doors} Portas</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                  <Settings2 className="w-5 h-5 text-[#D2A820]" />
+                <div className="w-10 h-10 rounded-xl bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                  <Settings2 className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#697080] block text-[10px] uppercase font-bold">Transmissão</span>
-                  <span className="font-extrabold text-[#07133F]">{vehicle.specs.transmission}</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Transmissão</span>
+                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.transmission}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                  <Fuel className="w-5 h-5 text-[#D2A820]" />
+                <div className="w-10 h-10 rounded-xl bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                  <Fuel className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#697080] block text-[10px] uppercase font-bold">Combustível</span>
-                  <span className="font-extrabold text-[#07133F]">{vehicle.specs.fuelType}</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Combustível</span>
+                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.fuelType}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#07133F] flex items-center justify-center text-[#D2A820] shrink-0 shadow-xs">
-                  <Gauge className="w-5 h-5 text-[#D2A820]" />
+                <div className="w-10 h-10 rounded-xl bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+                  <Gauge className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#697080] block text-[10px] uppercase font-bold">Depósito / Tracção</span>
-                  <span className="font-extrabold text-[#07133F]">{vehicle.specs.tankCapacity || vehicle.specs.traction || 'Integral'}</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Depósito / Tracção</span>
+                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.tankCapacity || vehicle.specs.traction || 'Integral'}</span>
                 </div>
               </div>
             </div>
 
             {/* Features & Inclusions */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="p-5 rounded-2xl bg-[#F3F5F8] border border-[#D9DEE7] space-y-2.5">
-                <h5 className="font-bold text-[#07133F] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-[#D2A820]" />
+              <div className="p-5 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0] space-y-2.5">
+                <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-[#FEC228]" />
                   Equipamentos & Tecnologia
                 </h5>
-                <ul className="space-y-1.5 text-[#697080]">
+                <ul className="space-y-1.5 text-[#555B64]">
                   {vehicle.features.map((f, i) => (
                     <li key={i} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D2A820]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FEC228]" />
                       <span>{f}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="p-5 rounded-2xl bg-[#F3F5F8] border border-[#D9DEE7] space-y-2.5">
-                <h5 className="font-bold text-[#07133F] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#1E8E5A]" />
+              <div className="p-5 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0] space-y-2.5">
+                <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-[#236199]" />
                   Inclusões & Garantias Pepek
                 </h5>
-                <ul className="space-y-1.5 text-[#697080]">
+                <ul className="space-y-1.5 text-[#555B64]">
                   {vehicle.inclusions.map((inc, i) => (
                     <li key={i} className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-[#1E8E5A] shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-[#236199] shrink-0" />
                       <span>{inc}</span>
                     </li>
                   ))}
@@ -375,8 +375,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
         </div>
 
         {/* Footer CTAs */}
-        <div className="p-4 sm:p-5 bg-white border-t border-[#D9DEE7] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-          <div className="text-xs text-[#697080] hidden sm:block">
+        <div className="p-4 sm:p-5 bg-white border-t border-[#E2E8F0] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+          <div className="text-xs text-[#555B64] hidden sm:block">
             <span>Faturação e cotação oficial disponível para empresas e particulares</span>
           </div>
 
@@ -387,7 +387,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                 onSelectForBooking(vehicle.name);
                 onClose();
               }}
-              className="w-full sm:w-auto px-7 py-3.5 bg-[#D2A820] hover:bg-[#E1BB38] text-[#020A2A] text-xs font-black rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+              className="w-full sm:w-auto px-7 py-3.5 bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] text-xs font-extrabold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Reservar Agora ({vehicle.pricePerDayFormatted}/dia)</span>
@@ -397,7 +397,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
             <button
               type="button"
               onClick={handleWhatsApp}
-              className="w-full sm:w-auto px-6 py-3.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
+              className="w-full sm:w-auto px-6 py-3.5 bg-[#236199] hover:bg-[#0C2E60] text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               <MessageSquareText className="w-4 h-4" />
               <span>WhatsApp Imediato</span>

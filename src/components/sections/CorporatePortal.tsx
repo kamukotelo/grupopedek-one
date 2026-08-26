@@ -9,22 +9,22 @@ export const CorporatePortal: React.FC = () => {
 
   const benefits = [
     {
-      icon: <Clock className="w-6 h-6 text-[#0B45D8]" />,
+      icon: <Clock className="w-6 h-6 text-[#236199]" />,
       title: 'SLA Prioritário < 10 Minutos',
       desc: 'Atendimento directo com despacho prioritário 24 horas por dia, 365 dias por ano.'
     },
     {
-      icon: <UserCheck className="w-6 h-6 text-[#0B45D8]" />,
+      icon: <UserCheck className="w-6 h-6 text-[#236199]" />,
       title: 'Pilotos de Protocolo Bilingues',
       desc: 'Formação rigorosa em etiqueta diplomática, sigilo profissional, primeiros socorros e condução defensiva.'
     },
     {
-      icon: <FileText className="w-6 h-6 text-[#0B45D8]" />,
+      icon: <FileText className="w-6 h-6 text-[#236199]" />,
       title: 'Facturação AGT & Condições de Pagamento',
       desc: 'Emissão formal de faturas em conformidade legal, com prazos de liquidação a 30 ou 60 dias para empresas credenciadas.'
     },
     {
-      icon: <ShieldCheck className="w-6 h-6 text-[#0B45D8]" />,
+      icon: <ShieldCheck className="w-6 h-6 text-[#236199]" />,
       title: 'Garantia de Viatura de Substituição',
       desc: 'Disponibilização imediata de viatura equivalente em qualquer província em caso de intervenção técnica.'
     },
@@ -35,11 +35,11 @@ export const CorporatePortal: React.FC = () => {
       <div className="container-pepek">
         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#09172C] via-[#0C2E60] to-[#09172C] p-8 text-white shadow-2xl sm:p-12 lg:p-16">
           {/* Background accent lines */}
-          <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-[#0B45D8]/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-[#236199]/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-semibold text-[#8899BB] uppercase tracking-widest mb-4">
-              <Building className="w-4 h-4 text-[#0B45D8]" />
+              <Building className="w-4 h-4 text-[#236199]" />
               <span>Contratos Corporativos & Protocolo Diplomático</span>
             </div>
 
@@ -57,7 +57,7 @@ export const CorporatePortal: React.FC = () => {
             {benefits.map((b, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#0B45D8]/60 transition-all flex items-start gap-4"
+                className="p-6 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#236199]/60 transition-all flex items-start gap-4"
               >
                 <div className="p-3 rounded-xl bg-white/10 border border-white/10 shrink-0">
                   {b.icon}

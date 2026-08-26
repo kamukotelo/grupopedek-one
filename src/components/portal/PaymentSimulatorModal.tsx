@@ -54,9 +54,9 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn select-none">
       <div className="absolute inset-0" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden z-10 animate-scaleUp">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden z-10 animate-scaleUp">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-6 text-white relative">
+        <div className="bg-gradient-to-r from-[#09172C] to-[#0C2E60] p-6 text-white relative">
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
@@ -64,7 +64,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
             <X className="w-5 h-5" />
           </button>
 
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#0B45D8] block mb-1">
+          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#236199] block mb-1">
             {isSimulation ? 'Simulador de Pagamento — Ambiente de Demonstração' : 'Gateway PEPEK / Odoo Finance'}
           </span>
           <h3 className="text-xl font-extrabold text-white">
@@ -77,10 +77,10 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
           <div className="mt-4 p-3 rounded-xl bg-white/10 border border-white/10 flex items-center justify-between">
             <div>
               <span className="text-xs text-gray-300">Valor a Liquidar:</span>
-              <div className="mt-2 flex gap-1.5" aria-label="Moedas da fatura"><span className="grid h-7 min-w-7 place-items-center rounded-full bg-[#D2A820] px-1 text-[9px] font-black text-[#020A2A]">Kz</span><span className="grid h-7 w-7 place-items-center rounded-full bg-emerald-500/20 text-xs font-black text-emerald-300">$</span><span className="grid h-7 w-7 place-items-center rounded-full bg-blue-500/20 text-xs font-black text-blue-200">€</span></div>
+              <div className="mt-2 flex gap-1.5" aria-label="Moedas da fatura"><span className="grid h-7 min-w-7 place-items-center rounded-full bg-[#FEC228] px-1 text-[9px] font-extrabold text-[#09172C]">Kz</span><span className="grid h-7 w-7 place-items-center rounded-full bg-[#236199]/20 text-xs font-extrabold text-[#236199]">$</span><span className="grid h-7 w-7 place-items-center rounded-full bg-blue-500/20 text-xs font-extrabold text-blue-200">€</span></div>
             </div>
             <div className="text-right">
-              <div className="text-lg font-black text-white">{invoice.amountAOA.toLocaleString('pt-AO')} AOA</div>
+              <div className="text-lg font-extrabold text-white">{invoice.amountAOA.toLocaleString('pt-AO')} AOA</div>
               <div className="text-[11px] text-[#8899BB] font-bold">≈ ${invoice.amountUSD.toLocaleString()} USD / €{(invoice.amountUSD * 0.92).toFixed(0)} EUR</div>
             </div>
           </div>
@@ -89,7 +89,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
         {/* Content */}
         <div className="p-6 sm:p-7">
           {isSimulation && (
-            <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-semibold text-amber-800">
+            <div className="mb-5 rounded-xl border border-[#E4AD28] bg-[#FEC228] p-3 text-xs font-semibold text-[#E4AD28]">
               Nenhuma cobrança bancária será realizada. Este módulo preserva os dados fictícios para demonstração até a ativação dos gateways oficiais.
             </div>
           )}
@@ -107,12 +107,12 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
                     onClick={() => setGateway('multicaixa')}
                     className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
                       gateway === 'multicaixa'
-                        ? 'border-[#0B45D8] bg-blue-50/60 shadow-xs'
+                        ? 'border-[#236199] bg-blue-50/60 shadow-xs'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="flex items-center gap-2 font-bold text-[#06142F] mb-1">
-                      <Smartphone className="w-4 h-4 text-[#0B45D8]" />
+                    <div className="flex items-center gap-2 font-bold text-[#09172C] mb-1">
+                      <Smartphone className="w-4 h-4 text-[#236199]" />
                       <span>Multicaixa Express</span>
                     </div>
                     <p className="text-[10px] text-gray-500">Angola (EMIS / Telemóvel)</p>
@@ -123,12 +123,12 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
                     onClick={() => setGateway('stripe')}
                     className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
                       gateway === 'stripe'
-                        ? 'border-[#0B45D8] bg-blue-50/60 shadow-xs'
+                        ? 'border-[#236199] bg-blue-50/60 shadow-xs'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="flex items-center gap-2 font-bold text-[#06142F] mb-1">
-                      <CreditCard className="w-4 h-4 text-[#0B45D8]" />
+                    <div className="flex items-center gap-2 font-bold text-[#09172C] mb-1">
+                      <CreditCard className="w-4 h-4 text-[#236199]" />
                       <span>Stripe / Apple Pay</span>
                     </div>
                     <p className="text-[10px] text-gray-500">USD / EUR / Visa / Master</p>
@@ -139,12 +139,12 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
                     onClick={() => setGateway('bai')}
                     className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
                       gateway === 'bai'
-                        ? 'border-[#0B45D8] bg-blue-50/60 shadow-xs'
+                        ? 'border-[#236199] bg-blue-50/60 shadow-xs'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="flex items-center gap-2 font-bold text-[#06142F] mb-1">
-                      <Landmark className="w-4 h-4 text-[#0B45D8]" />
+                    <div className="flex items-center gap-2 font-bold text-[#09172C] mb-1">
+                      <Landmark className="w-4 h-4 text-[#236199]" />
                       <span>BAI Direto / BFA</span>
                     </div>
                     <p className="text-[10px] text-gray-500">Internet Banking Imediato</p>
@@ -155,12 +155,12 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
                     onClick={() => setGateway('mbway')}
                     className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
                       gateway === 'mbway'
-                        ? 'border-[#0B45D8] bg-blue-50/60 shadow-xs'
+                        ? 'border-[#236199] bg-blue-50/60 shadow-xs'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="flex items-center gap-2 font-bold text-[#06142F] mb-1">
-                      <Smartphone className="w-4 h-4 text-emerald-600" />
+                    <div className="flex items-center gap-2 font-bold text-[#09172C] mb-1">
+                      <Smartphone className="w-4 h-4 text-[#236199]" />
                       <span>MB WAY / Portugal</span>
                     </div>
                     <p className="text-[10px] text-gray-500">Ref. Multibanco / SEPA</p>
@@ -206,7 +206,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
                       required
                     />
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] text-emerald-700 font-semibold pt-1">
+                  <div className="flex items-center gap-2 text-[10px] text-[#236199] font-semibold pt-1">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Processamento Stripe Segurado 256-bit com Recibo Fiscal</span>
                   </div>
@@ -271,11 +271,11 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
           ) : (
             /* Success Receipt */
             <div className="text-center py-5 space-y-4 animate-fadeIn">
-              <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+              <div className="w-14 h-14 rounded-full bg-[#236199] text-[#236199] flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 
-              <h4 className="text-xl font-bold text-[#06142F]">
+              <h4 className="text-xl font-bold text-[#09172C]">
                 {isSimulation ? 'Simulação Concluída' : 'Pagamento Liquidado com Sucesso!'}
               </h4>
 
@@ -286,9 +286,9 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({
               </p>
 
               <div className="p-3 bg-gray-50 rounded-xl border border-gray-200 text-[11px] text-gray-700 text-left space-y-1">
-                <div>Estado: <strong className="text-emerald-700">Fatura fechada / liquidada na demonstração</strong></div>
+                <div>Estado: <strong className="text-[#236199]">Fatura fechada / liquidada na demonstração</strong></div>
                 <div>Código demonstrativo: <strong className="text-gray-900 font-mono">{receiptCode}</strong></div>
-                <div>Canal: <strong className="text-[#0B45D8]">{completedGateway}</strong></div>
+                <div>Canal: <strong className="text-[#236199]">{completedGateway}</strong></div>
                 <div>Data/Hora: <strong className="text-gray-900">{new Date().toLocaleString('pt-AO')}</strong></div>
               </div>
 

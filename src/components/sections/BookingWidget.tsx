@@ -229,20 +229,20 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
     : '';
 
   return (
-    <section id="reserva" className="section-padding bg-[#F3F5F8] relative border-b border-[#D9DEE7]">
+    <section id="reserva" className="section-padding bg-[#F5F6F6] relative border-b border-[#E2E8F0]">
       <div className="container-pepek">
         {/* Section Header */}
         <div className="max-w-4xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#07133F] text-[#D2A820] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#09172C] text-[#FEC228] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
             <Shield className="w-3.5 h-3.5" />
             <span>Sistema Oficial de Reserva & Despacho</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#07133F] tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#09172C] tracking-tight mb-4">
             Planeie a Sua Mobilidade com Confirmação Imediata
           </h2>
 
-          <p className="text-sm sm:text-base text-[#697080] leading-relaxed">
+          <p className="text-sm sm:text-base text-[#555B64] leading-relaxed">
             Selecione visualmente o serviço e a viatura pretendida da nossa frota executiva. Crie a sua ficha oficial de requisição com email ou telefone para despacho direto à Direcção de Operações.
           </p>
         </div>
@@ -252,8 +252,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
             {/* Left Column: Interactive Visual Simulator & Vehicle Spotlight */}
             <div className="lg:col-span-8 space-y-8">
               {/* 1. Interactive Visual Service Cards */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#D9DEE7] shadow-xs">
-                <label className="block text-xs font-extrabold uppercase tracking-wider text-[#07133F] mb-4">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#E2E8F0] shadow-xs">
+                <label className="block text-xs font-extrabold uppercase tracking-wider text-[#09172C] mb-4">
                   1. Selecione o Tipo de Serviço Pretendido
                 </label>
 
@@ -264,22 +264,22 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       onClick={() => setSelectedService(srv.id)}
                       className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-start gap-3.5 ${
                         selectedService === srv.id
-                          ? 'border-[#D2A820] bg-amber-50/40 shadow-md ring-2 ring-[#D2A820]/20'
-                          : 'border-[#D9DEE7] hover:border-gray-300 bg-white'
+                          ? 'border-[#FEC228] bg-[#FEC228]/40 shadow-md ring-2 ring-[#FEC228]/20'
+                          : 'border-[#E2E8F0] hover:border-gray-300 bg-white'
                       }`}
                     >
-                      <div className={`p-2.5 rounded-xl ${selectedService === srv.id ? 'bg-[#07133F] text-[#D2A820]' : 'bg-[#F3F5F8] text-[#07133F]'}`}>
+                      <div className={`p-2.5 rounded-xl ${selectedService === srv.id ? 'bg-[#09172C] text-[#FEC228]' : 'bg-[#F5F6F6] text-[#09172C]'}`}>
                         {srv.icon}
                       </div>
 
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <h4 className="text-sm font-bold text-[#07133F]">{srv.title}</h4>
-                          <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-100 text-[#07133F]">
+                          <h4 className="text-sm font-bold text-[#09172C]">{srv.title}</h4>
+                          <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#FEC228] text-[#09172C]">
                             {srv.badge}
                           </span>
                         </div>
-                        <p className="text-xs text-[#697080] mt-1">{srv.subtitle}</p>
+                        <p className="text-xs text-[#555B64] mt-1">{srv.subtitle}</p>
                       </div>
                     </div>
                   ))}
@@ -287,41 +287,41 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
               </div>
 
               {/* 2. Visual Vehicle Gallery with Focus Spotlight */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#D9DEE7] shadow-xs space-y-6">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#E2E8F0] shadow-xs space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
-                    <label className="block text-xs font-extrabold uppercase tracking-wider text-[#07133F]">
+                    <label className="block text-xs font-extrabold uppercase tracking-wider text-[#09172C]">
                       2. Escolha da Viatura
                     </label>
-                    <p className="text-xs text-[#697080]">Clique na viatura para fixar no seu plano de mobilidade</p>
+                    <p className="text-xs text-[#555B64]">Clique na viatura para fixar no seu plano de mobilidade</p>
                   </div>
 
                   <button
                     type="button"
                     onClick={() => setAiHelperOpen(!aiHelperOpen)}
-                    className="text-xs font-bold text-[#D2A820] bg-[#07133F] px-3 py-1.5 rounded-xl border border-[#D2A820]/30 hover:bg-[#07133F]/90 flex items-center gap-1.5 w-fit cursor-pointer"
+                    className="text-xs font-bold text-[#FEC228] bg-[#09172C] px-3 py-1.5 rounded-xl border border-[#FEC228]/30 hover:bg-[#09172C]/90 flex items-center gap-1.5 w-fit cursor-pointer"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-[#D2A820]" />
+                    <Sparkles className="w-3.5 h-3.5 text-[#FEC228]" />
                     <span>Dúvidas? Apoio Técnico IA</span>
                   </button>
                 </div>
 
                 {/* AI Proactive Recommender Drawer */}
                 {aiHelperOpen && (
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-yellow-50 border border-[#D2A820]/30 text-xs space-y-3 animate-fadeIn">
+                  <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FEC228] to-[#FEC228] border border-[#FEC228]/30 text-xs space-y-3 animate-fadeIn">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-[#07133F] flex items-center gap-1.5">
-                        <HelpCircle className="w-4 h-4 text-[#D2A820]" />
+                      <span className="font-bold text-[#09172C] flex items-center gap-1.5">
+                        <HelpCircle className="w-4 h-4 text-[#FEC228]" />
                         <span>Apoio Técnico da Frota & Pedidos Especiais</span>
                       </span>
-                      <button onClick={() => setAiHelperOpen(false)} className="text-[#697080] hover:text-[#07133F] font-bold">✕</button>
+                      <button onClick={() => setAiHelperOpen(false)} className="text-[#555B64] hover:text-[#09172C] font-bold">✕</button>
                     </div>
 
                     <div className="flex flex-wrap gap-2">
                       <button
                         type="button"
                         onClick={() => handleAiConsult('Qual a viatura ideal para Luanda vs Províncias?')}
-                        className="px-2.5 py-1.5 rounded-lg bg-white border border-[#D9DEE7] text-[#07133F] font-semibold hover:bg-gray-50"
+                        className="px-2.5 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#09172C] font-semibold hover:bg-gray-50"
                       >
                         📍 Luanda vs. Províncias (Huambo/Bengo)
                       </button>
@@ -329,7 +329,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       <button
                         type="button"
                         onClick={() => handleAiConsult('Têm viaturas blindadas de alta segurança ou autocarros?')}
-                        className="px-2.5 py-1.5 rounded-lg bg-white border border-[#D9DEE7] text-[#07133F] font-semibold hover:bg-gray-50"
+                        className="px-2.5 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#09172C] font-semibold hover:bg-gray-50"
                       >
                         🛡️ Blindados / Autocarros Especiais
                       </button>
@@ -337,15 +337,15 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       <button
                         type="button"
                         onClick={() => handleAiConsult('Quais os carros mais económicos para alugar?')}
-                        className="px-2.5 py-1.5 rounded-lg bg-white border border-[#D9DEE7] text-[#07133F] font-semibold hover:bg-gray-50"
+                        className="px-2.5 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#09172C] font-semibold hover:bg-gray-50"
                       >
                         💰 Económicos a partir de 44.999 Kz
                       </button>
                     </div>
 
-                    {aiLoading && <p className="text-[#697080] italic">A consultar a frota disponível...</p>}
+                    {aiLoading && <p className="text-[#555B64] italic">A consultar a frota disponível...</p>}
                     {aiResponse && (
-                      <div className="p-3 bg-white rounded-xl border border-[#D9DEE7] text-[#07133F] leading-relaxed font-medium">
+                      <div className="p-3 bg-white rounded-xl border border-[#E2E8F0] text-[#09172C] leading-relaxed font-medium">
                         {aiResponse}
                       </div>
                     )}
@@ -360,37 +360,37 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       onClick={() => setSelectedVehicle(v)}
                       className={`p-2.5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between group ${
                         selectedVehicle.id === v.id
-                          ? 'border-[#D2A820] bg-amber-50/40 shadow-md ring-2 ring-[#D2A820]/20'
-                          : 'border-[#D9DEE7] hover:border-gray-300 bg-white'
+                          ? 'border-[#FEC228] bg-[#FEC228]/40 shadow-md ring-2 ring-[#FEC228]/20'
+                          : 'border-[#E2E8F0] hover:border-gray-300 bg-white'
                       }`}
                     >
-                      <div className="h-20 sm:h-24 rounded-xl overflow-hidden bg-cover bg-center border border-[#D9DEE7] mb-2 relative flex items-center justify-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
-                        <img src={v.primaryImage} alt={v.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform drop-shadow-[0_8px_10px_rgba(7,19,63,0.18)]" />
+                      <div className="h-20 sm:h-24 rounded-xl overflow-hidden bg-cover bg-center border border-[#E2E8F0] mb-2 relative flex items-center justify-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
+                        <img src={v.primaryImage} alt={v.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform drop-shadow-[0_8px_10px_rgba(9,23,44,0.18)]" />
                         {selectedVehicle.id === v.id && (
-                          <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#D2A820] text-[#020A2A] flex items-center justify-center text-[10px] font-bold shadow-xs">
+                          <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#FEC228] text-[#09172C] flex items-center justify-center text-[10px] font-bold shadow-xs">
                             ✓
                           </div>
                         )}
                       </div>
                       <div>
-                        <h5 className="text-[11px] font-bold text-[#07133F] leading-tight line-clamp-2">{v.name}</h5>
-                        <span className="text-[9px] font-bold text-[#D2A820] block mt-1">{v.pricePerDayFormatted}/dia</span>
+                        <h5 className="text-[11px] font-bold text-[#09172C] leading-tight line-clamp-2">{v.name}</h5>
+                        <span className="text-[9px] font-bold text-[#FEC228] block mt-1">{v.pricePerDayFormatted}/dia</span>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* Selected Vehicle Focus Spotlight Box */}
-                <div className="p-5 rounded-2xl bg-[#020A2A] text-white border border-white/10 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
+                <div className="p-5 rounded-2xl bg-[#09172C] text-white border border-white/10 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
                   <div className="w-full sm:w-1/2 h-44 rounded-xl overflow-hidden relative shadow-lg bg-cover bg-center border border-white/10 flex items-center justify-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
-                    <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} className="w-full h-full object-contain drop-shadow-[0_16px_20px_rgba(7,19,63,0.3)]" />
-                    <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-[#07133F] text-[#D2A820] border border-[#D2A820]/40 text-[10px] font-black uppercase shadow-md">
+                    <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} className="w-full h-full object-contain drop-shadow-[0_16px_20px_rgba(9,23,44,0.3)]" />
+                    <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-[#09172C] text-[#FEC228] border border-[#FEC228]/40 text-[10px] font-extrabold uppercase shadow-md">
                       {selectedVehicle.categoryLabel}
                     </div>
                   </div>
 
                   <div className="w-full sm:w-1/2 space-y-2.5 text-xs">
-                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#D2A820]">
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#FEC228]">
                       Viatura em Destaque no seu Pedido
                     </span>
                     <h4 className="text-lg font-bold text-white">{selectedVehicle.name}</h4>
@@ -404,7 +404,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     </div>
 
                     <div className="pt-2 border-t border-white/10">
-                      <span className="text-xl font-black text-[#D2A820]">{selectedVehicle.pricePerDayFormatted}</span>
+                      <span className="text-xl font-extrabold text-[#FEC228]">{selectedVehicle.pricePerDayFormatted}</span>
                       <span className="text-[10px] text-gray-400 ml-1">por dia</span>
                     </div>
                   </div>
@@ -412,7 +412,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
                 {/* Regime Selector: With Driver vs Self-Drive */}
                 <div className="pt-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#07133F] mb-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-2">
                     Regime de Condução
                   </label>
                   <div className="grid grid-cols-2 gap-3">
@@ -420,14 +420,14 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       type="button"
                       onClick={() => setWithDriver(true)}
                       className={`p-3.5 rounded-xl text-xs font-bold border transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                        withDriver ? 'bg-[#07133F] text-[#D2A820] border-[#07133F] shadow-sm' : 'bg-white text-[#07133F] border-[#D9DEE7]'
+                        withDriver ? 'bg-[#09172C] text-[#FEC228] border-[#09172C] shadow-sm' : 'bg-white text-[#09172C] border-[#E2E8F0]'
                       }`}
                     >
                       <UserCheck className="w-4 h-4" />
                       <span>Com Motorista Protocolar (+35.000 Kz/dia)</span>
                     </button>
                     {submissionError && (
-                      <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
+                      <p role="alert" className="rounded-xl border border-[#E4AD28] bg-[#FEC228] p-3 text-xs font-semibold text-[#E4AD28]">
                         {submissionError}
                       </p>
                     )}
@@ -436,7 +436,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       type="button"
                       onClick={() => setWithDriver(false)}
                       className={`p-3.5 rounded-xl text-xs font-bold border transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                        !withDriver ? 'bg-[#07133F] text-[#D2A820] border-[#07133F] shadow-sm' : 'bg-white text-[#07133F] border-[#D9DEE7]'
+                        !withDriver ? 'bg-[#09172C] text-[#FEC228] border-[#09172C] shadow-sm' : 'bg-white text-[#09172C] border-[#E2E8F0]'
                       }`}
                     >
                       <Car className="w-4 h-4" />
@@ -448,43 +448,43 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 {/* Location & Dates */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#07133F] mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-1.5">
                       Local / Província
                     </label>
                     <div className="relative">
-                      <MapPin className="w-4 h-4 text-[#697080] absolute left-3 top-3.5" />
+                      <MapPin className="w-4 h-4 text-[#555B64] absolute left-3 top-3.5" />
                       <input
                         type="text"
                         value={pickupLocation}
                         onChange={(e) => setPickupLocation(e.target.value)}
-                        className="w-full p-3 pl-9 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+                        className="w-full p-3 pl-9 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                         required
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#07133F] mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-1.5">
                       Data de Início
                     </label>
                     <input
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full p-3 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#07133F] mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-1.5">
                       Data de Devolução
                     </label>
                     <input
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full p-3 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden"
                       required
                     />
                   </div>
@@ -494,27 +494,27 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
             {/* Right Column: Verified Login & Ficha de Cadastro para a Direcção */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#D9DEE7] shadow-md">
-                <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#D2A820] mb-1">
-                  <Shield className="w-4 h-4 text-[#D2A820]" />
+              <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E2E8F0] shadow-md">
+                <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#FEC228] mb-1">
+                  <Shield className="w-4 h-4 text-[#FEC228]" />
                   <span>Identificação do Requisitante</span>
                 </div>
 
-                <h3 className="text-xl font-bold text-[#07133F] mb-2">
+                <h3 className="text-xl font-bold text-[#09172C] mb-2">
                   Ficha Oficial para a Direcção
                 </h3>
 
-                <p className="text-xs text-[#697080] leading-relaxed mb-5">
+                <p className="text-xs text-[#555B64] leading-relaxed mb-5">
                   Para emissão do protocolo formal, identifique-se por email ou telemóvel.
                 </p>
 
                 {/* Login Method Toggle: Phone vs Email */}
-                <div className="flex items-center gap-2 p-1 bg-[#F3F5F8] rounded-xl mb-4 text-xs font-bold">
+                <div className="flex items-center gap-2 p-1 bg-[#F5F6F6] rounded-xl mb-4 text-xs font-bold">
                   <button
                     type="button"
                     onClick={() => setLoginMethod('phone')}
                     className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                      loginMethod === 'phone' ? 'bg-[#07133F] text-[#D2A820] shadow-sm' : 'text-[#697080] hover:text-[#07133F]'
+                      loginMethod === 'phone' ? 'bg-[#09172C] text-[#FEC228] shadow-sm' : 'text-[#555B64] hover:text-[#09172C]'
                     }`}
                   >
                     <Phone className="w-3.5 h-3.5" />
@@ -525,7 +525,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     type="button"
                     onClick={() => setLoginMethod('email')}
                     className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                      loginMethod === 'email' ? 'bg-[#07133F] text-[#D2A820] shadow-sm' : 'text-[#697080] hover:text-[#07133F]'
+                      loginMethod === 'email' ? 'bg-[#09172C] text-[#FEC228] shadow-sm' : 'text-[#555B64] hover:text-[#09172C]'
                     }`}
                   >
                     <Mail className="w-3.5 h-3.5" />
@@ -536,7 +536,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 {/* Accreditation & Requester Form */}
                 <form onSubmit={handleGenerateOfficialDossier} className="space-y-3.5 text-xs">
                   <div>
-                    <label className="block font-bold text-[#07133F] mb-1">
+                    <label className="block font-bold text-[#09172C] mb-1">
                       {loginMethod === 'phone' ? 'Número de Telemóvel / WhatsApp' : 'E-mail Institucional ou Particular'}
                     </label>
                     <input
@@ -544,13 +544,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       value={clientIdentifier}
                       onChange={(e) => setClientIdentifier(e.target.value)}
                       placeholder={loginMethod === 'phone' ? '+244 9XX XXX XXX' : 'direccao@entidade.ao'}
-                      className="w-full p-3 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-[#07133F] mb-1">
+                    <label className="block font-bold text-[#09172C] mb-1">
                       Nome Completo do Responsável
                     </label>
                     <input
@@ -558,13 +558,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
                       placeholder="ex: Dr. Carlos Mendes"
-                      className="w-full p-3 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-[#07133F] mb-1">
+                    <label className="block font-bold text-[#09172C] mb-1">
                       Entidade / Embaixada / Empresa (Opcional)
                     </label>
                     <input
@@ -572,12 +572,12 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
                       placeholder="ex: Embaixada / Sonangol / Particular"
-                      className="w-full p-3 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-[#07133F] mb-1">
+                    <label className="block font-bold text-[#09172C] mb-1">
                       NIF / Documento de Identificação (Para Faturação AGT)
                     </label>
                     <input
@@ -585,12 +585,12 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       value={nifDocument}
                       onChange={(e) => setNifDocument(e.target.value)}
                       placeholder="ex: 5000XXXXXX ou Passaporte"
-                      className="w-full p-3 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-[#07133F] mb-1">
+                    <label className="block font-bold text-[#09172C] mb-1">
                       Observações ou Requisitos Especiais
                     </label>
                     <textarea
@@ -598,7 +598,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="ex: Necessidade de escolta, número de voo, cadeiras de criança..."
-                      className="w-full p-3 bg-[#F3F5F8] border border-[#D9DEE7] rounded-xl text-xs font-medium text-[#07133F] outline-hidden focus:ring-2 focus:ring-[#D2A820]"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                     />
                   </div>
 
@@ -606,7 +606,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-3.5 px-6 bg-[#D2A820] hover:bg-[#E1BB38] text-[#020A2A] font-black text-xs rounded-xl flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md"
+                      className="w-full py-3.5 px-6 bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md"
                     >
                       <FileText className="w-4 h-4" />
                       <span>{isSubmitting ? 'A submeter à Direcção...' : 'Submeter Ficha Oficial à Direcção'}</span>
@@ -616,8 +616,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
               </div>
 
               {/* Guarantees Box */}
-              <div className="bg-[#020A2A] text-white p-5 rounded-3xl text-xs space-y-2 border border-white/10">
-                <div className="flex items-center gap-2 text-[#D2A820] font-bold">
+              <div className="bg-[#09172C] text-white p-5 rounded-2xl text-xs space-y-2 border border-white/10">
+                <div className="flex items-center gap-2 text-[#FEC228] font-bold">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Tratamento Institucional com Sigilo Absoluto</span>
                 </div>
@@ -629,61 +629,61 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
           </div>
         ) : (
           /* Official Formatted Directorate Dossier View */
-          <div className="max-w-4xl mx-auto bg-white rounded-3xl p-8 sm:p-12 border border-[#D9DEE7] shadow-xl space-y-8 animate-fadeIn">
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 sm:p-12 border border-[#E2E8F0] shadow-xl space-y-8 animate-fadeIn">
             {/* Dossier Top Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#D9DEE7] gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#E2E8F0] gap-4">
               <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#D2A820] block mb-1">
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#FEC228] block mb-1">
                   PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#07133F]">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#09172C]">
                   Ficha Oficial de Requisição nº {directorateDossier.protocolCode}
                 </h3>
-                <p className="text-xs text-[#697080] mt-1">
+                <p className="text-xs text-[#555B64] mt-1">
                   Emitida em: {directorateDossier.submissionDate} · Sede Talatona, Luanda
                 </p>
               </div>
 
-              <div className="px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-[#1E8E5A] text-xs font-bold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#1E8E5A]" />
+              <div className="px-4 py-2 rounded-xl bg-[#236199] border border-[#236199] text-[#236199] text-xs font-bold flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#236199]" />
                 <span>{directorateDossier.authStatus}</span>
               </div>
             </div>
 
             {/* Dossier Structured Summary */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-[#697080] bg-[#F3F5F8] p-6 rounded-2xl border border-[#D9DEE7]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-[#555B64] bg-[#F5F6F6] p-6 rounded-2xl border border-[#E2E8F0]">
               <div className="space-y-2">
-                <h5 className="font-bold text-[#07133F] uppercase tracking-wider text-[11px] border-b pb-1">
+                <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] border-b pb-1">
                   1. Dados do Requisitante / Entidade
                 </h5>
-                <div>Nome / Responsável: <strong className="text-[#07133F]">{clientName}</strong></div>
-                {companyName && <div>Entidade / Embaixada: <strong className="text-[#07133F]">{companyName}</strong></div>}
-                <div>Credencial ({loginMethod}): <strong className="text-[#07133F]">{clientIdentifier}</strong></div>
-                {nifDocument && <div>NIF / Documento: <strong className="text-[#07133F]">{nifDocument}</strong></div>}
+                <div>Nome / Responsável: <strong className="text-[#09172C]">{clientName}</strong></div>
+                {companyName && <div>Entidade / Embaixada: <strong className="text-[#09172C]">{companyName}</strong></div>}
+                <div>Credencial ({loginMethod}): <strong className="text-[#09172C]">{clientIdentifier}</strong></div>
+                {nifDocument && <div>NIF / Documento: <strong className="text-[#09172C]">{nifDocument}</strong></div>}
               </div>
 
               <div className="space-y-2">
-                <h5 className="font-bold text-[#07133F] uppercase tracking-wider text-[11px] border-b pb-1">
+                <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] border-b pb-1">
                   2. Especificação da Frota e Itinerário
                 </h5>
-                <div>Viatura Pré-Alocada: <strong className="text-[#D2A820]">{selectedVehicle.name}</strong></div>
-                <div>Tarifa Diária: <strong className="text-[#07133F]">{selectedVehicle.pricePerDayFormatted}</strong></div>
-                <div>Regime: <strong className="text-[#07133F]">{withDriver ? 'Com Motorista Protocolar Bilingue (+35.000 Kz/dia)' : 'Livre Condução'}</strong></div>
-                <div>Local de Partida: <strong className="text-[#07133F]">{pickupLocation}</strong></div>
-                <div>Período: <strong className="text-[#07133F]">{startDate} até {endDate || 'A combinar'}</strong></div>
+                <div>Viatura Pré-Alocada: <strong className="text-[#FEC228]">{selectedVehicle.name}</strong></div>
+                <div>Tarifa Diária: <strong className="text-[#09172C]">{selectedVehicle.pricePerDayFormatted}</strong></div>
+                <div>Regime: <strong className="text-[#09172C]">{withDriver ? 'Com Motorista Protocolar Bilingue (+35.000 Kz/dia)' : 'Livre Condução'}</strong></div>
+                <div>Local de Partida: <strong className="text-[#09172C]">{pickupLocation}</strong></div>
+                <div>Período: <strong className="text-[#09172C]">{startDate} até {endDate || 'A combinar'}</strong></div>
               </div>
             </div>
 
-            <p className="text-xs text-[#697080] leading-relaxed">
+            <p className="text-xs text-[#555B64] leading-relaxed">
               {directorateDossier.summary} O processo está aberto e registado. Pode aguardar o contacto do nosso director de frota ou acelerar a validação imediata enviando a ficha assinada para o WhatsApp.
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#D9DEE7]">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#E2E8F0]">
               <button
                 type="button"
                 onClick={() => setDirectorateDossier(null)}
-                className="text-xs font-bold text-[#697080] hover:text-[#07133F] cursor-pointer"
+                className="text-xs font-bold text-[#555B64] hover:text-[#09172C] cursor-pointer"
               >
                 ← Criar Nova Ficha de Requisição
               </button>
@@ -693,7 +693,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   <button
                     type="button"
                     onClick={() => setIsPortalOpen(true)}
-                    className="w-full sm:w-auto px-6 py-3 bg-[#07133F] hover:bg-[#0B45D8] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
+                    className="w-full sm:w-auto px-6 py-3 bg-[#09172C] hover:bg-[#236199] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
                   >
                     <FileText className="w-4 h-4" />
                     <span>Continuar para Portal & Fatura Demo</span>
@@ -703,7 +703,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   href={whatsappDossierUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-3 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
+                  className="w-full sm:w-auto px-6 py-3 bg-[#236199] hover:bg-[#0C2E60] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
                 >
                   <Phone className="w-4 h-4" />
                   <span>Acelerar Despacho via WhatsApp Direcção</span>

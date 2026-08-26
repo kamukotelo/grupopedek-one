@@ -47,7 +47,7 @@ export const PaymentSecurity: React.FC = () => {
             </div>
 
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
-              <Lock className="w-5 h-5 text-emerald-600 shrink-0" />
+              <Lock className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
                 <span className="text-xs font-bold text-gray-900 block">SWIFT Internacional</span>
                 <span className="text-[10px] text-gray-500">USD & EUR Facturados</span>

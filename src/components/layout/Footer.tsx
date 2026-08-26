@@ -35,7 +35,7 @@ export const Footer: React.FC = () => {
                 href="https://www.instagram.com/pepekgruporentacar/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#0B45D8] flex items-center justify-center text-white transition-colors"
+                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#236199] flex items-center justify-center text-white transition-colors"
                 aria-label="Instagram da PEPEK GRUPO"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -48,7 +48,7 @@ export const Footer: React.FC = () => {
                 href="https://www.facebook.com/ppkrentacarangola/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#0B45D8] flex items-center justify-center text-white transition-colors"
+                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#236199] flex items-center justify-center text-white transition-colors"
                 aria-label="Facebook da PEPEK GRUPO"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
                 href="https://www.linkedin.com/company/pepek-grupo-rent-a-car/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#0B45D8] flex items-center justify-center text-white transition-colors"
+                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#236199] flex items-center justify-center text-white transition-colors"
                 aria-label="LinkedIn da PEPEK GRUPO"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
                 href="https://www.tiktok.com/@pepek_rentacar"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#0B45D8] flex items-center justify-center text-white transition-colors font-bold text-xs"
+                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-[#236199] flex items-center justify-center text-white transition-colors font-bold text-xs"
                 aria-label="TikTok da PEPEK GRUPO"
               >
                 TK
@@ -82,7 +82,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2 text-xs text-gray-400 pt-1">
-              <ShieldCheck className="w-4 h-4 text-[#0B45D8]" />
+              <ShieldCheck className="w-4 h-4 text-[#236199]" />
               <span>NIF Registado · Faturação AGT em Moeda Nacional (AOA) e Divisas</span>
             </div>
           </div>
@@ -122,11 +122,11 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3 text-xs text-gray-400">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#0B45D8] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#236199] shrink-0 mt-0.5" />
                 <span>Talatona, Rua Reino do Bailundo, Luanda — Angola</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#0B45D8] shrink-0" />
+                <Phone className="w-4 h-4 text-[#236199] shrink-0" />
                 <div className="space-x-1">
                   <a href="tel:+244923719090" className="hover:text-white font-semibold">+244 923 719 090</a>
                   <span>/</span>
@@ -134,13 +134,13 @@ export const Footer: React.FC = () => {
                 </div>
               </li>
               <li className="flex items-center gap-2.5">
-                <MessageSquare className="w-4 h-4 text-[#25D366] shrink-0" />
-                <a href={generateQuickWhatsAppUrl()} target="_blank" rel="noopener noreferrer" className="hover:text-white font-semibold text-emerald-400">
+                <MessageSquare className="w-4 h-4 text-[#236199] shrink-0" />
+                <a href={generateQuickWhatsAppUrl()} target="_blank" rel="noopener noreferrer" className="hover:text-white font-semibold text-[#236199]">
                   WhatsApp Oficial 24/7
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#0B45D8] shrink-0" />
+                <Mail className="w-4 h-4 text-[#236199] shrink-0" />
                 <a href="mailto:geral@pepekgrupo.com" className="hover:text-white">
                   geral@pepekgrupo.com
                 </a>

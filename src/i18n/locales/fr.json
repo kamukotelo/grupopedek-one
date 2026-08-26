@@ -11,6 +11,7 @@
     "corporate": "Entreprises & Protocole",
     "routes": "Itinéraires",
     "clientArea": "Espace Client",
+    "myPanel": "Mon Espace",
     "support247": "Assistance 24/7",
     "call247": "+244 923 719 090"
   },
@@ -135,7 +136,16 @@
     "protocol": "Délégations & Protocole",
     "passengers": "Passagers",
     "luggage": "Bagages",
-    "requestQuote": "Demander Cette Catégorie"
+    "requestQuote": "Demander Cette Catégorie",
+    "showcaseTag": "Notre Flotte",
+    "showcaseTitle": "Choisissez votre Véhicule",
+    "showcaseAll": "Voir Toute la Flotte",
+    "seats": "places",
+    "from": "À partir de",
+    "day": "jour",
+    "previous": "Véhicules précédents",
+    "next": "Véhicules suivants",
+    "automatic": "Automatique"
   },
   "process": {
     "tag": "Précision Opérationnelle",

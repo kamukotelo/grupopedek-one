@@ -10,19 +10,19 @@ export const Process: React.FC = () => {
       number: t('process.step1Num'),
       title: t('process.step1Title'),
       desc: t('process.step1Desc'),
-      icon: <Compass className="w-7 h-7 text-[#0B45D8]" />,
+      icon: <Compass className="w-7 h-7 text-[#236199]" />,
     },
     {
       number: t('process.step2Num'),
       title: t('process.step2Title'),
       desc: t('process.step2Desc'),
-      icon: <CheckCircle2 className="w-7 h-7 text-[#0B45D8]" />,
+      icon: <CheckCircle2 className="w-7 h-7 text-[#236199]" />,
     },
     {
       number: t('process.step3Num'),
       title: t('process.step3Title'),
       desc: t('process.step3Desc'),
-      icon: <ShieldCheck className="w-7 h-7 text-[#0B45D8]" />,
+      icon: <ShieldCheck className="w-7 h-7 text-[#236199]" />,
     },
   ];
 
@@ -43,14 +43,14 @@ export const Process: React.FC = () => {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 relative hover:border-[#0B45D8]/60 transition-all flex flex-col justify-between"
+              className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 relative hover:border-[#236199]/60 transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-[#0B45D8]/20 border border-[#0B45D8]/40 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-2xl bg-[#236199]/20 border border-[#236199]/40 flex items-center justify-center">
                     {step.icon}
                   </div>
-                  <span className="text-4xl font-black text-white/20 font-mono">
+                  <span className="text-4xl font-extrabold text-white/20 font-mono">
                     {step.number}
                   </span>
                 </div>

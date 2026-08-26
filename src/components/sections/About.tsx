@@ -50,17 +50,17 @@ export const About: React.FC = () => {
         <div className="absolute inset-0 opacity-25 [background:radial-gradient(circle_at_78%_28%,#236199_0,transparent_34%),linear-gradient(120deg,transparent_45%,#FEC228_140%)]" />
         <div className="container-pepek relative py-20 sm:py-28 lg:py-32">
           <div className="max-w-4xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#FEC228]/40 bg-[#FEC228]/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[#FEC228]">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#FEC228]/40 bg-[#FEC228]/10 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">
               <Sparkles className="h-4 w-4" /> {t('about.tag')}
             </div>
-            <h1 style={{ color: '#fff' }} className="max-w-3xl text-4xl font-black leading-[1.04] sm:text-6xl lg:text-7xl">
+            <h1 style={{ color: '#fff' }} className="max-w-3xl text-4xl font-extrabold leading-[1.04] sm:text-6xl lg:text-7xl">
               {t('about.heroTitle')}
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
               {t('about.heroDesc')}
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link to="/reservar" className="inline-flex items-center gap-2 rounded-lg bg-[#FEC228] px-6 py-3.5 text-sm font-black text-[#09172C] transition hover:bg-[#E4AD28]">
+              <Link to="/reservar" className="inline-flex items-center gap-2 rounded-lg bg-[#FEC228] px-6 py-3.5 text-sm font-extrabold text-[#09172C] transition hover:bg-[#E4AD28]">
                 {t('about.cta')} <ArrowRight className="h-4 w-4" />
               </Link>
               <div className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-bold text-white/85">
@@ -74,8 +74,8 @@ export const About: React.FC = () => {
       <div className="container-pepek py-16 sm:py-24">
         <div className="grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
           <div>
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-[#236199]">{t('about.storyTag')}</span>
-            <h2 className="mt-4 max-w-2xl text-3xl font-black leading-tight text-[#09172C] sm:text-5xl">{t('about.title')}</h2>
+            <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.storyTag')}</span>
+            <h2 className="mt-4 max-w-2xl text-3xl font-extrabold leading-tight text-[#09172C] sm:text-5xl">{t('about.title')}</h2>
           </div>
           <div className="space-y-5 text-base leading-8 text-slate-600">
             <p>{t('about.p1')}</p>
@@ -98,7 +98,7 @@ export const About: React.FC = () => {
           ].map(([title, desc, Icon], index) => (
             <article key={title as string} className={`p-8 sm:p-10 ${index === 1 ? 'bg-[#09172C] text-white' : 'bg-[#F5F6F6] text-[#09172C]'}`}>
               <Icon className={`h-8 w-8 ${index === 1 ? 'text-[#FEC228]' : 'text-[#236199]'}`} />
-              <h3 style={index === 1 ? { color: '#fff' } : undefined} className="mt-8 text-2xl font-black">{t(title as string)}</h3>
+              <h3 style={index === 1 ? { color: '#fff' } : undefined} className="mt-8 text-2xl font-extrabold">{t(title as string)}</h3>
               <p className={`mt-4 text-sm leading-7 ${index === 1 ? 'text-white/70' : 'text-slate-600'}`}>{t(desc as string)}</p>
             </article>
           ))}
@@ -108,14 +108,14 @@ export const About: React.FC = () => {
       <div className="bg-slate-50 py-16 sm:py-24">
         <div className="container-pepek">
           <div className="max-w-3xl">
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-[#0B45D8]">{t('about.principlesTag')}</span>
-            <h2 className="mt-4 text-3xl font-black text-[#06142F] sm:text-5xl">{t('about.principlesTitle')}</h2>
+            <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.principlesTag')}</span>
+            <h2 className="mt-4 text-3xl font-extrabold text-[#09172C] sm:text-5xl">{t('about.principlesTitle')}</h2>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {principles.map(([title, desc, Icon]) => (
-              <article key={title} className="rounded-3xl border border-slate-200 bg-white p-7 transition hover:-translate-y-1 hover:border-[#0B45D8]/30 hover:shadow-xl hover:shadow-blue-950/5">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0B45D8]"><Icon className="h-6 w-6" /></div>
-                <h3 className="mt-6 text-lg font-black text-[#06142F]">{t(title)}</h3>
+              <article key={title} className="rounded-2xl border border-slate-200 bg-white p-7 transition hover:-translate-y-1 hover:border-[#236199]/30 hover:shadow-xl hover:shadow-blue-950/5">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#236199]"><Icon className="h-6 w-6" /></div>
+                <h3 className="mt-6 text-lg font-extrabold text-[#09172C]">{t(title)}</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{t(desc)}</p>
               </article>
             ))}
@@ -126,15 +126,15 @@ export const About: React.FC = () => {
       <div className="container-pepek py-16 sm:py-24">
         <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
           <div>
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-[#0B45D8]">{t('about.supportTag')}</span>
-            <h2 className="mt-4 text-3xl font-black text-[#06142F] sm:text-5xl">{t('about.supportTitle')}</h2>
+            <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.supportTag')}</span>
+            <h2 className="mt-4 text-3xl font-extrabold text-[#09172C] sm:text-5xl">{t('about.supportTitle')}</h2>
             <p className="mt-5 text-base leading-8 text-slate-600">{t('about.supportIntro')}</p>
           </div>
           <div className="grid gap-4">
             {support.map(([title, desc, Icon]) => (
-              <div key={title} className="flex gap-5 rounded-3xl border border-slate-200 p-6">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#06142F] text-[#F2C94C]"><Icon className="h-6 w-6" /></div>
-                <div><h3 className="font-black text-[#06142F]">{t(title)}</h3><p className="mt-1 text-sm leading-6 text-slate-600">{t(desc)}</p></div>
+              <div key={title} className="flex gap-5 rounded-2xl border border-slate-200 p-6">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#09172C] text-[#FEC228]"><Icon className="h-6 w-6" /></div>
+                <div><h3 className="font-extrabold text-[#09172C]">{t(title)}</h3><p className="mt-1 text-sm leading-6 text-slate-600">{t(desc)}</p></div>
               </div>
             ))}
           </div>
@@ -144,11 +144,11 @@ export const About: React.FC = () => {
       <div className="bg-[#09172C] py-16 text-white sm:py-24">
         <div className="container-pepek">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <div><span className="text-xs font-black uppercase tracking-[0.2em] text-[#F2C94C]">{t('about.teamTag')}</span><h2 style={{ color: '#fff' }} className="mt-4 text-3xl font-black sm:text-5xl">{t('about.teamTitle')}</h2></div>
+            <div><span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">{t('about.teamTag')}</span><h2 style={{ color: '#fff' }} className="mt-4 text-3xl font-extrabold sm:text-5xl">{t('about.teamTitle')}</h2></div>
             <p className="max-w-xl text-sm leading-7 text-white/65">{t('about.teamIntro')}</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-[.72fr_1.28fr]">
-            <figure className="group relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-[#091A39] shadow-2xl shadow-black/20 sm:min-h-[28rem]">
+            <figure className="group relative min-h-[22rem] overflow-hidden rounded-2xl border border-white/10 bg-[#0C2E60] shadow-2xl shadow-black/20 sm:min-h-[28rem]">
               <img
                 src="/institutional/direcao-pepek-2026.jpg"
                 alt={t('about.leadershipPhotoAlt')}
@@ -156,10 +156,10 @@ export const About: React.FC = () => {
                 loading="lazy"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#09172C] via-[#09172C]/70 to-transparent px-6 pb-6 pt-20">
-                <figcaption className="text-sm font-black uppercase tracking-[0.16em] text-[#F2C94C]">{t('about.leadershipPhotoLabel')}</figcaption>
+                <figcaption className="text-sm font-extrabold uppercase tracking-[0.16em] text-[#FEC228]">{t('about.leadershipPhotoLabel')}</figcaption>
               </div>
             </figure>
-            <figure className="group relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-[#091A39] shadow-2xl shadow-black/20 sm:min-h-[28rem]">
+            <figure className="group relative min-h-[22rem] overflow-hidden rounded-2xl border border-white/10 bg-[#0C2E60] shadow-2xl shadow-black/20 sm:min-h-[28rem]">
               <img
                 src="/institutional/equipa-lideranca-pepek-2026.jpg"
                 alt={t('about.teamPhotoAlt')}
@@ -167,15 +167,15 @@ export const About: React.FC = () => {
                 loading="lazy"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#09172C] via-[#09172C]/70 to-transparent px-6 pb-6 pt-20">
-                <figcaption className="text-sm font-black uppercase tracking-[0.16em] text-[#F2C94C]">{t('about.teamPhotoLabel')}</figcaption>
+                <figcaption className="text-sm font-extrabold uppercase tracking-[0.16em] text-[#FEC228]">{t('about.teamPhotoLabel')}</figcaption>
               </div>
             </figure>
           </div>
-          <div className="mt-10 grid gap-px overflow-hidden rounded-3xl bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
             {leadership.map(([name, role]) => (
-              <div key={name} className="bg-[#091A39] p-6">
-                <Users className="h-5 w-5 text-[#F2C94C]" />
-                <h3 style={{ color: '#fff' }} className="mt-5 font-black">{name}</h3>
+              <div key={name} className="bg-[#0C2E60] p-6">
+                <Users className="h-5 w-5 text-[#FEC228]" />
+                <h3 style={{ color: '#fff' }} className="mt-5 font-extrabold">{name}</h3>
                 <p className="mt-1 text-xs font-bold uppercase tracking-wider text-white/50">{role === 'CEO' ? role : t(role)}</p>
               </div>
             ))}

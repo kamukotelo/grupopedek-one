@@ -62,9 +62,9 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Card */}
-      <div className="relative flex max-h-[94vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl z-10 animate-scaleUp">
+      <div className="relative flex max-h-[94vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl z-10 animate-scaleUp">
         {/* Header with Navy Gradient */}
-        <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-6 sm:p-8 text-white relative">
+        <div className="bg-gradient-to-r from-[#09172C] to-[#0C2E60] p-6 sm:p-8 text-white relative">
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
@@ -73,7 +73,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
             <X className="w-5 h-5" />
           </button>
 
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#D2A820] block mb-1">
+          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#FEC228] block mb-1">
             Portal seguro PEPEK
           </span>
           <h3 className="text-2xl font-extrabold text-white font-inter">
@@ -87,8 +87,8 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
         {/* Body Content */}
         <div className="overflow-y-auto p-5 sm:p-7">
           {isDemoMode && <>
-            <div className="mb-5 rounded-2xl border border-[#D2A820]/30 bg-[#FFF9E7] px-4 py-3 text-[11px] text-[#584817]">
-              <span className="flex items-center gap-2 font-extrabold"><Sparkles className="h-4 w-4 text-[#B68D13]" />Entrada imediata, sem senha</span>
+            <div className="mb-5 rounded-2xl border border-[#E4AD28]/30 bg-[#FEC228]/10 px-4 py-3 text-[11px] text-[#09172C]">
+              <span className="flex items-center gap-2 font-extrabold"><Sparkles className="h-4 w-4 text-[#E4AD28]" />Entrada imediata, sem senha</span>
               <span className="mt-1 block text-[10px] text-slate-600">Todos os dados apresentados são fictícios e servem apenas para conhecer a experiência.</span>
             </div>
 
@@ -96,8 +96,8 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               {(['Clientes', 'Operações', 'Gestão'] as const).map((group) => (
                 <section key={group} aria-labelledby={`grupo-${group}`}>
                   <div className="mb-2 flex items-center gap-2 px-1">
-                    <span className="grid h-6 w-6 place-items-center rounded-lg bg-[#07133F] text-[10px] font-black text-[#D2A820]">{group === 'Clientes' ? '01' : group === 'Operações' ? '02' : '03'}</span>
-                    <h4 id={`grupo-${group}`} className="text-xs font-black uppercase tracking-[0.12em] text-[#07133F]">{group}</h4>
+                    <span className="grid h-6 w-6 place-items-center rounded-lg bg-[#09172C] text-[10px] font-extrabold text-[#FEC228]">{group === 'Clientes' ? '01' : group === 'Operações' ? '02' : '03'}</span>
+                    <h4 id={`grupo-${group}`} className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#09172C]">{group}</h4>
                   </div>
                   <div className="space-y-2">
                     {PROFILE_CHOICES.filter((profile) => profile.group === group).map((profile) => (
@@ -105,14 +105,14 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                         key={profile.role}
                         type="button"
                         onClick={() => { setErrorMessage(''); loginAs(profile.role); }}
-                        className="group flex min-h-[82px] w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#D2A820] hover:shadow-md"
+                        className="group flex min-h-[82px] w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#FEC228] hover:shadow-md"
                       >
-                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#F3F5F8] text-xl transition group-hover:bg-[#FFF4C7]" aria-hidden="true">{profile.icon}</span>
+                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#F5F6F6] text-xl transition group-hover:bg-[#FFF4C7]" aria-hidden="true">{profile.icon}</span>
                         <span className="min-w-0 flex-1">
-                          <strong className="block text-xs text-[#07133F]">{profile.title}</strong>
+                          <strong className="block text-xs text-[#09172C]">{profile.title}</strong>
                           <span className="mt-1 block text-[10px] leading-snug text-slate-500">{profile.description}</span>
                         </span>
-                        <ArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#B68D13]" />
+                        <ArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#E4AD28]" />
                       </button>
                     ))}
                   </div>
@@ -120,7 +120,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               ))}
             </div>
 
-            <button type="button" onClick={() => setShowRealLogin((visible) => !visible)} className="mt-6 flex w-full items-center justify-center gap-2 border-t border-slate-200 pt-5 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500 hover:text-[#07133F]" aria-expanded={showRealLogin}>
+            <button type="button" onClick={() => setShowRealLogin((visible) => !visible)} className="mt-6 flex w-full items-center justify-center gap-2 border-t border-slate-200 pt-5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 hover:text-[#09172C]" aria-expanded={showRealLogin}>
               Já possui uma conta PEPEK? Entrar com e-mail
               <ChevronDown className={`h-4 w-4 transition-transform ${showRealLogin ? 'rotate-180' : ''}`} />
             </button>
@@ -128,18 +128,18 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
 
             {(showRealLogin || !isDemoMode) && <div className={`mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-slate-50 p-5 ${isDemoMode ? 'mt-5' : ''}`}>
             <div className="mb-5 grid gap-3 sm:grid-cols-2" role="tablist" aria-label="Tipo de conta">
-              <button type="button" role="tab" aria-selected={activeTab === 'corporate'} onClick={() => { setActiveTab('corporate'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'corporate' ? 'border-[#D2A820] bg-[#07133F] text-white shadow-lg' : 'border-slate-200 bg-white text-[#07133F]'}`}>
-                <Building2 className={`h-5 w-5 ${activeTab === 'corporate' ? 'text-[#D2A820]' : 'text-[#0B45D8]'}`} />
+              <button type="button" role="tab" aria-selected={activeTab === 'corporate'} onClick={() => { setActiveTab('corporate'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'corporate' ? 'border-[#FEC228] bg-[#09172C] text-white shadow-lg' : 'border-slate-200 bg-white text-[#09172C]'}`}>
+                <Building2 className={`h-5 w-5 ${activeTab === 'corporate' ? 'text-[#FEC228]' : 'text-[#236199]'}`} />
                 <strong className="mt-3 block text-sm">Conta Corporativa</strong>
                 <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'corporate' ? 'text-white/65' : 'text-slate-500'}`}>Empresas, embaixadas e instituições com contratos, faturas e viaturas alocadas.</span>
               </button>
-              <button type="button" role="tab" aria-selected={activeTab === 'private'} onClick={() => { setActiveTab('private'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'private' ? 'border-[#D2A820] bg-[#07133F] text-white shadow-lg' : 'border-slate-200 bg-white text-[#07133F]'}`}>
-                <User className={`h-5 w-5 ${activeTab === 'private' ? 'text-[#D2A820]' : 'text-[#0B45D8]'}`} />
+              <button type="button" role="tab" aria-selected={activeTab === 'private'} onClick={() => { setActiveTab('private'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'private' ? 'border-[#FEC228] bg-[#09172C] text-white shadow-lg' : 'border-slate-200 bg-white text-[#09172C]'}`}>
+                <User className={`h-5 w-5 ${activeTab === 'private' ? 'text-[#FEC228]' : 'text-[#236199]'}`} />
                 <strong className="mt-3 block text-sm">Cliente Particular</strong>
                 <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'private' ? 'text-white/65' : 'text-slate-500'}`}>Reservas pessoais, comprovativos, pagamentos e acompanhamento do serviço.</span>
               </button>
             </div>
-            <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-[10px] leading-4 text-emerald-800">
+            <div className="mb-4 rounded-xl border border-[#236199] bg-[#236199] p-3 text-[10px] leading-4 text-[#236199]">
               <ShieldCheck className="mr-1.5 inline h-4 w-4" />
               Sessão protegida. A PEPEK nunca solicitará a sua palavra-passe por telefone, WhatsApp ou e-mail.
             </div>
@@ -183,21 +183,21 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
 
               <div className="flex items-center justify-between text-xs pt-1">
                 <label className="flex items-center gap-2 text-gray-600 cursor-pointer">
-                  <input type="checkbox" className="rounded text-[#0B45D8] focus:ring-[#0B45D8]" />
+                  <input type="checkbox" className="rounded text-[#236199] focus:ring-[#236199]" />
                   <span>{t('auth.remember')}</span>
                 </label>
 
                 <button
                   type="button"
                   onClick={handlePasswordReset}
-                  className="font-semibold text-[#0B45D8] hover:underline"
+                  className="font-semibold text-[#236199] hover:underline"
                 >
                   {t('auth.forgot')}
                 </button>
               </div>
 
-              {errorMessage && <p role="alert" className="rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-700">{errorMessage}</p>}
-              {resetMessage && <p role="status" className="rounded-xl bg-emerald-50 p-3 text-xs font-semibold text-emerald-700">{resetMessage}</p>}
+              {errorMessage && <p role="alert" className="rounded-xl bg-[#FEC228] p-3 text-xs font-semibold text-[#E4AD28]">{errorMessage}</p>}
+              {resetMessage && <p role="status" className="rounded-xl bg-[#236199] p-3 text-xs font-semibold text-[#236199]">{resetMessage}</p>}
 
               <button
                 type="submit"
@@ -212,7 +212,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
           {/* Footer Note */}
           <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
             <div className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <ShieldCheck className="w-4 h-4 text-[#236199]" />
               <span>Ligação cifrada e acesso autenticado</span>
             </div>
 
@@ -220,7 +220,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               href={generateQuickWhatsAppUrl('Pedido de Nova Conta Corporativa')}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold text-[#06142F] hover:text-[#0B45D8]"
+              className="font-bold text-[#09172C] hover:text-[#236199]"
             >
               {t('auth.create')} ➔
             </a>

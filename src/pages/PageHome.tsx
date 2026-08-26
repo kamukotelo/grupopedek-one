@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Hero } from '../components/sections/Hero';
 import { Services } from '../components/sections/Services';
-import { Fleet } from '../components/sections/Fleet';
+import { FleetShowcase } from '../components/sections/FleetShowcase';
 import { CorporatePortal } from '../components/sections/CorporatePortal';
 import { Process } from '../components/sections/Process';
 import { About } from '../components/sections/About';
@@ -11,8 +11,6 @@ import { FAQ } from '../components/sections/FAQ';
 import { Contact } from '../components/sections/Contact';
 import { CoverageMap } from '../components/sections/CoverageMap';
 import { BookingWidget } from '../components/sections/BookingWidget';
-import { InstitutionalClients } from '../components/sections/InstitutionalClients';
-import { BrandCTA } from '../components/sections/BrandCTA';
 
 const SCHEMA_ORG = {
   "@context": "https://schema.org",
@@ -33,7 +31,7 @@ const SCHEMA_ORG = {
   "image": "https://pepekgrupo.com/logo.png"
 };
 
-export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ onSelectVehicle }) => (
+export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = () => (
   <>
     <Helmet>
       <title>PEPEK GRUPO – Rent-a-Car Executivo & Mobilidade de Luxo em Angola</title>
@@ -48,15 +46,13 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ o
     <Hero />
     <BookingWidget initialVehicle="Novo Toyota Prado" />
     <Services />
-    <Fleet onSelectVehicle={onSelectVehicle} />
+    <FleetShowcase />
     <CorporatePortal />
     <CoverageMap />
     <Process />
     <About />
     <PaymentSecurity />
     <FAQ />
-    <BrandCTA />
-    <InstitutionalClients />
     <Contact />
   </>
 );

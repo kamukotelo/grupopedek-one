@@ -29,8 +29,8 @@ export const SplashScreen: React.FC = () => {
 
       source.animate(
         [
-          { transform: 'translate3d(0, 0, 0) scale(1)', filter: 'drop-shadow(0 0 28px rgba(48, 112, 255, .7))' },
-          { transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`, filter: 'drop-shadow(0 0 5px rgba(11, 69, 216, .28))' },
+          { transform: 'translate3d(0, 0, 0) scale(1)', filter: 'drop-shadow(0 0 28px rgba(35, 97, 153, .7))' },
+          { transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`, filter: 'drop-shadow(0 0 5px rgba(35, 97, 153, .28))' },
         ],
         { duration: 650, easing: 'cubic-bezier(.65, 0, .18, 1)', fill: 'forwards' },
       );

@@ -176,7 +176,7 @@ export const ChatBot: React.FC = () => {
         {/* Contextual Nudge Bubble */}
         {proactiveBubbleVisible && !isOpen && (
           <div className="mb-2 max-w-[280px] sm:max-w-[320px] p-3.5 rounded-2xl bg-white text-gray-900 shadow-2xl border border-gray-200 animate-scaleUp relative flex items-start gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-[#0B45D8] text-white flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-[#236199] text-white flex items-center justify-center shrink-0">
               <Sparkles className="w-3.5 h-3.5" />
             </div>
             <div
@@ -186,7 +186,7 @@ export const ChatBot: React.FC = () => {
                 setProactiveBubbleVisible(false);
               }}
             >
-              <strong className="block text-[#06142F] font-bold">Consultor Pepek Grupo</strong>
+              <strong className="block text-[#09172C] font-bold">Consultor Pepek Grupo</strong>
               <p className="text-gray-600 text-[11px] leading-relaxed mt-0.5">
                 Precisa de ajuda a escolher a viatura ideal para a sua comitiva ou viagem?
               </p>
@@ -207,16 +207,16 @@ export const ChatBot: React.FC = () => {
               setIsOpen(true);
               setProactiveBubbleVisible(false);
             }}
-            className="group flex items-center gap-3 p-3.5 sm:px-5 sm:py-3.5 rounded-full bg-[#06142F] hover:bg-[#0B45D8] text-white shadow-2xl border border-white/20 transition-all duration-300 hover:scale-105 cursor-pointer"
+            className="group flex items-center gap-3 p-3.5 sm:px-5 sm:py-3.5 rounded-full bg-[#09172C] hover:bg-[#236199] text-white shadow-2xl border border-white/20 transition-all duration-300 hover:scale-105 cursor-pointer"
             aria-label="Abrir Atendimento Executivo"
           >
             <div className="relative">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 block animate-pulse"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#236199] block animate-pulse"></span>
             </div>
             <span className="hidden sm:inline font-bold text-xs">
               {currentUser ? `Olá, ${currentUser.name.split(' ')[0]}` : 'Atendimento 24/7'}
             </span>
-            <MessageSquare className="w-5 h-5 text-[#0B45D8] group-hover:text-white transition-colors" />
+            <MessageSquare className="w-5 h-5 text-[#236199] group-hover:text-white transition-colors" />
           </button>
         )}
       </div>
@@ -224,7 +224,7 @@ export const ChatBot: React.FC = () => {
       {/* Floating Interactive Chat Modal */}
       {isOpen && (
         <div
-          className="fixed right-5 sm:right-7 z-50 w-[92vw] sm:w-[420px] bg-white rounded-3xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden animate-scaleUp"
+          className="fixed right-5 sm:right-7 z-50 w-[92vw] sm:w-[420px] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden animate-scaleUp"
           style={{
             bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px) + 12px)',
             maxHeight:
@@ -232,15 +232,15 @@ export const ChatBot: React.FC = () => {
           }}
         >
           {/* Top Header */}
-          <div className="bg-gradient-to-r from-[#06142F] to-[#0A1E42] p-4 text-white flex items-center justify-between">
+          <div className="bg-gradient-to-r from-[#09172C] to-[#0C2E60] p-4 text-white flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white">
-                <Headphones className="w-4 h-4 text-[#0B45D8]" />
+              <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white">
+                <Headphones className="w-4 h-4 text-[#236199]" />
               </div>
               <div>
                 <h4 className="font-bold text-xs text-white">Consultor de Mobilidade PEPEK</h4>
-                <p className="text-[10px] text-emerald-400 flex items-center gap-1 font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <p className="text-[10px] text-[#236199] flex items-center gap-1 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#236199] animate-pulse"></span>
                   <span>Central de Talatona · Disponível 24/7</span>
                 </p>
               </div>
@@ -265,7 +265,7 @@ export const ChatBot: React.FC = () => {
                 <div
                   className={`max-w-[85%] p-3.5 rounded-2xl leading-relaxed ${
                     msg.role === 'user'
-                      ? 'bg-[#0B45D8] text-white rounded-br-none shadow-xs font-medium'
+                      ? 'bg-[#236199] text-white rounded-br-none shadow-xs font-medium'
                       : 'bg-white text-gray-800 rounded-bl-none border border-gray-200 shadow-xs'
                   }`}
                 >
@@ -308,7 +308,7 @@ export const ChatBot: React.FC = () => {
                 <button
                   key={idx}
                   onClick={() => handleSendMessage(reply)}
-                  className="px-2.5 py-1 rounded-full bg-gray-100 hover:bg-[#0B45D8] hover:text-white text-gray-700 text-[10px] font-semibold whitespace-nowrap transition-colors border border-gray-200 cursor-pointer"
+                  className="px-2.5 py-1 rounded-full bg-gray-100 hover:bg-[#236199] hover:text-white text-gray-700 text-[10px] font-semibold whitespace-nowrap transition-colors border border-gray-200 cursor-pointer"
                 >
                   {reply}
                 </button>
@@ -332,12 +332,12 @@ export const ChatBot: React.FC = () => {
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Escreva a sua mensagem..."
                 style={{ fontSize: '16px' }}
-                className="flex-1 py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:border-[#0B45D8]"
+                className="flex-1 py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:border-[#236199]"
               />
               <button
                 type="submit"
                 disabled={!inputMessage.trim() || isTyping}
-                className="p-2.5 rounded-xl bg-[#0B45D8] text-white disabled:opacity-50 transition-colors cursor-pointer"
+                className="p-2.5 rounded-xl bg-[#236199] text-white disabled:opacity-50 transition-colors cursor-pointer"
                 aria-label="Enviar mensagem"
               >
                 <Send className="w-4 h-4" />
@@ -351,7 +351,7 @@ export const ChatBot: React.FC = () => {
                 href={generateWhatsAppHandoverLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#25D366] hover:underline font-bold flex items-center gap-1"
+                className="text-[#236199] hover:underline font-bold flex items-center gap-1"
               >
                 <span>WhatsApp Direto</span>
                 <ArrowUpRight className="w-3 h-3" />

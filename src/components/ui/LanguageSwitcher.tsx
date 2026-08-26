@@ -44,9 +44,9 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
         onClick={() => setIsOpen((open) => !open)}
         className={`group flex h-11 items-center gap-2 rounded-xl border px-2.5 font-bold transition-all duration-200 ${
           isDark
-            ? 'border-slate-200 bg-slate-50 text-[#07133F] hover:border-[#B68D13] hover:bg-white'
-            : 'border-white/15 bg-white/10 text-white hover:border-[#D2A820]/70 hover:bg-white/15'
-        } ${isOpen ? 'border-[#B68D13] ring-2 ring-[#D2A820]/15' : ''}`}
+            ? 'border-slate-200 bg-slate-50 text-[#09172C] hover:border-[#E4AD28] hover:bg-white'
+            : 'border-white/15 bg-white/10 text-white hover:border-[#FEC228]/70 hover:bg-white/15'
+        } ${isOpen ? 'border-[#E4AD28] ring-2 ring-[#FEC228]/15' : ''}`}
         aria-label="Selecionar idioma"
         aria-haspopup="menu"
         aria-expanded={isOpen}
@@ -55,20 +55,20 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
           {activeLanguage.flag}
         </span>
         <span className="hidden min-w-[70px] text-left text-xs xl:block">{activeLanguage.name}</span>
-        <span className="text-[10px] font-black uppercase tracking-wider xl:hidden">{activeLanguage.code}</span>
-        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isOpen ? 'rotate-180 text-[#B68D13]' : 'opacity-60'}`} />
+        <span className="text-[10px] font-extrabold uppercase tracking-wider xl:hidden">{activeLanguage.code}</span>
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isOpen ? 'rotate-180 text-[#E4AD28]' : 'opacity-60'}`} />
       </button>
 
       {isOpen && (
         <div
           role="menu"
-          className={`absolute right-0 top-[calc(100%+0.65rem)] z-[80] w-56 overflow-hidden rounded-2xl border p-2 shadow-[0_20px_55px_rgba(2,10,42,0.24)] ${
-            isDark ? 'border-slate-200 bg-white text-[#07133F]' : 'border-white/15 bg-[#07133F] text-white'
+          className={`absolute right-0 top-[calc(100%+0.65rem)] z-[80] w-56 overflow-hidden rounded-2xl border p-2 shadow-[0_20px_55px_rgba(9,23,44,0.24)] ${
+            isDark ? 'border-slate-200 bg-white text-[#09172C]' : 'border-white/15 bg-[#09172C] text-white'
           }`}
         >
           <div className={`mb-1 flex items-center gap-2 border-b px-3 py-2.5 ${isDark ? 'border-slate-100 text-slate-500' : 'border-white/10 text-slate-400'}`}>
-            <Languages className="h-4 w-4 text-[#B68D13]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.14em]">Selecionar idioma</span>
+            <Languages className="h-4 w-4 text-[#E4AD28]" />
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.14em]">Selecionar idioma</span>
           </div>
           {languages.map((lang) => {
             const isActive = currentLang === lang.code;
@@ -81,7 +81,7 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
                 onClick={() => handleLanguageChange(lang.code)}
                 className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
                   isActive
-                    ? isDark ? 'bg-[#07133F] text-white' : 'bg-[#D2A820] text-[#020A2A]'
+                    ? isDark ? 'bg-[#09172C] text-white' : 'bg-[#FEC228] text-[#09172C]'
                     : isDark ? 'hover:bg-slate-100' : 'hover:bg-white/10'
                 }`}
               >

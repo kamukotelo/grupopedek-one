@@ -11,6 +11,7 @@
     "corporate": "Business & Protocol",
     "routes": "Routes",
     "clientArea": "Client Area",
+    "myPanel": "My Dashboard",
     "support247": "24/7 Support",
     "call247": "+244 923 719 090"
   },
@@ -135,7 +136,16 @@
     "protocol": "Delegations & Protocol",
     "passengers": "Passengers",
     "luggage": "Luggage",
-    "requestQuote": "Request This Category"
+    "requestQuote": "Request This Category",
+    "showcaseTag": "Our Fleet",
+    "showcaseTitle": "Choose Your Vehicle",
+    "showcaseAll": "View Full Fleet",
+    "seats": "seats",
+    "from": "From",
+    "day": "day",
+    "previous": "Previous vehicles",
+    "next": "Next vehicles",
+    "automatic": "Automatic"
   },
   "process": {
     "tag": "Simplicity & Operational Precision",

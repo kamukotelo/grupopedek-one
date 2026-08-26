@@ -11,6 +11,7 @@
     "corporate": "Empresas & Protocolo",
     "routes": "Rotas",
     "clientArea": "Área Cliente",
+    "myPanel": "Meu Painel",
     "support247": "Apoio 24/7",
     "call247": "+244 923 719 090"
   },
@@ -135,7 +136,16 @@
     "protocol": "Delegações & Protocolo",
     "passengers": "Passageiros",
     "luggage": "Malas",
-    "requestQuote": "Solicitar Esta Categoria"
+    "requestQuote": "Solicitar Esta Categoria",
+    "showcaseTag": "A Nossa Frota",
+    "showcaseTitle": "Escolha a sua Viatura",
+    "showcaseAll": "Ver Toda a Frota",
+    "seats": "lugares",
+    "from": "A partir de",
+    "day": "dia",
+    "previous": "Viaturas anteriores",
+    "next": "Viaturas seguintes",
+    "automatic": "Automático"
   },
   "process": {
     "tag": "Simplicidade & Rigor Operacional",
