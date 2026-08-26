@@ -3,6 +3,7 @@ import { Armchair, ArrowRight, ChevronLeft, ChevronRight, Gauge } from 'lucide-r
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
+import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 const FEATURED_IDS = ['range-rover', 'toyota-fortuner-2023', 'hyundai-staria-atual', 'toyota-hilux'];
 const FEATURED_LABELS: Record<string, string> = {
@@ -67,11 +68,12 @@ export const FleetShowcase: React.FC = () => {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {orderedVehicles.map((vehicle) => (
-              <Link key={vehicle.id} to="/frota" className="group flex min-h-[410px] flex-col overflow-hidden rounded-xl border border-[#236199]/40 bg-[#236199]/55 p-5 transition duration-300 hover:-translate-y-1 hover:border-[#FEC228] hover:bg-[#236199]/75">
-                <div className="flex h-48 items-center justify-center">
+              <Link key={vehicle.id} to="/frota" className="group flex min-h-[410px] flex-col overflow-hidden rounded-[24px] border border-[#236199]/55 bg-[#174B86] transition duration-300 hover:-translate-y-1 hover:border-[#FEC228] hover:shadow-[0_20px_38px_rgba(9,23,44,.28)]">
+                <div className="flex h-52 items-center justify-center border-b border-white/10 bg-cover bg-center p-5" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
                   <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" className="h-full w-full object-contain drop-shadow-[0_18px_20px_rgba(9,23,44,.45)] transition duration-500 group-hover:scale-105" />
                 </div>
-                <h3 className="mt-1 text-xl font-extrabold text-white">{vehicle.name}</h3>
+                <div className="flex flex-1 flex-col p-5">
+                <h3 className="text-xl font-extrabold text-white">{vehicle.name}</h3>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <span className="rounded bg-[#FEC228] px-3 py-1 text-[9px] font-bold uppercase text-[#09172C]">{FEATURED_LABELS[vehicle.id]}</span>
                   <span className="rounded border border-white px-3 py-1 text-[9px] font-bold uppercase text-white">{t('fleet.automatic')}</span>
@@ -83,6 +85,7 @@ export const FleetShowcase: React.FC = () => {
                 <div className="mt-auto border-t border-white/45 pt-4">
                   <span className="block text-[11px] text-white/75">{t('fleet.from')}</span>
                   <strong className="mt-1 block text-xl font-extrabold text-[#FEC228]">{formatPrice(vehicle.pricePerDayAOA)} Kz / {t('fleet.day')}</strong>
+                </div>
                 </div>
               </Link>
             ))}

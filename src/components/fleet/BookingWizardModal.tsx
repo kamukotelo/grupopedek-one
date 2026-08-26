@@ -286,17 +286,17 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 </select>
 
                 {/* Quick Vehicle Highlight */}
-                <div className="mt-4 flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#F5F6F6] border border-[#E2E8F0]">
-                  <div className="w-32 h-20 rounded-lg shrink-0 border border-gray-200 bg-cover bg-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
+                <div className="mt-4 flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#174B86] border border-[#236199]/55 text-white">
+                  <div className="w-32 h-20 rounded-lg shrink-0 border border-white/10 bg-cover bg-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
                     <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} className="h-full w-full object-contain drop-shadow-md" />
                   </div>
                   <div className="flex-1 text-center sm:text-left">
-                    <h4 className="font-extrabold text-[#09172C] text-base">{selectedVehicle.name}</h4>
-                    <p className="text-xs text-[#555B64]">{selectedVehicle.specs.passengers} Passageiros · {selectedVehicle.specs.doors} Portas · {selectedVehicle.specs.transmission} · {selectedVehicle.specs.fuelType}</p>
+                    <h4 className="font-extrabold text-white text-base">{selectedVehicle.name}</h4>
+                    <p className="text-xs text-white/75">{selectedVehicle.specs.passengers} Passageiros · {selectedVehicle.specs.doors} Portas · {selectedVehicle.specs.transmission} · {selectedVehicle.specs.fuelType}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <span className="text-lg font-extrabold text-[#09172C] block">{selectedVehicle.pricePerDayFormatted}</span>
-                    <span className="text-[10px] text-[#555B64] font-semibold uppercase">por dia</span>
+                    <span className="text-lg font-extrabold text-[#FEC228] block">{selectedVehicle.pricePerDayFormatted}</span>
+                    <span className="text-[10px] text-white/65 font-semibold uppercase">por dia</span>
                   </div>
                 </div>
               </div>

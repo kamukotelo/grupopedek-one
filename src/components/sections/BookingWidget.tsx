@@ -358,13 +358,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     <div
                       key={v.id}
                       onClick={() => setSelectedVehicle(v)}
-                      className={`p-2.5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between group ${
+                      className={`overflow-hidden rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between group ${
                         selectedVehicle.id === v.id
-                          ? 'border-[#FEC228] bg-[#FEC228]/40 shadow-md ring-2 ring-[#FEC228]/20'
-                          : 'border-[#E2E8F0] hover:border-gray-300 bg-white'
+                          ? 'border-[#FEC228] bg-[#174B86] shadow-md ring-2 ring-[#FEC228]/20'
+                          : 'border-[#236199]/55 bg-[#174B86] hover:border-[#FEC228]/70'
                       }`}
                     >
-                      <div className="h-20 sm:h-24 rounded-xl overflow-hidden bg-cover bg-center border border-[#E2E8F0] mb-2 relative flex items-center justify-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
+                      <div className="h-20 sm:h-24 overflow-hidden bg-cover bg-center border-b border-white/10 relative flex items-center justify-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
                         <img src={v.primaryImage} alt={v.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform drop-shadow-[0_8px_10px_rgba(9,23,44,0.18)]" />
                         {selectedVehicle.id === v.id && (
                           <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#FEC228] text-[#09172C] flex items-center justify-center text-[10px] font-bold shadow-xs">
@@ -372,8 +372,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                           </div>
                         )}
                       </div>
-                      <div>
-                        <h5 className="text-[11px] font-bold text-[#09172C] leading-tight line-clamp-2">{v.name}</h5>
+                      <div className="p-2.5">
+                        <h5 className="text-[11px] font-bold text-white leading-tight line-clamp-2">{v.name}</h5>
                         <span className="text-[9px] font-bold text-[#FEC228] block mt-1">{v.pricePerDayFormatted}/dia</span>
                       </div>
                     </div>
@@ -381,7 +381,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 </div>
 
                 {/* Selected Vehicle Focus Spotlight Box */}
-                <div className="p-5 rounded-2xl bg-[#09172C] text-white border border-white/10 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
+                <div className="p-5 rounded-2xl bg-[#174B86] text-white border border-[#236199]/55 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
                   <div className="w-full sm:w-1/2 h-44 rounded-xl overflow-hidden relative shadow-lg bg-cover bg-center border border-white/10 flex items-center justify-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
                     <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} className="w-full h-full object-contain drop-shadow-[0_16px_20px_rgba(9,23,44,0.3)]" />
                     <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-[#09172C] text-[#FEC228] border border-[#FEC228]/40 text-[10px] font-extrabold uppercase shadow-md">

@@ -11,6 +11,7 @@ import {
   Trash2
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
+import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 interface VehicleComparatorProps {
   comparedVehicles: VehicleDetail[];
@@ -81,7 +82,7 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
             {comparedVehicles.map((vehicle) => (
               <div
                 key={vehicle.id}
-                className="bg-white rounded-2xl p-4 border border-[#E2E8F0] shadow-xs flex flex-col justify-between space-y-3 relative group"
+                className="bg-[#174B86] text-white rounded-2xl p-4 border border-[#236199]/55 shadow-xs flex flex-col justify-between space-y-3 relative group"
               >
                 <button
                   type="button"
@@ -92,22 +93,22 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
                   <X className="w-3.5 h-3.5" />
                 </button>
 
-                <div className="aspect-4/3 rounded-xl overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#E9EFF6] border border-[#E2E8F0] p-3 flex items-center justify-center relative">
+                <div className="aspect-4/3 rounded-xl overflow-hidden bg-cover bg-center border border-white/10 p-3 flex items-center justify-center relative" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
                   <img
                     src={vehicle.primaryImage}
                     alt={vehicle.name}
                     className="w-full h-full object-contain drop-shadow-[0_8px_12px_rgba(9,23,44,0.2)]"
                   />
-                  <span className="absolute bottom-1.5 left-2 right-2 text-[10.5px] font-extrabold text-[#09172C] leading-tight line-clamp-1 bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded shadow-xs text-center">
+                  <span className="absolute bottom-1.5 left-2 right-2 text-[10.5px] font-extrabold text-white leading-tight line-clamp-1 bg-[#09172C]/85 backdrop-blur-xs px-2 py-0.5 rounded shadow-xs text-center">
                     {vehicle.name}
                   </span>
                 </div>
 
                 <div className="space-y-1">
-                  <div className="text-base font-extrabold text-[#09172C]">
-                    {vehicle.pricePerDayFormatted} <span className="text-[10px] text-[#555B64] font-normal">/ dia</span>
+                  <div className="text-base font-extrabold text-[#FEC228]">
+                    {vehicle.pricePerDayFormatted} <span className="text-[10px] text-white/65 font-normal">/ dia</span>
                   </div>
-                  <div className="text-[11px] font-bold text-[#236199]">
+                  <div className="text-[11px] font-bold text-white/80">
                     {vehicle.categoryLabel}
                   </div>
                 </div>

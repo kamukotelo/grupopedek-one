@@ -85,7 +85,7 @@ export const Services: React.FC = () => {
             {PUBLIC_FLEET.map((vehicle, index) => {
               const selected = index === activeIndex;
               return (
-                <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[220px] snap-center overflow-hidden rounded-xl border text-left transition-all sm:min-w-[260px] ${selected ? 'border-[#FEC228] bg-[#174B86] shadow-[0_14px_30px_rgba(9,23,44,.2)]' : 'border-[#236199]/45 bg-[#0C3D73] hover:border-[#FEC228]/70 hover:bg-[#174B86]'}`}>
+                <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[220px] snap-center overflow-hidden rounded-[24px] border bg-[#174B86] text-left transition-all sm:min-w-[260px] ${selected ? 'border-[#FEC228] shadow-[0_14px_30px_rgba(9,23,44,.2)]' : 'border-[#236199]/55 hover:border-[#FEC228]/70 hover:-translate-y-0.5'}`}>
                   <div className="h-36 bg-cover bg-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
                     <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(9,23,44,.22)] transition-transform duration-500 group-hover:scale-105" />
                   </div>
@@ -104,7 +104,7 @@ export const Services: React.FC = () => {
             })}
           </div>
 
-          <div className="mt-4 grid overflow-hidden rounded-2xl border border-white/10 bg-[#0C3D73] lg:grid-cols-[1.05fr_.95fr]">
+          <div className="mt-4 grid overflow-hidden rounded-[24px] border border-[#236199]/55 bg-[#174B86] lg:grid-cols-[1.05fr_.95fr]">
             <div className="relative min-h-[300px] bg-cover bg-center p-8 sm:p-10" style={{ backgroundImage: `url('${getVehicleStudioBackground(activeVehicle)}')` }}>
               <img key={activeVehicle.id} src={activeVehicle.primaryImage} alt={activeVehicle.name} decoding="async" className="h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(9,23,44,.45)] animate-fadeIn" />
             </div>
