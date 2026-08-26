@@ -54,9 +54,9 @@ export const SplashScreen: React.FC = () => {
       <div className="pepek-intro__horizon" />
 
       <div ref={logoRef} className="pepek-intro__logo" style={{ willChange: 'transform, filter' }}>
-        <img className="pepek-intro__letters pepek-intro__letters--left" src="/logo.png" alt="" />
-        <img className="pepek-intro__letters pepek-intro__letters--right" src="/logo.png" alt="" />
-        <img className="pepek-intro__road" src="/logo.png" alt="" />
+        <img className="pepek-intro__letters pepek-intro__letters--left" src="/logo-pepek-pdf.png" alt="" />
+        <img className="pepek-intro__letters pepek-intro__letters--right" src="/logo-pepek-pdf.png" alt="" />
+        <img className="pepek-intro__road" src="/logo-pepek-pdf.png" alt="" />
         <span className="pepek-intro__scanner" />
       </div>
 
