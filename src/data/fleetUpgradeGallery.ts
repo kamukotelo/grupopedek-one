@@ -17,9 +17,6 @@ export const FLEET_UPGRADE_GALLERY: Record<string, GalleryImage[]> = Object.from
   UPGRADE_IDS.map((id) => [
     id,
     [
-      ['01-exterior-principal.webp', 'Vista exterior principal', 'exterior'],
-      ['02-exterior-traseira.webp', 'Vista exterior traseira', 'exterior'],
-      ['03-exterior-lateral.webp', 'Vista exterior lateral', 'exterior'],
       ['04-interior-cockpit.webp', 'Cockpit e painel de instrumentos', 'interior'],
       ['05-interior-passageiros.webp', 'Interior e espaço dos passageiros', 'interior']
     ].map(([file, caption, type]) => ({
@@ -31,13 +28,11 @@ export const FLEET_UPGRADE_GALLERY: Record<string, GalleryImage[]> = Object.from
   ])
 );
 
-export const getFleetUpgradeCover = (vehicleId: string): string | undefined =>
-  FLEET_UPGRADE_GALLERY[vehicleId]?.[0]?.url;
-
-// Apenas estas vistas internas são usadas na frota pública. Foram produzidas
-// para o projeto e verificadas sem condutores, passageiros ou pessoas ao fundo.
+// Este acervo complementa a frota existente sem substituir capas, viaturas ou
+// vistas exteriores. Apenas estas vistas internas, verificadas sem pessoas,
+// podem ser acrescentadas à galeria pública de cada viatura.
 export const getFleetPeopleFreeInteriors = (vehicleId: string): GalleryImage[] =>
-  (FLEET_UPGRADE_GALLERY[vehicleId] ?? []).filter((image) => image.type === 'interior');
+  FLEET_UPGRADE_GALLERY[vehicleId] ?? [];
 
 export const getFleetUpgradePhotoCount = (vehicleId: string): number =>
   getFleetPeopleFreeInteriors(vehicleId).length;
