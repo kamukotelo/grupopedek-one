@@ -1,10 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, ChevronRight, ChevronLeft, Headphones, CarFront, UserRoundCheck, MapPinned, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
+import { ShieldCheck, ChevronRight, ChevronLeft, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
+
+type FeatureIconProps = { className?: string };
+
+const Support24Icon: React.FC<FeatureIconProps> = ({ className }) => (
+  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M38 16.5A16 16 0 1 1 31.5 9" />
+    <path d="M30.5 4.5 32 10l5.5-1.5" />
+    <text x="12" y="30" fill="currentColor" stroke="none" fontSize="14" fontWeight="800">24h</text>
+  </svg>
+);
+
+const PremiumFleetIcon: React.FC<FeatureIconProps> = ({ className }) => (
+  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="m10 25 3.8-9.2A5 5 0 0 1 18.4 13h11.2a5 5 0 0 1 4.6 2.8L38 25" />
+    <path d="M8 27.5c0-2.2 1.8-4 4-4h24c2.2 0 4 1.8 4 4V35H8v-7.5Z" />
+    <path d="M12 35v4M36 35v4M13 29h5M30 29h5M21 30h6" />
+  </svg>
+);
+
+const ChauffeurIcon: React.FC<FeatureIconProps> = ({ className }) => (
+  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M17 13h14l-2-4H19l-2 4Z" />
+    <path d="M18 14.5c.6 4.3 2.7 7 6 7s5.4-2.7 6-7" />
+    <path d="M11 38c.5-7.8 5-12 13-12s12.5 4.2 13 12" />
+    <circle cx="24" cy="35" r="6" />
+    <path d="M18 35h12M24 35v6" />
+  </svg>
+);
+
+const AngolaCoverageIcon: React.FC<FeatureIconProps> = ({ className }) => (
+  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="m18 5 5 2 4-1 2 5 5 2-1 6 3 4-3 4 2 6-5 2-2 7-6-2-5 2-2-6-4-3 2-6-2-5 4-4-1-6 4-3Z" />
+    <path d="M14 7 10 5 8 9l3 3" />
+  </svg>
+);
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
@@ -142,32 +177,6 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* Action Buttons with Futuristic Hover Glow */}
-        <div className="flex flex-wrap items-center gap-4 mb-10">
-          <button
-            type="button"
-            onClick={scrollToBooking}
-            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(254,194,40,0.45)] hover:scale-[1.03] transition-all duration-300"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
-            <Car className="w-5 h-5" />
-            <span>{t('hero.ctaBooking')}</span>
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-
-          <button
-            type="button"
-            onClick={scrollToFleet}
-            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all duration-300"
-          >
-            <span>{t('hero.ctaFleet')}</span>
-          </button>
-
-          <div className="flex items-center gap-3 text-xs text-gray-300 pl-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#236199] animate-pulse"></div>
-            <span>{t('hero.trustFastSub')}</span>
-          </div>
-        </div>
           </div>
 
           <aside
@@ -243,10 +252,10 @@ export const Hero: React.FC = () => {
         {/* Operational differentiators — prepared from the approved flyer icon language. */}
         <div className="mt-7 grid overflow-hidden rounded-2xl border border-white/10 bg-[#09172C]/92 shadow-[0_18px_45px_rgba(4,16,38,.24)] backdrop-blur-md sm:grid-cols-2 xl:grid-cols-4">
           {[
-            { Icon: Headphones, title: t('hero.featureSupportTitle'), detail: t('hero.featureSupportDetail') },
-            { Icon: CarFront, title: t('hero.featureFleetTitle'), detail: t('hero.featureFleetDetail') },
-            { Icon: UserRoundCheck, title: t('hero.featureDriversTitle'), detail: t('hero.featureDriversDetail') },
-            { Icon: MapPinned, title: t('hero.featureCoverageTitle'), detail: t('hero.featureCoverageDetail') },
+            { Icon: Support24Icon, title: t('hero.featureSupportTitle'), detail: t('hero.featureSupportDetail') },
+            { Icon: PremiumFleetIcon, title: t('hero.featureFleetTitle'), detail: t('hero.featureFleetDetail') },
+            { Icon: ChauffeurIcon, title: t('hero.featureDriversTitle'), detail: t('hero.featureDriversDetail') },
+            { Icon: AngolaCoverageIcon, title: t('hero.featureCoverageTitle'), detail: t('hero.featureCoverageDetail') },
           ].map(({ Icon, title, detail }) => (
             <div key={title} className="group flex min-h-[138px] items-center gap-4 border-white/10 px-5 py-6 transition-colors hover:bg-white/[0.05] sm:border-l first:border-l-0 xl:px-6">
               <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-[#FEC228]/40 bg-[#0C3D73] text-[#FEC228] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105">
@@ -258,6 +267,33 @@ export const Hero: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Actions remain directly below the four-benefit strip. */}
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <button
+            type="button"
+            onClick={scrollToBooking}
+            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(254,194,40,0.45)] hover:scale-[1.03] transition-all duration-300"
+          >
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+            <Car className="w-5 h-5" />
+            <span>{t('hero.ctaBooking')}</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          <button
+            type="button"
+            onClick={scrollToFleet}
+            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all duration-300"
+          >
+            <span>{t('hero.ctaFleet')}</span>
+          </button>
+
+          <div className="flex items-center gap-3 text-xs text-gray-300 pl-2">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#236199] animate-pulse"></div>
+            <span>{t('hero.trustFastSub')}</span>
+          </div>
         </div>
 
         {/* Client logos use one continuous light stage so every official colourway
