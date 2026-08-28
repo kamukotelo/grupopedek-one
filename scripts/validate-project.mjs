@@ -83,9 +83,19 @@ for (const flag of ['🇦🇴', '🇬🇧', '🇫🇷']) {
 }
 
 const paymentSource = fs.readFileSync('src/components/portal/PaymentSimulatorModal.tsx', 'utf8');
-expect(paymentSource.includes('Simulador de Pagamento'), 'Pagamento demo não está identificado como simulação');
+expect(paymentSource.includes('Ambiente de demonstração'), 'Pagamento demo não está identificado como simulação');
 expect(paymentSource.includes('Multicaixa Express'), 'Canal Angola Multicaixa ausente');
 expect(paymentSource.includes('MB WAY / Portugal'), 'Canal Portugal MB WAY ausente');
+expect(paymentSource.includes('não recolhe nem armazena o número do seu cartão'), 'O fluxo não informa a política de dados de cartão');
+expect(!paymentSource.includes('cardNumber') && !paymentSource.includes('phoneNumber'), 'O frontend ainda recolhe dados bancários sensíveis');
+const paymentApiSource = fs.readFileSync('api/payments-create.js', 'utf8');
+expect(paymentApiSource.includes('idempotencyKey') && paymentApiSource.includes('invoice.amount_aoa'), 'A API de pagamentos não valida idempotência e valor no servidor');
+expect(paymentApiSource.includes('invoice.amount_eur') && paymentApiSource.includes('invoice.amount_usd'), 'Os montantes EUR e USD não são validados separadamente no servidor');
+const stripeWebhookSource = fs.readFileSync('api/payments-webhook-stripe.js', 'utf8');
+expect(stripeWebhookSource.includes('verifyStripeSignature') && stripeWebhookSource.includes("status: 'paid'"), 'A liquidação Stripe não depende de webhook assinado');
+const reconciliationSource = fs.readFileSync('api/payments-reconcile.js', 'utf8');
+expect(reconciliationSource.includes('FINANCE_ROLES') && reconciliationSource.includes("order.provider === 'stripe'"), 'A reconciliação bancária não está restrita ou pode substituir o webhook Stripe');
+expect(fs.readFileSync('supabase/schema.sql', 'utf8').includes('CREATE TABLE IF NOT EXISTS public.payment_events'), 'A trilha de auditoria de pagamentos está ausente');
 
 const demoUsersSource = fs.readFileSync('src/data/demoUsers.ts', 'utf8');
 const demoUserIds = [...demoUsersSource.matchAll(/id:\s*'demo_[^']+'/g)];

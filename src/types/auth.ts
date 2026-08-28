@@ -69,9 +69,10 @@ export interface InvoiceItem {
   dueDate: string;
   amountAOA: number;
   amountUSD: number;
+  amountEUR?: number;
   status: 'paid' | 'pending' | 'overdue';
   description: string;
-  paymentGateway: 'Multicaixa Express' | 'Stripe' | 'BAI Direto' | 'MB WAY' | 'Transferência SWIFT';
+  paymentGateway: 'Multicaixa Express' | 'Stripe' | 'Cartão / Stripe' | 'BAI Direto' | 'MB WAY' | 'MB WAY / Portugal' | 'Transferência Bancária' | 'Transferência SWIFT';
   odooInvoiceId?: string;
 }
 

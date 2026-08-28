@@ -151,6 +151,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         dueDate: row.due_date,
         amountAOA: Number(row.amount_aoa),
         amountUSD: Number(row.amount_usd || 0),
+        amountEUR: Number(row.amount_eur || 0),
         status: row.status,
         description: row.description,
         paymentGateway: row.payment_gateway || 'Transferência SWIFT',

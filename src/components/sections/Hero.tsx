@@ -6,41 +6,6 @@ import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
 
-type FeatureIconProps = { className?: string };
-
-const Support24Icon: React.FC<FeatureIconProps> = ({ className }) => (
-  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="M38 16.5A16 16 0 1 1 31.5 9" />
-    <path d="M30.5 4.5 32 10l5.5-1.5" />
-    <text x="12" y="30" fill="currentColor" stroke="none" fontSize="14" fontWeight="800">24h</text>
-  </svg>
-);
-
-const PremiumFleetIcon: React.FC<FeatureIconProps> = ({ className }) => (
-  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="m10 25 3.8-9.2A5 5 0 0 1 18.4 13h11.2a5 5 0 0 1 4.6 2.8L38 25" />
-    <path d="M8 27.5c0-2.2 1.8-4 4-4h24c2.2 0 4 1.8 4 4V35H8v-7.5Z" />
-    <path d="M12 35v4M36 35v4M13 29h5M30 29h5M21 30h6" />
-  </svg>
-);
-
-const ChauffeurIcon: React.FC<FeatureIconProps> = ({ className }) => (
-  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="M17 13h14l-2-4H19l-2 4Z" />
-    <path d="M18 14.5c.6 4.3 2.7 7 6 7s5.4-2.7 6-7" />
-    <path d="M11 38c.5-7.8 5-12 13-12s12.5 4.2 13 12" />
-    <circle cx="24" cy="35" r="6" />
-    <path d="M18 35h12M24 35v6" />
-  </svg>
-);
-
-const AngolaCoverageIcon: React.FC<FeatureIconProps> = ({ className }) => (
-  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="m18 5 5 2 4-1 2 5 5 2-1 6 3 4-3 4 2 6-5 2-2 7-6-2-5 2-2-6-4-3 2-6-2-5 4-4-1-6 4-3Z" />
-    <path d="M14 7 10 5 8 9l3 3" />
-  </svg>
-);
-
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -175,26 +140,6 @@ export const Hero: React.FC = () => {
           <p className="text-lg sm:text-2xl text-gray-300 font-light mt-5 leading-relaxed max-w-4xl">
             {t('hero.description')}
           </p>
-        </div>
-
-        {/* Compact differentiators restored to the upper-left hero area. */}
-        <div className="mb-6 grid max-w-4xl gap-3 sm:grid-cols-2">
-          {[
-            { Icon: Support24Icon, title: t('hero.featureSupportTitle'), detail: t('hero.featureSupportDetail') },
-            { Icon: PremiumFleetIcon, title: t('hero.featureFleetTitle'), detail: t('hero.featureFleetDetail') },
-            { Icon: ChauffeurIcon, title: t('hero.featureDriversTitle'), detail: t('hero.featureDriversDetail') },
-            { Icon: AngolaCoverageIcon, title: t('hero.featureCoverageTitle'), detail: t('hero.featureCoverageDetail') },
-          ].map(({ Icon, title, detail }) => (
-            <div key={title} className="group flex min-h-[64px] items-center gap-3 rounded-xl border border-white/12 bg-[#09172C]/82 px-4 py-3 shadow-[0_10px_28px_rgba(4,16,38,.2)] backdrop-blur-md transition-colors hover:bg-[#09172C]/95">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-[#FEC228]/45 bg-[#0C3D73] text-[#FEC228] transition-transform duration-300 group-hover:-translate-y-0.5">
-                <Icon className="h-6 w-6 stroke-[1.7]" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-[11px] font-extrabold uppercase leading-tight tracking-[0.02em] text-white sm:text-xs">{title}</h3>
-                <p className="mt-0.5 whitespace-pre-line text-[11px] leading-snug text-white/72">{detail}</p>
-              </div>
-            </div>
-          ))}
         </div>
 
         <div className="flex flex-wrap items-center gap-4">

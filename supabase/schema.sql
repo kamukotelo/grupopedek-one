@@ -85,11 +85,68 @@ CREATE TABLE IF NOT EXISTS public.invoices (
     due_date DATE NOT NULL,
     amount_aoa NUMERIC(18,2) NOT NULL CHECK (amount_aoa >= 0),
     amount_usd NUMERIC(18,2) DEFAULT 0 CHECK (amount_usd >= 0),
+    amount_eur NUMERIC(18,2) DEFAULT 0 CHECK (amount_eur >= 0),
     status VARCHAR(20) NOT NULL DEFAULT 'pending',
     description TEXT NOT NULL,
     payment_gateway VARCHAR(80),
     odoo_invoice_id VARCHAR(100),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+ALTER TABLE public.invoices ADD COLUMN IF NOT EXISTS amount_eur NUMERIC(18,2) DEFAULT 0 CHECK (amount_eur >= 0);
+
+-- Unified server-owned payment ledger. Every payable product (rent-a-car,
+-- transfer, route, chauffeur, event, corporate contract or invoice) is first
+-- represented by an invoice; clients never choose the amount in the browser.
+CREATE TABLE IF NOT EXISTS public.payment_orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    invoice_id UUID NOT NULL REFERENCES public.invoices(id) ON DELETE RESTRICT,
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE RESTRICT,
+    category VARCHAR(40) NOT NULL CHECK (category IN ('rent_a_car', 'transfer', 'route', 'chauffeur', 'event', 'corporate', 'invoice', 'other')),
+    provider VARCHAR(30) NOT NULL CHECK (provider IN ('stripe', 'multicaixa', 'bank_transfer', 'mbway')),
+    currency CHAR(3) NOT NULL CHECK (currency IN ('AOA', 'USD', 'EUR')),
+    amount_minor BIGINT NOT NULL CHECK (amount_minor > 0),
+    status VARCHAR(30) NOT NULL DEFAULT 'created' CHECK (status IN ('created', 'pending', 'authorized', 'paid', 'failed', 'cancelled', 'expired', 'refunded', 'partially_refunded')),
+    provider_reference VARCHAR(180),
+    checkout_url TEXT,
+    idempotency_key UUID NOT NULL,
+    client_reference VARCHAR(100) NOT NULL,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    paid_at TIMESTAMP WITH TIME ZONE,
+    failure_code VARCHAR(80),
+    failure_message VARCHAR(300),
+    metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    UNIQUE(user_id, idempotency_key),
+    UNIQUE(provider, provider_reference)
+);
+CREATE INDEX IF NOT EXISTS payment_orders_invoice_idx ON public.payment_orders(invoice_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS payment_orders_user_idx ON public.payment_orders(user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS payment_orders_status_idx ON public.payment_orders(status, created_at DESC);
+
+-- Append-only audit trail for provider callbacks and finance reconciliation.
+CREATE TABLE IF NOT EXISTS public.payment_events (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    payment_order_id UUID NOT NULL REFERENCES public.payment_orders(id) ON DELETE RESTRICT,
+    provider VARCHAR(30) NOT NULL,
+    provider_event_id VARCHAR(180) NOT NULL,
+    event_type VARCHAR(100) NOT NULL,
+    payload_hash CHAR(64) NOT NULL,
+    processed BOOLEAN NOT NULL DEFAULT false,
+    processing_error VARCHAR(300),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    UNIQUE(provider, provider_event_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.payment_receipts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    payment_order_id UUID NOT NULL UNIQUE REFERENCES public.payment_orders(id) ON DELETE RESTRICT,
+    receipt_number VARCHAR(100) NOT NULL UNIQUE,
+    issued_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    amount_minor BIGINT NOT NULL CHECK (amount_minor > 0),
+    currency CHAR(3) NOT NULL,
+    provider_reference VARCHAR(180) NOT NULL,
+    integrity_hash CHAR(64) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.fleet_assignments (
@@ -113,6 +170,9 @@ ALTER TABLE public.institutional_clients ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.fleet_vehicles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_receipts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.fleet_assignments ENABLE ROW LEVEL SECURITY;
 
 -- Reservations are created only by the server-side /api/reservations endpoint
@@ -147,6 +207,30 @@ CREATE POLICY "Users read own invoices" ON public.invoices
     FOR SELECT TO authenticated USING (auth.uid() = user_id);
 DROP POLICY IF EXISTS "Finance roles read all invoices" ON public.invoices;
 CREATE POLICY "Finance roles read all invoices" ON public.invoices
+    FOR SELECT TO authenticated
+    USING ((auth.jwt() -> 'app_metadata' ->> 'role') IN ('contabilista', 'gestor_portugal', 'direcao'));
+
+REVOKE ALL ON public.payment_orders FROM anon, authenticated;
+REVOKE ALL ON public.payment_events FROM anon, authenticated;
+REVOKE ALL ON public.payment_receipts FROM anon, authenticated;
+GRANT SELECT ON public.payment_orders TO authenticated;
+GRANT SELECT ON public.payment_receipts TO authenticated;
+DROP POLICY IF EXISTS "Users read own payment orders" ON public.payment_orders;
+CREATE POLICY "Users read own payment orders" ON public.payment_orders
+    FOR SELECT TO authenticated USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Finance roles read all payment orders" ON public.payment_orders;
+CREATE POLICY "Finance roles read all payment orders" ON public.payment_orders
+    FOR SELECT TO authenticated
+    USING ((auth.jwt() -> 'app_metadata' ->> 'role') IN ('contabilista', 'gestor_portugal', 'direcao'));
+DROP POLICY IF EXISTS "Users read own payment receipts" ON public.payment_receipts;
+CREATE POLICY "Users read own payment receipts" ON public.payment_receipts
+    FOR SELECT TO authenticated
+    USING (EXISTS (
+        SELECT 1 FROM public.payment_orders payment_order
+        WHERE payment_order.id = payment_order_id AND payment_order.user_id = auth.uid()
+    ));
+DROP POLICY IF EXISTS "Finance roles read all payment receipts" ON public.payment_receipts;
+CREATE POLICY "Finance roles read all payment receipts" ON public.payment_receipts
     FOR SELECT TO authenticated
     USING ((auth.jwt() -> 'app_metadata' ->> 'role') IN ('contabilista', 'gestor_portugal', 'direcao'));
 DROP POLICY IF EXISTS "Users read own fleet assignments" ON public.fleet_assignments;

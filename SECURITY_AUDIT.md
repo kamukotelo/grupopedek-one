@@ -39,6 +39,11 @@ Stack: React 19 + Vite + Vercel Functions + Supabase
 - Cabeçalhos de isolamento e CSP reforçados na Vercel.
 - Auditoria de dependências: 0 vulnerabilidades conhecidas em produção e desenvolvimento.
 - Carrosséis automáticos ajustados para 7-7,5 segundos, com pausa durante interação e respeito por `prefers-reduced-motion`.
+- Pagamentos passaram a usar ordens criadas no servidor, valor obtido da fatura e chave de idempotência.
+- Dados de cartão, PIN, CVV e códigos bancários deixaram de ser recolhidos pelo frontend.
+- Liquidação Stripe ocorre exclusivamente por webhook HMAC assinado, com tolerância temporal de 5 minutos.
+- Multicaixa, transferência e MB WAY permanecem pendentes até reconciliação por perfil financeiro autorizado.
+- Eventos de pagamento são auditados, recibos possuem hash de integridade e clientes só leem os próprios registos por RLS.
 
 ## Ação operacional obrigatória
 
@@ -51,6 +56,11 @@ Confirmar na Vercel que estas variáveis existem apenas no servidor:
 - `GEMINI_API_KEY`
 - `ODOO_API_TOKEN`
 - `CRM_SYNC_TOKEN`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `SITE_URL`
+
+Antes de ativar cobranças, executar `supabase/schema.sql` em produção e registar no Stripe o webhook HTTPS `/api/payments-webhook-stripe`. Multicaixa Express/EMIS, BAI/BFA e MB WAY exigem contratos e credenciais oficiais dos respetivos provedores; enquanto não existirem, o sistema emite apenas uma referência pendente e não declara pagamento concluído.
 
 Variáveis `VITE_*` são públicas por definição e não podem conter segredos.
 
@@ -64,3 +74,5 @@ Variáveis `VITE_*` são públicas por definição e não podem conter segredos.
 - [ ] Testar que perfil particular recebe 403 nos endpoints administrativos.
 - [ ] Rever variáveis da Vercel e rotacionar qualquer credencial exposta.
 - [ ] Confirmar backups e contactos do plano de resposta a incidentes.
+- [ ] Testar webhook com evento assinado, valor/moeda divergente, repetição e evento expirado.
+- [ ] Confirmar que somente `contabilista`, `gestor_portugal` e `direcao` reconciliam transferências.
