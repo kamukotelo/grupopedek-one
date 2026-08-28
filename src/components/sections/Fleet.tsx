@@ -135,8 +135,10 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   };
 
   return (
-    <section id="frota" className="section-padding relative bg-[#0C3D73] text-white">
-      <div className="container-pepek">
+    <section id="frota" className="section-padding relative overflow-hidden bg-gradient-to-b from-[#0C3D73] via-[#174B86] to-[#0C3D73] text-white">
+      <div className="pointer-events-none absolute -left-48 top-24 h-96 w-96 rounded-full bg-[#236199]/25 blur-[120px]" />
+      <div className="pointer-events-none absolute -right-40 top-1/3 h-[460px] w-[460px] rounded-full bg-[#09172C]/30 blur-[140px]" />
+      <div className="container-pepek relative z-10">
         {/* ═══════════════════════════════════════════════════════
             SECTION HEADER
            ═══════════════════════════════════════════════════════ */}
@@ -156,13 +158,13 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         {/* ═══════════════════════════════════════════════════════
             QUICK SEARCH HERO BAR
            ═══════════════════════════════════════════════════════ */}
-        <div className="mb-10 rounded-2xl border border-white/10 bg-[#09172C] p-5 text-white shadow-xl sm:p-7">
-          <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+        <div className="mb-10 rounded-2xl border border-[#3A73A8]/70 bg-gradient-to-br from-[#09172C] via-[#0C2E60] to-[#0C3D73] p-5 text-white shadow-[0_22px_55px_rgba(4,16,38,.3)] sm:p-7">
+          <div className="mb-4 flex items-center justify-between border-b border-[#FEC228]/20 pb-3">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#FEC228]">
               <Sparkles className="w-4 h-4" />
               <span>Pesquisa Rápida de Disponibilidade</span>
             </div>
-            <label className="text-xs text-gray-300 flex items-center gap-1.5 cursor-pointer">
+            <label className="flex cursor-pointer items-center gap-1.5 text-xs text-white/75">
               <input
                 type="checkbox"
                 checked={heroDifferentDropoff}
@@ -176,14 +178,14 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {/* Levantamento */}
             <div>
-              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
                 <MapPin className="w-3 h-3 text-[#FEC228]" />
                 Levantamento
               </label>
               <select
                 value={heroPickupLocation}
                 onChange={(e) => setHeroPickupLocation(e.target.value)}
-                className="w-full p-3 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white outline-hidden focus:ring-2 focus:ring-[#FEC228]"
+                className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-3 text-xs font-semibold text-white outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
               >
                 <option value="Aeroporto Internacional 4 de Fevereiro (LAD)" className="text-gray-900">Aeroporto 4 de Fevereiro (LAD)</option>
                 <option value="Hub Central Pepek Talatona" className="text-gray-900">Hub Central Pepek Talatona</option>
@@ -195,7 +197,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
 
             {/* Devolução */}
             <div>
-              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
                 <MapPin className="w-3 h-3 text-[#236199]" />
                 Devolução
               </label>
@@ -203,7 +205,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
                 <select
                   value={heroDropoffLocation}
                   onChange={(e) => setHeroDropoffLocation(e.target.value)}
-                  className="w-full p-3 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white outline-hidden focus:ring-2 focus:ring-[#FEC228]"
+                  className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-3 text-xs font-semibold text-white outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
                 >
                   <option value="Hub Central Pepek Talatona" className="text-gray-900">Hub Central Pepek Talatona</option>
                   <option value="Aeroporto Internacional 4 de Fevereiro (LAD)" className="text-gray-900">Aeroporto 4 de Fevereiro (LAD)</option>
@@ -211,7 +213,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
                   <option value="Outro Endereço em Luanda" className="text-gray-900">Outro Endereço em Luanda</option>
                 </select>
               ) : (
-                <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-xs text-gray-300 truncate">
+                <div className="truncate rounded-xl border border-[#236199]/70 bg-[#0C2E60]/75 p-3 text-xs text-white/70">
                   {heroPickupLocation.split('(')[0]}
                 </div>
               )}
@@ -219,7 +221,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
 
             {/* Data Levantamento */}
             <div>
-              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
                 <Calendar className="w-3 h-3 text-[#FEC228]" />
                 Data de Levantamento
               </label>
@@ -227,13 +229,13 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
                 type="date"
                 value={heroPickupDate}
                 onChange={(e) => setHeroPickupDate(e.target.value)}
-                className="w-full p-2.5 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white"
+                className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-2.5 text-xs font-semibold text-white [color-scheme:dark] outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
               />
             </div>
 
             {/* Data Devolução */}
             <div>
-              <label className="block text-[11px] font-bold text-gray-300 uppercase mb-1 flex items-center gap-1">
+              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
                 <Calendar className="w-3 h-3 text-[#FEC228]" />
                 Data de Devolução
               </label>
@@ -241,7 +243,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
                 type="date"
                 value={heroDropoffDate}
                 onChange={(e) => setHeroDropoffDate(e.target.value)}
-                className="w-full p-2.5 bg-white/10 border border-white/20 rounded-xl text-xs font-semibold text-white"
+                className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-2.5 text-xs font-semibold text-white [color-scheme:dark] outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
               />
             </div>
           </div>

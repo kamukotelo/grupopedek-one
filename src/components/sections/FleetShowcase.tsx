@@ -32,7 +32,7 @@ export const FleetShowcase: React.FC = () => {
 
   useEffect(() => {
     if (paused || vehicles.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => setOffset((current) => (current + 1) % vehicles.length), 7000);
+    const timer = window.setInterval(() => setOffset((current) => (current + 1) % vehicles.length), 6000);
     return () => window.clearInterval(timer);
   }, [paused, vehicles.length]);
 

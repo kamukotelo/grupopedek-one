@@ -92,7 +92,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
     if (!vehicle || verifiedGallery.length < 2 || isAutoPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
       setActiveImageIdx((current) => (current + 1) % verifiedGallery.length);
-    }, 7000);
+    }, 6000);
     return () => window.clearInterval(timer);
   }, [vehicle, verifiedGallery.length, isAutoPaused]);
 

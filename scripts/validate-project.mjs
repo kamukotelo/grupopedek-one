@@ -71,11 +71,13 @@ expect(servicesSource.includes('PUBLIC_FLEET.map'), 'A vitrine de Serviços não
 expect(!servicesSource.includes('images.unsplash.com'), 'A vitrine de Serviços contém imagens genéricas');
 expect(!servicesSource.includes('scrollIntoView'), 'O carrossel de Serviços pode provocar scroll vertical automático');
 expect(servicesSource.includes('rail.scrollTo'), 'O carrossel de Serviços não possui deslocamento horizontal controlado');
-expect(servicesSource.includes('7500'), 'O carrossel de Serviços não está configurado para rotação automática lenta');
+expect(servicesSource.includes('6000'), 'O carrossel de Serviços não está configurado para rotação automática');
 const heroSource = fs.readFileSync('src/components/sections/Hero.tsx', 'utf8');
-expect(heroSource.includes('7500') && heroSource.includes('prefers-reduced-motion'), 'O carrossel principal não possui rotação lenta e acessível');
+expect(heroSource.includes('6000') && heroSource.includes('prefers-reduced-motion'), 'O carrossel principal não possui rotação automática e acessível');
 const gallerySource = fs.readFileSync('src/components/fleet/VehicleGalleryModal.tsx', 'utf8');
-expect(gallerySource.includes('setInterval') && gallerySource.includes('7000'), 'A galeria de viaturas não possui rotação automática lenta');
+expect(gallerySource.includes('setInterval') && gallerySource.includes('6000'), 'A galeria de viaturas não possui rotação automática');
+const fleetShowcaseSource = fs.readFileSync('src/components/sections/FleetShowcase.tsx', 'utf8');
+expect(fleetShowcaseSource.includes('setInterval') && fleetShowcaseSource.includes('6000') && fleetShowcaseSource.includes('prefers-reduced-motion'), 'A vitrine de frota não possui rotação automática acessível');
 
 const languageSource = fs.readFileSync('src/components/ui/LanguageSwitcher.tsx', 'utf8');
 for (const flag of ['🇦🇴', '🇬🇧', '🇫🇷']) {

@@ -76,7 +76,7 @@ export const Hero: React.FC = () => {
     if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
       setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length);
-    }, 7500);
+    }, 6000);
     return () => window.clearInterval(timer);
   }, [luxuryVehicles.length, isLuxuryPaused]);
 
