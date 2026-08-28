@@ -5,7 +5,6 @@ import {
   Award,
   Building2,
   Briefcase,
-  Car,
   ChevronRight,
   Compass,
   Menu,
@@ -16,6 +15,7 @@ import {
   X,
 } from 'lucide-react';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
+import { FleetCarIcon } from '../ui/FleetCarIcon';
 import { useAuth } from '../../context/AuthContext';
 
 export const Header: React.FC = () => {
@@ -43,7 +43,7 @@ export const Header: React.FC = () => {
     },
     {
       label: t('nav.fleet'),
-      icon: Car,
+      icon: FleetCarIcon,
       action: () => navigate('/frota'),
     },
     {
@@ -57,7 +57,7 @@ export const Header: React.FC = () => {
     { to: '/', label: t('nav.home'), icon: Building2 },
     { to: '/quem-somos', label: t('nav.about'), icon: Award },
     { to: '/servicos', label: t('nav.services'), icon: Briefcase },
-    { to: '/frota', label: t('nav.fleet'), icon: Car },
+    { to: '/frota', label: t('nav.fleet'), icon: FleetCarIcon },
     { to: '/clientes', label: t('nav.clients'), icon: Users },
     { to: '/rotas', label: t('nav.routes'), icon: Compass },
     { to: '/contactos', label: t('nav.contact'), icon: Phone },
