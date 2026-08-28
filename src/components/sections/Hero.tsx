@@ -177,6 +177,52 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
+        {/* Compact differentiators restored to the upper-left hero area. */}
+        <div className="mb-6 grid max-w-4xl gap-3 sm:grid-cols-2">
+          {[
+            { Icon: Support24Icon, title: t('hero.featureSupportTitle'), detail: t('hero.featureSupportDetail') },
+            { Icon: PremiumFleetIcon, title: t('hero.featureFleetTitle'), detail: t('hero.featureFleetDetail') },
+            { Icon: ChauffeurIcon, title: t('hero.featureDriversTitle'), detail: t('hero.featureDriversDetail') },
+            { Icon: AngolaCoverageIcon, title: t('hero.featureCoverageTitle'), detail: t('hero.featureCoverageDetail') },
+          ].map(({ Icon, title, detail }) => (
+            <div key={title} className="group flex min-h-[64px] items-center gap-3 rounded-xl border border-white/12 bg-[#09172C]/82 px-4 py-3 shadow-[0_10px_28px_rgba(4,16,38,.2)] backdrop-blur-md transition-colors hover:bg-[#09172C]/95">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-[#FEC228]/45 bg-[#0C3D73] text-[#FEC228] transition-transform duration-300 group-hover:-translate-y-0.5">
+                <Icon className="h-6 w-6 stroke-[1.7]" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-[11px] font-extrabold uppercase leading-tight tracking-[0.02em] text-white sm:text-xs">{title}</h3>
+                <p className="mt-0.5 whitespace-pre-line text-[11px] leading-snug text-white/72">{detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          <button
+            type="button"
+            onClick={scrollToBooking}
+            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(254,194,40,0.45)] hover:scale-[1.03] transition-all duration-300"
+          >
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+            <Car className="w-5 h-5" />
+            <span>{t('hero.ctaBooking')}</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          <button
+            type="button"
+            onClick={scrollToFleet}
+            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all duration-300"
+          >
+            <span>{t('hero.ctaFleet')}</span>
+          </button>
+
+          <div className="flex items-center gap-3 pl-2 text-xs text-gray-300">
+            <div className="h-2.5 w-2.5 rounded-full bg-[#236199] animate-pulse"></div>
+            <span>{t('hero.trustFastSub')}</span>
+          </div>
+        </div>
+
           </div>
 
           <aside
@@ -247,53 +293,6 @@ export const Hero: React.FC = () => {
               </button>
             </form>
           </aside>
-        </div>
-
-        {/* Operational differentiators — prepared from the approved flyer icon language. */}
-        <div className="mt-7 grid overflow-hidden rounded-2xl border border-white/10 bg-[#09172C]/92 shadow-[0_18px_45px_rgba(4,16,38,.24)] backdrop-blur-md sm:grid-cols-2 xl:grid-cols-4">
-          {[
-            { Icon: Support24Icon, title: t('hero.featureSupportTitle'), detail: t('hero.featureSupportDetail') },
-            { Icon: PremiumFleetIcon, title: t('hero.featureFleetTitle'), detail: t('hero.featureFleetDetail') },
-            { Icon: ChauffeurIcon, title: t('hero.featureDriversTitle'), detail: t('hero.featureDriversDetail') },
-            { Icon: AngolaCoverageIcon, title: t('hero.featureCoverageTitle'), detail: t('hero.featureCoverageDetail') },
-          ].map(({ Icon, title, detail }) => (
-            <div key={title} className="group flex min-h-[138px] items-center gap-4 border-white/10 px-5 py-6 transition-colors hover:bg-white/[0.05] sm:border-l first:border-l-0 xl:px-6">
-              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-[#FEC228]/40 bg-[#0C3D73] text-[#FEC228] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105">
-                <Icon className="h-9 w-9 stroke-[1.65]" />
-              </div>
-              <div>
-                <h3 className="text-sm font-extrabold uppercase tracking-[0.02em] text-white">{title}</h3>
-                <p className="mt-1 whitespace-pre-line text-sm leading-snug text-white/80">{detail}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Actions remain directly below the four-benefit strip. */}
-        <div className="mt-6 flex flex-wrap items-center gap-4">
-          <button
-            type="button"
-            onClick={scrollToBooking}
-            className="btn-primary text-sm font-bold py-4 px-8 shadow-xl flex items-center gap-2.5 cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(254,194,40,0.45)] hover:scale-[1.03] transition-all duration-300"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
-            <Car className="w-5 h-5" />
-            <span>{t('hero.ctaBooking')}</span>
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-
-          <button
-            type="button"
-            onClick={scrollToFleet}
-            className="btn-outline text-sm font-bold py-4 px-8 flex items-center gap-2 cursor-pointer hover:bg-white/10 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all duration-300"
-          >
-            <span>{t('hero.ctaFleet')}</span>
-          </button>
-
-          <div className="flex items-center gap-3 text-xs text-gray-300 pl-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#236199] animate-pulse"></div>
-            <span>{t('hero.trustFastSub')}</span>
-          </div>
         </div>
 
         {/* Client logos use one continuous light stage so every official colourway

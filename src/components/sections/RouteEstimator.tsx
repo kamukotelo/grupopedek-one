@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Compass, Clock, MapPin, ArrowRight, ShieldCheck, Phone, CheckCircle2 } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
+import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 
 interface RouteOption {
   id: string;
@@ -11,9 +12,17 @@ interface RouteOption {
   distance: string;
   estimatedTime: string;
   vehicle: string;
+  vehicleId: string;
   badge?: string;
   description: string;
 }
+
+const officialVehicleImages = new Map(
+  PUBLIC_FLEET.map((vehicle) => [vehicle.id, {
+    src: vehicle.primaryImage,
+    alt: `${vehicle.name} — imagem oficial do catálogo PEPEK 2026`,
+  }])
+);
 
 export const RouteEstimator: React.FC = () => {
   const { t } = useTranslation();
@@ -29,6 +38,7 @@ export const RouteEstimator: React.FC = () => {
       distance: '32 km',
       estimatedTime: '35 – 45 min',
       vehicle: 'SUV Executiva (Novo Toyota Prado 2024 / LC300)',
+      vehicleId: 'new-toyota-prado',
       badge: 'Mais Frequente',
       description: 'Recepção VIP Meet & Greet no desembarque internacional, auxílio com bagagem e transporte climatizado directo ao hotel/residência.'
     },
@@ -40,6 +50,7 @@ export const RouteEstimator: React.FC = () => {
       distance: '14 km',
       estimatedTime: '20 – 30 min',
       vehicle: 'Sedan / SUV de Luxo (Mercedes Classe S 2025 / Lexus 600)',
+      vehicleId: 'mercedes-class-s-2025',
       badge: 'Corpo Diplomático',
       description: 'Percurso com piloto treinado em protocolo de segurança e conduta discreta para diplomatas e delegações oficiais.'
     },
@@ -51,6 +62,7 @@ export const RouteEstimator: React.FC = () => {
       distance: '28 km',
       estimatedTime: '40 – 50 min',
       vehicle: '4x4 Todo-Terreno (Toyota Hilux Dupla Cabine / Fortuner)',
+      vehicleId: 'toyota-hilux',
       badge: 'Empresarial & Campo',
       description: 'Ideal para engenheiros, directores técnicos e visitas de inspecção fabril ou logística.'
     },
@@ -62,6 +74,7 @@ export const RouteEstimator: React.FC = () => {
       distance: '68 km',
       estimatedTime: '1h 15 min',
       vehicle: '4x4 / Pick-up (Toyota LC HZ / Mitsubishi L200)',
+      vehicleId: 'toyota-lc-hz',
       badge: 'Interprovincial Litoral',
       description: 'Viagem técnica ou institucional com viatura robusta e suporte operacional em tempo real.'
     },
@@ -73,12 +86,14 @@ export const RouteEstimator: React.FC = () => {
       distance: '580 km',
       estimatedTime: 'Itinerário de Longa Distância',
       vehicle: '4x4 / SUV de Longo Curso (Toyota LC V8 / Hilux 4x4)',
+      vehicleId: 'toyota-lc-v8-2021',
       badge: 'Expedição Nacional',
       description: 'Pacote completo de missão interprovincial com viatura revista, equipamento de emergência e assistência técnica em todo o percurso.'
     }
   ];
 
   const currentRoute = routes.find(r => r.id === selectedRouteId) || routes[0];
+  const currentVehicleImage = officialVehicleImages.get(currentRoute.vehicleId);
 
   return (
     <section id="rotas" className="section-padding bg-gradient-to-b from-[#0C3D73] to-[#174B86] text-white relative overflow-hidden">
@@ -184,6 +199,22 @@ export const RouteEstimator: React.FC = () => {
                     <span>Disponibilidade Imediata</span>
                   </div>
                 </div>
+
+                {currentVehicleImage && (
+                  <div className="mb-7 overflow-hidden rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F5F6F6] to-white">
+                    <div className="flex items-center justify-between gap-3 border-b border-[#E2E8F0] px-5 py-3">
+                      <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#0C3D73]">Viatura recomendada</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#E4AD28]">Imagem oficial do catálogo 2026</span>
+                    </div>
+                    <div className="relative h-52 sm:h-64">
+                      <img
+                        src={currentVehicleImage.src}
+                        alt={currentVehicleImage.alt}
+                        className="h-full w-full object-contain p-4 sm:p-5"
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {/* Narrative */}
                 <p className="text-sm text-[#555B64] mb-8 leading-relaxed">
