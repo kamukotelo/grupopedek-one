@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 
 const failures = [];
 const expect = (condition, message) => { if (!condition) failures.push(message); };
@@ -28,6 +29,21 @@ const flyerFolders = fs.readdirSync('public/fleet-flyer-2026', { withFileTypes: 
 expect(flyerFolders.length === 46, `Esperadas 46 pastas da frota dos flyers; encontradas ${flyerFolders.length}`);
 for (const folder of flyerFolders) {
   expect(fs.existsSync(`public/fleet-flyer-2026/${folder.name}/01-oficial.webp`), `Imagem oficial ausente: ${folder.name}`);
+}
+
+// Page 7 of the Full Day 2026 PDF previously had a shifted image assignment.
+// Lock the corrected exports so the vehicle names cannot silently drift again.
+const correctedFlyerImageHashes = {
+  'hyundai-staria-atual': '245a548ce88021eb2203cacff060bc32ec00714d9f8ce3a7677b745fad6b71b9',
+  'nova-toyota-hiace': 'ea323b87957fdd17094b80de2abd809dafc6a2139d8c12f59bb5980d8d98c719',
+  'mercedes-sprinter-atual': 'd91a7407b3f054ea3fbb9e63e7d8b09be4831699cf1d8b2eeb47f8312f4025f2',
+  'nissan-patrol': '3113c206e943b710a05d84bfde4c724b24eb38c99af8790fbfbf77cff3a6b2c4',
+  'novo-toyota-prado': '45797fab8ee0c32108a07046c12cdc4810fb6f0b5d06ca92de38dc594d1d8480',
+};
+for (const [folder, expectedHash] of Object.entries(correctedFlyerImageHashes)) {
+  const path = `public/fleet-flyer-2026/${folder}/01-oficial.webp`;
+  const actualHash = crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
+  expect(actualHash === expectedHash, `Imagem oficial incoerente com o catálogo PDF: ${folder}`);
 }
 expect(flyerFleetSource.includes('export const PUBLIC_FLEET = FLYER_FLEET_2026'), 'A frota pública não aponta para os flyers oficiais');
 
