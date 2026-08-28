@@ -10,7 +10,13 @@ const UPGRADE_IDS = [
   'lexus-600',
   'mercedes-vito',
   'mercedes-g63',
-  'toyota-lc300-2023'
+  'toyota-lc300-2023',
+  'lexus-570',
+  'range-rover',
+  'toyota-lc-v8-2021',
+  'mercedes-cls63',
+  'toyota-prado-atual',
+  'toyota-fortuner-2023'
 ] as const;
 
 export const FLEET_UPGRADE_GALLERY: Record<string, GalleryImage[]> = Object.fromEntries(
