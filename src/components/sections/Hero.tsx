@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
 
   const [currentLuxury, setCurrentLuxury] = useState(0);
   const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
-  const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable' | 'unknown'>('idle');
+  const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'on_request' | 'unavailable' | 'unknown'>('idle');
   const [pickup, setPickup] = useState('');
   const [destination, setDestination] = useState('');
   const [activeLocationField, setActiveLocationField] = useState<'pickup' | 'destination' | null>(null);
@@ -232,7 +232,8 @@ export const Hero: React.FC = () => {
                 <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><span className="relative block"><input required min={today} type="date" value={startDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => { setStartDate(event.target.value); if (endDate && endDate < event.target.value) setEndDate(''); }} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#FEC228]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E4AD28]" /></span></label>
                 <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><span className="relative block"><input required min={startDate || today} type="date" value={endDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#FEC228]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E4AD28]" /></span></label>
               </div>
-              {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-[#FEC228] p-2 text-[11px] font-bold text-[#E4AD28]">Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.</p>}
+              {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-[#FEC228] p-2 text-[11px] font-bold text-[#09172C]">Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.</p>}
+              {availabilityStatus === 'on_request' && <p role="status" className="mt-3 rounded-lg border border-[#236199]/20 bg-[#236199]/5 p-2 text-[11px] font-semibold text-[#09172C]">Pedido elegível para confirmação. A equipa valida a viatura física, motorista e condições operacionais antes de confirmar.</p>}
               <button type="submit" disabled={availabilityStatus === 'checking'} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#FEC228] px-4 text-xs font-extrabold uppercase tracking-[0.08em] text-[#09172C] transition hover:bg-[#FFD45F] disabled:opacity-60">
                 {availabilityStatus === 'checking' ? 'A verificar…' : t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
               </button>

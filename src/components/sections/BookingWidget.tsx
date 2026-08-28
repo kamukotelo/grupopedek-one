@@ -24,7 +24,6 @@ import {
   Eye,
   Check
 } from 'lucide-react';
-import { db } from '../../lib/dexie';
 import { submitReservation } from '../../lib/reservations';
 import { generateWhatsAppBookingUrl, OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 import { askPepekExecutiveAI } from '../../lib/ai';
@@ -112,7 +111,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   const [clientIdentifier, setClientIdentifier] = useState('');
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
-  const [nifDocument, setNifDocument] = useState('');
   const [notes, setNotes] = useState(() => {
     const destination = searchParams.get('destination');
     const startTime = searchParams.get('startTime');
@@ -181,20 +179,11 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
       clientPhone: loginMethod === 'phone' ? clientIdentifier : '',
       clientEmail: loginMethod === 'email' ? clientIdentifier : '',
       companyName,
-      notes: `FICHA À DIRECÇÃO | NIF: ${nifDocument} | ${notes}`,
+      notes: notes,
       status: 'pending',
       source: 'web_booking_widget',
       createdAt: new Date().toISOString()
     };
-
-    // Save to Dexie Local DB
-    try {
-      if (db?.bookings) {
-        await db.bookings.add(bookingPayload);
-      }
-    } catch (err) {
-      console.warn('Dexie save error:', err);
-    }
 
     try {
       const receipt = await submitReservation(bookingPayload);
@@ -427,7 +416,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       <span>Com Motorista Protocolar (+35.000 Kz/dia)</span>
                     </button>
                     {submissionError && (
-                      <p role="alert" className="rounded-xl border border-[#E4AD28] bg-[#FEC228] p-3 text-xs font-semibold text-[#E4AD28]">
+                      <p role="alert" className="rounded-xl border border-[#E4AD28] bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">
                         {submissionError}
                       </p>
                     )}
@@ -576,18 +565,9 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     />
                   </div>
 
-                  <div>
-                    <label className="block font-bold text-[#09172C] mb-1">
-                      NIF / Documento de Identificação (Para Faturação AGT)
-                    </label>
-                    <input
-                      type="text"
-                      value={nifDocument}
-                      onChange={(e) => setNifDocument(e.target.value)}
-                      placeholder="ex: 5000XXXXXX ou Passaporte"
-                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
-                    />
-                  </div>
+                  <p className="rounded-xl border border-[#236199]/20 bg-[#236199]/5 p-3 text-[11px] leading-relaxed text-[#09172C]">
+                    Para sua segurança, não envie NIF, passaporte ou carta de condução neste pedido. A equipa solicitará documentos apenas após a confirmação, por canal autorizado.
+                  </p>
 
                   <div>
                     <label className="block font-bold text-[#09172C] mb-1">
@@ -597,7 +577,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       rows={2}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      placeholder="ex: Necessidade de escolta, número de voo, cadeiras de criança..."
+                      placeholder="ex: Necessidade de escolta, número de voo, cadeiras de criança... Não inclua documentos pessoais."
                       className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                     />
                   </div>
@@ -644,8 +624,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 </p>
               </div>
 
-              <div className="px-4 py-2 rounded-xl bg-[#236199] border border-[#236199] text-[#236199] text-xs font-bold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#236199]" />
+              <div className="px-4 py-2 rounded-xl bg-[#236199] border border-[#236199] text-white text-xs font-bold flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-white" />
                 <span>{directorateDossier.authStatus}</span>
               </div>
             </div>
@@ -659,7 +639,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 <div>Nome / Responsável: <strong className="text-[#09172C]">{clientName}</strong></div>
                 {companyName && <div>Entidade / Embaixada: <strong className="text-[#09172C]">{companyName}</strong></div>}
                 <div>Credencial ({loginMethod}): <strong className="text-[#09172C]">{clientIdentifier}</strong></div>
-                {nifDocument && <div>NIF / Documento: <strong className="text-[#09172C]">{nifDocument}</strong></div>}
               </div>
 
               <div className="space-y-2">

@@ -195,13 +195,13 @@ export const Contact: React.FC = () => {
                 </button>
 
                 {submitError && (
-                  <div role="alert" className="p-3 bg-[#FEC228] text-[#E4AD28] rounded-lg text-xs">
+                  <div role="alert" className="p-3 bg-[#FEC228] text-[#09172C] rounded-lg text-xs">
                     {submitError} Pode contactar-nos diretamente pelo WhatsApp ou telefone.
                   </div>
                 )}
 
                 {sent && (
-                  <div className="p-3 bg-[#236199] text-[#236199] rounded-lg text-xs flex items-center gap-2">
+                  <div className="p-3 bg-[#236199] text-white rounded-lg text-xs flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#236199]" />
                     <span>Mensagem registada e canal WhatsApp aberto com a nossa central!</span>
                   </div>

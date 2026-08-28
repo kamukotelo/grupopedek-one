@@ -24,5 +24,10 @@ export default async function handler(req, res) {
   });
   if (!response.ok) return res.status(503).json({ status: 'unknown' });
   const conflicts = await response.json();
-  return res.status(200).json({ status: conflicts.length ? 'unavailable' : 'available', conflicts: conflicts.length });
+
+  // A public request must never reserve or promise a physical vehicle. The
+  // operations team still assigns the exact unit only after checking service,
+  // maintenance, driver and contractual constraints.
+  if (conflicts.length) return res.status(200).json({ status: 'unavailable' });
+  return res.status(200).json({ status: 'on_request' });
 }

@@ -281,7 +281,7 @@ export const ClientPortalModal: React.FC = () => {
                         : 'Acompanhe viaturas, documentos e pedidos associados à sua conta num único espaço seguro.'}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 rounded-xl border border-[#236199] bg-[#236199] px-3 py-2 text-[10px] font-bold text-[#236199]">
+                  <div className="flex items-center gap-2 rounded-xl border border-[#236199] bg-[#236199] px-3 py-2 text-[10px] font-bold text-white">
                     <ShieldCheck className="h-4 w-4" /> Sessão autenticada
                   </div>
                 </div>
@@ -383,9 +383,9 @@ export const ClientPortalModal: React.FC = () => {
                         </div>
 
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                          flt.status === 'em_circulacao' ? 'bg-[#236199] text-[#236199]' :
+                          flt.status === 'em_circulacao' ? 'bg-[#236199] text-white' :
                           flt.status === 'disponivel_talatona' ? 'bg-blue-100 text-blue-800' :
-                          flt.status === 'em_reserva' ? 'bg-[#236199] text-[#236199]' : 'bg-[#FEC228] text-[#E4AD28]'
+                          flt.status === 'em_reserva' ? 'bg-[#236199] text-white' : 'bg-[#FEC228] text-[#09172C]'
                         }`}>
                           {flt.status === 'em_circulacao' ? 'Em Circulação' :
                            flt.status === 'disponivel_talatona' ? 'Em Talatona' :
@@ -438,7 +438,7 @@ export const ClientPortalModal: React.FC = () => {
                   </div>
                   <div className="hidden items-center gap-2 sm:flex" aria-label="Moedas disponíveis">
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-[#09172C] text-[11px] font-extrabold text-[#FEC228]">Kz</span>
-                    <span className="grid h-9 w-9 place-items-center rounded-full bg-[#236199] text-sm font-extrabold text-[#236199]">$</span>
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-[#236199] text-sm font-extrabold text-white">$</span>
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-blue-50 text-sm font-extrabold text-blue-700">€</span>
                   </div>
                 </div>
@@ -451,7 +451,7 @@ export const ClientPortalModal: React.FC = () => {
                           <div className="flex items-center gap-2">
                             <span className="font-mono font-bold text-gray-900">{inv.invoiceNumber}</span>
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              inv.status === 'paid' ? 'bg-[#236199] text-[#236199]' : inv.status === 'overdue' ? 'bg-[#FEC228] text-[#E4AD28]' : 'bg-[#FEC228] text-[#E4AD28]'
+                              inv.status === 'paid' ? 'bg-[#236199] text-white' : inv.status === 'overdue' ? 'bg-[#FEC228] text-[#09172C]' : 'bg-[#FEC228] text-[#09172C]'
                             }`}>
                               {inv.status === 'paid' ? 'Liquidada' : inv.status === 'overdue' ? 'Vencida' : 'Pendente de Pagamento'}
                             </span>
@@ -484,7 +484,7 @@ export const ClientPortalModal: React.FC = () => {
                               <span>Pagar Agora</span>
                             </button>
                           ) : (
-                            <span className="px-3 py-1 rounded-xl bg-[#236199] text-[#236199] font-bold flex items-center gap-1">
+                            <span className="px-3 py-1 rounded-xl bg-[#236199] text-white font-bold flex items-center gap-1">
                               <CheckCircle2 className="w-3.5 h-3.5" />
                               <span>{inv.paymentGateway}</span>
                             </span>
@@ -505,7 +505,7 @@ export const ClientPortalModal: React.FC = () => {
                     <h4 className="mt-1 text-lg font-extrabold text-[#09172C]">Centro Nacional de Mobilidade & Despacho</h4>
                     <p className="text-xs text-gray-500">Reserva, protocolo, motorista, manutenção e contrato numa única linha de controlo.</p>
                   </div>
-                  <span className="rounded-full bg-[#236199] px-3 py-1 text-[10px] font-extrabold text-[#236199]">Operação 24/7 · Demo</span>
+                  <span className="rounded-full bg-[#236199] px-3 py-1 text-[10px] font-extrabold text-white">Operação 24/7 · Demo</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
@@ -535,7 +535,7 @@ export const ClientPortalModal: React.FC = () => {
                         <div><span className="font-mono text-[10px] font-extrabold text-[#236199]">{record.reference}</span><span className="block text-[9px] uppercase text-gray-400">{record.type}</span></div>
                         <div><strong className="block text-xs text-[#09172C]">{record.title}</strong><span className="text-[10px] text-gray-500">{record.owner} · {record.location}</span></div>
                         <div><Clock className="mr-1 inline h-3 w-3 text-gray-400" /><span className="text-[10px] text-gray-600">{record.scheduledAt}</span></div>
-                        <div className="text-right"><span className={`rounded-full px-2 py-1 text-[9px] font-extrabold ${record.status === 'concluido' ? 'bg-[#236199] text-[#236199]' : record.status === 'atencao' ? 'bg-[#FEC228] text-[#E4AD28]' : record.status === 'em_execucao' ? 'bg-blue-100 text-blue-700' : 'bg-[#FEC228] text-[#E4AD28]'}`}>{record.status.replace('_', ' ')}</span><span className="mt-1 block font-mono text-[8px] text-gray-400">{record.odooId}</span></div>
+                        <div className="text-right"><span className={`rounded-full px-2 py-1 text-[9px] font-extrabold ${record.status === 'concluido' ? 'bg-[#236199] text-white' : record.status === 'atencao' ? 'bg-[#FEC228] text-[#09172C]' : record.status === 'em_execucao' ? 'bg-[#F5F6F6] text-[#236199]' : 'bg-[#FEC228] text-[#09172C]'}`}>{record.status.replace('_', ' ')}</span><span className="mt-1 block font-mono text-[8px] text-gray-400">{record.odooId}</span></div>
                       </div>
                     ))}
                   </div>
@@ -651,7 +651,7 @@ export const ClientPortalModal: React.FC = () => {
                       <span className="text-gray-500">Protocolo API:</span>
                       <strong className="text-[#236199] font-mono">XML-RPC / REST JSON v2</strong>
                     </div>
-                    <div className="px-3 py-2 rounded-lg bg-[#FEC228] border border-[#E4AD28] text-[#E4AD28] text-[10px]">
+                    <div className="px-3 py-2 rounded-lg bg-[#FEC228] border border-[#E4AD28] text-[#09172C] text-[10px]">
                       ⚠ Estes dados técnicos só são visíveis em modo de desenvolvimento (staging).
                     </div>
                   </div>

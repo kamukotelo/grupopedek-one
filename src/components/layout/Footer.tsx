@@ -154,6 +154,9 @@ export const Footer: React.FC = () => {
           <p>© 2014 – {new Date().getFullYear()} PEPEK GRUPO RENT-A-CAR. Todos os direitos reservados.</p>
           
           <div className="flex items-center gap-6">
+            <Link to="/privacidade" className="text-white/65 hover:text-white transition-colors">
+              Privacidade
+            </Link>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-2 text-white/65 hover:text-white transition-colors cursor-pointer"

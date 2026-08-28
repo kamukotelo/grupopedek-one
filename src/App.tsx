@@ -19,6 +19,7 @@ const PageReservar = lazy(() => import('./pages/PageReservar').then(module => ({
 const PageContactos = lazy(() => import('./pages/PageContactos').then(module => ({ default: module.PageContactos })));
 const PageRotas = lazy(() => import('./pages/PageRotas').then(module => ({ default: module.PageRotas })));
 const PagePainel = lazy(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
+const PagePrivacidade = lazy(() => import('./pages/PagePrivacidade').then(module => ({ default: module.PagePrivacidade })));
 const PageNotFound = lazy(() => import('./pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
 
 import './i18n';
@@ -54,6 +55,7 @@ export const App: React.FC = () => {
 
               {/* Management panel — authenticated only, noindex, hidden from public nav */}
               <Route path="/painel" element={<PagePainel />} />
+              <Route path="/privacidade" element={<PagePrivacidade />} />
 
               {/* 404 fallback */}
               <Route path="*" element={<PageNotFound />} />

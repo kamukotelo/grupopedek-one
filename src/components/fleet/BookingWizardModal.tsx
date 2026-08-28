@@ -70,8 +70,6 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [nif, setNif] = useState('');
-  const [driverLicenseNumber, setDriverLicenseNumber] = useState('');
   const [notes, setNotes] = useState('');
 
   // Sync selected vehicle if prop updates
@@ -143,8 +141,6 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       `• *Tipo:* ${clientType === 'empresa' ? 'Empresa / Institucional' : 'Particular'}\n` +
       `• *Telefone/WhatsApp:* ${phone || 'Não informado'}\n` +
       `• *Email:* ${email || 'Não informado'}\n` +
-      `${nif ? `• *NIF:* ${nif}\n` : ''}` +
-      `${driverLicenseNumber ? `• *Carta de Condução:* ${driverLicenseNumber}\n` : ''}` +
       `${notes ? `• *Observações:* ${notes}\n` : ''}` +
       `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
       `💎 *VALOR TOTAL ESTIMADO:* ${formattedTotal}\n` +
@@ -599,33 +595,11 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-[#09172C] uppercase mb-1">
-                    NIF / Número de Passaporte (Opcional)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Ex: 5418293021"
-                    value={nif}
-                    onChange={(e) => setNif(e.target.value)}
-                    className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
-                  />
-                </div>
               </div>
 
-              {/* Conditional Driving License Field */}
-              <div className="pt-2 border-t border-gray-100">
-                <label className="block text-xs font-bold text-[#09172C] uppercase mb-1">
-                  Nº da Carta de Condução {withDriver ? '(Opcional — Serviço com Motorista Selecionado)' : '(Obrigatório se condução própria)'}
-                </label>
-                <input
-                  type="text"
-                  placeholder={withDriver ? 'Dispensado se condução por motorista Pepek' : 'Ex: LD-98234/AO'}
-                  value={driverLicenseNumber}
-                  onChange={(e) => setDriverLicenseNumber(e.target.value)}
-                  className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
-                />
-              </div>
+              <p className="rounded-xl border border-[#236199]/20 bg-[#236199]/5 p-3 text-[11px] leading-relaxed text-[#09172C]">
+                Não envie NIF, passaporte ou carta de condução por WhatsApp. Caso sejam necessários, serão solicitados pela equipa depois da confirmação, através de canal autorizado.
+              </p>
 
               {/* Notes */}
               <div>

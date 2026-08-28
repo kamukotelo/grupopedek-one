@@ -24,8 +24,20 @@ export default defineConfig({
       },
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
+        // Keep installation light on mobile data. Vehicle and client imagery is
+        // loaded when needed instead of forcing every visitor to pre-cache the
+        // entire fleet catalogue.
+        globPatterns: ['**/*.{js,css,html,ico,svg}'],
         runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|jpe?g|webp)$/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'pepek-visual-assets',
+              expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 14 },
+              cacheableResponse: { statuses: [0, 200] }
+            }
+          },
           {
             urlPattern: /^https:\/\/images\.unsplash\.com\/.*/i,
             handler: 'CacheFirst',

@@ -109,7 +109,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               </span>
             )}
             <span className="px-2.5 py-1 rounded-full bg-[#236199] text-white text-[10px] font-bold shadow-xs">
-              {vehicle.availabilityTag || 'Disponível'}
+              Sob confirmação
             </span>
           </div>
 

@@ -76,7 +76,7 @@ export async function checkVehicleAvailability(input: { vehicle: string; startDa
     const params = new URLSearchParams(input);
     const response = await fetch(`/api/availability?${params.toString()}`);
     if (!response.ok) return { status: 'unknown' as const };
-    return await response.json() as { status: 'available' | 'unavailable' | 'unknown'; conflicts?: number };
+    return await response.json() as { status: 'on_request' | 'unavailable' | 'unknown' };
   } catch {
     return { status: 'unknown' as const };
   }

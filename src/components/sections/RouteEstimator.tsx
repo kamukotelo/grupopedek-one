@@ -194,7 +194,7 @@ export const RouteEstimator: React.FC = () => {
                     </h3>
                   </div>
 
-                  <div className="px-3.5 py-1.5 rounded-full bg-[#236199] text-[#236199] text-xs font-bold border border-[#236199] flex items-center gap-1.5">
+                  <div className="px-3.5 py-1.5 rounded-full bg-[#236199] text-white text-xs font-bold border border-[#236199] flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-[#236199] animate-pulse"></span>
                     <span>Disponibilidade Imediata</span>
                   </div>
