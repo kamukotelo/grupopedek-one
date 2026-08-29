@@ -60,7 +60,12 @@ const FLYER_VEHICLES: FlyerVehicle[] = [
   { id: 'limousine', name: 'Limousine', fullDay: 999999, transfer: 749999, image: 'limousine' },
   { id: 'range-rover-novo-modelo', name: 'Range Rover Novo Modelo', fullDay: 1449999, transfer: 1087499, image: 'range-rover-novo-modelo' },
   { id: 'mercedes-class-s-2025', name: 'Mercedes Classe S 2025', fullDay: 1449999, transfer: 1087499, image: 'mercedes-classe-s-2025' },
-  { id: 'rangerover-blindado-2025', name: 'Range Rover Blindado 2025', fullDay: 1999999, transfer: 1499999, image: 'range-rover-blindado-2025' }
+  { id: 'rangerover-blindado-2025', name: 'Range Rover Blindado 2025', fullDay: 1999999, transfer: 1499999, image: 'range-rover-blindado-2025' },
+  // Novas viaturas com fotografia oficial "Carros PNG" (Ago/2026). Preços provisórios — ver fleetData.ts.
+  { id: 'chery-himla', name: 'Chery Himla 4x4', fullDay: 189999, transfer: 132999, image: 'chery-himla' },
+  { id: 'jac-sunray', name: 'JAC Sunray', fullDay: 349999, transfer: 262499, image: 'jac-sunray' },
+  { id: 'baw-m7', name: 'BAW M7', fullDay: 359999, transfer: 269999, image: 'baw-m7' },
+  { id: 'jmc-touring', name: 'JMC Touring', fullDay: 369999, transfer: 277499, image: 'jmc-touring' }
 ];
 
 const fleetById = new Map(FLEET_DATABASE.map((vehicle) => [vehicle.id, vehicle]));

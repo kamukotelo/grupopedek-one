@@ -13,7 +13,7 @@ for (const language of ['pt', 'en', 'fr']) {
 const fleetSource = fs.readFileSync('src/data/fleetData.ts', 'utf8');
 const ids = [...fleetSource.matchAll(/\bid:\s*'([^']+)'/g)].map(match => match[1]);
 const slugs = [...fleetSource.matchAll(/\bslug:\s*'([^']+)'/g)].map(match => match[1]);
-expect(ids.length === 47, `Esperadas 47 viaturas; encontradas ${ids.length}`);
+expect(ids.length === 51, `Esperadas 51 viaturas; encontradas ${ids.length}`);
 expect(new Set(ids).size === ids.length, 'Existem IDs de viatura duplicados');
 expect(new Set(slugs).size === slugs.length, 'Existem slugs de viatura duplicados');
 
@@ -26,7 +26,7 @@ for (const image of transparentFleetImages) {
 
 const flyerFleetSource = fs.readFileSync('src/data/fleetFlyer2026.ts', 'utf8');
 const flyerFolders = fs.readdirSync('public/fleet-flyer-2026', { withFileTypes: true }).filter(entry => entry.isDirectory());
-expect(flyerFolders.length === 46, `Esperadas 46 pastas da frota dos flyers; encontradas ${flyerFolders.length}`);
+expect(flyerFolders.length === 51, `Esperadas 51 pastas da frota dos flyers; encontradas ${flyerFolders.length}`);
 for (const folder of flyerFolders) {
   expect(fs.existsSync(`public/fleet-flyer-2026/${folder.name}/01-oficial.webp`), `Imagem oficial ausente: ${folder.name}`);
 }
@@ -34,11 +34,11 @@ for (const folder of flyerFolders) {
 // Page 7 of the Full Day 2026 PDF previously had a shifted image assignment.
 // Lock the corrected exports so the vehicle names cannot silently drift again.
 const correctedFlyerImageHashes = {
-  'hyundai-staria-atual': '245a548ce88021eb2203cacff060bc32ec00714d9f8ce3a7677b745fad6b71b9',
-  'nova-toyota-hiace': 'ea323b87957fdd17094b80de2abd809dafc6a2139d8c12f59bb5980d8d98c719',
-  'mercedes-sprinter-atual': 'd91a7407b3f054ea3fbb9e63e7d8b09be4831699cf1d8b2eeb47f8312f4025f2',
-  'nissan-patrol': '3113c206e943b710a05d84bfde4c724b24eb38c99af8790fbfbf77cff3a6b2c4',
-  'novo-toyota-prado': '45797fab8ee0c32108a07046c12cdc4810fb6f0b5d06ca92de38dc594d1d8480',
+  'hyundai-staria-atual': 'd75d3bf6429c96c8aaa7ff48e9a5b3e5621d38d4ddbbcd362a05be5fb95d1e93',
+  'nova-toyota-hiace': '8fa9463e8311c4c2d71cdce4e229805b34c1392f7b80aacf4a108d2a3bbc25a7',
+  'mercedes-sprinter-atual': '5cdfecdc0d1a1215429b0a6024822d5d3259155bef341e7c4fa652666a522777',
+  'nissan-patrol': '6d7a0e6547d40b1b456279533ada45e1e558a5db8878573b83e57efb28581492',
+  'novo-toyota-prado': 'ed4e8e693ea827d7308704ff36b6ffca09ddfb25980034009e6ea647a0bc147c',
 };
 for (const [folder, expectedHash] of Object.entries(correctedFlyerImageHashes)) {
   const path = `public/fleet-flyer-2026/${folder}/01-oficial.webp`;
@@ -112,7 +112,7 @@ const authSource = fs.readFileSync('src/context/AuthContext.tsx', 'utf8');
 expect(authSource.includes('if (!IS_DEMO_MODE) return;'), 'loginAs não está bloqueado fora do modo demo');
 expect(demoUsersSource.includes('DEMO_OPERATIONAL_RECORDS'), 'Agenda operacional demonstrativa ausente');
 expect(demoUsersSource.includes('DEMO_ODOO_EVENTS'), 'Eventos demonstrativos Odoo ausentes');
-expect(demoUsersSource.includes('totalVehiclesSynced: 46'), 'Frota oficial não está representada no estado Odoo demo');
+expect(demoUsersSource.includes('totalVehiclesSynced: 51'), 'Frota oficial não está representada no estado Odoo demo');
 
 const securitySource = fs.readFileSync('api/_security.js', 'utf8');
 expect(securitySource.includes('takeRateLimit') && securitySource.includes('applyApiSecurity'), 'Proteções comuns dos endpoints estão ausentes');

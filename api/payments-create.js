@@ -26,7 +26,9 @@ export default async function handler(req, res) {
   if (!invoice) return res.status(404).json({ error: 'Fatura não encontrada.' });
   if (invoice.status === 'paid') return res.status(409).json({ error: 'Esta fatura já está liquidada.' });
 
-  const currency = provider === 'multicaixa' || provider === 'bank_transfer' ? 'AOA' : (cleanText(req.body?.currency, 3) || 'EUR').toUpperCase();
+  const currency = provider === 'multicaixa' || provider === 'bank_transfer' ? 'AOA'
+    : provider === 'mbway' ? 'EUR'
+    : (cleanText(req.body?.currency, 3) || 'EUR').toUpperCase();
   if (!['AOA', 'USD', 'EUR'].includes(currency)) return res.status(400).json({ error: 'Moeda inválida.' });
   const sourceAmount = currency === 'AOA' ? invoice.amount_aoa : currency === 'USD' ? invoice.amount_usd : invoice.amount_eur;
   const amountMinor = amountToMinor(sourceAmount, currency);

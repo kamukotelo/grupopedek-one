@@ -26,10 +26,13 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
 
   useEffect(() => {
     setError(''); setReference(''); setDone(false); setIsProcessing(false);
+    setProvider('multicaixa'); setCurrency('AOA');
     setIdempotencyKey(crypto.randomUUID());
   }, [invoice?.id]);
 
   useEffect(() => {
+    // Multicaixa e transferência liquidam sempre em AOA; MB WAY só em EUR.
+    // Apenas o cartão internacional (Stripe) permite escolher EUR ou USD.
     if (provider === 'multicaixa' || provider === 'bank_transfer') setCurrency('AOA');
     else setCurrency('EUR');
   }, [provider]);
@@ -97,7 +100,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                   </button>
                 ))}
               </div>
-              {(provider === 'stripe' || provider === 'mbway') && (
+              {provider === 'stripe' && (
                 <div className="flex gap-2 rounded-xl bg-gray-50 p-2" aria-label="Moeda do pagamento">
                   {(['EUR', 'USD'] as const).map((item) => <button key={item} type="button" onClick={() => setCurrency(item)} className={`flex-1 rounded-lg py-2 text-xs font-bold ${currency === item ? 'bg-[#09172C] text-white' : 'text-gray-600'}`}>{item}</button>)}
                 </div>

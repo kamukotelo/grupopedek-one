@@ -14,7 +14,7 @@ const vehicles = [...SOURCE.matchAll(vehiclePattern)].map((match) => ({
   id: match[1], name: match[2], brand: match[3], model: match[4], year: match[5]
 }));
 
-if (vehicles.length !== 47) throw new Error(`Esperadas 47 viaturas; encontradas ${vehicles.length}`);
+if (vehicles.length !== 51) throw new Error(`Esperadas 51 viaturas; encontradas ${vehicles.length}`);
 
 const clean = (value) => value
   .replace(/\b(Executiva|Executive|VIP|Luxury|Ultimate|Smart|Presidential|Stretch|Novo|Nova|Modelo|Clássica|Atual)\b/gi, ' ')
@@ -179,7 +179,7 @@ for (const [vehicleIndex, vehicle] of vehicles.entries()) {
     generated.push(`    { url: '${entry.file}', caption: '${label} — ${vehicle.name.replaceAll("'", "\\'")}', altText: '${vehicle.name.replaceAll("'", "\\'")} — ${label.toLowerCase()}', type: '${index === 3 ? 'interior' : index === 1 ? 'exterior_front' : 'exterior_side'}' },`);
   }
   generated.push('  ],');
-  process.stdout.write(`[${vehicleIndex + 1}/47] ${vehicle.name}: ${entries.length} imagens\n`);
+  process.stdout.write(`[${vehicleIndex + 1}/51] ${vehicle.name}: ${entries.length} imagens\n`);
 }
 
 generated.push('};', '');

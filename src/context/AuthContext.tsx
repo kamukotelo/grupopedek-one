@@ -62,6 +62,7 @@ interface AuthContextType {
   isDemoMode: boolean;
   loginAs: (role: UserRole) => void;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
+  signUp: (name: string, email: string, password: string) => Promise<{ error?: string }>;
   requestPasswordReset: (email: string) => Promise<{ error?: string }>;
   logout: () => Promise<void>;
   isPortalOpen: boolean;
@@ -190,6 +191,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return error ? { error: error.message } : {};
   };
 
+  const signUp = async (name: string, email: string, password: string) => {
+    const { error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/painel`,
+        data: { full_name: name.trim() },
+      },
+    });
+    return error ? { error: error.message } : {};
+  };
+
   const requestPasswordReset = async (email: string) => {
     const redirectTo = `${window.location.origin}/painel`;
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
@@ -239,7 +252,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider value={{
-      currentUser, isAuthReady, isDemoMode: IS_DEMO_MODE, loginAs, signIn, requestPasswordReset,
+      currentUser, isAuthReady, isDemoMode: IS_DEMO_MODE, loginAs, signIn, signUp, requestPasswordReset,
       logout, isPortalOpen, setIsPortalOpen, invoices, payInvoice, fleetTelemetry, odooSync,
       refreshOdooSync, selectedPaymentInvoice, setSelectedPaymentInvoice,
     }}>

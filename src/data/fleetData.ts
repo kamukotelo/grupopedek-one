@@ -77,12 +77,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '1.499.999 Kz',
     depositAOA: 500000,
     description: 'Veículo de alta segurança com blindagem balística de nível internacional, conforto supremo e tecnologia de ponta para transporte de altas individualidades e delegações diplomáticas em Angola.',
-    primaryImage: '/rent_car/RANGEROVER-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/range-rover-blindado-2025/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/RANGEROVER-300x300.webp',
+        url: '/fleet-flyer-2026/range-rover-blindado-2025/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'rangerover-blindado-2025 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -132,12 +132,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '1.087.499 Kz',
     depositAOA: 400000,
     description: 'O padrão de luxo global por excelência. Equipado com bancos traseiros reclináveis tipo Lounge, iluminação ambiente ativa e suspensão inteligente AIRMATIC que anula qualquer imperfeição da via.',
-    primaryImage: '/rent_car/MERCEDES-CLS63-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mercedes-classe-s-2025/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/MERCEDES-CLS63-300x300.webp',
+        url: '/fleet-flyer-2026/mercedes-classe-s-2025/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mercedes-class-s-2025 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -186,12 +186,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '1.087.499 Kz',
     depositAOA: 400000,
     description: 'A mais recente geração do ícone de luxo britânico. Design minimalista exterior e requinte artesanal no habitáculo com tração integral e capacidade de cruzeiro inigualável.',
-    primaryImage: '/rent_car/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/range-rover-novo-modelo/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/RANGER_ROVER-Me74FJj3QHuV8v2T8_78CQ-300x300.webp',
+        url: '/fleet-flyer-2026/range-rover-novo-modelo/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'range-rover-novo-modelo vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -239,12 +239,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '749.999 Kz',
     depositAOA: 350000,
     description: 'O todo-terreno mais desejado do mundo. Motor 4.0L V8 Biturbo AMG com aceleração estonteante e presença cénica imponente para eventos de prestígio.',
-    primaryImage: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mercedes-g63/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp',
+        url: '/fleet-flyer-2026/mercedes-g63/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mercedes-g63-2023 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -293,12 +293,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '600.000 Kz',
     depositAOA: 300000,
     description: 'O SUV topo de gama japonês com fiabilidade inabalável e refinamento artesanal Takumi. 7 lugares amplos e suspensão hidráulica adaptativa para viagens confortáveis.',
-    primaryImage: '/rent_car/LEXUS-600-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/lexus-600/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/LEXUS-600-300x300.webp',
+        url: '/fleet-flyer-2026/lexus-600/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'lexus-600 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -395,12 +395,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     pricePerDayFormatted: '599.999 Kz',
     depositAOA: 250000,
     description: 'A clássica força bruta e estatuto do Classe G em configuração diesel robusta e económica com interior em pele e suspensão adaptativa.',
-    primaryImage: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mercedes-g63-atual/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/MERCEDES_G63-gHG0ppvUDrfx6Pj0ZF1CWg-300x300.webp',
+        url: '/fleet-flyer-2026/mercedes-g63-atual/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mercedes-g63 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -448,12 +448,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '449.999 Kz',
     depositAOA: 250000,
     description: 'O topo da frota governamental e diplomática em Angola. Motor 3.3L Twin-Turbo Diesel de 304 CV com suspensão Kinetic Dynamic e 7 lugares de absoluto luxo.',
-    primaryImage: '/rent_car/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-lc300-2023/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTA_LCRUISER_VR-IKjhTo9IFwGwNmmSGebiVQ-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-lc300-2023/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-lc300-2023 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -502,12 +502,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '412.500 Kz',
     depositAOA: 200000,
     description: 'SUV de prestígio clássico com lendário motor 5.7L V8 naturalmente aspirado, interior artesanal e suspensão pneumática de extrema suavidade.',
-    primaryImage: '/rent_car/LEXUS_570-E62fReUtK2_INVmKUZaIFQ-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/lexus-570/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/LEXUS_570-E62fReUtK2_INVmKUZaIFQ-300x300.webp',
+        url: '/fleet-flyer-2026/lexus-570/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'lexus-570 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -554,12 +554,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '412.499 Kz',
     depositAOA: 200000,
     description: 'Requinte e distinção britânica com suspensão a ar autonivelante, vidros duplos insonorizados e excelente desempenho urbano em Luanda.',
-    primaryImage: '/rent_car/RANG-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/range-rover/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/RANG-300x300.webp',
+        url: '/fleet-flyer-2026/range-rover/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'range-rover vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -606,12 +606,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '374.999 Kz',
     depositAOA: 200000,
     description: 'O inquebrável Land Cruiser 200 com motor 4.5L V8 Twin-Turbo Diesel. A viatura preferida para viagens interprovinciais com total segurança e potência.',
-    primaryImage: '/rent_car/TOYOTA-LC-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-lc-v8-2021/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTA-LC-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-lc-v8-2021/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-lc-v8-2021 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -659,12 +659,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '524.999 Kz',
     depositAOA: 200000,
     description: 'Coupé de 4 portas com linhas arrebatadoras e performance de superdesportivo. Ideal para casamentos, produções e chegadas de alto impacto.',
-    primaryImage: '/rent_car/MERCEDES-CLS63-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mercedes-cls63/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/MERCEDES-CLS63-300x300.webp',
+        url: '/fleet-flyer-2026/mercedes-cls63/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mercedes-cls63 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -711,12 +711,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '337.499 Kz',
     depositAOA: 200000,
     description: 'Personalização exclusiva Brabus com kit estético aerodinâmico em fibra de carbono, jantes forjadas e sonoridade desportiva marcante.',
-    primaryImage: '/rent_car/MERCEDES_BRABUS-a1w-yJcKQK5-vSp3-fxwJg-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mercedes-brabus/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/MERCEDES_BRABUS-a1w-yJcKQK5-vSp3-fxwJg-300x300.webp',
+        url: '/fleet-flyer-2026/mercedes-brabus/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mercedes-brabus vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -763,12 +763,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '262.499 Kz',
     depositAOA: 150000,
     description: 'Design escandinavo elegante e o mais avançado pacote de segurança ativa do mundo (Pilot Assist, City Safety e visão 360°).',
-    primaryImage: '/rent_car/VOLVO-XC-60-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/volvo-xc60/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/VOLVO-XC-60-300x300.webp',
+        url: '/fleet-flyer-2026/volvo-xc60/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'volvo-xc-60 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -816,12 +816,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '299.999 Kz',
     depositAOA: 180000,
     description: 'A mais recente geração do Prado com design retro-moderno robusto, novo chassis TNGA-F e tecnologia off-road de última geração.',
-    primaryImage: '/rent_car/NEW-TOYOTA-1-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/novo-toyota-prado/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/NEW-TOYOTA-1-300x300.webp',
+        url: '/fleet-flyer-2026/novo-toyota-prado/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'new-toyota-prado vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -869,12 +869,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '293.249 Kz',
     depositAOA: 180000,
     description: 'O gigante dos SUVs com motor 5.6L V8 de 400 CV e depósito colossal de 140 L para autonomia ilimitada em qualquer viagem por Angola.',
-    primaryImage: '/rent_car/NISSAN-PATROL-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/nissan-patrol/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/NISSAN-PATROL-300x300.webp',
+        url: '/fleet-flyer-2026/nissan-patrol/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'nissan-patrol vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -922,12 +922,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '224.999 Kz',
     depositAOA: 150000,
     description: 'A referência mais fiável para deslocações executivas diárias em Luanda e no interior. 7 lugares, ar condicionado potente e tração 4x4 integral.',
-    primaryImage: '/rent_car/NEW-TOYOTA-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-prado-2023/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/NEW-TOYOTA-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-prado-2023/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-prado-atual vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -974,12 +974,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     depositAOA: 120000,
     description: 'Elegância urbana combinada com capacidade 4x4. Equipada com interior refinado, 7 lugares e motor turbodiesel de grande resposta.',
     inconsistentDataNote: 'Marcado para revisão interna de lotação.',
-    primaryImage: '/rent_car/TOYOTA-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-fortuner-2023/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTA-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-fortuner-2023/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-fortuner-atual vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1027,12 +1027,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '217.499 Kz',
     depositAOA: 100000,
     description: 'SUV 4x4 espaçosa para 7 ocupantes com ar condicionado reforçado e consumo eficiente em circuitos urbanos ou rurais.',
-    primaryImage: '/rent_car/TOYOTA-300x300 (1).webp'
+    primaryImage: '/fleet-flyer-2026/toyota-fortuner-2023/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTA-300x300 (1).webp',
+        url: '/fleet-flyer-2026/toyota-fortuner-2023/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-fortuner-2023 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1085,12 +1085,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '600.000 Kz',
     depositAOA: 300000,
     description: 'O mais luxuoso transporte de passageiros em Angola. 7 poltronas individuais face-a-face em pele com climatização independente, mesa dobrável e acabamentos de altíssimo padrão.',
-    primaryImage: '/rent_car/bc-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mercedes-v300-class/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/bc-300x300.webp',
+        url: '/fleet-flyer-2026/mercedes-v300-class/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mercedes-benz-v300-class vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1138,12 +1138,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '337.499 Kz',
     depositAOA: 200000,
     description: 'Design espacial futurista com janelas panorâmicas de grandes dimensões, 9 lugares VIP e bancos de relaxamento com apoio de pernas.',
-    primaryImage: '/rent_car/HYUNDAI-STARIA-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-staria-executiva/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/HYUNDAI-STARIA-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-staria-executiva/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-staria-executiva vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1190,12 +1190,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '299.999 Kz',
     depositAOA: 200000,
     description: 'Minibus de grande capacidade para transporte confortável de 30 pessoas com ar condicionado potente para o clima de Angola, microfone e bagageiro.',
-    primaryImage: '/rent_car/TOYOTA-coast-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-coaster/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTA-coast-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-coaster/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-coaster vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1242,12 +1242,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '277.499 Kz',
     depositAOA: 180000,
     description: 'Van executiva de 21 lugares com teto alto, poltronas reclináveis individuais em pele, estribo de acesso elétrico e excelente insonorização.',
-    primaryImage: '/rent_car/sprinter-furgon-m_tjweHsHe-filters1000x_-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mercedes-sprinter-atual/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/sprinter-furgon-m_tjweHsHe-filters1000x_-300x300.webp',
+        url: '/fleet-flyer-2026/mercedes-sprinter-atual/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mercedes-sprinter-atual vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1294,12 +1294,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '269.999 Kz',
     depositAOA: 150000,
     description: 'Espaço para 11 pessoas com conforto moderno, saídas de ar condicionado em todas as filas e design contemporâneo.',
-    primaryImage: '/rent_car/HYUNDAI-TARIA-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-staria-atual/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/HYUNDAI-TARIA-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-staria-atual/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-staria-atual vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1346,12 +1346,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '284.999 Kz',
     depositAOA: 150000,
     description: 'A nova geração da Toyota Hiace com capô dianteiro semi-avançado para maior segurança, 15 lugares e condução suave.',
-    primaryImage: '/rent_car/fazer-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/nova-toyota-hiace/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/fazer-300x300.webp',
+        url: '/fleet-flyer-2026/nova-toyota-hiace/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'new-toyota-hiace vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1398,12 +1398,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '269.999 Kz',
     depositAOA: 150000,
     description: 'Minivan executiva confortável para 12 pessoas com bancos reconfiguráveis, portas laterais de correr em ambos os lados e ar condicionado independente.',
-    primaryImage: '/rent_car/HYUNDAI-H1-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-h1/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/HYUNDAI-H1-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-h1/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-h1 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1450,12 +1450,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '224.999 Kz',
     depositAOA: 100000,
     description: 'A van de trabalho e transporte de passageiros mais robusta e testada em Angola. 15 lugares com ar condicionado e manutenção 100% garantida.',
-    primaryImage: '/rent_car/TOYOTA-HIACE-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-hiace-classica/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTA-HIACE-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-hiace-classica/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-hiace vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1506,12 +1506,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '179.166 Kz',
     depositAOA: 80000,
     description: 'SUV moderna com 7 lugares, teto solar panorâmico, ecrã multimédia de 10.1" e excelente relação custo-benefício para famílias e equipas.',
-    primaryImage: '/rent_car/JETOUR-X70-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/jetour-x70/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/JETOUR-X70-300x300.webp',
+        url: '/fleet-flyer-2026/jetour-x70/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'jetour-x70 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1558,12 +1558,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '127.499 Kz',
     depositAOA: 75000,
     description: 'SUV refinada com 5 lugares, condução silenciosa, acabamento de topo e tecnologia de assistência ao condutor.',
-    primaryImage: '/rent_car/HYUNDAIS-SANTA-FE-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-santa-fe/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/HYUNDAIS-SANTA-FE-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-santa-fe/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-santa-fe vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1610,12 +1610,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '119.999 Kz',
     depositAOA: 75000,
     description: 'SUV compacta premium com assinatura luminosa paramétrica oculta, interior digital e condução ágil no trânsito de Luanda.',
-    primaryImage: '/rent_car/gdfhgdf-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-tucson/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/gdfhgdf-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-tucson/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-tucson vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1662,12 +1662,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '119.999 Kz',
     depositAOA: 75000,
     description: 'SUV com motor turbo, teto panorâmico, bancos em pele com ajuste elétrico e excelente espaço para 5 passageiros.',
-    primaryImage: '/rent_car/Sem-Titulo-2-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/chery-tiggo-7-pro-max/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/Sem-Titulo-2-300x300.webp',
+        url: '/fleet-flyer-2026/chery-tiggo-7-pro-max/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'chery-tiggo-7 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1714,12 +1714,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '112.499 Kz',
     depositAOA: 60000,
     description: 'Crossover compacto com altura ao solo elevada para enfrentar pisos irregulares em Luanda, com excelente economia de combustível.',
-    primaryImage: '/rent_car/CHERY-TIGGO-2-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/chery-tiggo-2/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/CHERY-TIGGO-2-300x300.webp',
+        url: '/fleet-flyer-2026/chery-tiggo-2/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'chery-tiggo-2 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1766,12 +1766,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '104.999 Kz',
     depositAOA: 60000,
     description: 'SUV compacta muito procurada pela sua robustez, posição de condução elevada, ar condicionado eficiente e facilidade de estacionamento.',
-    primaryImage: '/rent_car/HYUNDAI-CRETA-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-creta/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/HYUNDAI-CRETA-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-creta/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-creta vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1820,12 +1820,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     pricePerDayFormatted: '259.999 Kz',
     depositAOA: 150000,
     description: 'O clássico Land Cruiser Série 70 com motor diesel 4.2L 1HZ inquebrável, chassis de longarinas reforçado e capacidade para qualquer picada em Angola.',
-    primaryImage: '/rent_car/TOYOTA-LC-HZ-1-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-lc-hz/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTA-LC-HZ-1-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-lc-hz/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-lc-hz vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1872,12 +1872,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     depositAOA: 150000,
     description: 'Versão Troop Carrier de caixa longa para transporte de equipas técnicas com bancos longitudinais traseiros e tanque duplo de combustível.',
     inconsistentDataNote: 'Capacidade de 13 passageiros marcada para revisão técnica.',
-    primaryImage: '/rent_car/Manual-ou-Automatica-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-lc-hz-18p/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/Manual-ou-Automatica-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-lc-hz-18p/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-lc-hz-18p vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1925,12 +1925,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '150.000 Kz',
     depositAOA: 100000,
     description: 'Camião ligeiro de carga com grande capacidade volumétrica e de peso. Ideal para mudanças corporativas, logística de eventos e transporte de equipamentos.',
-    primaryImage: '/rent_car/MITSUBISHI-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mitsubishi-canter/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/MITSUBISHI-300x300.webp',
+        url: '/fleet-flyer-2026/mitsubishi-canter/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mitsubishi-canter vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -1977,12 +1977,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '142.499 Kz',
     depositAOA: 80000,
     description: 'Pick-up cabine dupla com sistema de tração Super Select 4WD-II, caixa de carga espaçosa e excelente conforto para 5 ocupantes.',
-    primaryImage: '/rent_car/MITSUBISHI-L200-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/mitsubishi-l200/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/MITSUBISHI-L200-300x300.webp',
+        url: '/fleet-flyer-2026/mitsubishi-l200/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'mitsubishi-l200 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2031,12 +2031,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '142.499 Kz',
     depositAOA: 80000,
     description: 'A pick-up número um em Angola. Lendária durabilidade para minas, estaleiros ou viagens a qualquer das 18 províncias.',
-    primaryImage: '/rent_car/TOYOTAHILUX-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-hilux/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/TOYOTAHILUX-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-hilux/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-hilux vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2089,12 +2089,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '52.499 Kz',
     depositAOA: 40000,
     description: 'Hatchback moderno com design jovial, consumo ultra-baixo (5.0L/100km), ar condicionado potente e facilidade máxima de condução.',
-    primaryImage: '/rent_car/SUZUKI-SWIFT-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/suzuki-swift/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/SUZUKI-SWIFT-300x300.webp',
+        url: '/fleet-flyer-2026/suzuki-swift/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'suzuki-swift vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2141,12 +2141,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '65.249 Kz',
     depositAOA: 40000,
     description: 'Hatchback espaçoso com excelente espaço para pernas nos bancos traseiros, bagageira generosa e câmara 360° no modelo de topo.',
-    primaryImage: '/rent_car/SUZUKI-BALENO-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/suzuki-baleno/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/SUZUKI-BALENO-300x300.webp',
+        url: '/fleet-flyer-2026/suzuki-baleno/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'suzuki-baleno vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2193,12 +2193,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '52.499 Kz',
     depositAOA: 35000,
     description: 'Carro citadino europeu com acabamento de qualidade, estabilidade excelente em autoestrada e ar condicionado digital.',
-    primaryImage: '/rent_car/i20-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-i20/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/i20-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-i20/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-i-20 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2245,12 +2245,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '44.999 Kz',
     depositAOA: 35000,
     description: 'Mini-SUV compacta com altura ao solo de 180mm que ultrapassa lombas e buracos com facilidade. Consumo impressionante de 4.5L/100km.',
-    primaryImage: '/rent_car/SUZUKI-SPRESSO-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/suzuki-s-presso/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/SUZUKI-SPRESSO-300x300.webp',
+        url: '/fleet-flyer-2026/suzuki-s-presso/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'suzuki-spresso vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2297,12 +2297,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '65.249 Kz',
     depositAOA: 35000,
     description: 'A fiabilidade lendária da Toyota num formato económico e prático para o dia-a-dia na capital.',
-    primaryImage: '/rent_car/starlete-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/toyota-starlet/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/starlete-300x300.webp',
+        url: '/fleet-flyer-2026/toyota-starlet/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'toyota-starlet vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2349,12 +2349,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '41.250 Kz',
     depositAOA: 30000,
     description: 'Carro compacto económico com 5 lugares, fácil de manobrar e estacionar em qualquer rua de Luanda.',
-    primaryImage: '/rent_car/HYUNDAI-G.-I10-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/hyundai-grand-i10/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/HYUNDAI-G.-I10-300x300.webp',
+        url: '/fleet-flyer-2026/hyundai-grand-i10/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'hyundai-g-i10 vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2401,12 +2401,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '37.499 Kz',
     depositAOA: 25000,
     description: 'Uma das tarifas mais acessíveis da frota. Ideal para deslocações pontuais, compras ou gestão pessoal.',
-    primaryImage: '/rent_car/KIA-MORNING-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/kia-morning/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/KIA-MORNING-300x300.webp',
+        url: '/fleet-flyer-2026/kia-morning/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'kia-morning vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2453,12 +2453,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '37.499 Kz',
     depositAOA: 25000,
     description: 'O campeão da poupança de combustível em Luanda. Condução leve, ar condicionado e manutenção sempre em dia.',
-    primaryImage: '/rent_car/Suzuk-celero1-1-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/suzuki-celerio/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/Suzuk-celero1-1-300x300.webp',
+        url: '/fleet-flyer-2026/suzuki-celerio/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'suzuki-celerio vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2510,12 +2510,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '749.999 Kz',
     depositAOA: 300000,
     description: 'Limousine executiva estendida para 20 ocupantes com bar embutido com flautas de cristal, iluminação estroboscópica de discoteca e fibra ótica, ecrãs LED e privacidade total com divisória acústica.',
-    primaryImage: '/rent_car/Aluguer-de-limozine-em-Angola-300x300.webp'
+    primaryImage: '/fleet-flyer-2026/limousine/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/rent_car/Aluguer-de-limozine-em-Angola-300x300.webp',
+        url: '/fleet-flyer-2026/limousine/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'limousine vista frontal oficial — PEPEK Rent a Car Angola'
       },
@@ -2542,5 +2542,179 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     features: ['Bar Iluminado com Champanheira', 'Teto Estrelado em Fibra Ótica', 'Ecrãs de TV e Som Surround 2000W', 'Divisória Elétrica de Privacidade'],
     inclusions: ['Chauffeur com Fato de Gala', 'Champanhe de boas-vindas incluído', 'Tapete vermelho na chegada'],
     recommendedFor: ['Casamentos de Alta Sociedade', 'Galas e Festas de Aniversário VIP', 'Produções de Moda e Televisão']
+  },
+  // ═══════════════════════════════════════════════════════════
+  // NOVAS VIATURAS — fotografias oficiais "Carros PNG" (Ago/2026)
+  // DADOS PROVISÓRIOS: preços e specs derivados de irmãos de segmento.
+  // Confirmar com a operação antes de comunicação comercial.
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: 'chery-himla',
+    slug: 'chery-himla',
+    name: 'Chery Himla 4x4 2026',
+    brand: 'Chery',
+    model: 'Himla Dupla Cabine 2.0T',
+    year: '2026',
+    category: 'pickups',
+    categoryLabel: 'Pick-ups e Camiões',
+    badge: 'Nova na Frota 2026',
+    availabilityTag: 'Sob Consulta',
+    isAvailable: true,
+    pricePerDayAOA: 189999,
+    pricePerDayFormatted: '189.999 Kz',
+    transferPriceAOA: 132999,
+    transferPriceFormatted: '132.999 Kz',
+    depositAOA: 120000,
+    description: 'Pick-up de dupla cabine com tração às quatro rodas, caixa de carga reforçada e cabina moderna. Alternativa robusta para obra, logística de campo e deslocações mistas asfalto/picada.',
+    inconsistentDataNote: 'Ficha provisória — specs e tarifas a confirmar com a operação.',
+    primaryImage: '/fleet-flyer-2026/chery-himla/01-oficial.webp',
+    gallery: [
+      {
+        url: '/fleet-flyer-2026/chery-himla/01-oficial.webp',
+        caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
+        altText: 'Chery Himla 4x4 2026 — catálogo oficial PEPEK',
+        type: 'exterior_front'
+      }
+    ],
+    specs: {
+      color: 'Branca',
+      passengers: 5,
+      doors: 4,
+      luggage: 3,
+      transmission: 'Automática / Manual',
+      fuelType: 'Diesel',
+      tankCapacity: '76 L',
+      traction: '4x4 com reduzidas',
+      airConditioning: true
+    },
+    features: ['Tração 4x4 com Bloqueio de Diferencial', 'Caixa de Carga com Revestimento', 'Suspensão Reforçada'],
+    inclusions: ['Seguro contra Todos os Riscos', 'Assistência 24/7'],
+    recommendedFor: ['Construção e Obras Públicas', 'Logística de Campo', 'Sector Agrícola']
+  },
+  {
+    id: 'jmc-touring',
+    slug: 'jmc-touring',
+    name: 'JMC Touring 2026',
+    brand: 'JMC',
+    model: 'Touring 14L',
+    year: '2026',
+    category: 'vans',
+    categoryLabel: 'Vans e Transporte',
+    badge: 'Nova na Frota 2026',
+    availabilityTag: 'Sob Consulta',
+    isAvailable: true,
+    pricePerDayAOA: 369999,
+    pricePerDayFormatted: '369.999 Kz',
+    transferPriceAOA: 277499,
+    transferPriceFormatted: '277.499 Kz',
+    depositAOA: 180000,
+    description: 'Van de passageiros de teto alto com lugares confortáveis para equipas e comitivas, boa insonorização e ar condicionado em todas as filas.',
+    inconsistentDataNote: 'Ficha provisória — specs e tarifas a confirmar com a operação.',
+    primaryImage: '/fleet-flyer-2026/jmc-touring/01-oficial.webp',
+    gallery: [
+      {
+        url: '/fleet-flyer-2026/jmc-touring/01-oficial.webp',
+        caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
+        altText: 'JMC Touring 2026 — catálogo oficial PEPEK',
+        type: 'exterior_front'
+      }
+    ],
+    specs: {
+      color: 'Branca',
+      passengers: 14,
+      doors: 4,
+      luggage: 10,
+      transmission: 'Manual',
+      fuelType: 'Diesel',
+      tankCapacity: '80 L',
+      airConditioning: true
+    },
+    features: ['Teto Alto', '14 Lugares com Cintos', 'Ar Condicionado de Teto'],
+    inclusions: ['Seguro de Transporte de Passageiros', 'Motorista profissional'],
+    recommendedFor: ['Transfers de Grupos', 'Equipas Técnicas', 'Logística de Eventos']
+  },
+  {
+    id: 'jac-sunray',
+    slug: 'jac-sunray',
+    name: 'JAC Sunray 2026',
+    brand: 'JAC',
+    model: 'Sunray 18L',
+    year: '2026',
+    category: 'vans',
+    categoryLabel: 'Vans e Transporte',
+    badge: 'Nova na Frota 2026',
+    availabilityTag: 'Sob Consulta',
+    isAvailable: true,
+    pricePerDayAOA: 349999,
+    pricePerDayFormatted: '349.999 Kz',
+    transferPriceAOA: 262499,
+    transferPriceFormatted: '262.499 Kz',
+    depositAOA: 170000,
+    description: 'Minibus de grande capacidade para transporte de passageiros em conforto, com layout de 18 lugares, entrada elevada e climatização reforçada para o clima de Angola.',
+    inconsistentDataNote: 'Ficha provisória — specs e tarifas a confirmar com a operação.',
+    primaryImage: '/fleet-flyer-2026/jac-sunray/01-oficial.webp',
+    gallery: [
+      {
+        url: '/fleet-flyer-2026/jac-sunray/01-oficial.webp',
+        caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
+        altText: 'JAC Sunray 2026 — catálogo oficial PEPEK',
+        type: 'exterior_front'
+      }
+    ],
+    specs: {
+      color: 'Branca',
+      passengers: 18,
+      doors: 3,
+      luggage: 12,
+      transmission: 'Manual',
+      fuelType: 'Diesel',
+      tankCapacity: '90 L',
+      airConditioning: true
+    },
+    features: ['18 Lugares com Cintos de Segurança', 'Bagageiro Superior Interno', 'Ar Condicionado Reforçado'],
+    inclusions: ['Seguro de Transporte de Passageiros', 'Motorista credenciado'],
+    recommendedFor: ['Delegações e Comitivas', 'Transporte de Equipas', 'Excursões Corporativas']
+  },
+  {
+    id: 'baw-m7',
+    slug: 'baw-m7',
+    name: 'BAW M7 2026',
+    brand: 'BAW',
+    model: 'M7 MPV',
+    year: '2026',
+    category: 'vans',
+    categoryLabel: 'Vans e Transporte',
+    badge: 'Nova na Frota 2026',
+    availabilityTag: 'Sob Consulta',
+    isAvailable: true,
+    pricePerDayAOA: 359999,
+    pricePerDayFormatted: '359.999 Kz',
+    transferPriceAOA: 269999,
+    transferPriceFormatted: '269.999 Kz',
+    depositAOA: 160000,
+    description: 'Monovolume moderno para transporte executivo de pequenos grupos, com bancos confortáveis, boa isolação acústica e saídas de ar condicionado para todas as filas.',
+    inconsistentDataNote: 'Ficha provisória — specs e tarifas a confirmar com a operação.',
+    primaryImage: '/fleet-flyer-2026/baw-m7/01-oficial.webp',
+    gallery: [
+      {
+        url: '/fleet-flyer-2026/baw-m7/01-oficial.webp',
+        caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
+        altText: 'BAW M7 2026 — catálogo oficial PEPEK',
+        type: 'exterior_front'
+      }
+    ],
+    specs: {
+      color: 'Preta',
+      passengers: 9,
+      doors: 5,
+      luggage: 6,
+      transmission: 'Automática',
+      fuelType: 'Gasolina',
+      tankCapacity: '60 L',
+      airConditioning: true
+    },
+    features: ['Bancos Individuais na 2.ª Fila', 'Portas Laterais Deslizantes', 'Climatização Multizona'],
+    inclusions: ['Seguro contra Danos Próprios', 'Assistência 24 Horas'],
+    recommendedFor: ['Comitivas Pequenas', 'Transfers Executivos', 'Equipas de Produção']
   }
 ];

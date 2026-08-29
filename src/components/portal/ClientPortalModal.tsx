@@ -204,7 +204,7 @@ export const ClientPortalModal: React.FC = () => {
               >
                 <FileText className="w-4 h-4" />
                 <span>{isAdminOrStaff ? 'Faturamento & Finanças AGT' : 'Minhas Faturas & Recibos'}</span>
-                {invoices.some(i => i.status === 'pending') && (
+                {invoices.some(i => i.status === 'pending' || i.status === 'overdue') && (
                   <span className="w-2 h-2 rounded-full bg-[#FEC228]"></span>
                 )}
               </button>
@@ -474,14 +474,14 @@ export const ClientPortalModal: React.FC = () => {
                             </div>
                           </div>
 
-                          {inv.status === 'pending' ? (
+                          {inv.status === 'pending' || inv.status === 'overdue' ? (
                             <button
                               type="button"
                               onClick={() => setSelectedPaymentInvoice(inv)}
                               className="btn-primary py-2 px-4 text-xs font-bold cursor-pointer"
                             >
                               <CreditCard className="w-3.5 h-3.5" />
-                              <span>Pagar Agora</span>
+                              <span>{inv.status === 'overdue' ? 'Regularizar' : 'Pagar Agora'}</span>
                             </button>
                           ) : (
                             <span className="px-3 py-1 rounded-xl bg-[#236199] text-white font-bold flex items-center gap-1">

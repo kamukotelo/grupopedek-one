@@ -77,6 +77,34 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- New public registrations always begin as regular customers. Privileged roles
+-- are assigned only by an administrator through app_metadata.
+CREATE OR REPLACE FUNCTION public.handle_new_customer_profile()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER SET search_path = public
+AS $$
+BEGIN
+    INSERT INTO public.profiles (id, full_name, phone, company, nif, role, tier)
+    VALUES (
+        NEW.id,
+        COALESCE(NULLIF(NEW.raw_user_meta_data ->> 'full_name', ''), split_part(COALESCE(NEW.email, 'cliente'), '@', 1)),
+        NEW.raw_user_meta_data ->> 'phone',
+        NEW.raw_user_meta_data ->> 'company',
+        NULL,
+        'cliente_normal',
+        'Standard'
+    )
+    ON CONFLICT (id) DO NOTHING;
+    RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS on_auth_user_created_pepek_profile ON auth.users;
+CREATE TRIGGER on_auth_user_created_pepek_profile
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_new_customer_profile();
+
 CREATE TABLE IF NOT EXISTS public.invoices (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,

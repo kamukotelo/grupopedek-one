@@ -51,7 +51,11 @@ const ORIGINAL_FLEET_NAMES: Record<string, string> = {
   'hyundai-g-i10': 'Hyundai Grand i10',
   'kia-morning': 'Kia Morning',
   'suzuki-celerio': 'Suzuki Celerio',
-  'limousine': 'Limousine'
+  'limousine': 'Limousine',
+  'chery-himla': 'Chery Himla',
+  'jmc-touring': 'JMC Touring',
+  'jac-sunray': 'JAC Sunray',
+  'baw-m7': 'BAW M7'
 };
 
 export const getFleetForVersion = (fleet: VehicleDetail[], version: FleetVersion): VehicleDetail[] =>

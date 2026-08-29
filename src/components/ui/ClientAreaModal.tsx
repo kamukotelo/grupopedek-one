@@ -23,7 +23,7 @@ const PROFILE_CHOICES: Array<{ role: UserRole; group: 'Clientes' | 'Operações'
 ];
 
 export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClose }) => {
-  const { signIn, requestPasswordReset, isAuthReady, isDemoMode, loginAs } = useAuth();
+  const { signIn, signUp, requestPasswordReset, isAuthReady, isDemoMode, loginAs } = useAuth();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'corporate' | 'private'>('corporate');
   const [emailOrNif, setEmailOrNif] = useState('');
@@ -32,6 +32,8 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
   const [errorMessage, setErrorMessage] = useState('');
   const [resetMessage, setResetMessage] = useState('');
   const [showRealLogin, setShowRealLogin] = useState(false);
+  const [showRegistration, setShowRegistration] = useState(false);
+  const [registrationName, setRegistrationName] = useState('');
 
   if (!isOpen) return null;
 
@@ -54,6 +56,21 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
     const result = await requestPasswordReset(emailOrNif);
     if (result.error) setErrorMessage('Não foi possível enviar a recuperação neste momento.');
     else setResetMessage('Enviámos as instruções de recuperação para o e-mail indicado.');
+  };
+
+  const handleRegistration = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMessage('');
+    setResetMessage('');
+    if (password.length < 10) {
+      setErrorMessage('Use uma palavra-passe com pelo menos 10 caracteres.');
+      return;
+    }
+    setIsSubmitting(true);
+    const result = await signUp(registrationName, emailOrNif, password);
+    setIsSubmitting(false);
+    if (result.error) setErrorMessage('Não foi possível criar a conta. Confirme os dados ou tente outro e-mail.');
+    else setResetMessage('Conta criada. Consulte o seu e-mail para confirmar o acesso antes de iniciar sessão.');
   };
 
   return (
@@ -143,10 +160,17 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               <ShieldCheck className="mr-1.5 inline h-4 w-4" />
               Sessão protegida. A PEPEK nunca solicitará a sua palavra-passe por telefone, WhatsApp ou e-mail.
             </div>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={showRegistration ? handleRegistration : handleSubmit} className="space-y-4">
+              {showRegistration && <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Nome completo</label>
+                <div className="relative">
+                  <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                  <input type="text" autoComplete="name" value={registrationName} onChange={(e) => setRegistrationName(e.target.value)} placeholder="O seu nome" className="form-input pl-10" required />
+                </div>
+              </div>}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
-                  {activeTab === 'corporate' ? 'E-mail corporativo registado' : 'E-mail pessoal registado'}
+                  {showRegistration ? 'E-mail para criar a conta' : activeTab === 'corporate' ? 'E-mail corporativo registado' : 'E-mail pessoal registado'}
                 </label>
                 <div className="relative">
                   <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
@@ -165,7 +189,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
-                  {t('auth.password')}
+                  {showRegistration ? 'Criar palavra-passe' : t('auth.password')}
                 </label>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
@@ -174,14 +198,14 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                     autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••••••"
+                  placeholder={showRegistration ? 'Mínimo de 10 caracteres' : '••••••••••••'}
                     className="form-input pl-10"
                     required
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-xs pt-1">
+              {!showRegistration && <div className="flex items-center justify-between text-xs pt-1">
                 <label className="flex items-center gap-2 text-gray-600 cursor-pointer">
                   <input type="checkbox" className="rounded text-[#236199] focus:ring-[#236199]" />
                   <span>{t('auth.remember')}</span>
@@ -194,7 +218,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                 >
                   {t('auth.forgot')}
                 </button>
-              </div>
+              </div>}
 
               {errorMessage && <p role="alert" className="rounded-xl bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">{errorMessage}</p>}
               {resetMessage && <p role="status" className="rounded-xl bg-[#236199] p-3 text-xs font-semibold text-white">{resetMessage}</p>}
@@ -205,7 +229,10 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                 className="btn-primary w-full justify-center text-xs font-bold py-3.5 mt-2 cursor-pointer"
               >
                 {isSubmitting || !isAuthReady ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
-                <span>{isSubmitting ? t('auth.submitting') : t('auth.submit')}</span>
+                <span>{isSubmitting ? t('auth.submitting') : showRegistration ? 'Criar conta de cliente' : t('auth.submit')}</span>
+              </button>
+              <button type="button" onClick={() => { setShowRegistration((open) => !open); setErrorMessage(''); setResetMessage(''); }} className="w-full pt-1 text-xs font-bold text-[#236199] hover:underline">
+                {showRegistration ? 'Já possui conta? Iniciar sessão' : 'Criar conta de cliente'}
               </button>
             </form>
             </div>}

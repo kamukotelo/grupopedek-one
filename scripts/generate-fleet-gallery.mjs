@@ -7,7 +7,7 @@ const output = path.join(root, 'public/fleet-carousel');
 const pattern = /\{\s*\n\s*id: '([^']+)',[\s\S]*?\n\s*name: '([^']+)'/g;
 const vehicles = [...source.matchAll(pattern)].map((match) => ({ id: match[1], name: match[2] }));
 
-if (vehicles.length !== 47) throw new Error(`Esperadas 47 viaturas; encontradas ${vehicles.length}`);
+if (vehicles.length !== 51) throw new Error(`Esperadas 51 viaturas; encontradas ${vehicles.length}`);
 
 const lines = [
   '/* Gerado automaticamente. Não editar manualmente. */',
