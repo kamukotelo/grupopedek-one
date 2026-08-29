@@ -289,7 +289,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
 
     if (isHilux) {
       return {
-        message: 'A Toyota Hilux Dupla Cabine 4x4 tem 5 lugares, caixa de carga reforçada, tracção 4x4 com redutoras e ar condicionado tropicalizado (159.999 Kz/dia).',
+        message: 'A Toyota Hilux Dupla Cabine 4x4 tem 5 lugares, caixa de carga reforçada, tracção 4x4 com redutoras e ar condicionado tropicalizado (189.999 Kz/dia).',
         recommendedVehicle: 'Toyota Hilux Dupla Cabine',
         suggestedQuickReplies: ['Ver Hilux 4x4', 'Saber Diária', 'Reservar para Províncias']
       };
@@ -321,8 +321,8 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 10. INTENT: Preços e Tarifas Diárias
   if (lower.includes('preço') || lower.includes('quanto custa') || lower.includes('valor') || lower.includes('diária') || lower.includes('tarifa')) {
     return {
-      message: 'As nossas diárias oficiais iniciam nos 44.999 Kz para Económicos (Kia Morning / Swift), 149.999 Kz para SUVs (Tucson / Tiggo), 159.999 Kz para Pick-ups 4x4 (Hilux), 289.999 Kz a 599.999 Kz para SUVs Executivos (Prado / LC300) e até 1.999.999 Kz para Blindados de Alto Luxo.',
-      suggestedQuickReplies: ['Económicos (44.999 Kz)', 'SUVs Executivos', 'Vans VIP (359k – 800k)', 'Proposta Corporativa']
+      message: 'As nossas diárias oficiais iniciam nos 49.999 Kz para Económicos (Kia Morning / Celerio), 159.999 Kz para SUVs (Tucson / Tiggo 7), 189.999 Kz para Pick-ups 4x4 (Hilux), 299.999 Kz a 599.999 Kz para SUVs Executivos (Prado / LC300) e até 1.999.999 Kz para Blindados de Alto Luxo.',
+      suggestedQuickReplies: ['Económicos (49.999 Kz)', 'SUVs Executivos', 'Vans VIP (359k – 800k)', 'Proposta Corporativa']
     };
   }
 
@@ -400,7 +400,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
 function generateDynamicReplies(prompt: string, context?: SessionContext): string[] {
   const lower = prompt.toLowerCase();
   if (lower.includes('preço') || lower.includes('quanto')) {
-    return ['Económicos (44.999 Kz)', 'Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Range Rover Blindado'];
+    return ['Económicos (49.999 Kz)', 'Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Range Rover Blindado'];
   }
   if (lower.includes('aeroporto') || lower.includes('transfer')) {
     return ['Aeroporto 4 de Fevereiro', 'Novo Aeroporto AIAAN', 'Com Motorista Bilingue', 'Fazer Reserva'];
