@@ -28,7 +28,7 @@ const SCHEMA_ORG = {
   },
   "openingHours": "Mo-Su 00:00-23:59",
   "priceRange": "$$$$",
-  "image": "https://pepekgrupo.com/logo.png"
+  "image": "https://pepekgrupo.com/logo-pepek-dark.png"
 };
 
 export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = () => (
