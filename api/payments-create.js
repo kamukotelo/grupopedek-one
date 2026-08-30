@@ -1,7 +1,7 @@
 import { applyApiSecurity, cleanText, takeRateLimit } from './_security.js';
 import {
   PAYMENT_CATEGORIES, PAYMENT_PROVIDERS, amountToMinor, authenticatePaymentUser,
-  createStripeCheckout, getSupabaseAdmin, paymentReference, supabaseRequest,
+  createStripeCheckout, failureMessage, getSupabaseAdmin, paymentReference, supabaseRequest,
 } from './_payments.js';
 
 export default async function handler(req, res) {
@@ -59,8 +59,13 @@ export default async function handler(req, res) {
       });
       return res.status(201).json({ id: created.id, status: 'pending', checkoutUrl: session.checkoutUrl, clientReference, provider, currency, amountMinor });
     } catch (error) {
-      await supabaseRequest(admin, `payment_orders?id=eq.${created.id}`, { method: 'PATCH', body: JSON.stringify({ status: 'failed', failure_code: error.message, updated_at: new Date().toISOString() }) });
-      return res.status(503).json({ error: 'Pagamento por cartão ainda não está configurado.' });
+      const failureCode = String(error.message || 'STRIPE_SESSION_FAILED').slice(0, 80);
+      const message = failureMessage(failureCode);
+      await supabaseRequest(admin, `payment_orders?id=eq.${created.id}`, {
+        method: 'PATCH', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({ status: 'failed', failure_code: failureCode, failure_message: message, updated_at: new Date().toISOString() }),
+      });
+      return res.status(503).json({ error: message });
     }
   }
 

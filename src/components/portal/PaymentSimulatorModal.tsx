@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { X, ShieldCheck, CreditCard, Landmark, Smartphone, Loader2, CheckCircle2, Clock3, ExternalLink } from 'lucide-react';
 import { InvoiceItem } from '../../types/auth';
-import { createPaymentOrder, type PaymentProvider } from '../../lib/payments';
+import { createPaymentOrder, PROVIDER_LABELS as providerLabels, type PaymentProvider } from '../../lib/payments';
 
 interface PaymentSimulatorModalProps {
   invoice: InvoiceItem | null;
   onClose: () => void;
   onSuccess: (invoiceId: string, gateway: string) => void;
 }
-
-const providerLabels: Record<PaymentProvider, string> = {
-  stripe: 'Cartão / Stripe', multicaixa: 'Multicaixa Express',
-  bank_transfer: 'Transferência Bancária', mbway: 'MB WAY / Portugal',
-};
 
 export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ invoice, onClose, onSuccess }) => {
   const isDemo = import.meta.env.DEV || import.meta.env.VITE_DEMO_MODE === 'true';

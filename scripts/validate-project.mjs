@@ -87,7 +87,7 @@ for (const flag of ['🇦🇴', '🇬🇧', '🇫🇷']) {
 const paymentSource = fs.readFileSync('src/components/portal/PaymentSimulatorModal.tsx', 'utf8');
 expect(paymentSource.includes('Ambiente de demonstração'), 'Pagamento demo não está identificado como simulação');
 expect(paymentSource.includes('Multicaixa Express'), 'Canal Angola Multicaixa ausente');
-expect(paymentSource.includes('MB WAY / Portugal'), 'Canal Portugal MB WAY ausente');
+expect(paymentSource.includes('MB WAY') && paymentSource.includes('Portugal'), 'Canal Portugal MB WAY ausente');
 expect(paymentSource.includes('não recolhe nem armazena o número do seu cartão'), 'O fluxo não informa a política de dados de cartão');
 expect(!paymentSource.includes('cardNumber') && !paymentSource.includes('phoneNumber'), 'O frontend ainda recolhe dados bancários sensíveis');
 const paymentApiSource = fs.readFileSync('api/payments-create.js', 'utf8');

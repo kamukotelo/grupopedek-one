@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
 import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
@@ -69,6 +69,7 @@ interface AuthContextType {
   setIsPortalOpen: (open: boolean) => void;
   invoices: InvoiceItem[];
   payInvoice: (invoiceId: string, gateway: string) => void;
+  refreshInvoices: () => Promise<void>;
   fleetTelemetry: FleetTelemetryItem[];
   odooSync: OdooSyncStatus;
   refreshOdooSync: () => Promise<void>;
@@ -119,60 +120,58 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
-  useEffect(() => {
-    if (IS_DEMO_MODE || isDemoSession || !currentUser) {
-      if (IS_DEMO_MODE || isDemoSession) {
-        setInvoices(DEMO_INVOICES);
-        setFleetTelemetry(DEMO_FLEET_TELEMETRY);
-        setOdooSync(DEMO_ODOO_SYNC);
-      }
-      if (!IS_DEMO_MODE) {
-        if (!isDemoSession) {
-          setInvoices([]);
-          setFleetTelemetry([]);
-        }
-      }
+  const loadPortalData = useCallback(async () => {
+    if (IS_DEMO_MODE || isDemoSession) {
+      setInvoices(DEMO_INVOICES);
+      setFleetTelemetry(DEMO_FLEET_TELEMETRY);
+      setOdooSync(DEMO_ODOO_SYNC);
+      return;
+    }
+    if (!currentUser) {
+      setInvoices([]);
+      setFleetTelemetry([]);
       return;
     }
 
-    const loadProtectedData = async () => {
-      const permissions = getPortalPermissions(currentUser.role);
-      const [invoiceResult, fleetResult] = await Promise.all([
-        permissions.finances
-          ? supabase.from('invoices').select('*').order('created_at', { ascending: false })
-          : Promise.resolve({ data: [], error: null }),
-        permissions.fleet
-          ? supabase.from('fleet_assignments').select('*').order('created_at', { ascending: false })
-          : Promise.resolve({ data: [], error: null }),
-      ]);
-      if (!invoiceResult.error) setInvoices((invoiceResult.data || []).map((row: any) => ({
-        id: row.id,
-        invoiceNumber: row.invoice_number,
-        date: row.issue_date,
-        dueDate: row.due_date,
-        amountAOA: Number(row.amount_aoa),
-        amountUSD: Number(row.amount_usd || 0),
-        amountEUR: Number(row.amount_eur || 0),
-        status: row.status,
-        description: row.description,
-        paymentGateway: row.payment_gateway || 'Transferência SWIFT',
-        odooInvoiceId: row.odoo_invoice_id,
-      })));
-      if (!fleetResult.error) setFleetTelemetry((fleetResult.data || []).map((row: any) => ({
-        id: row.id,
-        vehicleName: row.vehicle_name,
-        plateNumber: row.plate_number,
-        assignedTo: row.assigned_to || '',
-        status: row.status,
-        location: row.location || '',
-        fuelLevel: Number(row.fuel_level || 0),
-        mileageKm: Number(row.mileage_km || 0),
-        driverName: row.driver_name,
-        driverPhone: row.driver_phone,
-      })));
-    };
-    void loadProtectedData();
+    const permissions = getPortalPermissions(currentUser.role);
+    const [invoiceResult, fleetResult] = await Promise.all([
+      permissions.finances
+        ? supabase.from('invoices').select('*').order('created_at', { ascending: false })
+        : Promise.resolve({ data: [], error: null }),
+      permissions.fleet
+        ? supabase.from('fleet_assignments').select('*').order('created_at', { ascending: false })
+        : Promise.resolve({ data: [], error: null }),
+    ]);
+    if (!invoiceResult.error) setInvoices((invoiceResult.data || []).map((row: any) => ({
+      id: row.id,
+      invoiceNumber: row.invoice_number,
+      date: row.issue_date,
+      dueDate: row.due_date,
+      amountAOA: Number(row.amount_aoa),
+      amountUSD: Number(row.amount_usd || 0),
+      amountEUR: Number(row.amount_eur || 0),
+      status: row.status,
+      description: row.description,
+      paymentGateway: row.payment_gateway || 'Transferência SWIFT',
+      odooInvoiceId: row.odoo_invoice_id,
+    })));
+    if (!fleetResult.error) setFleetTelemetry((fleetResult.data || []).map((row: any) => ({
+      id: row.id,
+      vehicleName: row.vehicle_name,
+      plateNumber: row.plate_number,
+      assignedTo: row.assigned_to || '',
+      status: row.status,
+      location: row.location || '',
+      fuelLevel: Number(row.fuel_level || 0),
+      mileageKm: Number(row.mileage_km || 0),
+      driverName: row.driver_name,
+      driverPhone: row.driver_phone,
+    })));
   }, [currentUser, isDemoSession]);
+
+  useEffect(() => {
+    void loadPortalData();
+  }, [loadPortalData]);
 
   const loginAs = (role: UserRole) => {
     if (!IS_DEMO_MODE) return;
@@ -253,8 +252,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider value={{
       currentUser, isAuthReady, isDemoMode: IS_DEMO_MODE, loginAs, signIn, signUp, requestPasswordReset,
-      logout, isPortalOpen, setIsPortalOpen, invoices, payInvoice, fleetTelemetry, odooSync,
-      refreshOdooSync, selectedPaymentInvoice, setSelectedPaymentInvoice,
+      logout, isPortalOpen, setIsPortalOpen, invoices, payInvoice, refreshInvoices: loadPortalData,
+      fleetTelemetry, odooSync, refreshOdooSync, selectedPaymentInvoice, setSelectedPaymentInvoice,
     }}>
       {children}
     </AuthContext.Provider>

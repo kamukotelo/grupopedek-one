@@ -7,12 +7,10 @@ import {
   Eye,
   Calendar,
   Check,
-  Sparkles,
   Camera,
   ShieldCheck,
   MessageSquareText,
-  Fuel,
-  MapPin
+  Fuel
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
 import { getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
@@ -67,13 +65,13 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-[#236199]/55 bg-[#174B86] overflow-hidden shadow-sm hover:-translate-y-1 hover:shadow-2xl hover:border-[#FEC228]/80 transition-all duration-300 flex flex-col justify-between group">
+    <div className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-[#3A72A8] bg-[#20558D] shadow-[0_16px_32px_rgba(9,23,44,0.16)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FEC228] hover:shadow-[0_24px_42px_rgba(9,23,44,0.28)]">
       {/* ═══════════════════════════════════════════════════════
           DOMINANT VEHICLE SHOWROOM STAGE (Clean Studio Presentation)
          ═══════════════════════════════════════════════════════ */}
       <div
         style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}
-        className="relative aspect-4/3 overflow-hidden bg-[#09172C] bg-cover bg-center border-b border-[#E2E8F0] cursor-pointer select-none"
+        className="relative aspect-[16/10] overflow-hidden bg-[#20558D] bg-cover bg-center border-b border-[#3A72A8] cursor-pointer select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onInspect(vehicle)}
@@ -82,7 +80,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
         <img
           src={studioImage}
           alt={vehicle.name}
-          className={`absolute inset-0 w-full h-full object-center object-contain p-8 sm:p-10 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] transition-all duration-500 ease-out group-hover:scale-[1.025] ${
+          className={`absolute inset-0 h-full w-full object-center object-contain p-7 sm:p-9 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] transition-all duration-500 ease-out group-hover:scale-[1.025] ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
           loading="lazy"
@@ -132,58 +130,26 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
       {/* ═══════════════════════════════════════════════════════
           CARD CONTENT & SPECIFICATIONS
          ═══════════════════════════════════════════════════════ */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-[#174B86] text-white">
+      <div className="flex flex-1 flex-col justify-between bg-[#20558D] p-5 text-white sm:p-6">
         <div>
-          {/* Header Title inside Content Area */}
-          <div className="mb-3">
-            <div className="flex items-center gap-1.5 mb-1">
-              <Sparkles className="w-3.5 h-3.5 text-[#FEC228]" />
-              <span className="text-[10.5px] font-extrabold uppercase tracking-widest text-[#FEC228]">
-                {vehicle.categoryLabel}
-              </span>
-            </div>
-            <h3 className="text-lg sm:text-xl font-extrabold text-white leading-snug">
-              {vehicle.name}
-            </h3>
-          </div>
+          <h3 className="mb-4 text-2xl font-extrabold leading-tight text-white sm:text-[1.7rem]">{vehicle.name}</h3>
 
-          {/* Price & Location Tag */}
-          <div className="flex items-center justify-between mb-4 pb-3.5 border-b border-white/35">
-            <div>
-              <div className="flex items-center gap-1.5 text-[11px] text-white/85 font-semibold">
-                <MapPin className="w-3.5 h-3.5 text-[#FEC228]" />
-                <span>Despacho em Talatona & Luanda</span>
-              </div>
-              <p className="text-[11px] text-white/55 mt-0.5 font-medium">
-                {vehicle.brand} · {vehicle.model}
-              </p>
-            </div>
-            <div className="text-right">
-              <span className="text-lg sm:text-xl font-extrabold text-[#FEC228] block leading-tight">
-                {vehicle.pricePerDayFormatted}
-              </span>
-              <span className="text-[10px] text-white/60 font-semibold uppercase tracking-wider block">
-                {isFlyerCollection ? 'Full Day' : 'por dia'}
-              </span>
-              {vehicle.transferPriceFormatted && (
-                <span className="text-[10px] text-white font-bold block mt-1">
-                  Transfer: {vehicle.transferPriceFormatted}
-                </span>
-              )}
-            </div>
+          <div className="mb-5 flex flex-wrap gap-2">
+            <span className="rounded-lg bg-[#FEC228] px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-[#09172C]">
+              {vehicle.categoryLabel}
+            </span>
+            <span className="rounded-lg border-2 border-white px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-white">
+              {vehicle.specs.transmission}
+            </span>
           </div>
-
-          <p className="text-xs text-white/70 mb-4 leading-relaxed line-clamp-2">
-            {vehicle.description}
-          </p>
 
           {/* ═══════════════════════════════════════════════════════
               5 GOLD LINEAR ICONS INSIDE NAVY CIRCLES
              ═══════════════════════════════════════════════════════ */}
-          <div className="grid grid-cols-5 gap-1.5 py-3 px-2 rounded-2xl bg-[#0C3D73] border border-white/15 mb-4 text-center">
+          <div className="mb-5 grid grid-cols-5 gap-1.5 border-b border-white/45 pb-4 text-center">
             {/* 1. Passageiros */}
             <div className="flex flex-col items-center gap-1" title="Capacidade de passageiros">
-              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Users className="w-4 h-4 text-[#FEC228]" />
               </div>
               <span className="text-[10px] font-bold text-white">{vehicle.specs.passengers} Pass.</span>
@@ -191,7 +157,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 
             {/* 2. Portas */}
             <div className="flex flex-col items-center gap-1" title="Número de portas">
-              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <DoorClosed className="w-4 h-4 text-[#FEC228]" />
               </div>
               <span className="text-[10px] font-bold text-white">{vehicle.specs.doors} Portas</span>
@@ -199,7 +165,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 
             {/* 3. Transmissão */}
             <div className="flex flex-col items-center gap-1" title="Transmissão">
-              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Settings2 className="w-4 h-4 text-[#FEC228]" />
               </div>
               <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{vehicle.specs.transmission.split(' ')[0]}</span>
@@ -207,7 +173,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 
             {/* 4. Combustível */}
             <div className="flex flex-col items-center gap-1" title="Tipo de combustível">
-              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Fuel className="w-4 h-4 text-[#FEC228]" />
               </div>
               <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{vehicle.specs.fuelType.split(' ')[0]}</span>
@@ -215,7 +181,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 
             {/* 5. Depósito / Tracção */}
             <div className="flex flex-col items-center gap-1" title={vehicle.specs.tankCapacity ? `Depósito: ${vehicle.specs.tankCapacity}` : 'Tracção'}>
-              <div className="w-8 h-8 rounded-lg bg-[#09172C] flex items-center justify-center text-[#FEC228] shrink-0 shadow-xs">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Gauge className="w-4 h-4 text-[#FEC228]" />
               </div>
               <span className="text-[10px] font-bold text-white truncate max-w-[50px]">
@@ -224,9 +190,16 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             </div>
           </div>
 
-          {/* Quick Value Badge */}
-          <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-xl bg-[#FEC228] border border-[#E4AD28] text-[11px] text-[#09172C]">
-            <ShieldCheck className="w-4 h-4 text-[#09172C] shrink-0" />
+          <div className="mb-5">
+            <span className="block text-sm font-medium text-white/75">A partir de</span>
+            <strong className="mt-1 block text-[1.8rem] font-extrabold leading-tight text-[#FEC228]">
+              {vehicle.pricePerDayFormatted} <span className="whitespace-nowrap text-xl">/ dia</span>
+            </strong>
+            {vehicle.transferPriceFormatted && <span className="mt-1 block text-xs font-semibold text-white/80">Transfer: {vehicle.transferPriceFormatted}</span>}
+          </div>
+
+          <div className="mb-4 flex items-center gap-2 rounded-xl border border-[#FEC228]/40 bg-[#174B86]/55 px-3 py-2 text-[11px] text-white">
+            <ShieldCheck className="w-4 h-4 shrink-0 text-[#FEC228]" />
             <span className="font-medium">Seguro Total VIP · Motorista Opcional · Apoio 24h</span>
           </div>
         </div>

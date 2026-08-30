@@ -6,6 +6,7 @@ import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { MobileQuickBar } from './components/layout/MobileQuickBar';
+import { PaymentReturnBanner } from './components/portal/PaymentReturnBanner';
 const ChatBot = lazy(() => import('./components/ui/ChatBot').then(module => ({ default: module.ChatBot })));
 const ClientPortalModal = lazy(() => import('./components/portal/ClientPortalModal').then(module => ({ default: module.ClientPortalModal })));
 
@@ -74,6 +75,9 @@ export const App: React.FC = () => {
 
           {/* Global portal — opens from any page via Header or ChatBot */}
           <Suspense fallback={null}><ClientPortalModal /></Suspense>
+
+          {/* Confirms payments when the browser returns from an external checkout */}
+          <PaymentReturnBanner />
         </div>
       </AuthProvider>
     </HelmetProvider>

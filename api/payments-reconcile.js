@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 import { applyApiSecurity, cleanText, takeRateLimit } from './_security.js';
-import { authenticatePaymentUser, getSupabaseAdmin, sha256, supabaseRequest } from './_payments.js';
+import { authenticatePaymentUser, getSupabaseAdmin, providerLabel, sha256, supabaseRequest } from './_payments.js';
 
 const FINANCE_ROLES = new Set(['contabilista', 'gestor_portugal', 'direcao']);
 
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     method: 'PATCH', body: JSON.stringify({ status: 'paid', provider_reference: providerReference, paid_at: paidAt, updated_at: paidAt, metadata: { reconciled_by: user.id } }),
   });
   await supabaseRequest(admin, `invoices?id=eq.${order.invoice_id}`, {
-    method: 'PATCH', body: JSON.stringify({ status: 'paid', payment_gateway: order.provider }),
+    method: 'PATCH', body: JSON.stringify({ status: 'paid', payment_gateway: providerLabel(order.provider) }),
   });
   const receiptNumber = `REC-${new Date().getUTCFullYear()}-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
   const integrityHash = sha256(`${order.id}|${order.amount_minor}|${order.currency}|${providerReference}|${paidAt}`);

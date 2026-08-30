@@ -4,6 +4,25 @@ import { safeEqual } from './_security.js';
 export const PAYMENT_PROVIDERS = new Set(['stripe', 'multicaixa', 'bank_transfer', 'mbway']);
 export const PAYMENT_CATEGORIES = new Set(['rent_a_car', 'transfer', 'route', 'chauffeur', 'event', 'corporate', 'invoice', 'other']);
 
+// Human labels shown on invoices/receipts. Mirrors src/lib/payments.ts so a
+// gateway never surfaces as a raw identifier like "bank_transfer" in the portal.
+export const PROVIDER_LABELS = {
+  stripe: 'Cartão / Stripe',
+  multicaixa: 'Multicaixa Express',
+  bank_transfer: 'Transferência Bancária',
+  mbway: 'MB WAY',
+};
+export const providerLabel = (provider) => PROVIDER_LABELS[provider] || 'Transferência Bancária';
+
+// Maps internal failure codes to a message safe to show the client.
+export const FAILURE_MESSAGES = {
+  STRIPE_NOT_CONFIGURED: 'Pagamento por cartão ainda não está disponível. Utilize Multicaixa Express ou transferência bancária.',
+  SITE_URL_NOT_CONFIGURED: 'Configuração do servidor incompleta para pagamentos por cartão. Contacte o apoio.',
+  STRIPE_SESSION_FAILED: 'O provedor de cartão recusou a criação da sessão de pagamento. Tente novamente.',
+  AMOUNT_MISMATCH: 'O valor confirmado pelo provedor não corresponde à fatura. A equipa financeira está a rever — nenhuma fatura foi marcada como paga.',
+};
+export const failureMessage = (code) => FAILURE_MESSAGES[code] || 'Não foi possível concluir o pagamento. Nenhum valor foi cobrado.';
+
 export const getSupabaseAdmin = () => {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;

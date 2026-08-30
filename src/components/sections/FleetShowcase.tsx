@@ -68,7 +68,7 @@ export const FleetShowcase: React.FC = () => {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {orderedVehicles.map((vehicle) => (
-              <Link key={vehicle.id} to="/frota" className="group flex min-h-[410px] flex-col overflow-hidden rounded-[24px] border border-[#236199]/55 bg-[#174B86] transition duration-300 hover:-translate-y-1 hover:border-[#FEC228] hover:shadow-[0_20px_38px_rgba(9,23,44,.28)]">
+              <Link key={vehicle.id} to="/frota" className="group flex min-h-[410px] flex-col overflow-hidden rounded-[24px] border border-[#3A72A8] bg-[#20558D] transition duration-300 hover:-translate-y-1 hover:border-[#FEC228] hover:shadow-[0_20px_38px_rgba(9,23,44,.28)]">
                 <div className="flex h-52 items-center justify-center border-b border-white/10 bg-cover bg-center p-5" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
                   <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" className="h-full w-full object-contain drop-shadow-[0_18px_20px_rgba(9,23,44,.45)] transition duration-500 group-hover:scale-105" />
                 </div>
