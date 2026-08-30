@@ -1,17 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, BriefcaseBusiness, Building2, CalendarCheck, ChevronLeft, ChevronRight, CircleGauge, Gauge, Luggage, Plane, ShieldCheck, Users } from 'lucide-react';
-import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
-import { getFleetImageScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
+import { BriefcaseBusiness, Building2, CalendarCheck, CircleGauge, Plane, ShieldCheck } from 'lucide-react';
 
 export const Services: React.FC = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const railRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const activeVehicle = PUBLIC_FLEET[activeIndex];
   const serviceItems = [
     ['services.transferTitle', 'services.transferDesc', Plane, 'group-hover:-translate-y-2 group-hover:translate-x-2'],
     ['services.executiveTitle', 'services.executiveDesc', BriefcaseBusiness, 'group-hover:-translate-y-2'],
@@ -20,22 +12,6 @@ export const Services: React.FC = () => {
     ['services.chauffeurTitle', 'services.chauffeurDesc', CircleGauge, 'group-hover:rotate-12'],
     ['services.securityTitle', 'services.securityDesc', ShieldCheck, 'group-hover:scale-110'],
   ] as const;
-
-  const selectVehicle = (index: number) => {
-    const normalized = (index + PUBLIC_FLEET.length) % PUBLIC_FLEET.length;
-    setActiveIndex(normalized);
-    const rail = railRef.current;
-    const card = rail?.children[normalized] as HTMLElement | undefined;
-    if (rail && card) {
-      rail.scrollTo({ left: card.offsetLeft - (rail.clientWidth - card.clientWidth) / 2, behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    if (isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => selectVehicle(activeIndex + 1), 6000);
-    return () => window.clearInterval(timer);
-  }, [activeIndex, isPaused]);
 
   return (
     <section id="servicos" className="relative overflow-hidden bg-[#F5F6F6] py-20 sm:py-24">
@@ -49,7 +25,7 @@ export const Services: React.FC = () => {
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#555B64] sm:text-base">{t('servicesCarousel.description')}</p>
         </div>
 
-        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {serviceItems.map(([title, description, Icon, motion], index) => (
             <article key={title} className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white px-5 py-7 text-center shadow-[0_10px_28px_rgba(9,23,44,.05)] transition duration-300 hover:-translate-y-2 hover:border-[#FEC228] hover:shadow-[0_20px_38px_rgba(9,23,44,.12)]">
               <span className="absolute right-3 top-2 text-[10px] font-extrabold text-[#236199]/25">0{index + 1}</span>
@@ -63,68 +39,6 @@ export const Services: React.FC = () => {
           ))}
         </div>
 
-        <div
-          className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_12px_32px_rgba(9,23,44,.06)] sm:p-6"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onFocusCapture={() => setIsPaused(true)}
-          onBlurCapture={() => setIsPaused(false)}
-        >
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#E4AD28]">{t('servicesCarousel.officialFleet')}</span>
-              <p className="mt-1 text-xs text-slate-500">{t('servicesCarousel.autoHint')}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <button type="button" onClick={() => selectVehicle(activeIndex - 1)} aria-label={t('servicesCarousel.previous')} className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-[#09172C] transition hover:border-[#FEC228]"><ChevronLeft className="h-5 w-5" /></button>
-              <button type="button" onClick={() => selectVehicle(activeIndex + 1)} aria-label={t('servicesCarousel.next')} className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-[#09172C] transition hover:border-[#FEC228]"><ChevronRight className="h-5 w-5" /></button>
-            </div>
-          </div>
-
-          <div ref={railRef} className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {PUBLIC_FLEET.map((vehicle, index) => {
-              const selected = index === activeIndex;
-              return (
-                <button key={vehicle.id} type="button" onClick={() => selectVehicle(index)} className={`group min-w-[220px] snap-center overflow-hidden rounded-[24px] border bg-[#174B86] text-left transition-all sm:min-w-[260px] ${selected ? 'border-[#FEC228] shadow-[0_14px_30px_rgba(9,23,44,.2)]' : 'border-[#236199]/55 hover:border-[#FEC228]/70 hover:-translate-y-0.5'}`}>
-                  <div className="h-36 bg-cover bg-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}>
-                    <img src={vehicle.primaryImage} alt={vehicle.name} loading="lazy" decoding="async" style={{ '--fleet-image-scale': getFleetImageScale(vehicle.id) } as React.CSSProperties} className="fleet-vehicle-image h-full w-full object-contain drop-shadow-[0_18px_16px_rgba(9,23,44,.22)]" />
-                  </div>
-                  <div className="px-4 pb-4 pt-3 text-white">
-                    <strong className="block truncate text-base font-extrabold">{vehicle.name}</strong>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      <span className="rounded bg-[#FEC228] px-2.5 py-1 text-[8px] font-extrabold uppercase tracking-wider text-[#09172C]">{vehicle.categoryLabel}</span>
-                      <span className="rounded border border-white/70 px-2.5 py-1 text-[8px] font-extrabold uppercase tracking-wider text-white">{vehicle.specs.transmission}</span>
-                    </div>
-                    <div className="mt-3 flex items-center gap-2 border-b border-white/35 pb-3 text-[10px] text-white/80"><Users className="h-3.5 w-3.5 text-[#FEC228]" />{vehicle.specs.passengers} {t('servicesCarousel.passengers')}</div>
-                    <span className="mt-3 block text-[9px] text-white/65">{t('fleet.from')}</span>
-                    <strong className="mt-0.5 block text-base font-extrabold text-[#FEC228]">{vehicle.pricePerDayFormatted} / {t('fleet.day')}</strong>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="mt-4 grid overflow-hidden rounded-[24px] border border-[#236199]/55 bg-[#174B86] lg:grid-cols-[1.05fr_.95fr]">
-            <div className="relative min-h-[300px] bg-cover bg-center p-8 sm:p-10" style={{ backgroundImage: `url('${getVehicleStudioBackground(activeVehicle)}')` }}>
-              <img key={activeVehicle.id} src={activeVehicle.primaryImage} alt={activeVehicle.name} decoding="async" style={{ '--fleet-image-scale': getFleetImageScale(activeVehicle.id) } as React.CSSProperties} className="fleet-vehicle-image h-full max-h-[380px] w-full object-contain drop-shadow-[0_30px_30px_rgba(9,23,44,.45)] animate-fadeIn" />
-            </div>
-            <div className="flex flex-col justify-center border-t border-white/10 p-7 lg:border-l lg:border-t-0 lg:p-10">
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">{activeVehicle.categoryLabel}</span>
-              <h3 className="mt-2 text-2xl font-extrabold text-white sm:text-3xl">{activeVehicle.name}</h3>
-              <p className="mt-4 text-sm leading-relaxed text-slate-300">{activeVehicle.description}</p>
-              <div className="mt-6 grid grid-cols-2 gap-3 text-xs text-slate-200">
-                <span className="flex items-center gap-2 rounded-xl bg-white/5 p-3"><Users className="h-4 w-4 text-[#FEC228]" />{activeVehicle.specs.passengers} {t('servicesCarousel.passengers')}</span>
-                <span className="flex items-center gap-2 rounded-xl bg-white/5 p-3"><Luggage className="h-4 w-4 text-[#FEC228]" />{activeVehicle.specs.luggage} {t('servicesCarousel.luggage')}</span>
-                <span className="flex items-center gap-2 rounded-xl bg-white/5 p-3"><Gauge className="h-4 w-4 text-[#FEC228]" />{activeVehicle.specs.transmission}</span>
-                <span className="flex items-center gap-2 rounded-xl bg-white/5 p-3"><ShieldCheck className="h-4 w-4 text-[#FEC228]" />{activeVehicle.availabilityTag || t('servicesCarousel.onRequest')}</span>
-              </div>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <button type="button" onClick={() => navigate(`/frota?categoria=${activeVehicle.category}`)} className="btn-primary justify-center text-xs">{t('servicesCarousel.viewCategory')} <ArrowRight className="h-4 w-4" /></button>
-                <button type="button" onClick={() => navigate(`/reservar?viatura=${activeVehicle.slug}`)} className="btn-outline justify-center text-xs">{t('servicesCarousel.requestVehicle')}</button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
