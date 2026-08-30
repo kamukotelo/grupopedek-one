@@ -4,15 +4,24 @@ import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, ChevronRight, ChevronLeft, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
-import { FLEET_STUDIO_BACKGROUNDS, getFleetImageScale } from '../../data/fleetPresentation';
+import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const luxuryVehicles = PUBLIC_FLEET
-    .filter((vehicle) => ['rangerover-blindado-2025', 'mercedes-class-s-2025', 'lexus-600', 'toyota-lc300-2023'].includes(vehicle.id))
-    .map((vehicle) => ({ id: vehicle.id, name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted }));
+  const luxuryVehicles = [
+    ['rangerover-blindado-2025', 'hero.luxuryArmored'],
+    ['mercedes-class-s-2025', 'hero.luxuryProtocol'],
+    ['range-rover-novo-modelo', 'hero.luxurySuv'],
+    ['lexus-600', 'hero.luxuryVip'],
+    ['mercedes-g63-2023', 'hero.luxuryPerformance'],
+    ['mercedes-benz-v300-class', 'hero.luxuryDelegations'],
+  ] as const;
+  const luxuryHeroVehicles = luxuryVehicles.flatMap(([id, segmentKey]) => {
+    const vehicle = PUBLIC_FLEET.find((item) => item.id === id);
+    return vehicle ? [{ id: vehicle.id, name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted, segment: t(segmentKey) }] : [];
+  });
 
   const clientLogos = [
     { name: 'Sonangol', src: '/clients-color/sonangol.png' },
@@ -75,14 +84,14 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
-      setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length);
+      setCurrentLuxury((current) => (current + 1) % luxuryHeroVehicles.length);
     }, 6000);
     return () => window.clearInterval(timer);
-  }, [luxuryVehicles.length, isLuxuryPaused]);
+  }, [luxuryHeroVehicles.length, isLuxuryPaused]);
 
   const handleQuickAvailability = async (event: React.FormEvent) => {
     event.preventDefault();
-    const vehicle = luxuryVehicles[currentLuxury];
+    const vehicle = luxuryHeroVehicles[currentLuxury];
     setIsLuxuryPaused(true);
     setAvailabilityStatus('checking');
     const availability = await checkVehicleAvailability({ vehicle: vehicle.name, startDate, endDate });
@@ -113,7 +122,7 @@ export const Hero: React.FC = () => {
       {/* Cinematic Background Image with Dark Vignette */}
       <div className="absolute inset-0 z-0" data-future-video-stage aria-label="Área visual preparada para o futuro vídeo institucional">
         <img
-          src={luxuryVehicles[0]?.image}
+          src={luxuryHeroVehicles[0]?.image}
           alt="Viatura oficial da frota executiva PEPEK"
           className="h-full w-full scale-[1.02] object-cover object-center brightness-[0.58] contrast-[1.12]"
         />
@@ -180,22 +189,22 @@ export const Hero: React.FC = () => {
             <div className="relative min-h-[310px] overflow-hidden bg-[#20558D] bg-cover bg-center px-6 pt-5 sm:min-h-[350px] sm:px-7 sm:pt-6" style={{ backgroundColor: '#20558D', backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
               <div className="relative z-20 flex items-start justify-between gap-4">
                 <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#E4AD28]">{t('fleet.tag')}</span>
-                  <h2 className="mt-1 max-w-[280px] text-xl font-extrabold text-white drop-shadow-md">{luxuryVehicles[currentLuxury].name}</h2>
-                  <p className="mt-1 text-sm font-extrabold text-[#FEC228]">{luxuryVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
+                  <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#E4AD28]">{luxuryHeroVehicles[currentLuxury].segment}</span>
+                  <h2 className="mt-1 max-w-[280px] text-xl font-extrabold text-white drop-shadow-md">{luxuryHeroVehicles[currentLuxury].name}</h2>
+                  <p className="mt-1 text-sm font-extrabold text-[#FEC228]">{luxuryHeroVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
                 </div>
                 <div className="flex gap-1">
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryVehicles.length) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryHeroVehicles.length) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
                 </div>
               </div>
-              {luxuryVehicles.map((vehicle, index) => (
+              {luxuryHeroVehicles.map((vehicle, index) => (
                 <img
                   key={vehicle.name}
                   src={vehicle.image}
                   alt={vehicle.name}
-                  style={{ '--fleet-image-scale': getFleetImageScale(vehicle.id) } as React.CSSProperties}
-                  className={`fleet-vehicle-image absolute bottom-[-18px] left-1/2 h-[280px] w-[112%] -translate-x-1/2 object-contain drop-shadow-[0_24px_24px_rgba(9,23,44,.38)] transition-all duration-700 sm:bottom-[-22px] sm:h-[325px] ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                  style={{ '--fleet-image-scale': vehicle.id === 'rangerover-blindado-2025' ? '1.16' : '0.96' } as React.CSSProperties}
+                  className={`fleet-vehicle-image absolute bottom-[-8px] left-1/2 h-[260px] w-[100%] -translate-x-1/2 object-contain drop-shadow-[0_24px_24px_rgba(9,23,44,.38)] transition-all duration-700 sm:bottom-[-12px] sm:h-[300px] ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 />
               ))}
             </div>
