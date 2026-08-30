@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -20,6 +20,7 @@ import {
   Users,
   Lock,
   Mail,
+  ChevronLeft,
   ChevronRight,
   Eye,
   Check
@@ -30,7 +31,7 @@ import { askPepekExecutiveAI } from '../../lib/ai';
 import { BookingData } from '../../types';
 import type { VehicleDetail } from '../../data/fleetData';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
-import { getFleetImageOffsetY, getFleetImageScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
+import { getFleetCarouselScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
 import { useAuth } from '../../context/AuthContext';
 
 interface BookingWidgetProps {
@@ -89,6 +90,15 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   const [startDate, setStartDate] = useState(() => searchParams.get('startDate') || '');
   const [endDate, setEndDate] = useState(() => searchParams.get('endDate') || '');
   const [withDriver, setWithDriver] = useState(true);
+  const vehicleCarouselRef = useRef<HTMLDivElement>(null);
+
+  const moveVehicleCarousel = (direction: -1 | 1) => {
+    const carousel = vehicleCarouselRef.current;
+    if (!carousel) return;
+    const firstCard = carousel.querySelector<HTMLElement>('[data-vehicle-card]');
+    const distance = (firstCard?.offsetWidth ?? 260) + 12;
+    carousel.scrollBy({ left: direction * distance, behavior: 'smooth' });
+  };
 
   // Synchronize preselected vehicle from URL query param ?viatura=... or initialVehicle prop
   useEffect(() => {
@@ -341,38 +351,57 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   </div>
                 )}
 
-                {/* Clickable Vehicle Thumbnails */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {vehicleCatalog.map((v) => (
-                    <div
-                      key={v.id}
-                      onClick={() => setSelectedVehicle(v)}
-                      className={`overflow-hidden rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between group ${
-                        selectedVehicle.id === v.id
-                          ? 'border-[#FEC228] bg-[#174B86] shadow-md ring-2 ring-[#FEC228]/20'
-                          : 'border-[#236199]/55 bg-[#174B86] hover:border-[#FEC228]/70'
-                      }`}
-                    >
-                      <div className="h-20 sm:h-24 overflow-hidden bg-cover bg-center border-b border-white/10 relative flex items-center justify-center p-2" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
-                        <img src={v.primaryImage} alt={v.name} style={{ '--fleet-image-scale': getFleetImageScale(v.id), '--fleet-image-offset-y': getFleetImageOffsetY(v.id) } as React.CSSProperties} className="fleet-vehicle-image h-full w-full object-contain drop-shadow-[0_8px_10px_rgba(9,23,44,0.18)]" />
-                        {selectedVehicle.id === v.id && (
-                          <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#FEC228] text-[#09172C] flex items-center justify-center text-[10px] font-bold shadow-xs">
-                            ✓
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-2.5">
-                        <h5 className="text-[11px] font-bold text-white leading-tight line-clamp-2">{v.name}</h5>
-                        <span className="text-[9px] font-bold text-[#FEC228] block mt-1">{v.pricePerDayFormatted}/dia</span>
-                      </div>
+                {/* Horizontal vehicle carousel; selection continues in the detail panel below. */}
+                <div className="relative">
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#555B64]">
+                      Deslize ou use as setas para conhecer a seleção
+                    </p>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <button type="button" onClick={() => moveVehicleCarousel(-1)} aria-label="Viaturas anteriores" className="flex h-9 w-9 items-center justify-center rounded-full border border-[#236199]/40 bg-white text-[#001E4A] transition hover:border-[#FEC228] hover:bg-[#FEC228]">
+                        <ChevronLeft className="h-4 w-4" />
+                      </button>
+                      <button type="button" onClick={() => moveVehicleCarousel(1)} aria-label="Próximas viaturas" className="flex h-9 w-9 items-center justify-center rounded-full border border-[#236199]/40 bg-white text-[#001E4A] transition hover:border-[#FEC228] hover:bg-[#FEC228]">
+                        <ChevronRight className="h-4 w-4" />
+                      </button>
                     </div>
-                  ))}
+                  </div>
+
+                  <div ref={vehicleCarouselRef} className="fleet-choice-carousel flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3">
+                    {vehicleCatalog.map((v) => (
+                      <button
+                        type="button"
+                        data-vehicle-card
+                        key={v.id}
+                        onClick={() => setSelectedVehicle(v)}
+                        aria-pressed={selectedVehicle.id === v.id}
+                        className={`group flex min-h-[190px] w-[76%] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-2xl border-2 text-left transition-all sm:w-[45%] lg:w-[31%] ${
+                          selectedVehicle.id === v.id
+                            ? 'border-[#FEC228] bg-[#174B86] shadow-lg ring-2 ring-[#FEC228]/20'
+                            : 'border-[#236199]/55 bg-[#174B86] hover:-translate-y-0.5 hover:border-[#FEC228]/70'
+                        }`}
+                      >
+                        <div className="relative flex h-32 items-center justify-center overflow-hidden border-b border-white/10 bg-cover bg-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
+                          <img src={v.primaryImage} alt={v.name} style={{ '--fleet-image-scale': getFleetCarouselScale(v.id) } as React.CSSProperties} className="fleet-vehicle-image is-carousel h-full w-full object-contain drop-shadow-[0_10px_12px_rgba(9,23,44,0.28)]" />
+                          {selectedVehicle.id === v.id && (
+                            <span className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#FEC228] text-[#09172C] shadow-md">
+                              <Check className="h-4 w-4" />
+                            </span>
+                          )}
+                        </div>
+                        <div className="min-h-[70px] p-3.5">
+                          <h5 className="line-clamp-2 text-sm font-bold leading-tight text-white">{v.name}</h5>
+                          <span className="mt-1.5 block text-xs font-bold text-[#FEC228]">{v.pricePerDayFormatted}/dia</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Selected Vehicle Focus Spotlight Box */}
                 <div className="p-5 rounded-2xl bg-[#174B86] text-white border border-[#236199]/55 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
                   <div className="w-full sm:w-1/2 h-44 rounded-xl overflow-hidden relative shadow-lg bg-cover bg-center border border-white/10 flex items-center justify-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
-                    <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} style={{ '--fleet-image-scale': getFleetImageScale(selectedVehicle.id), '--fleet-image-offset-y': getFleetImageOffsetY(selectedVehicle.id) } as React.CSSProperties} className="fleet-vehicle-image h-full w-full object-contain drop-shadow-[0_16px_20px_rgba(9,23,44,0.3)]" />
+                    <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} style={{ '--fleet-image-scale': getFleetCarouselScale(selectedVehicle.id) } as React.CSSProperties} className="fleet-vehicle-image is-carousel h-full w-full object-contain drop-shadow-[0_16px_20px_rgba(9,23,44,0.3)]" />
                     <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-[#09172C] text-[#FEC228] border border-[#FEC228]/40 text-[10px] font-extrabold uppercase shadow-md">
                       {selectedVehicle.categoryLabel}
                     </div>

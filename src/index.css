@@ -110,8 +110,10 @@
 ::-webkit-scrollbar-thumb { background: var(--royal); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--royal-dark); }
 
-/* Imagens oficiais da frota: o ficheiro mantém a sua proporção e o recorte
-   é ajustado apenas dentro da área segura do cartão. */
+/* Imagens oficiais da frota: o ficheiro mantém a sua proporção e a viatura
+   fica sempre assente na base do cartão (object-bottom). A escala cresce a
+   partir do chão, por isso as rodas nunca são cortadas e o hover só ganha
+   altura livre acima — resolve o corte da imagem ao aproximar o rato. */
 .fleet-vehicle-image {
   scale: var(--fleet-image-scale, 1.12);
   translate: 0 var(--fleet-image-offset-y, 0%);
@@ -120,8 +122,28 @@
 }
 
 .group:hover .fleet-vehicle-image {
-  scale: calc(var(--fleet-image-scale, 1.12) * 1.035);
+  scale: calc(var(--fleet-image-scale, 1.12) * 1.02);
 }
+
+/* Nos carrosséis a moldura é pequena: escala a partir do centro (sem "chão")
+   e sem deslocamento vertical, para a viatura ficar centrada e não cortar. */
+.fleet-vehicle-image.is-carousel {
+  transform-origin: center;
+  translate: 0 0;
+}
+.group:hover .fleet-vehicle-image.is-carousel {
+  scale: calc(var(--fleet-image-scale, 1) * 1.03);
+}
+
+.fleet-choice-carousel {
+  scrollbar-width: thin;
+  scrollbar-color: #236199 transparent;
+  overscroll-behavior-inline: contain;
+}
+
+.fleet-choice-carousel::-webkit-scrollbar { height: 5px; }
+.fleet-choice-carousel::-webkit-scrollbar-track { background: transparent; }
+.fleet-choice-carousel::-webkit-scrollbar-thumb { background: #236199; border-radius: 999px; }
 
 @media (prefers-reduced-motion: reduce) {
   .fleet-vehicle-image,
