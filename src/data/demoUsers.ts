@@ -173,7 +173,7 @@ export const DEMO_INVOICES: InvoiceItem[] = [
 export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   {
     id: 'flt_01',
-    vehicleName: 'Range Rover Blindado 2025',
+    vehicleName: 'Range Rover Vogue Blindado',
     plateNumber: 'LD-XX-XX-XX', // TODO: PLACEHOLDER
     assignedTo: 'Missão Diplomática de Alto Nível (Demo)',
     status: 'em_circulacao',
@@ -185,7 +185,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   },
   {
     id: 'flt_02',
-    vehicleName: 'Toyota LC300 2023',
+    vehicleName: 'Toyota LC300 Twin Turbo',
     plateNumber: 'LD-XX-XX-YY', // TODO: PLACEHOLDER
     assignedTo: 'Missão Institucional (Demo)',
     status: 'em_circulacao',
@@ -228,7 +228,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
     mileageKm: 20050  // TODO: PLACEHOLDER
   },
   {
-    id: 'flt_06', vehicleName: 'Range Rover Novo Modelo', plateNumber: 'LD-XX-10-AA', assignedTo: 'Direcção Executiva (Demo)',
+    id: 'flt_06', vehicleName: 'Range Rover Autobiography L460', plateNumber: 'LD-XX-10-AA', assignedTo: 'Direcção Executiva (Demo)',
     status: 'em_reserva', location: 'Talatona — Preparação VIP', fuelLevel: 100, mileageKm: 5400, driverName: 'Motorista Executivo Alfa (Demo)', driverPhone: '+244 9XX XXX XXX'
   },
   {

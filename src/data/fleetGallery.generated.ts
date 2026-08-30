@@ -5,11 +5,11 @@ export type FleetGalleryImage = VehicleDetail['gallery'][number];
 
 export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
   'rangerover-blindado-2025': [
-    { url: '/fleet-carousel/rangerover-blindado-2025/01-front.webp', caption: 'Vista exterior — Range Rover Blindado 2026/2027', altText: 'Range Rover Blindado 2026/2027 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/rangerover-blindado-2025/02-front.webp', caption: 'Vista frontal — Range Rover Blindado 2026/2027', altText: 'Range Rover Blindado 2026/2027 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/rangerover-blindado-2025/03-front.webp', caption: 'Vista traseira — Range Rover Blindado 2026/2027', altText: 'Range Rover Blindado 2026/2027 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/rangerover-blindado-2025/04-exterior.webp', caption: 'Interior e detalhes — Range Rover Blindado 2026/2027', altText: 'Range Rover Blindado 2026/2027 — interior e detalhes', type: 'interior' },
-    { url: '/fleet-carousel/rangerover-blindado-2025/04-rear.webp', caption: 'Detalhe 5 — Range Rover Blindado 2026/2027', altText: 'Range Rover Blindado 2026/2027 — detalhe 5', type: 'exterior_side' },
+    { url: '/fleet-carousel/rangerover-blindado-2025/01-front.webp', caption: 'Vista exterior — Range Rover Vogue Blindado', altText: 'Range Rover Vogue Blindado — vista exterior', type: 'exterior_side' },
+    { url: '/fleet-carousel/rangerover-blindado-2025/02-front.webp', caption: 'Vista frontal — Range Rover Vogue Blindado', altText: 'Range Rover Vogue Blindado — vista frontal', type: 'exterior_front' },
+    { url: '/fleet-carousel/rangerover-blindado-2025/03-front.webp', caption: 'Vista traseira — Range Rover Vogue Blindado', altText: 'Range Rover Vogue Blindado — vista traseira', type: 'exterior_side' },
+    { url: '/fleet-carousel/rangerover-blindado-2025/04-exterior.webp', caption: 'Interior e detalhes — Range Rover Vogue Blindado', altText: 'Range Rover Vogue Blindado — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/rangerover-blindado-2025/04-rear.webp', caption: 'Detalhe 5 — Range Rover Vogue Blindado', altText: 'Range Rover Vogue Blindado — detalhe 5', type: 'exterior_side' },
   ],
   'mercedes-class-s-2025': [
     { url: '/fleet-carousel/mercedes-class-s-2025/01-exterior.webp', caption: 'Vista exterior — Mercedes Classe S 2026/2027', altText: 'Mercedes Classe S 2026/2027 — vista exterior', type: 'exterior_side' },
@@ -18,14 +18,14 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/mercedes-class-s-2025/04-exterior.webp', caption: 'Interior e detalhes — Mercedes Classe S 2026/2027', altText: 'Mercedes Classe S 2026/2027 — interior e detalhes', type: 'interior' },
   ],
   'range-rover-novo-modelo': [
-    { url: '/fleet-carousel/range-rover-novo-modelo/01-front.webp', caption: 'Vista exterior — Range Rover Autobiography 2026', altText: 'Range Rover Autobiography 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/range-rover-novo-modelo/02-rear.webp', caption: 'Vista frontal — Range Rover Autobiography 2026', altText: 'Range Rover Autobiography 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/range-rover-novo-modelo/03-exterior.webp', caption: 'Vista traseira — Range Rover Autobiography 2026', altText: 'Range Rover Autobiography 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/range-rover-novo-modelo/04-exterior.webp', caption: 'Interior e detalhes — Range Rover Autobiography 2026', altText: 'Range Rover Autobiography 2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/range-rover-novo-modelo/01-front.webp', caption: 'Vista exterior — Range Rover Autobiography L460', altText: 'Range Rover Autobiography L460 — vista exterior', type: 'exterior_side' },
+    { url: '/fleet-carousel/range-rover-novo-modelo/02-rear.webp', caption: 'Vista frontal — Range Rover Autobiography L460', altText: 'Range Rover Autobiography L460 — vista frontal', type: 'exterior_front' },
+    { url: '/fleet-carousel/range-rover-novo-modelo/03-exterior.webp', caption: 'Vista traseira — Range Rover Autobiography L460', altText: 'Range Rover Autobiography L460 — vista traseira', type: 'exterior_side' },
+    { url: '/fleet-carousel/range-rover-novo-modelo/04-exterior.webp', caption: 'Interior e detalhes — Range Rover Autobiography L460', altText: 'Range Rover Autobiography L460 — interior e detalhes', type: 'interior' },
   ],
   'mercedes-g63-2023': [
-    { url: '/fleet-carousel/mercedes-g63-2023/01-front.webp', caption: 'Vista exterior — Mercedes-AMG G63 2026', altText: 'Mercedes-AMG G63 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/mercedes-g63-2023/02-front.webp', caption: 'Vista frontal — Mercedes-AMG G63 2026', altText: 'Mercedes-AMG G63 2026 — vista frontal', type: 'exterior_front' },
+    { url: '/fleet-carousel/mercedes-g63-2023/01-front.webp', caption: 'Vista exterior — Mercedes G63 2023', altText: 'Mercedes G63 2023 — vista exterior', type: 'exterior_side' },
+    { url: '/fleet-carousel/mercedes-g63-2023/02-front.webp', caption: 'Vista frontal — Mercedes G63 2023', altText: 'Mercedes G63 2023 — vista frontal', type: 'exterior_front' },
   ],
   'lexus-600': [
     { url: '/fleet-carousel/lexus-600/01-front.webp', caption: 'Vista exterior — Lexus LX 600 VIP 2026', altText: 'Lexus LX 600 VIP 2026 — vista exterior', type: 'exterior_side' },
@@ -45,10 +45,10 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/mercedes-g63/03-front.webp', caption: 'Vista traseira — Mercedes G63 AMG 2025/2026', altText: 'Mercedes G63 AMG 2025/2026 — vista traseira', type: 'exterior_side' },
   ],
   'toyota-lc300-2023': [
-    { url: '/fleet-carousel/toyota-lc300-2023/01-front.webp', caption: 'Vista exterior — Toyota Land Cruiser 300 V6 2026', altText: 'Toyota Land Cruiser 300 V6 2026 — vista exterior', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-lc300-2023/02-front.webp', caption: 'Vista frontal — Toyota Land Cruiser 300 V6 2026', altText: 'Toyota Land Cruiser 300 V6 2026 — vista frontal', type: 'exterior_front' },
-    { url: '/fleet-carousel/toyota-lc300-2023/03-front.webp', caption: 'Vista traseira — Toyota Land Cruiser 300 V6 2026', altText: 'Toyota Land Cruiser 300 V6 2026 — vista traseira', type: 'exterior_side' },
-    { url: '/fleet-carousel/toyota-lc300-2023/04-front.webp', caption: 'Interior e detalhes — Toyota Land Cruiser 300 V6 2026', altText: 'Toyota Land Cruiser 300 V6 2026 — interior e detalhes', type: 'interior' },
+    { url: '/fleet-carousel/toyota-lc300-2023/01-front.webp', caption: 'Vista exterior — Toyota LC300 Twin Turbo', altText: 'Toyota LC300 Twin Turbo — vista exterior', type: 'exterior_side' },
+    { url: '/fleet-carousel/toyota-lc300-2023/02-front.webp', caption: 'Vista frontal — Toyota LC300 Twin Turbo', altText: 'Toyota LC300 Twin Turbo — vista frontal', type: 'exterior_front' },
+    { url: '/fleet-carousel/toyota-lc300-2023/03-front.webp', caption: 'Vista traseira — Toyota LC300 Twin Turbo', altText: 'Toyota LC300 Twin Turbo — vista traseira', type: 'exterior_side' },
+    { url: '/fleet-carousel/toyota-lc300-2023/04-front.webp', caption: 'Interior e detalhes — Toyota LC300 Twin Turbo', altText: 'Toyota LC300 Twin Turbo — interior e detalhes', type: 'interior' },
   ],
   'lexus-570': [
     { url: '/fleet-carousel/lexus-570/01-front.webp', caption: 'Vista exterior — Lexus LX 570 Luxury 2025/2026', altText: 'Lexus LX 570 Luxury 2025/2026 — vista exterior', type: 'exterior_side' },
@@ -240,4 +240,3 @@ export const FLEET_CAROUSEL: Record<string, FleetGalleryImage[]> = {
     { url: '/fleet-carousel/limousine/04-exterior.webp', caption: 'Interior e detalhes — Limousine Presidencial / Gala 2026', altText: 'Limousine Presidencial / Gala 2026 — interior e detalhes', type: 'interior' },
   ],
 };
-

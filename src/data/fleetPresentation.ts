@@ -44,7 +44,7 @@ const FLEET_IMAGE_SCALES: Record<string, number> = {
   'hyundai-santa-fe': 1.18,
   'hyundai-tucson': 1.22,
   'chery-tiggo-7': 1.12,
-  'chery-tiggo-2': 1.1,
+  'chery-tiggo-2': 1.08,
   'hyundai-creta': 1.12,
   'toyota-lc-hz': 1.1,
   'toyota-lc-hz-18p': 1.1,

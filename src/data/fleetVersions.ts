@@ -5,14 +5,14 @@ import { FLYER_FLEET_2026 } from './fleetFlyer2026';
 export type FleetVersion = 'original' | '2026' | 'flyer';
 
 const ORIGINAL_FLEET_NAMES: Record<string, string> = {
-  'rangerover-blindado-2025': 'Range Rover Blindado 2025',
+  'rangerover-blindado-2025': 'Range Rover Vogue Blindado',
   'mercedes-class-s-2025': 'Mercedes Classe S 2025',
-  'range-rover-novo-modelo': 'Range Rover Novo Modelo',
+  'range-rover-novo-modelo': 'Range Rover Autobiography L460',
   'mercedes-g63-2023': 'Mercedes G63 2023',
   'lexus-600': 'Lexus 600',
   'mercedes-vito': 'Mercedes Vito',
   'mercedes-g63': 'Mercedes G63',
-  'toyota-lc300-2023': 'Toyota LC300 2023',
+  'toyota-lc300-2023': 'Toyota LC300 Twin Turbo',
   'lexus-570': 'Lexus 570',
   'range-rover': 'Range Rover',
   'toyota-lc-v8-2021': 'Toyota LC V8 2021',

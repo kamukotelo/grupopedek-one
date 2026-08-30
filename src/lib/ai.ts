@@ -151,7 +151,7 @@ DADOS REAIS DA OPERAÇÃO PARA USO DO BOT
 • Linha 24/7: +244 923 719 090 / 923 000 010 | geral@pepekgrupo.com
 • SLA de Confirmação de Reserva: [PREENCHER COM SLA REAL DA PEPEK - e.g., 2 a 4 horas]
 • Frota de referência com preços a indicar caso solicitado:
-  - Luxo/Blindado: Range Rover Blindado 2025, Mercedes Classe S, Mercedes G63.
+  - Luxo/Blindado: Range Rover Vogue Blindado, Mercedes Classe S, Mercedes G63.
   - SUVs Executivos: LC300, Novo Prado.
   - Vans (Comitivas): Mercedes V300 VIP, Hiace 15L.
   - Económicos (urbano simples): Kia Morning, Suzuki Swift.
@@ -259,8 +259,8 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 6. INTENT: Comparar Viaturas (SUV vs 4x4 vs Van vs Luxo)
   if (lower.includes('diferença entre') || lower.includes('comparar') || (lower.includes('suv') && lower.includes('4x4')) || (lower.includes('van') && lower.includes('suv')) || lower.includes('blindado')) {
     return {
-      message: 'O Novo Toyota Prado e o LC300 focam-se no prestígio e conforto executivo. Para terrenos acidentados ou missões técnicas, a Toyota Hilux 4x4 é a mais robusta. Para comitivas até 15 passageiros, dispomos da Mercedes V300 Class e Nova Hiace. Se necessita de segurança máxima, temos o Range Rover Blindado 2025.',
-      suggestedQuickReplies: ['Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Mercedes V300 Class', 'Range Rover Blindado']
+      message: 'O Novo Toyota Prado e o LC300 focam-se no prestígio e conforto executivo. Para terrenos acidentados ou missões técnicas, a Toyota Hilux 4x4 é a mais robusta. Para comitivas até 15 passageiros, dispomos da Mercedes V300 Class e Nova Hiace. Se necessita de segurança máxima, temos o Range Rover Vogue Blindado.',
+      suggestedQuickReplies: ['Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Mercedes V300 Class', 'Range Rover Vogue Blindado']
     };
   }
 
@@ -273,8 +273,8 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
 
     if (isBlindado) {
       return {
-        message: 'O nosso Range Rover Blindado 2025 possui blindagem certificada B6/B7, 5 lugares em pele perfurada, vidros balísticos e sistema de comunicação seguro. Disponível com condutor de segurança.',
-        recommendedVehicle: 'Range Rover Blindado 2025',
+        message: 'O nosso Range Rover Vogue Blindado possui blindagem certificada B6/B7, 5 lugares em pele perfurada, vidros balísticos e sistema de comunicação seguro. Disponível com condutor de segurança.',
+        recommendedVehicle: 'Range Rover Vogue Blindado',
         suggestedQuickReplies: ['Ver Ficha do Blindado', 'Saber Diária (1.999.999 Kz)', 'Reservar com Motorista']
       };
     }
@@ -296,8 +296,8 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
     }
 
     return {
-      message: 'O Toyota LC300 2023 e o Novo Prado têm 7 lugares confortáveis, tracção integral 4WD, caixa automática, climatização independente e acabamentos topo de gama.',
-      recommendedVehicle: 'Toyota LC300 2023',
+      message: 'O Toyota LC300 Twin Turbo e o Novo Prado têm 7 lugares confortáveis, tracção integral 4WD, caixa automática, climatização independente e acabamentos topo de gama.',
+      recommendedVehicle: 'Toyota LC300 Twin Turbo',
       suggestedQuickReplies: ['Ver Toyota LC300', 'Ver Novo Prado', 'Consultar Outra Viatura']
     };
   }
@@ -378,7 +378,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   if (lower.includes('diplomático') || lower.includes('embaixada') || lower.includes('discrição') || lower.includes('confidencial') || lower.includes('segurança')) {
     return {
       message: 'Trabalhamos regularmente com embaixadas, delegações e cimeiras de estado, oferecendo frotas homogéneas, viaturas blindadas B6/B7 e condutores certificados com discrição absoluta.',
-      suggestedQuickReplies: ['Proposta para Embaixada', 'Range Rover Blindado 2025', 'Contactar Gestor Diplomático']
+      suggestedQuickReplies: ['Proposta para Embaixada', 'Range Rover Vogue Blindado', 'Contactar Gestor Diplomático']
     };
   }
 
@@ -400,7 +400,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
 function generateDynamicReplies(prompt: string, context?: SessionContext): string[] {
   const lower = prompt.toLowerCase();
   if (lower.includes('preço') || lower.includes('quanto')) {
-    return ['Económicos (49.999 Kz)', 'Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Range Rover Blindado'];
+    return ['Económicos (49.999 Kz)', 'Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Range Rover Vogue Blindado'];
   }
   if (lower.includes('aeroporto') || lower.includes('transfer')) {
     return ['Aeroporto 4 de Fevereiro', 'Novo Aeroporto AIAAN', 'Com Motorista Bilingue', 'Fazer Reserva'];
