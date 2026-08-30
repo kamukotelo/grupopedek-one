@@ -232,7 +232,7 @@ export const ChatBot: React.FC = () => {
           }}
         >
           {/* Top Header */}
-          <div className="bg-gradient-to-r from-[#0C3D73] to-[#174B86] p-4 text-white flex items-center justify-between">
+          <div className="bg-gradient-to-r from-[#001E4A] to-[#174B86] p-4 text-white flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white">
                 <Headphones className="w-4 h-4 text-[#236199]" />

@@ -30,7 +30,7 @@ export const PagePrivacidade: React.FC = () => (
           })}
         </div>
 
-        <div className="mt-10 rounded-2xl bg-[#0C3D73] p-7 text-white sm:p-9">
+        <div className="mt-10 rounded-2xl bg-[#001E4A] p-7 text-white sm:p-9">
           <h2 className="text-2xl font-extrabold">Canais seguros</h2>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/75">Após a confirmação, a equipa indicará o canal autorizado quando for necessário validar documentação contratual ou de condução. Pode pedir esclarecimentos, atualização ou eliminação de dados através de <a className="font-bold text-[#FEC228] hover:underline" href="mailto:geral@pepekgrupo.com">geral@pepekgrupo.com</a>.</p>
           <p className="mt-5 text-xs leading-relaxed text-white/55">Esta página descreve o funcionamento digital atual. A política jurídica final deve ser revista e aprovada pela direção e assessoria legal antes do início de operação comercial.</p>

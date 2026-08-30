@@ -2,13 +2,13 @@
 
 /* ═══════════════════════════════════════════════
    PEPEK GRUPO — Design System harmonizado com a proposta institucional
-   Paleta: Azul profundo #09172C | Azul institucional #0C3D73 | Amarelo #FEC228
+   Paleta: Azul profundo #09172C | Azul institucional #001E4A | Amarelo #FEC228
    ═══════════════════════════════════════════════ */
 
 @layer base {
   :root {
     --navy: #09172C;
-    --navy-light: #0C3D73;
+    --navy-light: #001E4A;
     --navy-dark: #061225;
     --royal: #236199;
     --royal-light: #2F73AD;
@@ -177,7 +177,7 @@
   overflow: hidden;
   pointer-events: none;
   user-select: none;
-  background: radial-gradient(circle at 50% 48%, #236199 0, #174B86 36%, #0C3D73 76%);
+  background: radial-gradient(circle at 50% 48%, #236199 0, #174B86 36%, #001E4A 76%);
   transition: background-color .6s ease, opacity .55s ease;
 }
 
@@ -636,7 +636,7 @@
   .pepek-nav-item:hover::before { transform: translateX(125%); }
   .pepek-nav-line { transform: scaleX(0); transition: transform 300ms cubic-bezier(.22, 1, .36, 1); }
   .pepek-nav-item:hover .pepek-nav-line { transform: scaleX(1); }
-  .pepek-nav-item.is-active .pepek-nav-line { background: #0C3D73; transform: scaleX(.72); }
+  .pepek-nav-item.is-active .pepek-nav-line { background: #001E4A; transform: scaleX(.72); }
   .pepek-nav-item.is-active .pepek-nav-icon { animation: pepek-nav-active-float 2.8s ease-in-out infinite; }
 
   .pepek-mobile-nav-item {

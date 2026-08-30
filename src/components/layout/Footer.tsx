@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="relative border-t border-white/15 bg-[#0C3D73] pb-14 pt-16 text-white">
+    <footer className="relative border-t border-white/15 bg-[#001E4A] pb-14 pt-16 text-white">
       <div className="container-pepek">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-14 mb-16">
           {/* Col 1: Brand & Slogan */}

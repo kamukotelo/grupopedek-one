@@ -85,7 +85,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
             </div>
           ) : (
             <div className="space-y-5">
-              <div className="rounded-xl border border-blue-100 bg-blue-50 p-3 text-[11px] leading-relaxed text-[#0C3D73]">
+              <div className="rounded-xl border border-blue-100 bg-blue-50 p-3 text-[11px] leading-relaxed text-[#001E4A]">
                 <ShieldCheck className="mr-2 inline h-4 w-4" />O valor é validado no servidor. A PEPEK não recolhe nem armazena o número do seu cartão ou PIN bancário.
               </div>
               <div className="grid grid-cols-2 gap-2.5">

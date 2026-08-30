@@ -86,7 +86,7 @@ export const About: React.FC = () => {
 
   return (
     <section id="sobre" className="bg-white">
-      <div className="relative overflow-hidden bg-[#0C3D73] text-white">
+      <div className="relative overflow-hidden bg-[#001E4A] text-white">
         <div className="absolute inset-0 opacity-25 [background:radial-gradient(circle_at_78%_28%,#236199_0,transparent_34%),linear-gradient(120deg,transparent_45%,#FEC228_140%)]" />
         <div className="container-pepek relative py-20 sm:py-28 lg:py-32">
           <div className="max-w-4xl">
@@ -197,7 +197,7 @@ export const About: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-[#0C3D73] py-16 text-white sm:py-24">
+      <div className="bg-[#001E4A] py-16 text-white sm:py-24">
         <div className="container-pepek">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div><span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">{t('about.teamTag')}</span><h2 style={{ color: '#fff' }} className="mt-4 text-3xl font-extrabold sm:text-5xl">{t('about.teamTitle')}</h2></div>

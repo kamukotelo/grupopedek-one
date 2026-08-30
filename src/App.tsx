@@ -40,7 +40,7 @@ export const App: React.FC = () => {
 
           {/* Page router — real URLs, each with individual SEO metadata */}
           <main className="flex-1">
-            <Suspense fallback={<div className="min-h-screen bg-[#0C3D73]" aria-label="A carregar página" />}>
+            <Suspense fallback={<div className="min-h-screen bg-[#001E4A]" aria-label="A carregar página" />}>
             <Routes>
               {/* Home — Hero + all sections + primary CTA */}
               <Route path="/" element={<PageHome onSelectVehicle={setSelectedVehicle} />} />

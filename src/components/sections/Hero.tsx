@@ -118,7 +118,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="inicio" className="relative bg-[#0C3D73] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
+    <section id="inicio" className="relative bg-[#001E4A] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
       {/* Cinematic Background Image with Dark Vignette */}
       <div className="absolute inset-0 z-0" data-future-video-stage aria-label="Área visual preparada para o futuro vídeo institucional">
         <img
@@ -126,8 +126,8 @@ export const Hero: React.FC = () => {
           alt="Viatura oficial da frota executiva PEPEK"
           className="h-full w-full scale-[1.02] object-cover object-center brightness-[0.58] contrast-[1.12]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0C3D73]/95 via-[#0C3D73]/76 to-[#174B86]/44" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0C3D73] via-transparent to-[#0C3D73]/65" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#001E4A]/95 via-[#001E4A]/76 to-[#174B86]/44" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#001E4A] via-transparent to-[#001E4A]/65" />
         {/* Subtle Radial Glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#236199]/20 rounded-full blur-[160px] pointer-events-none" />
       </div>

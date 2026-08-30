@@ -96,7 +96,7 @@ export const RouteEstimator: React.FC = () => {
   const currentVehicleImage = officialVehicleImages.get(currentRoute.vehicleId);
 
   return (
-    <section id="rotas" className="section-padding bg-gradient-to-b from-[#0C3D73] to-[#174B86] text-white relative overflow-hidden">
+    <section id="rotas" className="section-padding bg-gradient-to-b from-[#001E4A] to-[#174B86] text-white relative overflow-hidden">
       {/* Background visual glow */}
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#FEC228]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -203,7 +203,7 @@ export const RouteEstimator: React.FC = () => {
                 {currentVehicleImage && (
                   <div className="mb-7 overflow-hidden rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F5F6F6] to-white">
                     <div className="flex items-center justify-between gap-3 border-b border-[#E2E8F0] px-5 py-3">
-                      <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#0C3D73]">Viatura recomendada</span>
+                      <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#001E4A]">Viatura recomendada</span>
                       <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#E4AD28]">Imagem oficial do catálogo 2026</span>
                     </div>
                     <div className="relative h-52 sm:h-64">

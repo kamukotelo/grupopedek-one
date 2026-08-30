@@ -135,7 +135,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   };
 
   return (
-    <section id="frota" className="section-padding relative overflow-hidden bg-gradient-to-b from-[#0C3D73] via-[#174B86] to-[#0C3D73] text-white">
+    <section id="frota" className="section-padding relative overflow-hidden bg-gradient-to-b from-[#001E4A] via-[#174B86] to-[#001E4A] text-white">
       <div className="pointer-events-none absolute -left-48 top-24 h-96 w-96 rounded-full bg-[#236199]/25 blur-[120px]" />
       <div className="pointer-events-none absolute -right-40 top-1/3 h-[460px] w-[460px] rounded-full bg-[#09172C]/30 blur-[140px]" />
       <div className="container-pepek relative z-10">
@@ -158,7 +158,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         {/* ═══════════════════════════════════════════════════════
             QUICK SEARCH HERO BAR
            ═══════════════════════════════════════════════════════ */}
-        <div className="mb-10 rounded-2xl border border-[#3A73A8]/70 bg-gradient-to-br from-[#09172C] via-[#0C2E60] to-[#0C3D73] p-5 text-white shadow-[0_22px_55px_rgba(4,16,38,.3)] sm:p-7">
+        <div className="mb-10 rounded-2xl border border-[#3A73A8]/70 bg-gradient-to-br from-[#09172C] via-[#0C2E60] to-[#001E4A] p-5 text-white shadow-[0_22px_55px_rgba(4,16,38,.3)] sm:p-7">
           <div className="mb-4 flex items-center justify-between border-b border-[#FEC228]/20 pb-3">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#FEC228]">
               <Sparkles className="w-4 h-4" />
