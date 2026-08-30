@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Mede a bounding-box opaca real de cada 01-oficial.webp e calcula a escala
-do card /frota para que TODAS as viaturas fiquem assentes na base com a mesma
-ALTURA renderizada, sem nunca cortar (topo ou rodas).
+"""Mede a bounding-box opaca real de cada 01-oficial.webp e calcula, para o
+card /frota, a ESCALA e o DESLOCAMENTO vertical de cada viatura para que:
 
-Saída: bloco TS pronto para colar em src/data/fleetPresentation.ts.
+  * fique sempre assente na base do card (próximo da parte de baixo);
+  * tenha aproximadamente a mesma altura renderizada;
+  * NUNCA corte — nem o tejadilho no topo nem as rodas em baixo — mesmo
+    durante o zoom do hover.
+
+Só conta o pixel opaco: as margens transparentes do PNG podem sair do quadro.
+
+Saída: dois blocos TS prontos para colar em src/data/fleetPresentation.ts.
 """
 import re
 import pathlib
@@ -15,16 +21,17 @@ FLYER = (ROOT / "src/data/fleetFlyer2026.ts").read_text()
 # id -> pasta da imagem
 PAIRS = re.findall(r"id:\s*'([^']+)'[^}]*?image:\s*'([^']+)'", FLYER)
 
-# Geometria do card: frame aspect 16/10, padding aproximado (px-7 pt-7 pb-2).
-# Fração da altura do frame ocupada pela área de conteúdo vertical.
-CONTENT_H_FRAC = 0.90          # (frameH - pt - pb) / frameH  (~pt 28 / pb 8 em ~360)
+# Geometria do card: frame aspect 16/10, padding px-7 pt-7 pb-2 (~pt 28 / pb 8).
 CONTENT_W_FRAC = 0.90
+CONTENT_H_FRAC = 0.90
+BOT_PAD_FRAC = 0.022          # pb-2 / altura do frame
 FRAME_ASPECT = 16 / 10
-TARGET_CAR_H = 0.87            # altura opaca-alvo do carro (fração do frame)
-HOVER_MUL = 1.02              # zoom do hover — a trava tem de aguentar isto
-TOP_MARGIN = 0.04            # folga mínima entre o tejadilho e o topo do frame
+TARGET_CAR_H = 0.87           # altura opaca-alvo do carro (fração do frame)
+TARGET_BOT_GAP = 0.05        # folga desejada entre as rodas e a base do frame
+HOVER_MUL = 1.02             # zoom do hover — as travas têm de aguentar isto
+TOP_MARGIN = 0.04           # folga mínima entre o tejadilho e o topo do frame
 
-rows = []
+scales, offsets = [], []
 for vid, folder in PAIRS:
     p = ROOT / "public/fleet-flyer-2026" / folder / "01-oficial.webp"
     if not p.exists():
@@ -32,31 +39,41 @@ for vid, folder in PAIRS:
         continue
     im = Image.open(p).convert("RGBA")
     w, h = im.size
-    bbox = im.getbbox()  # (l, t, r, b) do conteúdo não-transparente
+    bbox = im.getbbox()
     if not bbox:
         continue
-    top_frac = bbox[1] / h                         # margem transparente no topo
-    car_h_frac = (bbox[3] - bbox[1]) / h           # altura opaca / altura ficheiro
+    top_frac = bbox[1] / h                      # margem transparente no topo
+    bot_frac = (h - bbox[3]) / h                # margem transparente em baixo
+    car_h_frac = (bbox[3] - bbox[1]) / h        # altura opaca / altura ficheiro
     n_asp = w / h
 
-    # object-contain dentro da caixa de conteúdo (imagem mais larga que a caixa):
-    # altura desenhada dh = contentW / n_asp ; frameH = frameW / FRAME_ASPECT
-    # dh / frameH = (CONTENT_W_FRAC * FRAME_ASPECT) / n_asp
-    dh_over_frame = (CONTENT_W_FRAC * FRAME_ASPECT) / n_asp
-    dh_over_frame = min(dh_over_frame, CONTENT_H_FRAC)  # se limitada pela altura
+    # object-contain: altura desenhada (pré-escala) em frações do frame
+    dOF = min((CONTENT_W_FRAC * FRAME_ASPECT) / n_asp, CONTENT_H_FRAC)
 
     # escala para a altura opaca do carro == TARGET_CAR_H do frame
-    scale = TARGET_CAR_H / (dh_over_frame * car_h_frac)
+    scale = TARGET_CAR_H / (dOF * car_h_frac)
 
-    # trava real: com a viatura assente na base, o tejadilho opaco não pode
-    # passar o topo do frame nem no zoom do hover. Só conta o pixel opaco —
-    # a margem transparente pode sair do quadro à vontade.
-    #   carTop = 1 - S*HOVER_MUL*dh_over_frame*(1 - top_frac)  >=  TOP_MARGIN
-    max_scale = (1 - TOP_MARGIN) / (HOVER_MUL * dh_over_frame * (1 - top_frac))
-    scale = min(scale, max_scale)
-    rows.append((vid, round(scale, 2)))
+    # trava do topo: carTop = 1 - S*HOVER_MUL*dOF*(1-top_frac) >= TOP_MARGIN
+    scale = min(scale, (1 - TOP_MARGIN) / (HOVER_MUL * dOF * (1 - top_frac)))
+    scale = round(scale, 2)
+
+    # com a viatura assente, onde ficam as rodas? (estado hover = pior caso)
+    s = scale * HOVER_MUL
+    car_bot = 1 - BOT_PAD_FRAC * s - bot_frac * s * dOF
+    # empurra para baixo só o necessário para encostar as rodas à base
+    offset = (1 - TARGET_BOT_GAP) - car_bot
+    offset = max(0.0, round(offset, 3))
+
+    scales.append((vid, scale))
+    if offset >= 0.01:
+        offsets.append((vid, f"{round(offset * 100)}%"))
 
 print("const FLEET_IMAGE_SCALES: Record<string, number> = {")
-for vid, s in rows:
-    print(f"  '{vid}': {s},")
+for vid, v in scales:
+    print(f"  '{vid}': {v},")
+print("};\n")
+
+print("const FLEET_IMAGE_OFFSET_Y: Record<string, string> = {")
+for vid, v in offsets:
+    print(f"  '{vid}': '{v}',")
 print("};")

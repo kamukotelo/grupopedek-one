@@ -74,10 +74,46 @@ const FLEET_IMAGE_SCALES: Record<string, number> = {
 export const getFleetImageScale = (vehicleId: string): number =>
   FLEET_IMAGE_SCALES[vehicleId] ?? 0.95;
 
-// Com a viatura assente na base do cartão (object-bottom) não é preciso
-// empurrar nenhum recorte para baixo — isso só cortaria as rodas. Mantém-se
-// o mecanismo (mapa vazio) para ajustes pontuais futuros.
-const FLEET_IMAGE_OFFSET_Y: Record<string, string> = {};
+// Alguns recortes oficiais deixam a viatura a "flutuar" (muita margem
+// transparente em baixo). Com object-bottom isso afastava o carro da base do
+// card; este deslocamento empurra-o só o necessário para as rodas encostarem
+// à base, sem nunca cortar o tejadilho. Medido por scripts/calc-fleet-card-scales.py.
+const FLEET_IMAGE_OFFSET_Y: Record<string, string> = {
+  'kia-morning': '4%',
+  'suzuki-celerio': '5%',
+  'hyundai-g-i10': '1%',
+  'hyundai-i-20': '21%',
+  'suzuki-swift': '1%',
+  'suzuki-baleno': '1%',
+  'hyundai-creta': '1%',
+  'chery-tiggo-2': '4%',
+  'hyundai-tucson': '16%',
+  'kia-seltos': '4%',
+  'hyundai-santa-fe': '13%',
+  'toyota-hilux': '2%',
+  'mitsubishi-l200': '1%',
+  'jetour-x70': '1%',
+  'toyota-fortuner-2023': '2%',
+  'toyota-lc-hz': '2%',
+  'toyota-prado-atual': '16%',
+  'volvo-xc-60': '18%',
+  'hyundai-staria-atual': '2%',
+  'new-toyota-hiace': '1%',
+  'new-toyota-prado': '10%',
+  'mercedes-cls63': '16%',
+  'hyundai-staria-executiva': '1%',
+  'range-rover': '7%',
+  'lexus-570': '14%',
+  'mercedes-g63-2023': '5%',
+  'mercedes-vito': '2%',
+  'mercedes-g63': '8%',
+  'lexus-600': '9%',
+  'range-rover-novo-modelo': '17%',
+  'mercedes-class-s-2025': '15%',
+  'rangerover-blindado-2025': '23%',
+  'chery-himla': '4%',
+  'baw-m7': '1%',
+};
 
 export const getFleetImageOffsetY = (vehicleId: string): string =>
   FLEET_IMAGE_OFFSET_Y[vehicleId] ?? '0%';
