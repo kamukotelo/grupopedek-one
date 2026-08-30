@@ -110,6 +110,23 @@
 ::-webkit-scrollbar-thumb { background: var(--royal); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--royal-dark); }
 
+/* Imagens oficiais da frota: o ficheiro mantém a sua proporção e o recorte
+   é ajustado apenas dentro da área segura do cartão. */
+.fleet-vehicle-image {
+  scale: var(--fleet-image-scale, 1.12);
+  transform-origin: center bottom;
+  transition: scale 500ms var(--motion-ease);
+}
+
+.group:hover .fleet-vehicle-image {
+  scale: calc(var(--fleet-image-scale, 1.12) * 1.035);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fleet-vehicle-image,
+  .group:hover .fleet-vehicle-image { scale: var(--fleet-image-scale, 1.12); }
+}
+
 /* ── Keyframes & Animations ── */
 @keyframes marquee {
   0% { transform: translateX(0%); }

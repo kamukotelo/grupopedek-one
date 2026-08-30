@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, ChevronRight, ChevronLeft, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
-import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
+import { FLEET_STUDIO_BACKGROUNDS, getFleetImageScale } from '../../data/fleetPresentation';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
@@ -12,7 +12,7 @@ export const Hero: React.FC = () => {
 
   const luxuryVehicles = PUBLIC_FLEET
     .filter((vehicle) => ['rangerover-blindado-2025', 'mercedes-class-s-2025', 'lexus-600', 'toyota-lc300-2023'].includes(vehicle.id))
-    .map((vehicle) => ({ name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted }));
+    .map((vehicle) => ({ id: vehicle.id, name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted }));
 
   const clientLogos = [
     { name: 'Sonangol', src: '/clients-color/sonangol.png' },
@@ -113,8 +113,8 @@ export const Hero: React.FC = () => {
       {/* Cinematic Background Image with Dark Vignette */}
       <div className="absolute inset-0 z-0" data-future-video-stage aria-label="Área visual preparada para o futuro vídeo institucional">
         <img
-          src="/fleet-carousel-generated/rangerover-blindado-2025/01-exterior-principal.webp"
-          alt="Range Rover da frota executiva PEPEK — imagem temporária para o futuro vídeo institucional"
+          src={luxuryVehicles[0]?.image}
+          alt="Viatura oficial da frota executiva PEPEK"
           className="h-full w-full scale-[1.02] object-cover object-center brightness-[0.58] contrast-[1.12]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0C3D73]/95 via-[#0C3D73]/76 to-[#174B86]/44" />
@@ -194,7 +194,8 @@ export const Hero: React.FC = () => {
                   key={vehicle.name}
                   src={vehicle.image}
                   alt={vehicle.name}
-                  className={`absolute bottom-[-18px] left-1/2 h-[280px] w-[112%] -translate-x-1/2 object-contain drop-shadow-[0_24px_24px_rgba(9,23,44,.38)] transition-all duration-700 sm:bottom-[-22px] sm:h-[325px] ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                  style={{ '--fleet-image-scale': getFleetImageScale(vehicle.id) } as React.CSSProperties}
+                  className={`fleet-vehicle-image absolute bottom-[-18px] left-1/2 h-[280px] w-[112%] -translate-x-1/2 object-contain drop-shadow-[0_24px_24px_rgba(9,23,44,.38)] transition-all duration-700 sm:bottom-[-22px] sm:h-[325px] ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 />
               ))}
             </div>

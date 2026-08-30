@@ -46,7 +46,11 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const peopleFreeInteriors = vehicle ? getFleetPeopleFreeInteriors(vehicle.id) : [];
   const localImageApproved = vehicle ? isFlyerCollection || isFleetLocalImageApproved(vehicle.id) : false;
   const originalLocalGallery = localImageApproved
-    ? (vehicle?.gallery ?? []).filter((image) => isFlyerCollection || image.url.startsWith('/rent_car/'))
+    ? (vehicle?.gallery ?? []).filter((image) =>
+      isFlyerCollection
+        ? image.url === vehicle?.primaryImage
+        : image.url.startsWith('/rent_car/')
+    )
     : [];
   // A pesquisa externa permanece apenas no acervo de apoio. A frota pública
   // aceita somente material próprio/local ou produzido para este projeto.

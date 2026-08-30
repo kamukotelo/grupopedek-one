@@ -46,6 +46,7 @@ for (const [folder, expectedHash] of Object.entries(correctedFlyerImageHashes)) 
   expect(actualHash === expectedHash, `Imagem oficial incoerente com o catálogo PDF: ${folder}`);
 }
 expect(flyerFleetSource.includes('export const PUBLIC_FLEET = FLYER_FLEET_2026'), 'A frota pública não aponta para os flyers oficiais');
+expect(!flyerFleetSource.includes('studioFrames'), 'A frota pública ainda inclui vistas exteriores antigas fora do catálogo oficial');
 
 for (const component of [
   'src/components/fleet/VehicleCard.tsx',
@@ -74,8 +75,10 @@ expect(servicesSource.includes('rail.scrollTo'), 'O carrossel de Serviços não 
 expect(servicesSource.includes('6000'), 'O carrossel de Serviços não está configurado para rotação automática');
 const heroSource = fs.readFileSync('src/components/sections/Hero.tsx', 'utf8');
 expect(heroSource.includes('6000') && heroSource.includes('prefers-reduced-motion'), 'O carrossel principal não possui rotação automática e acessível');
+expect(!heroSource.includes('/fleet-carousel-generated/'), 'O hero ainda utiliza uma imagem exterior fora do catálogo oficial');
 const gallerySource = fs.readFileSync('src/components/fleet/VehicleGalleryModal.tsx', 'utf8');
 expect(gallerySource.includes('setInterval') && gallerySource.includes('6000'), 'A galeria de viaturas não possui rotação automática');
+expect(gallerySource.includes('image.url === vehicle?.primaryImage'), 'A galeria pública pode exibir exteriores fora do catálogo oficial');
 const fleetShowcaseSource = fs.readFileSync('src/components/sections/FleetShowcase.tsx', 'utf8');
 expect(fleetShowcaseSource.includes('setInterval') && fleetShowcaseSource.includes('6000') && fleetShowcaseSource.includes('prefers-reduced-motion'), 'A vitrine de frota não possui rotação automática acessível');
 
