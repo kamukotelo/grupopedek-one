@@ -2574,6 +2574,30 @@ export const FLEET_DATABASE: VehicleDetail[] = [
         caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
         altText: 'Chery Himla 4x4 2026 — catálogo oficial PEPEK',
         type: 'exterior_front'
+      },
+      {
+        url: '/fleet-carousel-generated/chery-himla/01-estudio-principal.webp',
+        caption: 'Apresentação de estúdio — vista principal',
+        altText: 'Chery Himla 4x4 2026 — apresentação de estúdio — vista principal',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/chery-himla/02-estudio-amplo.webp',
+        caption: 'Apresentação de estúdio — enquadramento amplo',
+        altText: 'Chery Himla 4x4 2026 — apresentação de estúdio — enquadramento amplo',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/chery-himla/03-estudio-aproximado.webp',
+        caption: 'Apresentação de estúdio — plano aproximado',
+        altText: 'Chery Himla 4x4 2026 — apresentação de estúdio — plano aproximado',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/chery-himla/04-estudio-detalhe-frontal.webp',
+        caption: 'Apresentação de estúdio — detalhe da dianteira',
+        altText: 'Chery Himla 4x4 2026 — apresentação de estúdio — detalhe da dianteira',
+        type: 'detail'
       }
     ],
     specs: {
@@ -2617,6 +2641,30 @@ export const FLEET_DATABASE: VehicleDetail[] = [
         caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
         altText: 'JMC Touring 2026 — catálogo oficial PEPEK',
         type: 'exterior_front'
+      },
+      {
+        url: '/fleet-carousel-generated/jmc-touring/01-estudio-principal.webp',
+        caption: 'Apresentação de estúdio — vista principal',
+        altText: 'JMC Touring 2026 — apresentação de estúdio — vista principal',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/jmc-touring/02-estudio-amplo.webp',
+        caption: 'Apresentação de estúdio — enquadramento amplo',
+        altText: 'JMC Touring 2026 — apresentação de estúdio — enquadramento amplo',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/jmc-touring/03-estudio-aproximado.webp',
+        caption: 'Apresentação de estúdio — plano aproximado',
+        altText: 'JMC Touring 2026 — apresentação de estúdio — plano aproximado',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/jmc-touring/04-estudio-detalhe-frontal.webp',
+        caption: 'Apresentação de estúdio — detalhe da dianteira',
+        altText: 'JMC Touring 2026 — apresentação de estúdio — detalhe da dianteira',
+        type: 'detail'
       }
     ],
     specs: {
@@ -2659,6 +2707,30 @@ export const FLEET_DATABASE: VehicleDetail[] = [
         caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
         altText: 'JAC Sunray 2026 — catálogo oficial PEPEK',
         type: 'exterior_front'
+      },
+      {
+        url: '/fleet-carousel-generated/jac-sunray/01-estudio-principal.webp',
+        caption: 'Apresentação de estúdio — vista principal',
+        altText: 'JAC Sunray 2026 — apresentação de estúdio — vista principal',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/jac-sunray/02-estudio-amplo.webp',
+        caption: 'Apresentação de estúdio — enquadramento amplo',
+        altText: 'JAC Sunray 2026 — apresentação de estúdio — enquadramento amplo',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/jac-sunray/03-estudio-aproximado.webp',
+        caption: 'Apresentação de estúdio — plano aproximado',
+        altText: 'JAC Sunray 2026 — apresentação de estúdio — plano aproximado',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/jac-sunray/04-estudio-detalhe-frontal.webp',
+        caption: 'Apresentação de estúdio — detalhe da dianteira',
+        altText: 'JAC Sunray 2026 — apresentação de estúdio — detalhe da dianteira',
+        type: 'detail'
       }
     ],
     specs: {
@@ -2701,6 +2773,30 @@ export const FLEET_DATABASE: VehicleDetail[] = [
         caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
         altText: 'BAW M7 2026 — catálogo oficial PEPEK',
         type: 'exterior_front'
+      },
+      {
+        url: '/fleet-carousel-generated/baw-m7/01-estudio-principal.webp',
+        caption: 'Apresentação de estúdio — vista principal',
+        altText: 'BAW M7 2026 — apresentação de estúdio — vista principal',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/baw-m7/02-estudio-amplo.webp',
+        caption: 'Apresentação de estúdio — enquadramento amplo',
+        altText: 'BAW M7 2026 — apresentação de estúdio — enquadramento amplo',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/baw-m7/03-estudio-aproximado.webp',
+        caption: 'Apresentação de estúdio — plano aproximado',
+        altText: 'BAW M7 2026 — apresentação de estúdio — plano aproximado',
+        type: 'detail'
+      },
+      {
+        url: '/fleet-carousel-generated/baw-m7/04-estudio-detalhe-frontal.webp',
+        caption: 'Apresentação de estúdio — detalhe da dianteira',
+        altText: 'BAW M7 2026 — apresentação de estúdio — detalhe da dianteira',
+        type: 'detail'
       }
     ],
     specs: {

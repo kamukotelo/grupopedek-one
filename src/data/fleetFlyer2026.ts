@@ -77,6 +77,11 @@ export const FLYER_FLEET_2026: VehicleDetail[] = FLYER_VEHICLES.map((entry) => {
 
   const primaryImage = `/fleet-flyer-2026/${entry.image}/01-oficial.webp`;
   const isKiaSeltos = entry.id === 'kia-seltos';
+  // Enquadramentos de estúdio próprios (recorte sobre fundo azul oficial).
+  // Só material produzido para o projeto — nunca imagens externas.
+  const studioFrames = (source.gallery ?? []).filter((image) =>
+    image.url.startsWith('/fleet-carousel-generated/')
+  );
 
   return {
     ...source,
@@ -93,12 +98,15 @@ export const FLYER_FLEET_2026: VehicleDetail[] = FLYER_VEHICLES.map((entry) => {
     primaryImage,
     secondaryImage: undefined,
     visualCollection: 'flyer',
-    gallery: [{
-      url: primaryImage,
-      caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
-      altText: `${entry.name} - catálogo oficial PEPEK 2026`,
-      type: 'exterior_front'
-    }]
+    gallery: [
+      {
+        url: primaryImage,
+        caption: 'Imagem oficial do catálogo PEPEK Rent A Car 2026',
+        altText: `${entry.name} - catálogo oficial PEPEK 2026`,
+        type: 'exterior_front'
+      },
+      ...studioFrames
+    ]
   };
 });
 

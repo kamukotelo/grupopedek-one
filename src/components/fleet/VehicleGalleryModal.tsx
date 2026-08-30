@@ -194,7 +194,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               </button>
               {verifiedGallery.slice(1, 5).map((image, index) => (
                 <button key={image.url} type="button" onClick={() => setActiveImageIdx(index + 1)} className="group relative h-36 overflow-hidden bg-[#174B86] sm:h-52">
-                  <img src={image.url} alt={image.altText} className={`h-full w-full transition-transform duration-500 group-hover:scale-105 ${image.type === 'interior' ? 'object-cover' : 'object-contain p-3'}`} loading="lazy" />
+                  <img src={image.url} alt={image.altText} className={`h-full w-full transition-transform duration-500 group-hover:scale-105 ${image.type === 'interior' || image.type === 'detail' ? 'object-cover' : 'object-contain p-3'}`} loading="lazy" />
                   <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#09172C] to-transparent px-3 pb-2 pt-8 text-left text-[11px] font-bold text-white sm:text-xs">{image.caption}</span>
                 </button>
               ))}
@@ -243,7 +243,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                 <img
                   src={img.url}
                   alt={img.altText}
-                  className={img.type === 'interior' ? 'w-full h-full object-cover' : 'w-full h-full object-contain p-1'}
+                  className={img.type === 'interior' || img.type === 'detail' ? 'w-full h-full object-cover' : 'w-full h-full object-contain p-1'}
                   loading="lazy"
                 />
                 <span className="absolute bottom-1 right-1 text-[9px] bg-black/80 px-1 py-0.2 rounded font-mono text-white">
