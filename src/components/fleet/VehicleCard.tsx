@@ -16,7 +16,7 @@ import { VehicleDetail } from '../../data/fleetData';
 import { getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
-import { getFleetImageScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
+import { getFleetImageOffsetY, getFleetImageScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 interface VehicleCardProps {
   vehicle: VehicleDetail;
@@ -80,7 +80,10 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
         <img
           src={studioImage}
           alt={vehicle.name}
-          style={{ '--fleet-image-scale': getFleetImageScale(vehicle.id) } as React.CSSProperties}
+          style={{
+            '--fleet-image-scale': getFleetImageScale(vehicle.id),
+            '--fleet-image-offset-y': getFleetImageOffsetY(vehicle.id),
+          } as React.CSSProperties}
           className={`fleet-vehicle-image absolute inset-0 h-full w-full object-center object-contain p-7 sm:p-9 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}

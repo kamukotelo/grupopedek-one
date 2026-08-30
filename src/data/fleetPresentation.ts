@@ -69,3 +69,19 @@ const FLEET_IMAGE_SCALES: Record<string, number> = {
 
 export const getFleetImageScale = (vehicleId: string): number =>
   FLEET_IMAGE_SCALES[vehicleId] ?? 1.12;
+
+// Alguns recortes oficiais concentram a viatura na metade superior da tela.
+// O deslocamento corrige somente a posição, sem deformar nem alterar a escala.
+const FLEET_IMAGE_OFFSET_Y: Record<string, string> = {
+  'range-rover': '5%',
+  'range-rover-novo-modelo': '10%',
+  'rangerover-blindado-2025': '13%',
+  'mercedes-g63': '9%',
+  'new-toyota-prado': '8%',
+  'volvo-xc-60': '10%',
+  'hyundai-santa-fe': '8%',
+  'hyundai-tucson': '9%',
+};
+
+export const getFleetImageOffsetY = (vehicleId: string): string =>
+  FLEET_IMAGE_OFFSET_Y[vehicleId] ?? '0%';

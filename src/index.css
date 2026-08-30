@@ -114,8 +114,9 @@
    é ajustado apenas dentro da área segura do cartão. */
 .fleet-vehicle-image {
   scale: var(--fleet-image-scale, 1.12);
+  translate: 0 var(--fleet-image-offset-y, 0%);
   transform-origin: center bottom;
-  transition: scale 500ms var(--motion-ease);
+  transition: scale 500ms var(--motion-ease), translate 500ms var(--motion-ease);
 }
 
 .group:hover .fleet-vehicle-image {
