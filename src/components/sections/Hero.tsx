@@ -177,7 +177,7 @@ export const Hero: React.FC = () => {
             onFocusCapture={() => setIsLuxuryPaused(true)}
             onBlurCapture={() => setIsLuxuryPaused(false)}
           >
-            <div className="relative min-h-[310px] overflow-hidden bg-[#09172C] bg-cover bg-center px-6 pt-5 sm:min-h-[350px] sm:px-7 sm:pt-6" style={{ backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
+            <div className="relative min-h-[310px] overflow-hidden bg-[#20558D] bg-cover bg-center px-6 pt-5 sm:min-h-[350px] sm:px-7 sm:pt-6" style={{ backgroundColor: '#20558D', backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
               <div className="relative z-20 flex items-start justify-between gap-4">
                 <div>
                   <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#E4AD28]">{t('fleet.tag')}</span>
