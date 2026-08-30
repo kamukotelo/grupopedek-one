@@ -49,7 +49,7 @@ const FLYER_VEHICLES: FlyerVehicle[] = [
   { id: 'toyota-coaster', name: 'Toyota Coaster', fullDay: 399999, transfer: 299999, image: 'toyota-coaster' },
   { id: 'hyundai-staria-executiva', name: 'Hyundai Staria Executiva', fullDay: 449999, transfer: 337499, image: 'hyundai-staria-executiva' },
   { id: 'toyota-lc-v8-2021', name: 'Toyota LC V8 2021', fullDay: 499999, transfer: 374999, image: 'toyota-lc-v8-2021' },
-  { id: 'range-rover', name: 'Range Rover', fullDay: 549999, transfer: 412499, image: 'range-rover' },
+  { id: 'range-rover', name: 'Range Rover Autobiography', fullDay: 549999, transfer: 412499, image: 'range-rover' },
   { id: 'lexus-570', name: 'Lexus 570', fullDay: 550000, transfer: 412500, image: 'lexus-570' },
   { id: 'toyota-lc300-2023', name: 'Toyota LC300 Twin Turbo', fullDay: 599999, transfer: 449999, image: 'toyota-lc300-2023' },
   { id: 'mercedes-g63-2023', name: 'Mercedes G63 2023', fullDay: 599999, transfer: 449999, image: 'mercedes-g63' },

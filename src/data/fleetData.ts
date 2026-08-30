@@ -539,9 +539,9 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'range-rover',
     slug: 'range-rover',
-    name: 'Range Rover Vogue 2025/2026',
+    name: 'Range Rover Autobiography',
     brand: 'Land Rover',
-    model: 'Range Rover Vogue',
+    model: 'Range Rover Autobiography',
     year: '2025',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',

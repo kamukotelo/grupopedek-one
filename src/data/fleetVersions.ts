@@ -14,7 +14,7 @@ const ORIGINAL_FLEET_NAMES: Record<string, string> = {
   'mercedes-g63': 'Mercedes G63',
   'toyota-lc300-2023': 'Toyota LC300 Twin Turbo',
   'lexus-570': 'Lexus 570',
-  'range-rover': 'Range Rover',
+  'range-rover': 'Range Rover Autobiography',
   'toyota-lc-v8-2021': 'Toyota LC V8 2021',
   'mercedes-cls63': 'Mercedes CLS63',
   'mercedes-brabus': 'Mercedes Brabus',
