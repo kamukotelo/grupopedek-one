@@ -324,51 +324,6 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         </div>
 
         {/* ═══════════════════════════════════════════════════════
-            4-STEP BOOKING GUIDE BAR
-           ═══════════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 mb-10 p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs text-xs">
-          <div className="flex items-start gap-3 p-2">
-            <div className="w-8 h-8 rounded-xl bg-[#09172C] text-[#FEC228] flex items-center justify-center font-extrabold shrink-0 shadow-xs">
-              1
-            </div>
-            <div>
-              <strong className="block text-[#09172C] text-[13px] font-bold">Escolha a Viatura</strong>
-              <p className="text-[#555B64] text-[11px] mt-0.5">Explore fotografias, lotação e especificações das viaturas disponíveis.</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
-            <div className="w-8 h-8 rounded-xl bg-[#09172C] text-[#FEC228] flex items-center justify-center font-extrabold shrink-0 shadow-xs">
-              2
-            </div>
-            <div>
-              <strong className="block text-[#09172C] text-[13px] font-bold">Adicione Extras</strong>
-              <p className="text-[#555B64] text-[11px] mt-0.5">Chauffeur profissional, tanque cheio garantido, cadeiras infantis ou Wi-Fi 5G.</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
-            <div className="w-8 h-8 rounded-xl bg-[#09172C] text-[#FEC228] flex items-center justify-center font-extrabold shrink-0 shadow-xs">
-              3
-            </div>
-            <div>
-              <strong className="block text-[#09172C] text-[13px] font-bold">Cotação & Fatura AGT</strong>
-              <p className="text-[#555B64] text-[11px] mt-0.5">Emissão imediata de cotação formal com NIF para particulares ou empresas.</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 p-2 border-t md:border-t-0 md:border-l border-gray-100">
-            <div className="w-8 h-8 rounded-xl bg-[#236199] text-white flex items-center justify-center font-extrabold shrink-0 shadow-xs">
-              4
-            </div>
-            <div>
-              <strong className="block text-[#09172C] text-[13px] font-bold">Entrega VIP em Luanda</strong>
-              <p className="text-[#555B64] text-[11px] mt-0.5">Despacho com viatura selada e higienizada no Aeroporto ou Talatona.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* ═══════════════════════════════════════════════════════
             FLEET GRID (1 col mobile, 2 col tablet/desktop)
            ═══════════════════════════════════════════════════════ */}
         {filteredFleet.length === 0 ? (
