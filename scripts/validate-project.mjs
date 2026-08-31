@@ -38,7 +38,7 @@ const correctedFlyerImageHashes = {
   'nova-toyota-hiace': '8fa9463e8311c4c2d71cdce4e229805b34c1392f7b80aacf4a108d2a3bbc25a7',
   'mercedes-sprinter-atual': '5cdfecdc0d1a1215429b0a6024822d5d3259155bef341e7c4fa652666a522777',
   'nissan-patrol': '6d7a0e6547d40b1b456279533ada45e1e558a5db8878573b83e57efb28581492',
-  'novo-toyota-prado': 'ed4e8e693ea827d7308704ff36b6ffca09ddfb25980034009e6ea647a0bc147c',
+  'novo-toyota-prado': '0800e20a73a2eac983e82da1880d46f73dd639e75ec0838c590a7670d2c45176',
 };
 for (const [folder, expectedHash] of Object.entries(correctedFlyerImageHashes)) {
   const path = `public/fleet-flyer-2026/${folder}/01-oficial.webp`;
@@ -55,7 +55,7 @@ for (const component of [
   expect(fs.readFileSync(component, 'utf8').includes('/rent_car_hd/'), `Componente sem imagens HD: ${component}`);
 }
 
-for (const component of ['src/components/sections/Hero.tsx', 'src/components/sections/Services.tsx', 'src/components/sections/BookingWidget.tsx', 'src/components/fleet/BookingWizardModal.tsx']) {
+for (const component of ['src/components/sections/Hero.tsx', 'src/components/sections/BookingWidget.tsx', 'src/components/fleet/BookingWizardModal.tsx']) {
   expect(fs.readFileSync(component, 'utf8').includes('PUBLIC_FLEET'), `Componente não usa a frota pública dos flyers: ${component}`);
 }
 
@@ -68,11 +68,9 @@ expect(!bookingSource.includes("from('reservations')"), 'BookingWidget ainda gra
 expect(!fs.readFileSync('src/lib/ai.ts', 'utf8').includes('VITE_GEMINI_API_KEY'), 'Chave Gemini ainda é referenciada no frontend');
 
 const servicesSource = fs.readFileSync('src/components/sections/Services.tsx', 'utf8');
-expect(servicesSource.includes('PUBLIC_FLEET.map'), 'A vitrine de Serviços não percorre a frota oficial dos flyers');
 expect(!servicesSource.includes('images.unsplash.com'), 'A vitrine de Serviços contém imagens genéricas');
 expect(!servicesSource.includes('scrollIntoView'), 'O carrossel de Serviços pode provocar scroll vertical automático');
-expect(servicesSource.includes('rail.scrollTo'), 'O carrossel de Serviços não possui deslocamento horizontal controlado');
-expect(servicesSource.includes('6000'), 'O carrossel de Serviços não está configurado para rotação automática');
+expect(!servicesSource.includes('PUBLIC_FLEET.map'), 'A página de Serviços voltou a incluir o carrossel redundante da frota');
 const heroSource = fs.readFileSync('src/components/sections/Hero.tsx', 'utf8');
 expect(heroSource.includes('6000') && heroSource.includes('prefers-reduced-motion'), 'O carrossel principal não possui rotação automática e acessível');
 expect(!heroSource.includes('/fleet-carousel-generated/'), 'O hero ainda utiliza uma imagem exterior fora do catálogo oficial');

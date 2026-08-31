@@ -28,3 +28,7 @@ dist-ssr
 
 # Local review/quarantine artifacts (never deploy)
 work/
+
+# Raw fleet source material and local recanvas backups (never deploy)
+public/Carros PNG/
+public/fleet-flyer-2026/**/01-oficial.orig.webp

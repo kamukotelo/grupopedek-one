@@ -71,7 +71,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
          ═══════════════════════════════════════════════════════ */}
       <div
         style={{ backgroundImage: `url('${getVehicleStudioBackground(vehicle)}')` }}
-        className="relative aspect-[16/10] overflow-hidden bg-[#20558D] bg-cover bg-center border-b border-[#3A72A8] cursor-pointer select-none"
+        className="relative aspect-[16/9] overflow-hidden bg-[#20558D] bg-cover bg-center border-b border-[#3A72A8] cursor-pointer select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onInspect(vehicle)}
@@ -84,7 +84,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             '--fleet-image-scale': getFleetImageScale(vehicle.id),
             '--fleet-image-offset-y': getFleetImageOffsetY(vehicle.id),
           } as React.CSSProperties}
-          className={`fleet-vehicle-image absolute inset-0 h-full w-full object-bottom object-contain px-7 pt-7 pb-2 sm:px-9 sm:pt-9 sm:pb-3 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] ${
+          className={`fleet-vehicle-image absolute inset-0 h-full w-full object-bottom object-contain px-7 pt-4 pb-2 sm:px-9 sm:pt-5 sm:pb-2 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
           loading="lazy"

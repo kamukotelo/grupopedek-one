@@ -39,7 +39,7 @@ interface BookingWidgetProps {
 }
 
 export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isDemoMode, setIsPortalOpen } = useAuth();
   const [searchParams] = useSearchParams();
 
@@ -47,31 +47,31 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   const servicesList = [
     {
       id: 'rent-a-car',
-      title: 'Rent a Car Executivo',
-      subtitle: 'Diário, semanal ou mensal',
+      title: t('booking.serviceRent'),
+      subtitle: t('booking.serviceRentSubtitle'),
       icon: <Car className="w-6 h-6" />,
-      badge: 'Flexível'
+      badge: t('booking.serviceRentBadge')
     },
     {
       id: 'executive',
-      title: 'Apoio Executivo & Chauffeur',
-      subtitle: 'Motorista bilingue de protocolo',
+      title: t('booking.serviceExec'),
+      subtitle: t('booking.serviceExecSubtitle'),
       icon: <UserCheck className="w-6 h-6" />,
-      badge: 'Mais Solicitado'
+      badge: t('booking.serviceExecBadge')
     },
     {
       id: 'transfer',
-      title: 'Transfer Aeroporto VIP',
-      subtitle: 'Aeroporto 4 de Fevereiro / AIAAN',
+      title: t('booking.serviceTransfer'),
+      subtitle: t('booking.serviceTransferSubtitle'),
       icon: <Plane className="w-6 h-6" />,
-      badge: 'Meet & Greet'
+      badge: t('booking.serviceTransferBadge')
     },
     {
       id: 'corporate',
-      title: 'Gestão de Frota Corporativa',
-      subtitle: 'Faturação AGT a 30 dias',
+      title: t('booking.serviceCorp'),
+      subtitle: t('booking.serviceCorpSubtitle'),
       icon: <Building2 className="w-6 h-6" />,
-      badge: 'Embaixadas / Empresas'
+      badge: t('booking.serviceCorpBadge')
     }
   ];
 
@@ -157,7 +157,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         if (found) setSelectedVehicle(found);
       }
     } catch {
-      setAiResponse('A nossa direcção técnica disponibiliza soluções desde viaturas económicas a blindados de luxo. Contacte-nos para uma proposta personalizada.');
+      setAiResponse(t('booking.aiFallback'));
     } finally {
       setAiLoading(false);
     }
@@ -199,12 +199,12 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
       const receipt = await submitReservation(bookingPayload);
       setDirectorateDossier({
         protocolCode: receipt.protocolCode,
-        submissionDate: new Date().toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-        authStatus: 'Pedido Registado com Sucesso',
-        summary: `A ficha de requisição oficial nº ${receipt.protocolCode} foi registada para análise da Direcção de Operações PEPEK em Talatona. A disponibilidade final da viatura ${selectedVehicle.name} será confirmada pela equipa operacional.`
+        submissionDate: new Date().toLocaleDateString(i18n.language === 'fr' ? 'fr-FR' : i18n.language === 'en' ? 'en-GB' : 'pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        authStatus: t('booking.submittedStatus'),
+        summary: t('booking.dossierSummary', { code: receipt.protocolCode, vehicle: selectedVehicle.name })
       });
     } catch (err) {
-      setSubmissionError(err instanceof Error ? err.message : 'Não foi possível registar a reserva. Tente novamente ou use o WhatsApp.');
+      setSubmissionError(err instanceof Error ? err.message : t('booking.submitError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -223,7 +223,11 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         clientPhone: loginMethod === 'phone' ? clientIdentifier : '',
         clientEmail: loginMethod === 'email' ? clientIdentifier : '',
         companyName,
-        notes: `FICHA OFICIAL À DIRECÇÃO: ${directorateDossier.protocolCode} | Identificado via ${loginMethod}: ${clientIdentifier}`
+        notes: t('booking.whatsappNote', {
+          code: directorateDossier.protocolCode,
+          method: loginMethod === 'phone' ? t('booking.byPhone') : t('booking.byEmail'),
+          identifier: clientIdentifier,
+        })
       })
     : '';
 
@@ -234,15 +238,15 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         <div className="max-w-4xl mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#09172C] text-[#FEC228] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
             <Shield className="w-3.5 h-3.5" />
-            <span>Sistema Oficial de Reserva & Despacho</span>
+            <span>{t('booking.systemLabel')}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#09172C] tracking-tight mb-4">
-            Planeie a Sua Mobilidade com Confirmação Imediata
+            {t('booking.flowTitle')}
           </h2>
 
           <p className="text-sm sm:text-base text-[#555B64] leading-relaxed">
-            Selecione visualmente o serviço e a viatura pretendida da nossa frota executiva. Crie a sua ficha oficial de requisição com email ou telefone para despacho direto à Direcção de Operações.
+            {t('booking.flowSubtitle')}
           </p>
         </div>
 
@@ -253,7 +257,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
               {/* 1. Interactive Visual Service Cards */}
               <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#E2E8F0] shadow-xs">
                 <label className="block text-xs font-extrabold uppercase tracking-wider text-[#09172C] mb-4">
-                  1. Selecione o Tipo de Serviço Pretendido
+                  {t('booking.serviceStep')}
                 </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -290,9 +294,9 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
                     <label className="block text-xs font-extrabold uppercase tracking-wider text-[#09172C]">
-                      2. Escolha da Viatura
+                      {t('booking.vehicleStep')}
                     </label>
-                    <p className="text-xs text-[#555B64]">Clique na viatura para fixar no seu plano de mobilidade</p>
+                    <p className="text-xs text-[#555B64]">{t('booking.vehicleHint')}</p>
                   </div>
 
                   <button
@@ -301,7 +305,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     className="text-xs font-bold text-[#FEC228] bg-[#09172C] px-3 py-1.5 rounded-xl border border-[#FEC228]/30 hover:bg-[#09172C]/90 flex items-center gap-1.5 w-fit cursor-pointer"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-[#FEC228]" />
-                    <span>Dúvidas? Apoio Técnico IA</span>
+                    <span>{t('booking.aiButton')}</span>
                   </button>
                 </div>
 
@@ -311,7 +315,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-[#09172C] flex items-center gap-1.5">
                         <HelpCircle className="w-4 h-4 text-[#FEC228]" />
-                        <span>Apoio Técnico da Frota & Pedidos Especiais</span>
+                        <span>{t('booking.aiTitle')}</span>
                       </span>
                       <button onClick={() => setAiHelperOpen(false)} className="text-[#555B64] hover:text-[#09172C] font-bold">✕</button>
                     </div>
@@ -319,30 +323,30 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     <div className="flex flex-wrap gap-2">
                       <button
                         type="button"
-                        onClick={() => handleAiConsult('Qual a viatura ideal para Luanda vs Províncias?')}
+                        onClick={() => handleAiConsult(t('booking.aiProvince'))}
                         className="px-2.5 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#09172C] font-semibold hover:bg-gray-50"
                       >
-                        📍 Luanda vs. Províncias (Huambo/Bengo)
+                        📍 {t('booking.aiProvince')}
                       </button>
 
                       <button
                         type="button"
-                        onClick={() => handleAiConsult('Têm viaturas blindadas de alta segurança ou autocarros?')}
+                        onClick={() => handleAiConsult(t('booking.aiSpecial'))}
                         className="px-2.5 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#09172C] font-semibold hover:bg-gray-50"
                       >
-                        🛡️ Blindados / Autocarros Especiais
+                        🛡️ {t('booking.aiSpecial')}
                       </button>
 
                       <button
                         type="button"
-                        onClick={() => handleAiConsult('Quais os carros mais económicos para alugar?')}
+                        onClick={() => handleAiConsult(t('booking.aiEconomy'))}
                         className="px-2.5 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#09172C] font-semibold hover:bg-gray-50"
                       >
-                        💰 Económicos a partir de 44.999 Kz
+                        💰 {t('booking.aiEconomy')}
                       </button>
                     </div>
 
-                    {aiLoading && <p className="text-[#555B64] italic">A consultar a frota disponível...</p>}
+                    {aiLoading && <p className="text-[#555B64] italic">{t('booking.aiLoading')}</p>}
                     {aiResponse && (
                       <div className="p-3 bg-white rounded-xl border border-[#E2E8F0] text-[#09172C] leading-relaxed font-medium">
                         {aiResponse}
@@ -355,13 +359,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 <div className="relative">
                   <div className="mb-3 flex items-center justify-between gap-3">
                     <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#555B64]">
-                      Deslize ou use as setas para conhecer a seleção
+                      {t('booking.carouselHint')}
                     </p>
                     <div className="flex shrink-0 items-center gap-2">
-                      <button type="button" onClick={() => moveVehicleCarousel(-1)} aria-label="Viaturas anteriores" className="flex h-9 w-9 items-center justify-center rounded-full border border-[#236199]/40 bg-white text-[#001E4A] transition hover:border-[#FEC228] hover:bg-[#FEC228]">
+                      <button type="button" onClick={() => moveVehicleCarousel(-1)} aria-label={t('fleet.previous')} className="flex h-9 w-9 items-center justify-center rounded-full border border-[#236199]/40 bg-white text-[#001E4A] transition hover:border-[#FEC228] hover:bg-[#FEC228]">
                         <ChevronLeft className="h-4 w-4" />
                       </button>
-                      <button type="button" onClick={() => moveVehicleCarousel(1)} aria-label="Próximas viaturas" className="flex h-9 w-9 items-center justify-center rounded-full border border-[#236199]/40 bg-white text-[#001E4A] transition hover:border-[#FEC228] hover:bg-[#FEC228]">
+                      <button type="button" onClick={() => moveVehicleCarousel(1)} aria-label={t('fleet.next')} className="flex h-9 w-9 items-center justify-center rounded-full border border-[#236199]/40 bg-white text-[#001E4A] transition hover:border-[#FEC228] hover:bg-[#FEC228]">
                         <ChevronRight className="h-4 w-4" />
                       </button>
                     </div>
@@ -391,7 +395,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                         </div>
                         <div className="min-h-[70px] p-3.5">
                           <h5 className="line-clamp-2 text-sm font-bold leading-tight text-white">{v.name}</h5>
-                          <span className="mt-1.5 block text-xs font-bold text-[#FEC228]">{v.pricePerDayFormatted}/dia</span>
+                          <span className="mt-1.5 block text-xs font-bold text-[#FEC228]">{v.pricePerDayFormatted}/{t('fleet.day')}</span>
                         </div>
                       </button>
                     ))}
@@ -409,21 +413,21 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
                   <div className="w-full sm:w-1/2 space-y-2.5 text-xs">
                     <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#FEC228]">
-                      Viatura em Destaque no seu Pedido
+                      {t('booking.focusTag')}
                     </span>
                     <h4 className="text-lg font-bold text-white">{selectedVehicle.name}</h4>
                     <p className="text-gray-300 leading-relaxed line-clamp-2">{selectedVehicle.description}</p>
 
                     <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-[11px] text-gray-300">
-                      <div>Lotação: <strong className="text-white">{selectedVehicle.specs.passengers} Lugares</strong></div>
-                      <div>Portas: <strong className="text-white">{selectedVehicle.specs.doors}</strong></div>
-                      <div>Transmissão: <strong className="text-white">{selectedVehicle.specs.transmission}</strong></div>
-                      <div>Combustível: <strong className="text-white">{selectedVehicle.specs.fuelType}</strong></div>
+                      <div>{t('booking.capacity')}: <strong className="text-white">{selectedVehicle.specs.passengers} {t('fleet.seats')}</strong></div>
+                      <div>{t('booking.doors')}: <strong className="text-white">{selectedVehicle.specs.doors}</strong></div>
+                      <div>{t('booking.transmission')}: <strong className="text-white">{selectedVehicle.specs.transmission}</strong></div>
+                      <div>{t('booking.fuel')}: <strong className="text-white">{selectedVehicle.specs.fuelType}</strong></div>
                     </div>
 
                     <div className="pt-2 border-t border-white/10">
                       <span className="text-xl font-extrabold text-[#FEC228]">{selectedVehicle.pricePerDayFormatted}</span>
-                      <span className="text-[10px] text-gray-400 ml-1">por dia</span>
+                      <span className="text-[10px] text-gray-400 ml-1">{t('booking.perDay')}</span>
                     </div>
                   </div>
                 </div>
@@ -431,7 +435,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 {/* Regime Selector: With Driver vs Self-Drive */}
                 <div className="pt-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-2">
-                    Regime de Condução
+                    {t('booking.drivingMode')}
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
@@ -442,7 +446,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       }`}
                     >
                       <UserCheck className="w-4 h-4" />
-                      <span>Com Motorista Protocolar (+35.000 Kz/dia)</span>
+                      <span>{t('booking.withProtocolDriver')}</span>
                     </button>
                     {submissionError && (
                       <p role="alert" className="rounded-xl border border-[#E4AD28] bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">
@@ -458,7 +462,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       }`}
                     >
                       <Car className="w-4 h-4" />
-                      <span>Livre Condução (Self-Drive)</span>
+                      <span>{t('booking.selfDrive')}</span>
                     </button>
                   </div>
                 </div>
@@ -467,7 +471,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-1.5">
-                      Local / Província
+                      {t('booking.locationProvince')}
                     </label>
                     <div className="relative">
                       <MapPin className="w-4 h-4 text-[#555B64] absolute left-3 top-3.5" />
@@ -483,7 +487,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-1.5">
-                      Data de Início
+                      {t('booking.startDate')}
                     </label>
                     <input
                       type="date"
@@ -496,7 +500,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-1.5">
-                      Data de Devolução
+                      {t('booking.returnDate')}
                     </label>
                     <input
                       type="date"
@@ -515,15 +519,15 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
               <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E2E8F0] shadow-md">
                 <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#FEC228] mb-1">
                   <Shield className="w-4 h-4 text-[#FEC228]" />
-                  <span>Identificação do Requisitante</span>
+                  <span>{t('booking.requesterId')}</span>
                 </div>
 
                 <h3 className="text-xl font-bold text-[#09172C] mb-2">
-                  Ficha Oficial para a Direcção
+                  {t('booking.officialForm')}
                 </h3>
 
                 <p className="text-xs text-[#555B64] leading-relaxed mb-5">
-                  Para emissão do protocolo formal, identifique-se por email ou telemóvel.
+                  {t('booking.identificationIntro')}
                 </p>
 
                 {/* Login Method Toggle: Phone vs Email */}
@@ -536,7 +540,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     }`}
                   >
                     <Phone className="w-3.5 h-3.5" />
-                    <span>Por Telemóvel</span>
+                    <span>{t('booking.byPhone')}</span>
                   </button>
 
                   <button
@@ -547,7 +551,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     }`}
                   >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>Por E-mail</span>
+                    <span>{t('booking.byEmail')}</span>
                   </button>
                 </div>
 
@@ -555,7 +559,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 <form onSubmit={handleGenerateOfficialDossier} className="space-y-3.5 text-xs">
                   <div>
                     <label className="block font-bold text-[#09172C] mb-1">
-                      {loginMethod === 'phone' ? 'Número de Telemóvel / WhatsApp' : 'E-mail Institucional ou Particular'}
+                      {loginMethod === 'phone' ? t('booking.phoneLabel') : t('booking.emailLabel')}
                     </label>
                     <input
                       type={loginMethod === 'phone' ? 'tel' : 'email'}
@@ -569,13 +573,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
                   <div>
                     <label className="block font-bold text-[#09172C] mb-1">
-                      Nome Completo do Responsável
+                      {t('booking.responsibleName')}
                     </label>
                     <input
                       type="text"
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
-                      placeholder="ex: Dr. Carlos Mendes"
+                      placeholder={t('booking.namePlaceholder')}
                       className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                       required
                     />
@@ -583,30 +587,30 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
 
                   <div>
                     <label className="block font-bold text-[#09172C] mb-1">
-                      Entidade / Embaixada / Empresa (Opcional)
+                      {t('booking.entityLabel')}
                     </label>
                     <input
                       type="text"
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
-                      placeholder="ex: Embaixada / Sonangol / Particular"
+                      placeholder={t('booking.entityPlaceholder')}
                       className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                     />
                   </div>
 
                   <p className="rounded-xl border border-[#236199]/20 bg-[#236199]/5 p-3 text-[11px] leading-relaxed text-[#09172C]">
-                    Para sua segurança, não envie NIF, passaporte ou carta de condução neste pedido. A equipa solicitará documentos apenas após a confirmação, por canal autorizado.
+                    {t('booking.privacyNotice')}
                   </p>
 
                   <div>
                     <label className="block font-bold text-[#09172C] mb-1">
-                      Observações ou Requisitos Especiais
+                      {t('booking.specialNotes')}
                     </label>
                     <textarea
                       rows={2}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      placeholder="ex: Necessidade de escolta, número de voo, cadeiras de criança... Não inclua documentos pessoais."
+                      placeholder={t('booking.notesPlaceholder')}
                       className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                     />
                   </div>
@@ -618,7 +622,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       className="w-full py-3.5 px-6 bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md"
                     >
                       <FileText className="w-4 h-4" />
-                      <span>{isSubmitting ? 'A submeter à Direcção...' : 'Submeter Ficha Oficial à Direcção'}</span>
+                      <span>{isSubmitting ? t('booking.sendingOfficial') : t('booking.submitOfficial')}</span>
                     </button>
                   </div>
                 </form>
@@ -628,10 +632,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
               <div className="bg-[#09172C] text-white p-5 rounded-2xl text-xs space-y-2 border border-white/10">
                 <div className="flex items-center gap-2 text-[#FEC228] font-bold">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Tratamento Institucional com Sigilo Absoluto</span>
+                  <span>{t('booking.confidentialityTitle')}</span>
                 </div>
                 <p className="text-gray-400 leading-relaxed text-[11px]">
-                  Todas as requisições enviadas à Direcção de Operações PEPEK são tratadas com sigilo diplomático, confirmação telefónica e viatura em prontidão na base de Talatona.
+                  {t('booking.confidentialityText')}
                 </p>
               </div>
             </div>
@@ -646,10 +650,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-[#09172C]">
-                  Ficha Oficial de Requisição nº {directorateDossier.protocolCode}
+                  {t('booking.dossierTitle', { code: directorateDossier.protocolCode })}
                 </h3>
                 <p className="text-xs text-[#555B64] mt-1">
-                  Emitida em: {directorateDossier.submissionDate} · Sede Talatona, Luanda
+                  {t('booking.issuedAt', { date: directorateDossier.submissionDate })}
                 </p>
               </div>
 
@@ -663,27 +667,27 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-[#555B64] bg-[#F5F6F6] p-6 rounded-2xl border border-[#E2E8F0]">
               <div className="space-y-2">
                 <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] border-b pb-1">
-                  1. Dados do Requisitante / Entidade
+                  {t('booking.requesterSection')}
                 </h5>
-                <div>Nome / Responsável: <strong className="text-[#09172C]">{clientName}</strong></div>
-                {companyName && <div>Entidade / Embaixada: <strong className="text-[#09172C]">{companyName}</strong></div>}
-                <div>Credencial ({loginMethod}): <strong className="text-[#09172C]">{clientIdentifier}</strong></div>
+                <div>{t('booking.nameResponsible')}: <strong className="text-[#09172C]">{clientName}</strong></div>
+                {companyName && <div>{t('booking.entityEmbassy')}: <strong className="text-[#09172C]">{companyName}</strong></div>}
+                <div>{t('booking.credential')} ({loginMethod === 'phone' ? t('booking.byPhone') : t('booking.byEmail')}): <strong className="text-[#09172C]">{clientIdentifier}</strong></div>
               </div>
 
               <div className="space-y-2">
                 <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] border-b pb-1">
-                  2. Especificação da Frota e Itinerário
+                  {t('booking.fleetSection')}
                 </h5>
-                <div>Viatura Pré-Alocada: <strong className="text-[#FEC228]">{selectedVehicle.name}</strong></div>
-                <div>Tarifa Diária: <strong className="text-[#09172C]">{selectedVehicle.pricePerDayFormatted}</strong></div>
-                <div>Regime: <strong className="text-[#09172C]">{withDriver ? 'Com Motorista Protocolar Bilingue (+35.000 Kz/dia)' : 'Livre Condução'}</strong></div>
-                <div>Local de Partida: <strong className="text-[#09172C]">{pickupLocation}</strong></div>
-                <div>Período: <strong className="text-[#09172C]">{startDate} até {endDate || 'A combinar'}</strong></div>
+                <div>{t('booking.preallocatedVehicle')}: <strong className="text-[#FEC228]">{selectedVehicle.name}</strong></div>
+                <div>{t('booking.dailyRate')}: <strong className="text-[#09172C]">{selectedVehicle.pricePerDayFormatted}</strong></div>
+                <div>{t('booking.regime')}: <strong className="text-[#09172C]">{withDriver ? t('booking.withProtocolDriver') : t('booking.selfDrive')}</strong></div>
+                <div>{t('booking.departure')}: <strong className="text-[#09172C]">{pickupLocation}</strong></div>
+                <div>{t('booking.period')}: <strong className="text-[#09172C]">{startDate} {t('booking.until')} {endDate || t('booking.toArrange')}</strong></div>
               </div>
             </div>
 
             <p className="text-xs text-[#555B64] leading-relaxed">
-              {directorateDossier.summary} O processo está aberto e registado. Pode aguardar o contacto do nosso director de frota ou acelerar a validação imediata enviando a ficha assinada para o WhatsApp.
+              {directorateDossier.summary} {t('booking.dossierClosing')}
             </p>
 
             {/* Action Buttons */}
@@ -693,7 +697,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 onClick={() => setDirectorateDossier(null)}
                 className="text-xs font-bold text-[#555B64] hover:text-[#09172C] cursor-pointer"
               >
-                ← Criar Nova Ficha de Requisição
+                ← {t('booking.newRequest')}
               </button>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -704,7 +708,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                     className="w-full sm:w-auto px-6 py-3 bg-[#09172C] hover:bg-[#236199] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
                   >
                     <FileText className="w-4 h-4" />
-                    <span>Continuar para Portal & Fatura Demo</span>
+                    <span>{t('booking.portalInvoice')}</span>
                   </button>
                 )}
                 <a
@@ -714,7 +718,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   className="w-full sm:w-auto px-6 py-3 bg-[#236199] hover:bg-[#0C2E60] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
                 >
                   <Phone className="w-4 h-4" />
-                  <span>Acelerar Despacho via WhatsApp Direcção</span>
+                  <span>{t('booking.whatsappDispatch')}</span>
                 </a>
               </div>
             </div>
