@@ -45,6 +45,14 @@ for (const [folder, expectedHash] of Object.entries(correctedFlyerImageHashes)) 
   const actualHash = crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
   expect(actualHash === expectedHash, `Imagem oficial incoerente com o catálogo PDF: ${folder}`);
 }
+// O catálogo do chatbot (api/_fleet-catalog.js, usado por api/ai.js) tem de
+// refletir a frota comercial atual — regenerar com "npm run gen:ai".
+const flyerVehicleIds = [...flyerFleetSource.matchAll(/\bid:\s*'([a-z0-9-]+)'[^}]*?image:\s*'/g)].map(match => match[1]);
+const aiCatalogSource = fs.existsSync('api/_fleet-catalog.js') ? fs.readFileSync('api/_fleet-catalog.js', 'utf8') : '';
+const aiCatalogIds = [...aiCatalogSource.matchAll(/"id":"([a-z0-9-]+)"/g)].map(match => match[1]);
+expect(aiCatalogIds.length === flyerVehicleIds.length, `api/_fleet-catalog.js tem ${aiCatalogIds.length} viaturas; esperadas ${flyerVehicleIds.length} — corre "npm run gen:ai"`);
+expect(flyerVehicleIds.every(id => aiCatalogIds.includes(id)), 'api/_fleet-catalog.js está desatualizado face a fleetFlyer2026.ts — corre "npm run gen:ai"');
+
 expect(flyerFleetSource.includes('export const PUBLIC_FLEET = FLYER_FLEET_2026'), 'A frota pública não aponta para os flyers oficiais');
 expect(!flyerFleetSource.includes('studioFrames'), 'A frota pública ainda inclui vistas exteriores antigas fora do catálogo oficial');
 
