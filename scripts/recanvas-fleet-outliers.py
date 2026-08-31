@@ -9,15 +9,20 @@ viatura ficam 1:1, sem perda) e colamo-la numa tela transparente 16/9, centrada
 na horizontal e assente na base. Assim o `object-contain` passa a encaixar pela
 largura e a escala fica perto de 1.0.
 
-O ficheiro original é guardado em 01-oficial.orig.webp (só na 1.ª vez).
+IDEMPOTÊNCIA: NÃO é idempotente. Recorta sempre a bbox opaca da imagem ATUAL,
+por isso correr duas vezes encolhe a moldura transparente a cada passagem.
+Antes de re-executar: `git checkout HEAD -- public/fleet-flyer-2026/<slug>/01-oficial.webp`
+para partir do ficheiro pristino. (Guardar em .orig.webp foi descartado porque
+public/ é publicado em dist/.)
 """
 import pathlib
 from PIL import Image
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
+# suzuki-s-presso NÃO entra: o recorte é quase quadrado (asp ~1.5, provável
+# foto em 3/4) e re-enquadrar não ajuda — ficaria alto demais para a moldura.
 TARGETS = [
-    "suzuki-s-presso",
     "mercedes-g63-atual",
     "range-rover-blindado-2025",
     "novo-toyota-prado",
@@ -32,14 +37,11 @@ BOTTOM_MARGIN = 0.05  # folga por baixo da viatura
 for slug in TARGETS:
     d = ROOT / "public/fleet-flyer-2026" / slug
     src = d / "01-oficial.webp"
-    backup = d / "01-oficial.orig.webp"
     if not src.exists():
         print(f"# FALTA {src}")
         continue
-    if not backup.exists():
-        Image.open(src).save(backup, "WEBP", lossless=True, quality=100)
 
-    im = Image.open(backup if backup.exists() else src).convert("RGBA")
+    im = Image.open(src).convert("RGBA")
     bbox = im.getbbox()
     car = im.crop(bbox)
     cw, ch = car.size
