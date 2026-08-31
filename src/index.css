@@ -110,13 +110,14 @@
 ::-webkit-scrollbar-thumb { background: var(--royal); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--royal-dark); }
 
-/* Imagens oficiais da frota: o ficheiro mantém a sua proporção e a viatura
-   fica sempre assente na base do cartão (object-bottom). A escala cresce a
-   partir do chão, por isso as rodas nunca são cortadas e o hover só ganha
-   altura livre acima — resolve o corte da imagem ao aproximar o rato. */
+/* Imagens oficiais da frota: o ficheiro mantém a sua proporção e a escala
+   cresce a partir da base (transform-origin), por isso as rodas não cortam.
+   NOTA: só mexemos em `scale`. A propriedade `translate` fica para a classe
+   `.is-card` — no Tailwind v4 as utilitárias `-translate-x-1/2` / `translate-y-*`
+   usam a propriedade `translate`, e defini-la aqui partia o Hero (viatura
+   descentrada). */
 .fleet-vehicle-image {
   scale: var(--fleet-image-scale, 1.12);
-  translate: 0 var(--fleet-image-offset-y, 0%);
   transform-origin: center bottom;
   transition: scale 500ms var(--motion-ease), translate 500ms var(--motion-ease);
 }
@@ -125,11 +126,15 @@
   scale: calc(var(--fleet-image-scale, 1.12) * 1.02);
 }
 
-/* Nos carrosséis a moldura é pequena: escala a partir do centro (sem "chão")
-   e sem deslocamento vertical, para a viatura ficar centrada e não cortar. */
+/* Só os cards do /frota (VehicleCard) assentam a viatura na base e usam o
+   deslocamento vertical para encostar as rodas ao fundo do cartão. */
+.fleet-vehicle-image.is-card {
+  translate: 0 var(--fleet-image-offset-y, 0%);
+}
+
+/* Nos carrosséis a moldura é pequena: escala a partir do centro (sem "chão"). */
 .fleet-vehicle-image.is-carousel {
   transform-origin: center;
-  translate: 0 0;
 }
 .group:hover .fleet-vehicle-image.is-carousel {
   scale: calc(var(--fleet-image-scale, 1) * 1.03);

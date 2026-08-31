@@ -84,7 +84,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             '--fleet-image-scale': getFleetImageScale(vehicle.id),
             '--fleet-image-offset-y': getFleetImageOffsetY(vehicle.id),
           } as React.CSSProperties}
-          className={`fleet-vehicle-image absolute inset-0 h-full w-full object-bottom object-contain px-7 pt-4 pb-2 sm:px-9 sm:pt-5 sm:pb-2 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] ${
+          className={`fleet-vehicle-image is-card absolute inset-0 h-full w-full object-bottom object-contain px-7 pt-4 pb-2 sm:px-9 sm:pt-5 sm:pb-2 drop-shadow-[0_18px_16px_rgba(9,23,44,0.45)] ${
             isHovered && verifiedSecondaryImage ? 'opacity-0' : 'opacity-100'
           }`}
           loading="lazy"
