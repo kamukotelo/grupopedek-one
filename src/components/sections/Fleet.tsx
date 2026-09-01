@@ -30,6 +30,8 @@ interface FleetProps {
   onSelectVehicle?: (vehicleName: string) => void;
 }
 
+const ANGOLA_PROVINCES = ['Bengo', 'Benguela', 'Bié', 'Cabinda', 'Cuando', 'Cuanza Norte', 'Cuanza Sul', 'Cunene', 'Cubango', 'Huambo', 'Huíla', 'Icolo e Bengo', 'Luanda', 'Lunda Norte', 'Lunda Sul', 'Malanje', 'Moxico', 'Moxico Leste', 'Namibe', 'Uíge', 'Zaire'];
+
 export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,6 +46,10 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   const [heroPickupLocation, setHeroPickupLocation] = useState('Aeroporto Internacional 4 de Fevereiro (LAD)');
   const [heroDropoffLocation, setHeroDropoffLocation] = useState('Hub Central Pepek Talatona');
   const [heroDifferentDropoff, setHeroDifferentDropoff] = useState(false);
+  const [heroPickupAddress, setHeroPickupAddress] = useState('');
+  const [heroDropoffAddress, setHeroDropoffAddress] = useState('');
+  const [heroPickupProvince, setHeroPickupProvince] = useState('Luanda');
+  const [heroDropoffProvince, setHeroDropoffProvince] = useState('Luanda');
   const [heroPickupDate, setHeroPickupDate] = useState(() => {
     return new Date(Date.now() + 86400000).toISOString().split('T')[0];
   });
@@ -194,6 +200,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
                 <option value="Hotel Epic Sana Luanda" className="text-gray-900">Hotel Epic Sana Luanda</option>
                 <option value="Miramar / Embaixadas" className="text-gray-900">Miramar / Embaixadas</option>
                 <option value="Outro Endereço em Luanda" className="text-gray-900">{t('fleet.otherLuandaAddress')}</option>
+                <option value="Outra Província de Angola" className="text-gray-900">Outra Província de Angola</option>
               </select>
             </div>
 
@@ -213,6 +220,7 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
                   <option value="Aeroporto Internacional 4 de Fevereiro (LAD)" className="text-gray-900">Aeroporto 4 de Fevereiro (LAD)</option>
                   <option value="Hotel Epic Sana Luanda" className="text-gray-900">Hotel Epic Sana Luanda</option>
                   <option value="Outro Endereço em Luanda" className="text-gray-900">{t('fleet.otherLuandaAddress')}</option>
+                  <option value="Outra Província de Angola" className="text-gray-900">Outra Província de Angola</option>
                 </select>
               ) : (
                 <div className="truncate rounded-xl border border-[#236199]/70 bg-[#0C2E60]/75 p-3 text-xs text-white/70">
@@ -249,6 +257,21 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
               />
             </div>
           </div>
+          {(heroPickupLocation === 'Outro Endereço em Luanda' || heroPickupLocation === 'Outra Província de Angola' || (heroDifferentDropoff && (heroDropoffLocation === 'Outro Endereço em Luanda' || heroDropoffLocation === 'Outra Província de Angola'))) && (
+            <div className="mt-4 grid gap-4 rounded-2xl border border-[#FEC228]/30 bg-[#001E4A]/55 p-4 sm:grid-cols-2">
+              {(heroPickupLocation === 'Outro Endereço em Luanda' || heroPickupLocation === 'Outra Província de Angola') && <div>
+                <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-[#FEC228]">Local exato de levantamento</p>
+                {heroPickupLocation === 'Outra Província de Angola' && <select value={heroPickupProvince} onChange={(e) => setHeroPickupProvince(e.target.value)} className="mb-2 w-full rounded-xl border border-[#3A73A8] bg-[#174B86] p-3 text-xs font-semibold text-white outline-none">{ANGOLA_PROVINCES.map((province) => <option key={province} value={province}>{province}</option>)}</select>}
+                <input value={heroPickupAddress} onChange={(e) => setHeroPickupAddress(e.target.value)} placeholder={heroPickupLocation === 'Outra Província de Angola' ? `Município, bairro ou referência em ${heroPickupProvince}` : 'Município, bairro, rua ou ponto de referência em Luanda'} className="w-full rounded-xl border border-[#3A73A8] bg-white p-3 text-xs font-semibold text-[#09172C] outline-none focus:ring-2 focus:ring-[#FEC228]" />
+              </div>}
+              {heroDifferentDropoff && (heroDropoffLocation === 'Outro Endereço em Luanda' || heroDropoffLocation === 'Outra Província de Angola') && <div>
+                <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-[#FEC228]">Local exato de devolução</p>
+                {heroDropoffLocation === 'Outra Província de Angola' && <select value={heroDropoffProvince} onChange={(e) => setHeroDropoffProvince(e.target.value)} className="mb-2 w-full rounded-xl border border-[#3A73A8] bg-[#174B86] p-3 text-xs font-semibold text-white outline-none">{ANGOLA_PROVINCES.map((province) => <option key={province} value={province}>{province}</option>)}</select>}
+                <input value={heroDropoffAddress} onChange={(e) => setHeroDropoffAddress(e.target.value)} placeholder={heroDropoffLocation === 'Outra Província de Angola' ? `Município, bairro ou referência em ${heroDropoffProvince}` : 'Município, bairro, rua ou ponto de referência em Luanda'} className="w-full rounded-xl border border-[#3A73A8] bg-white p-3 text-xs font-semibold text-[#09172C] outline-none focus:ring-2 focus:ring-[#FEC228]" />
+              </div>}
+              <p className="text-[11px] leading-5 text-white/65 sm:col-span-2">Recolhas e entregas fora de Luanda ficam sujeitas à confirmação operacional e ao cálculo da deslocação.</p>
+            </div>
+          )}
         </div>
 
         {/* ═══════════════════════════════════════════════════════

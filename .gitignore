@@ -32,3 +32,8 @@ work/
 # Raw fleet source material and local recanvas backups (never deploy)
 public/Carros PNG/
 public/fleet-flyer-2026/**/01-oficial.orig.webp
+
+# Vídeos originais locais; apenas versões *-web.mp4 são publicadas
+public/videos/*.mov
+public/videos/img-1872.mp4
+supabase/.temp/

@@ -7,6 +7,7 @@ import {
   Briefcase,
   ChevronRight,
   Compass,
+  Newspaper,
   Menu,
   Phone,
   Ticket,
@@ -60,6 +61,7 @@ export const Header: React.FC = () => {
     { to: '/frota', label: t('nav.fleet'), icon: FleetCarIcon },
     { to: '/clientes', label: t('nav.clients'), icon: Users },
     { to: '/rotas', label: t('nav.routes'), icon: Compass },
+    { to: '/blogue', label: t('nav.blog'), icon: Newspaper },
     { to: '/contactos', label: t('nav.contact'), icon: Phone },
   ];
 

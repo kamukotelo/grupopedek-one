@@ -204,7 +204,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 
           <div className="mb-4 flex items-center gap-2 rounded-xl border border-[#FEC228]/40 bg-[#174B86]/55 px-3 py-2 text-[11px] text-white">
             <ShieldCheck className="w-4 h-4 shrink-0 text-[#FEC228]" />
-            <span className="font-medium">Seguro Total VIP · Motorista Opcional · Apoio 24h</span>
+            <span className="font-medium">Seguro</span>
           </div>
         </div>
 

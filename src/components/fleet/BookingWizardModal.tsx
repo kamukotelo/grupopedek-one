@@ -694,7 +694,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <div className="pt-3 border-t-2 border-[#09172C] flex items-center justify-between">
                   <div>
                     <span className="text-xs text-[#555B64] font-bold uppercase tracking-wider block">Total Estimado da Reserva:</span>
-                    <span className="text-[11px] text-[#236199] font-semibold">Inclui Seguro Total VIP e Apoio 24h</span>
+                    <span className="text-[11px] text-[#236199] font-semibold">Seguro</span>
                   </div>
                   <div className="text-right">
                     <span className="text-2xl font-extrabold text-[#09172C]">
