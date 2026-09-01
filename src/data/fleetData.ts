@@ -171,9 +171,9 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'range-rover-novo-modelo',
     slug: 'range-rover-novo-modelo',
-    name: 'Range Rover Autobiography L460',
+    name: 'Range Rover Autobiography 2026',
     brand: 'Land Rover',
-    model: 'Range Rover Autobiography L460',
+    model: 'Range Rover Autobiography 2026',
     year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',
@@ -432,9 +432,9 @@ export const FLEET_DATABASE: VehicleDetail[] = [
   {
     id: 'toyota-lc300-2023',
     slug: 'toyota-lc300-2023',
-    name: 'Toyota LC300 Twin Turbo',
+    name: 'Toyota LC300 2026',
     brand: 'Toyota',
-    model: 'LC300 Twin Turbo',
+    model: 'Land Cruiser 300',
     year: '2026',
     category: 'luxo',
     categoryLabel: 'Luxo e Executivo',

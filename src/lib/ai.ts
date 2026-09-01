@@ -162,8 +162,8 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
     }
 
     return {
-      message: 'O Toyota LC300 Twin Turbo e o Novo Prado têm 7 lugares confortáveis, tracção integral 4WD, caixa automática, climatização independente e acabamentos topo de gama.',
-      recommendedVehicle: 'Toyota LC300 Twin Turbo',
+      message: 'O Toyota LC300 2026 e o Novo Prado têm 7 lugares confortáveis, tracção integral 4WD, caixa automática, climatização independente e acabamentos topo de gama.',
+      recommendedVehicle: 'Toyota LC300 2026',
       suggestedQuickReplies: ['Ver Toyota LC300', 'Ver Novo Prado', 'Consultar Outra Viatura']
     };
   }
