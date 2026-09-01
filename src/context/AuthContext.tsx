@@ -4,6 +4,7 @@ import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus 
 import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
 import { supabase } from '../lib/supabase';
 import { getPortalPermissions } from '../lib/portalPermissions';
+import { fetchProtectedPortalData } from '../lib/portalData';
 
 // Demo can be enabled explicitly in an isolated staging deployment. Keep the
 // public production project without VITE_DEMO_MODE to protect staff personas.
@@ -134,15 +135,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     const permissions = getPortalPermissions(currentUser.role);
-    const [invoiceResult, fleetResult] = await Promise.all([
-      permissions.finances
-        ? supabase.from('invoices').select('*').order('created_at', { ascending: false })
-        : Promise.resolve({ data: [], error: null }),
-      permissions.fleet
-        ? supabase.from('fleet_assignments').select('*').order('created_at', { ascending: false })
-        : Promise.resolve({ data: [], error: null }),
-    ]);
-    if (!invoiceResult.error) setInvoices((invoiceResult.data || []).map((row: any) => ({
+    try {
+      const protectedData = await fetchProtectedPortalData();
+      setInvoices((permissions.finances ? protectedData.invoices : []).map((row: any) => ({
       id: row.id,
       invoiceNumber: row.invoice_number,
       date: row.issue_date,
@@ -154,8 +149,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       description: row.description,
       paymentGateway: row.payment_gateway || 'Transferência SWIFT',
       odooInvoiceId: row.odoo_invoice_id,
-    })));
-    if (!fleetResult.error) setFleetTelemetry((fleetResult.data || []).map((row: any) => ({
+      })));
+      setFleetTelemetry((permissions.fleet ? protectedData.fleetTelemetry : []).map((row: any) => ({
       id: row.id,
       vehicleName: row.vehicle_name,
       plateNumber: row.plate_number,
@@ -166,7 +161,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       mileageKm: Number(row.mileage_km || 0),
       driverName: row.driver_name,
       driverPhone: row.driver_phone,
-    })));
+      })));
+    } catch {
+      // Fail closed: protected records are never replaced with embedded data
+      // when the authenticated server endpoint is unavailable.
+      setInvoices([]);
+      setFleetTelemetry([]);
+    }
   }, [currentUser, isDemoSession]);
 
   useEffect(() => {
