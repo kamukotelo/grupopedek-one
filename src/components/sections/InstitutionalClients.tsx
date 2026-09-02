@@ -13,7 +13,7 @@ export const InstitutionalClients: React.FC = () => {
     { name: 'TAAG Linhas Aéreas', src: '/carrousel/TAAGG-150x78.webp' },
     { name: 'Banco BFA', src: '/carrousel/BFA-BANCO-DE-ANGOLA-150x78.webp' },
 
-    { name: 'Banco Atlântico', src: '/carrousel/ATLANTICO-LOGO-MARCA-CLIENTE-DA-RENT-A-CAR-PEPEK-150x78.webp' },
+    { name: 'Banco Atlântico', src: '/clients-color/atlantico-oficial.png' },
     { name: 'Standard Bank', src: '/carrousel/standard-150x78.webp' },
     { name: 'UNICEF Angola', src: '/carrousel/UNICEF-TA-BEM-BOM-150x78.webp' },
     { name: 'Fidelidade Seguros', src: '/carrousel/fidelidade-150x78.webp' },

@@ -35,7 +35,7 @@ export const Hero: React.FC = () => {
     { name: 'ANPG Petróleos', src: '/clients-color/anpg.png' },
     { name: 'TAAG Linhas Aéreas', src: '/clients-color/taag.png' },
     { name: 'Banco BFA', src: '/clients-color/bai.svg' },
-    { name: 'Banco Atlântico', src: '/clients-color/atlantico.png' },
+    { name: 'Banco Atlântico', src: '/clients-color/atlantico-oficial.png' },
     { name: 'Standard Bank', src: '/clients-color/standard.png' },
     { name: 'UNICEF Angola', src: '/clients-color/unicef.png' },
     { name: 'Fidelidade Seguros', src: '/clients-color/fidelidade.png' },
