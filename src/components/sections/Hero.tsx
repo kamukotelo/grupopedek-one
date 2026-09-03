@@ -53,6 +53,7 @@ export const Hero: React.FC = () => {
   const [isStoryPlaying, setIsStoryPlaying] = useState(true);
   const [isStoryMuted, setIsStoryMuted] = useState(true);
   const storyVideoRef = useRef<HTMLVideoElement>(null);
+  const storyPointerStartX = useRef<number | null>(null);
   const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
   const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'on_request' | 'unavailable' | 'unknown'>('idle');
   const [pickup, setPickup] = useState('');
@@ -126,6 +127,16 @@ export const Hero: React.FC = () => {
     setIsStoryPlaying(true);
   };
 
+  const changeStory = (direction: -1 | 1) => {
+    setCurrentStory((story) => (story + direction + homepageStories.length) % homepageStories.length);
+    setIsStoryPlaying(true);
+  };
+
+  const visibleStories = [-1, 0, 1].map((offset) => ({
+    position: offset,
+    index: (currentStory + offset + homepageStories.length) % homepageStories.length,
+  }));
+
   const handleQuickAvailability = async (event: React.FormEvent) => {
     event.preventDefault();
     const vehicle = luxuryHeroVehicles[currentLuxury];
@@ -170,10 +181,10 @@ export const Hero: React.FC = () => {
       </div>
 
       <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
-        {/* Editorial video window: the four stories from the blog play in sequence. */}
-        <div data-home-video-showcase className="group relative mb-7 w-full max-w-4xl overflow-hidden rounded-[24px] border border-white/15 bg-[#07182F]/95 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn">
-          <div className="grid min-h-[170px] grid-cols-[minmax(0,1fr)_138px] sm:min-h-[190px] sm:grid-cols-[minmax(0,1fr)_230px] lg:grid-cols-[minmax(0,1fr)_300px]">
-            <div className="relative z-10 flex min-w-0 flex-col justify-between p-5 sm:p-6">
+        {/* Vertical stories carousel: portrait videos remain visible in their native format. */}
+        <div data-home-video-showcase className="group relative mb-7 w-full max-w-4xl overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-4 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5">
+          <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(220px,.72fr)_minmax(430px,1.28fr)] lg:gap-5">
+            <div className="relative z-10 order-2 flex min-w-0 flex-col justify-between px-1 py-1 sm:px-2 sm:py-2 lg:order-1">
               <div>
                 <p className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#FEC228] sm:text-xs">
                   <ShieldCheck className="h-4 w-4 shrink-0" />
@@ -182,9 +193,10 @@ export const Hero: React.FC = () => {
                 <h2 className="mt-3 max-w-lg text-lg font-extrabold leading-tight !text-white sm:text-2xl">
                   {homepageStories[currentStory].title}
                 </h2>
-                <p className="mt-2 hidden text-sm text-white/60 sm:block">{t('hero.tag')} · Luanda, Angola</p>
+                <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">{t('hero.tag')} · Luanda, Angola</p>
               </div>
-              <div className="mt-4 flex items-center gap-2">
+
+              <div className="mt-4 flex flex-wrap items-center gap-2">
                 {homepageStories.map((story, index) => (
                   <button
                     key={story.id}
@@ -195,41 +207,79 @@ export const Hero: React.FC = () => {
                     className={`h-1.5 rounded-full transition-all duration-300 ${currentStory === index ? 'w-8 bg-[#FEC228]' : 'w-3 bg-white/30 hover:bg-white/60'}`}
                   />
                 ))}
-                <button type="button" onClick={() => navigate(`/blogue#${homepageStories[currentStory].id}`)} className="ml-1 hidden items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-white/75 transition hover:text-[#FEC228] sm:inline-flex">
+                <button type="button" onClick={() => navigate(`/blogue#${homepageStories[currentStory].id}`)} className="ml-1 inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-white/75 transition hover:text-[#FEC228]">
                   {t('hero.videoViewBlog')} <ChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
 
-            <div className="relative overflow-hidden border-l border-white/10 bg-black/35">
-              <video
-                key={homepageStories[currentStory].video}
-                ref={storyVideoRef}
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                autoPlay
-                muted={isStoryMuted}
-                playsInline
-                preload="metadata"
-                onPlay={() => setIsStoryPlaying(true)}
-                onPause={() => setIsStoryPlaying(false)}
-                onTimeUpdate={(event) => {
-                  if (event.currentTarget.currentTime >= 12 && !event.currentTarget.dataset.previewComplete) {
-                    event.currentTarget.dataset.previewComplete = 'true';
-                    setCurrentStory((story) => (story + 1) % homepageStories.length);
-                    setIsStoryPlaying(true);
-                  }
-                }}
-                onEnded={() => { setCurrentStory((story) => (story + 1) % homepageStories.length); setIsStoryPlaying(true); }}
-                aria-label={`${t('hero.videoNowPlaying')}: ${homepageStories[currentStory].title}`}
-              >
-                <source src={homepageStories[currentStory].video} type="video/mp4" />
-              </video>
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07182F]/45 via-transparent to-transparent" />
-              <div className="absolute bottom-3 right-3 flex gap-2">
-                <button type="button" onClick={toggleStoryPlayback} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-[#001E4A]/85 text-white backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]" aria-label={isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')}>
+            <div
+              className="relative order-1 h-[300px] touch-pan-y select-none overflow-hidden rounded-[22px] border border-white/10 bg-[#001E4A]/70 p-2 sm:h-[360px] sm:p-3 lg:order-2 lg:h-[330px]"
+              onPointerDown={(event) => { storyPointerStartX.current = event.clientX; }}
+              onPointerUp={(event) => {
+                if (storyPointerStartX.current === null) return;
+                const distance = event.clientX - storyPointerStartX.current;
+                storyPointerStartX.current = null;
+                if (Math.abs(distance) > 42) changeStory(distance > 0 ? -1 : 1);
+              }}
+              onPointerCancel={() => { storyPointerStartX.current = null; }}
+            >
+              <div className="grid h-full grid-cols-[.32fr_1.68fr_.32fr] gap-2 sm:grid-cols-[.45fr_1.75fr_.45fr] sm:gap-3">
+                {visibleStories.map(({ position, index }) => {
+                  const story = homepageStories[index];
+                  const isActive = position === 0;
+                  return (
+                    <button
+                      key={`${position}-${story.id}`}
+                      type="button"
+                      onClick={() => isActive ? toggleStoryPlayback() : selectStory(index)}
+                      className={`relative h-full min-w-0 overflow-hidden rounded-[16px] border text-left transition-all duration-500 ${isActive ? 'z-10 border-[#FEC228]/75 shadow-[0_14px_32px_rgba(0,0,0,.38)]' : 'scale-[.92] border-white/15 opacity-60 hover:scale-[.95] hover:opacity-90'}`}
+                      aria-label={isActive ? (isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')) : `${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
+                      aria-current={isActive ? 'true' : undefined}
+                    >
+                      <video
+                        key={story.video}
+                        ref={isActive ? storyVideoRef : undefined}
+                        className="absolute inset-0 h-full w-full object-cover object-center"
+                        src={story.video}
+                        autoPlay={isActive}
+                        muted={isActive ? isStoryMuted : true}
+                        playsInline
+                        preload={isActive ? 'auto' : 'metadata'}
+                        onPlay={isActive ? () => setIsStoryPlaying(true) : undefined}
+                        onPause={isActive ? () => setIsStoryPlaying(false) : undefined}
+                        onTimeUpdate={isActive ? (event) => {
+                          if (event.currentTarget.currentTime >= 12 && !event.currentTarget.dataset.previewComplete) {
+                            event.currentTarget.dataset.previewComplete = 'true';
+                            changeStory(1);
+                          }
+                        } : undefined}
+                        onEnded={isActive ? () => changeStory(1) : undefined}
+                        aria-hidden={!isActive}
+                      />
+                      <span className={`pointer-events-none absolute inset-0 ${isActive ? 'bg-gradient-to-t from-[#001E4A]/75 via-transparent to-black/10' : 'bg-[#001E4A]/20'}`} />
+                      {isActive && (
+                        <span className="pointer-events-none absolute inset-x-2 bottom-2 line-clamp-2 text-[10px] font-extrabold leading-tight text-white drop-shadow sm:inset-x-3 sm:bottom-3 sm:text-xs">
+                          {story.title}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button type="button" onClick={() => changeStory(-1)} className="absolute left-3 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228] sm:left-4" aria-label={t('hero.videoPrevious')}>
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button type="button" onClick={() => changeStory(1)} className="absolute right-3 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228] sm:right-4" aria-label={t('hero.videoNext')}>
+                <ChevronRight className="h-4 w-4" />
+              </button>
+
+              <div className="absolute bottom-4 right-[calc(15%+10px)] z-20 flex gap-2 sm:right-[calc(18%+14px)]">
+                <button type="button" onClick={toggleStoryPlayback} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]" aria-label={isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')}>
                   {isStoryPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 </button>
-                <button type="button" onClick={() => setIsStoryMuted((muted) => !muted)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-[#001E4A]/85 text-white backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]" aria-label={isStoryMuted ? t('hero.videoUnmute') : t('hero.videoMute')}>
+                <button type="button" onClick={() => setIsStoryMuted((muted) => !muted)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]" aria-label={isStoryMuted ? t('hero.videoUnmute') : t('hero.videoMute')}>
                   {isStoryMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                 </button>
               </div>
