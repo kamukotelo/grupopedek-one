@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, ChevronRight, ChevronLeft, Car, Sparkles, CalendarDays, MapPin } from 'lucide-react';
+import { ShieldCheck, ChevronRight, ChevronLeft, Car, Sparkles, CalendarDays, MapPin, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
@@ -49,6 +49,10 @@ export const Hero: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const [currentLuxury, setCurrentLuxury] = useState(0);
+  const [currentStory, setCurrentStory] = useState(0);
+  const [isStoryPlaying, setIsStoryPlaying] = useState(true);
+  const [isStoryMuted, setIsStoryMuted] = useState(true);
+  const storyVideoRef = useRef<HTMLVideoElement>(null);
   const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
   const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'on_request' | 'unavailable' | 'unknown'>('idle');
   const [pickup, setPickup] = useState('');
@@ -57,6 +61,12 @@ export const Hero: React.FC = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const today = new Date().toISOString().split('T')[0];
+  const homepageStories = [
+    { id: 'african-sezs-mobilidade', video: '/videos/pepek-african-sezs-2-web.mp4', title: t('hero.videoStoryPartnership') },
+    { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', title: t('hero.videoStoryInternational') },
+    { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', title: t('hero.videoStoryOperation') },
+    { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet') },
+  ];
   const locationSuggestions = [
     'Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)',
     'Aeroporto 4 de Fevereiro, Luanda',
@@ -88,6 +98,33 @@ export const Hero: React.FC = () => {
     }, 6000);
     return () => window.clearInterval(timer);
   }, [luxuryHeroVehicles.length, isLuxuryPaused]);
+
+  useEffect(() => {
+    const video = storyVideoRef.current;
+    if (!video) return;
+    video.muted = isStoryMuted;
+    if (isStoryPlaying) {
+      void video.play().catch(() => setIsStoryPlaying(false));
+    } else {
+      video.pause();
+    }
+  }, [currentStory, isStoryMuted, isStoryPlaying]);
+
+  const toggleStoryPlayback = () => {
+    const video = storyVideoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      void video.play().then(() => setIsStoryPlaying(true)).catch(() => setIsStoryPlaying(false));
+    } else {
+      video.pause();
+      setIsStoryPlaying(false);
+    }
+  };
+
+  const selectStory = (index: number) => {
+    setCurrentStory(index);
+    setIsStoryPlaying(true);
+  };
 
   const handleQuickAvailability = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -133,10 +170,71 @@ export const Hero: React.FC = () => {
       </div>
 
       <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
-        {/* Top Tag */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-bold text-[#8899BB] uppercase tracking-[0.2em] mb-6 w-fit animate-fadeIn">
-          <ShieldCheck className="w-4 h-4 text-[#236199]" />
-          <span>{t('hero.tag')} · Luanda, Angola</span>
+        {/* Editorial video window: the four stories from the blog play in sequence. */}
+        <div data-home-video-showcase className="group relative mb-7 w-full max-w-4xl overflow-hidden rounded-[24px] border border-white/15 bg-[#07182F]/95 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn">
+          <div className="grid min-h-[170px] grid-cols-[minmax(0,1fr)_138px] sm:min-h-[190px] sm:grid-cols-[minmax(0,1fr)_230px] lg:grid-cols-[minmax(0,1fr)_300px]">
+            <div className="relative z-10 flex min-w-0 flex-col justify-between p-5 sm:p-6">
+              <div>
+                <p className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#FEC228] sm:text-xs">
+                  <ShieldCheck className="h-4 w-4 shrink-0" />
+                  <span>{t('hero.videoStoriesLabel')} · {currentStory + 1}/{homepageStories.length}</span>
+                </p>
+                <h2 className="mt-3 max-w-lg text-lg font-extrabold leading-tight !text-white sm:text-2xl">
+                  {homepageStories[currentStory].title}
+                </h2>
+                <p className="mt-2 hidden text-sm text-white/60 sm:block">{t('hero.tag')} · Luanda, Angola</p>
+              </div>
+              <div className="mt-4 flex items-center gap-2">
+                {homepageStories.map((story, index) => (
+                  <button
+                    key={story.id}
+                    type="button"
+                    onClick={() => selectStory(index)}
+                    aria-label={`${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
+                    aria-current={currentStory === index ? 'true' : undefined}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${currentStory === index ? 'w-8 bg-[#FEC228]' : 'w-3 bg-white/30 hover:bg-white/60'}`}
+                  />
+                ))}
+                <button type="button" onClick={() => navigate(`/blogue#${homepageStories[currentStory].id}`)} className="ml-1 hidden items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-white/75 transition hover:text-[#FEC228] sm:inline-flex">
+                  {t('hero.videoViewBlog')} <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="relative overflow-hidden border-l border-white/10 bg-black/35">
+              <video
+                key={homepageStories[currentStory].video}
+                ref={storyVideoRef}
+                className="absolute inset-0 h-full w-full object-cover object-center"
+                autoPlay
+                muted={isStoryMuted}
+                playsInline
+                preload="metadata"
+                onPlay={() => setIsStoryPlaying(true)}
+                onPause={() => setIsStoryPlaying(false)}
+                onTimeUpdate={(event) => {
+                  if (event.currentTarget.currentTime >= 12 && !event.currentTarget.dataset.previewComplete) {
+                    event.currentTarget.dataset.previewComplete = 'true';
+                    setCurrentStory((story) => (story + 1) % homepageStories.length);
+                    setIsStoryPlaying(true);
+                  }
+                }}
+                onEnded={() => { setCurrentStory((story) => (story + 1) % homepageStories.length); setIsStoryPlaying(true); }}
+                aria-label={`${t('hero.videoNowPlaying')}: ${homepageStories[currentStory].title}`}
+              >
+                <source src={homepageStories[currentStory].video} type="video/mp4" />
+              </video>
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07182F]/45 via-transparent to-transparent" />
+              <div className="absolute bottom-3 right-3 flex gap-2">
+                <button type="button" onClick={toggleStoryPlayback} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-[#001E4A]/85 text-white backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]" aria-label={isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')}>
+                  {isStoryPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                </button>
+                <button type="button" onClick={() => setIsStoryMuted((muted) => !muted)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-[#001E4A]/85 text-white backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]" aria-label={isStoryMuted ? t('hero.videoUnmute') : t('hero.videoMute')}>
+                  {isStoryMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,500px)] xl:gap-12 2xl:grid-cols-[minmax(0,1.35fr)_520px]">
