@@ -25,7 +25,6 @@ export const Hero: React.FC = () => {
 
   const clientLogos = [
     { name: 'Sonangol', src: '/clients-color/sonangol.png' },
-    { name: 'TotalEnergies', src: '/clients-color/totalenergies.webp' },
     { name: 'Unitel', src: '/clients-color/unitel.svg' },
     { name: 'BAI', src: '/clients-color/bai.svg' },
     { name: 'Governo de Angola', src: '/clients-color/governo-angola.png' },
