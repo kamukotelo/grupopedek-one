@@ -207,6 +207,7 @@
   user-select: none;
   background: radial-gradient(circle at 50% 48%, #236199 0, #174B86 36%, #001E4A 76%);
   transition: background-color .6s ease, opacity .55s ease;
+  --pepek-logo-w: clamp(260px, 40vw, 520px);
 }
 
 .pepek-intro__grid {
@@ -225,13 +226,25 @@
   top: 50%;
   width: min(76vw, 900px);
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(35, 97, 153, .85), #FEC228, rgba(35, 97, 153, .85), transparent);
+  background: linear-gradient(90deg, transparent, rgba(35, 97, 153, .85), rgba(120, 176, 233, .9), rgba(35, 97, 153, .85), transparent);
   box-shadow: 0 0 22px rgba(35, 97, 153, .7);
+  /* A linha passa por trás do logotipo: abre-se um vazio ao centro com a largura do
+     proprio logotipo para nao cortar o lettering (o PNG tem fundo transparente). */
+  --pepek-horizon-gap: min(calc(var(--pepek-logo-w) / 2 + 10px), 40%);
+  mask-image: linear-gradient(
+    90deg,
+    #000 0,
+    #000 calc(50% - var(--pepek-horizon-gap)),
+    transparent calc(50% - var(--pepek-horizon-gap) + 26px),
+    transparent calc(50% + var(--pepek-horizon-gap) - 26px),
+    #000 calc(50% + var(--pepek-horizon-gap)),
+    #000 100%
+  );
 }
 
 .pepek-intro__logo {
   position: relative;
-  width: clamp(260px, 40vw, 520px);
+  width: var(--pepek-logo-w);
   aspect-ratio: 1800 / 599;
   z-index: 2;
 }
