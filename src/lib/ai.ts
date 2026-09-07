@@ -109,9 +109,9 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 4. INTENT: Casamentos, Galas, Festas & Eventos Especiais
   if (lower.includes('casamento') || lower.includes('noiva') || lower.includes('gala') || lower.includes('festa') || lower.includes('limousine') || lower.includes('evento especial')) {
     return {
-      message: 'Que ocasião tão especial e feliz! 💍🥂 Para momentos inesquecíveis, dispomos da nossa imponente Limousine VIP (20 lugares, 999.999 Kz/dia), além de Mercedes Classe S 2025, Mercedes G63 e Range Rover Autobiography. Podemos personalizar o serviço com motorista de gala e decoração!',
+      message: 'Que ocasião tão especial e feliz! 💍🥂 Para momentos inesquecíveis, dispomos da nossa imponente Limousine VIP (20 lugares, 999.999 Kz/dia), além de Mercedes Classe S, Mercedes G63 e Range Rover Autobiography. Podemos personalizar o serviço com motorista de gala e decoração!',
       recommendedVehicle: 'Limousine',
-      suggestedQuickReplies: ['Ver Limousine (999.999 Kz)', 'Mercedes Classe S 2025', 'Range Rover Autobiography', 'Falar com Consultor de Eventos']
+      suggestedQuickReplies: ['Ver Limousine (999.999 Kz)', 'Mercedes Classe S', 'Range Rover Autobiography', 'Falar com Consultor de Eventos']
     };
   }
 
@@ -136,7 +136,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 7. INTENT: Comparar Viaturas (SUV vs 4x4 vs Van vs Luxo vs Blindado)
   if (lower.includes('diferença entre') || lower.includes('comparar') || (lower.includes('suv') && lower.includes('4x4')) || (lower.includes('van') && lower.includes('suv')) || lower.includes('blindado')) {
     return {
-      message: 'Excelente questão! 💎 Para prestígio executivo e requinte máximo, o Toyota LC300 2026 e o Novo Prado são incomparáveis. Se a missão exige robustez todo-terreno no interior, a Toyota Hilux 4x4 é a referência. Para grupos até 15 pessoas, a Mercedes V300 Class e a Nova Hiace oferecem conforto total. E para segurança balística máxima, dispomos do Range Rover Vogue Blindado B6/B7.',
+      message: 'Excelente questão! 💎 Para prestígio executivo e requinte máximo, o Toyota LC300 e o Novo Prado são incomparáveis. Se a missão exige robustez todo-terreno no interior, a Toyota Hilux 4x4 é a referência. Para grupos até 15 pessoas, a Mercedes V300 Class e a Nova Hiace oferecem conforto total. E para segurança balística máxima, dispomos do Range Rover Vogue Blindado B6/B7.',
       suggestedQuickReplies: ['Toyota LC300 / Prado', 'Toyota Hilux 4x4', 'Mercedes V300 Class', 'Range Rover Vogue Blindado']
     };
   }
@@ -173,9 +173,9 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
     }
 
     return {
-      message: 'O Toyota LC300 2026 e o Novo Prado oferecem 7 lugares amplos, tração integral 4WD, caixa automática suave, acabamentos em couro premium e climatização multizona independente. O auge do prestígio executivo! ✨',
-      recommendedVehicle: 'Toyota LC300 2026',
-      suggestedQuickReplies: ['Ver Toyota LC300 2026', 'Ver Novo Toyota Prado', 'Consultar Outra Viatura']
+      message: 'O Toyota LC300 e o Novo Prado oferecem 7 lugares amplos, tração integral 4WD, caixa automática suave, acabamentos em couro premium e climatização multizona independente. O auge do prestígio executivo! ✨',
+      recommendedVehicle: 'Toyota LC300',
+      suggestedQuickReplies: ['Ver Toyota LC300', 'Ver Novo Toyota Prado', 'Consultar Outra Viatura']
     };
   }
 
@@ -322,7 +322,7 @@ function generateDynamicReplies(prompt: string, context?: SessionContext): strin
     return ['Aeroporto 4 de Fevereiro', 'Novo Aeroporto AIAAN', 'Com Motorista Bilingue', 'Fazer Reserva'];
   }
   if (lower.includes('casamento') || lower.includes('evento')) {
-    return ['Limousine VIP', 'Mercedes Classe S 2025', 'Range Rover 2026', 'Falar com Consultor'];
+    return ['Limousine VIP', 'Mercedes Classe S', 'Range Rover Autobiography', 'Falar com Consultor'];
   }
   if (lower.includes('província') || lower.includes('huambo') || lower.includes('bengo')) {
     return ['Toyota Hilux 4x4', 'Toyota Prado', 'Assistência 24/7', 'Pedir Cotação'];

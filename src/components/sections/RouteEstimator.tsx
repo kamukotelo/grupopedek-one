@@ -37,7 +37,7 @@ export const RouteEstimator: React.FC = () => {
       to: 'Talatona (Hotéis & Centros Empresariais)',
       distance: '32 km',
       estimatedTime: '35 – 45 min',
-      vehicle: 'SUV Executiva (Novo Toyota Prado 2024 / LC300)',
+      vehicle: 'SUV Executiva (Novo Toyota Prado / LC300)',
       vehicleId: 'new-toyota-prado',
       badge: 'Mais Frequente',
       description: 'Recepção VIP Meet & Greet no desembarque internacional, auxílio com bagagem e transporte climatizado directo ao hotel/residência.'
@@ -49,7 +49,7 @@ export const RouteEstimator: React.FC = () => {
       to: 'Miramar / Alvalade / Zona das Embaixadas',
       distance: '14 km',
       estimatedTime: '20 – 30 min',
-      vehicle: 'Sedan / SUV de Luxo (Mercedes Classe S 2025 / Lexus 600)',
+      vehicle: 'Sedan / SUV de Luxo (Mercedes Classe S / Lexus 600)',
       vehicleId: 'mercedes-class-s-2025',
       badge: 'Corpo Diplomático',
       description: 'Percurso com piloto treinado em protocolo de segurança e conduta discreta para diplomatas e delegações oficiais.'
