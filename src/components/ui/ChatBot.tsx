@@ -42,10 +42,10 @@ export const ChatBot: React.FC = () => {
   const [proactiveBubbleVisible, setProactiveBubbleVisible] = useState(false);
 
   // Saudação contextual personalizada apenas para utilizadores autenticados.
-  // Visitantes anónimos recebem uma saudação humana, calorosa e sem jargão.
+  // Visitantes anónimos recebem uma saudação humana, calorosa, elegante e sem jargão.
   useEffect(() => {
     if (currentUser && isDemoMode) {
-      const greeting = `Olá, ${currentUser.name}! Em que posso apoiar a sua operação de mobilidade hoje?`;
+      const greeting = `Olá, ${currentUser.name}! Que satisfação tê-lo(a) connosco. 🤝✨ Em que posso apoiar a sua operação de mobilidade hoje?`;
       setMessages([{ role: 'assistant', content: greeting }]);
       setQuickReplies([
         'Consultar Viaturas Disponíveis',
@@ -58,7 +58,7 @@ export const ChatBot: React.FC = () => {
       setMessages([
         {
           role: 'assistant',
-          content: `Olá, ${firstName}! Como posso ajudar na sua mobilidade hoje?`
+          content: `Olá, ${firstName}! É sempre um gosto falar consigo. 🚗✨ Como posso ajudar na sua mobilidade hoje?`
         }
       ]);
       setQuickReplies([
@@ -71,7 +71,7 @@ export const ChatBot: React.FC = () => {
         {
           role: 'assistant',
           content:
-            'Olá! Bem-vindo(a) à PEPEK GRUPO em Talatona. Em que posso apoiar a sua viagem ou a mobilidade da sua instituição hoje?'
+            'Olá! É um enorme prazer recebê-lo(a) na PEPEK GRUPO em Talatona. 🚗✨ Em que posso apoiar a sua viagem, transfer VIP ou a mobilidade da sua instituição hoje?'
         }
       ]);
       setQuickReplies([
@@ -149,7 +149,7 @@ export const ChatBot: React.FC = () => {
         {
           role: 'assistant',
           content:
-            'A nossa equipa em Talatona está inteiramente ao seu dispor. Dispomos de SUVs executivas, 4x4 de campo e vans com motoristas bilingues. Posso ligá-lo a um consultor de imediato.'
+            'A nossa equipa em Talatona está inteiramente ao seu dispor com todo o carinho! 🤝 Dispomos de SUVs executivas, 4x4 de campo, vans de luxo e condutores de protocolo bilingues. Posso ligá-lo a um consultor de imediato.'
         }
       ]);
     } finally {

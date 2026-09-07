@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-AO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Clientes — revisão de logótipos | Pepek</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f2f5f8;color:#001e4a;font:16px/1.5 system-ui,-apple-system,sans-serif}header{background:#001e4a;color:white;padding:44px max(24px,calc((100vw - 1200px)/2))}h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:12px 0 20px;letter-spacing:-1px}header p{max-width:850px;color:#dbe7f7}header .eyebrow{font-size:12px;letter-spacing:2px;color:#ffc428;font-weight:700}main{max-width:1248px;margin:auto;padding:24px}h2{font-size:25px;margin:32px 0 8px}.intro{margin:0 0 22px;color:#52627a}.tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:18px 0}button,select{font:inherit;padding:10px 14px;border:1px solid #aabbd0;border-radius:8px;color:#001e4a;background:white;min-height:44px}button{cursor:pointer}button:hover{background:#e3edfa}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #efaa00;outline-offset:3px}a{color:#164e92;text-underline-offset:3px;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.client{background:white;border:1px solid #d5dfea;border-radius:14px;overflow:hidden;min-width:0}.client-header{padding:20px 20px 8px}.client h3{font-size:20px;margin:0 0 7px}.meta{font-size:13px;color:#52627a}.status{display:inline-block;font-size:12px;border-radius:5px;padding:3px 7px;background:#eaf2f8;color:#254b64}.status.pending{background:#fff2d5;color:#725000}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 20px}figure{margin:0;min-width:0}figcaption{font-size:12px;font-weight:700;margin-bottom:6px}.stage{height:146px;border:1px solid #d5dfea;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:18px;background:white}.stage.dark{background:#001e4a}.stage img{max-width:100%;max-height:100%;object-fit:contain}.stage .missing{font-size:13px;text-align:center;color:#725000;background:#fff2d5;padding:12px;border-radius:6px}.facts{padding:4px 20px 20px}.note{font-size:13px;color:#475973;margin:8px 0;min-height:20px}.note.important{color:#845000;background:#fff4d8;padding:10px;border-radius:6px}.links{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:14px 0}.decision{display:block;font-size:13px;font-weight:600}.decision select{display:block;width:100%;margin-top:6px;font-weight:400}.decision-hint{font-size:12px;color:#64748b}footer{margin:32px 0;padding-top:22px;border-top:1px solid #c7d5e7;color:#52627a;font-size:13px}.summary{background:white;padding:18px;border-left:4px solid #ffc428;border-radius:6px}.summary p{margin:3px 0}.count{font-size:14px;color:#52627a}#saved{font-size:13px;color:#52627a}@media(max-width:720px){header{padding:32px 20px}main{padding:16px}.grid{grid-template-columns:1fr}.stage{height:130px}.comparison{padding:12px 14px;gap:8px}.client-header,.facts{padding-left:14px;padding-right:14px}}@media print{body{background:white}header{background:white;color:#001e4a;padding:20px}header p{color:#001e4a}.tools,.decision,.decision-hint{display:none}.client{break-inside:avoid}main{padding:0}.grid{gap:10px}.stage{height:110px}.links{font-size:11px}}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">PEPEK GRUPO · REVISÃO PARA DECISÃO</div><h1>Logótipos dos clientes</h1><p>Atual no projeto × referência encontrada. Nenhuma substituição foi aplicada ao site. A escolha de quais devem mudar continua consigo.</p><div>Pesquisa consultada em 02 setembro 2026</div></header>
+<main>
+<div class="summary"><p><strong>20 clientes no bloco ativo + 6 entidades num bloco antigo não utilizado.</strong></p><p id="summary-count"></p><p>“Encontrado na fonte oficial” não significa que houve um redesenho em 2026 nem comprova a relação comercial. As autorizações de utilização devem ser confirmadas antes de publicar.</p></div>
+<div class="tools"><button type="button" id="background">Ver sobre fundo azul</button><button type="button" id="export">Exportar escolhas</button><span id="saved" role="status">Escolhas guardadas apenas neste navegador.</span></div>
+<h2>Clientes no site</h2><p class="intro">Inventário do bloco de clientes da página inicial. Imagens atuais apresentadas sem os efeitos visuais do carrossel.</p>
+<section class="grid" id="active" aria-label="Clientes no site"></section>
+<h2>Referências do bloco antigo</h2><p class="intro">Estas seis entidades constam no componente antigo, que não está atualmente inserido nas páginas. Não serão adicionadas automaticamente.</p>
+<section class="grid" id="legacy" aria-label="Clientes do bloco antigo"></section>
+<footer><p>Os ficheiros foram preservados como encontrados, sem redesenho, recoloração ou uso de IA. Os fundos desta comparação servem apenas para verificar o contraste.</p><p>UNICEF: <a href="https://www.unicef.org/legal" target="_blank" rel="noopener noreferrer">condições oficiais de uso do nome e emblema</a>. Referências institucionais (Governo, Assembleia, Embaixada, SIC e FAF) também devem ser validadas com a entidade correspondente.</p><p>Inventário e proveniência: <a href="fontes.json">ver fontes e registo dos ficheiros</a>. Este documento não modifica o site, o Git ou a publicação na Vercel.</p></footer>
+</main>
+<script type="application/json" id="data">__CLIENT_DATA__</script>
+<script>
+const data=JSON.parse(document.getElementById('data').textContent);
+const key='pepek-client-logo-review-2026-09-02';
+let choices={};try{choices=JSON.parse(localStorage.getItem(key)||'{}')}catch{}
+const labels={'official-source-file':'Ficheiro da fonte oficial','official-reference-confirm-master':'Referência oficial · validar versão final','source-found-download-pending':'Fonte encontrada · ficheiro pendente','pending-identification-or-source':'Identificação / fonte pendente'};
+const make=(tag,text,cls)=>{const el=document.createElement(tag);if(text)el.textContent=text;if(cls)el.className=cls;return el};
+function link(text,url){const a=make('a',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a}
+function picture(label,file,name){const f=make('figure');f.append(make('figcaption',label));const stage=make('div',null,'stage');if(file){const img=make('img');img.src=file;img.alt=name+' — '+label;stage.append(img)}else stage.append(make('span','Sem ficheiro validado para comparação','missing'));f.append(stage);return f}
+for(const item of data.clients){
+ const card=make('article',null,'client');card.id=item.id;
+ const head=make('div',null,'client-header');head.append(make('h3',item.name));
+ head.append(make('span',labels[item.status], 'status'+(item.status.includes('pending')?' pending':'')));card.append(head);
+ const pair=make('div',null,'comparison');pair.append(picture(item.scope==='active'?'ATUAL NO PROJETO':'FICHEIRO ANTIGO',item.currentFile,item.name),picture('REFERÊNCIA ENCONTRADA',item.candidateFile,item.name));card.append(pair);
+ const facts=make('div',null,'facts');if(item.note)facts.append(make('p',item.note,'note'+(item.id==='bfa'?' important':'')));
+ if(item.error)facts.append(make('p','Não foi possível guardar a imagem: '+item.error+'. A fonte continua disponível para consulta manual.','note'));
+ const links=make('div',null,'links');if(item.source)links.append(link('Consultar fonte',item.source));if(item.candidateFile)links.append(link('Abrir ficheiro',item.candidateFile));else if(item.asset)links.append(link('Consultar imagem na origem',item.asset));facts.append(links);
+ const label=make('label','A sua decisão','decision');const select=make('select');select.dataset.client=item.id;
+ const options=[['pending','Ainda por decidir'],['keep','Manter o atual'],...(item.candidateFile?[['change','Prefiro a referência encontrada']]:[]),['review','Pedir outra versão / confirmação']];
+ for(const [value,text] of options){const o=make('option',text);o.value=value;select.append(o)}select.value=choices[item.id]||'pending';
+ select.addEventListener('change',()=>{choices[item.id]=select.value;try{localStorage.setItem(key,JSON.stringify(choices));document.getElementById('saved').textContent='Escolha guardada neste navegador. Nada foi publicado.'}catch{document.getElementById('saved').textContent='Não foi possível guardar no navegador. Use “Exportar escolhas”.'}});
+ label.append(select);facts.append(label,make('div','Preferência de revisão; não substitui autorização de uso da marca.','decision-hint'));card.append(facts);document.getElementById(item.scope).append(card);
+}
+const count=data.clients.filter(x=>x.candidateFile).length;
+document.getElementById('summary-count').textContent=count+' referências com imagem para comparar; '+(data.clients.length-count)+' casos sem ficheiro validado. Todos aguardam a sua decisão.';
+document.getElementById('background').onclick=()=>{const dark=document.querySelector('.stage').classList.contains('dark');document.querySelectorAll('.stage').forEach(s=>s.classList.toggle('dark',!dark));document.getElementById('background').textContent=dark?'Ver sobre fundo azul':'Ver sobre fundo branco'};
+document.getElementById('export').onclick=()=>{const payload={reviewDate:data.checkedAt,exportedAt:new Date().toISOString(),publicationAuthorized:false,choices:data.clients.map(c=>({id:c.id,name:c.name,choice:choices[c.id]||'pending',reference:c.candidateFile||null,source:c.source}))};const a=make('a');const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));a.href=url;a.download='escolhas-logotipos-clientes.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+</script>
+</body></html>

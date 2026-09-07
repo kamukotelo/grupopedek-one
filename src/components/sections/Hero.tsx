@@ -154,15 +154,19 @@ export const Hero: React.FC = () => {
     navigate(`/reservar?${params.toString()}`);
   };
 
-  const scrollToBooking = () => {
-    const el = document.getElementById('reserva');
-    el?.scrollIntoView({ behavior: 'smooth' });
+  // A reserva e a frota vivem agora em páginas próprias. Se a secção estiver na
+  // página actual, rolamos até ela; caso contrário navegamos para a rota certa.
+  const goToSection = (id: string, route: string) => () => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    navigate(route);
   };
 
-  const scrollToFleet = () => {
-    const el = document.getElementById('frota');
-    el?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollToBooking = goToSection('reserva', '/reservar');
+  const scrollToFleet = goToSection('frota', '/frota');
 
   return (
     <section id="inicio" className="relative bg-[#001E4A] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
@@ -181,8 +185,8 @@ export const Hero: React.FC = () => {
 
       <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
         {/* Vertical stories carousel: portrait videos remain visible in their native format. */}
-        <div data-home-video-showcase className="group relative mb-7 w-full max-w-4xl overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-4 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5">
-          <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(220px,.72fr)_minmax(430px,1.28fr)] lg:gap-5">
+        <div data-home-video-showcase className="group relative mb-7 w-full max-w-[1400px] overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-4 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5">
+          <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(260px,.9fr)_minmax(520px,1.65fr)] lg:gap-6">
             <div className="relative z-10 order-2 flex min-w-0 flex-col justify-between px-1 py-1 sm:px-2 sm:py-2 lg:order-1">
               <div>
                 <p className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#FEC228] sm:text-xs">
@@ -213,7 +217,7 @@ export const Hero: React.FC = () => {
             </div>
 
             <div
-              className="relative order-1 h-[300px] touch-pan-y select-none overflow-hidden rounded-[22px] border border-white/10 bg-[#001E4A]/70 p-2 sm:h-[360px] sm:p-3 lg:order-2 lg:h-[330px]"
+              className="relative order-1 h-[320px] touch-pan-y select-none overflow-hidden rounded-[22px] border border-white/10 bg-[#001E4A]/70 p-2 sm:h-[380px] sm:p-3 lg:order-2 lg:h-[400px]"
               onPointerDown={(event) => { storyPointerStartX.current = event.clientX; }}
               onPointerUp={(event) => {
                 if (storyPointerStartX.current === null) return;
@@ -223,7 +227,7 @@ export const Hero: React.FC = () => {
               }}
               onPointerCancel={() => { storyPointerStartX.current = null; }}
             >
-              <div className="grid h-full grid-cols-[.32fr_1.68fr_.32fr] gap-2 sm:grid-cols-[.45fr_1.75fr_.45fr] sm:gap-3">
+              <div className="grid h-full grid-cols-[.4fr_1.6fr_.4fr] gap-2 sm:grid-cols-[.62fr_1.5fr_.62fr] sm:gap-3">
                 {visibleStories.map(({ position, index }) => {
                   const story = homepageStories[index];
                   const isActive = position === 0;

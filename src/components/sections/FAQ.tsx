@@ -3,11 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDown, HelpCircle, Phone, ArrowRight } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 
-export const FAQ: React.FC = () => {
-  const { t } = useTranslation();
-  const [openIdx, setOpenIdx] = useState<number | null>(0);
-
-  const faqItems = [
+/** Exportado para que as páginas possam gerar o schema.org FAQPage a partir da mesma fonte. */
+export const faqItems = [
     {
       q: 'Quais são os requisitos para o aluguer de viaturas (Livre Condução)?',
       a: 'Para particulares e executivos em livre condução, é necessário apresentar Bilhete de Identidade ou Passaporte válido, Carta de Condução com mais de 2 anos de emissão, comprovativo de morada ou estadia em Angola, e caução (depósito de garantia) através de cartão ou transferência.'
@@ -32,7 +29,11 @@ export const FAQ: React.FC = () => {
       q: 'O que acontece em caso de avaria ou incidente durante a viagem?',
       a: 'A PEPEK GRUPO garante assistência técnica 24 horas por dia e envio imediato de uma viatura de substituição da mesma categoria ou superior, sem custos adicionais para o cliente, salvaguardando a continuidade da sua missão ou viagem.'
     }
-  ];
+] as const;
+
+export const FAQ: React.FC = () => {
+  const { t } = useTranslation();
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   const toggleFaq = (idx: number) => {
     setOpenIdx(openIdx === idx ? null : idx);

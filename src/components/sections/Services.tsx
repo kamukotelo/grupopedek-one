@@ -1,8 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { BriefcaseBusiness, Building2, CalendarCheck, CircleGauge, Plane, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, BriefcaseBusiness, Building2, CalendarCheck, CircleGauge, Plane, ShieldCheck } from 'lucide-react';
 
-export const Services: React.FC = () => {
+/** `withLinks` desliga as chamadas cruzadas quando a secção já é a própria página /servicos. */
+export const Services: React.FC<{ withLinks?: boolean }> = ({ withLinks = true }) => {
   const { t } = useTranslation();
   const serviceItems = [
     ['services.transferTitle', 'services.transferDesc', Plane, 'group-hover:-translate-y-2 group-hover:translate-x-2'],
@@ -39,6 +41,14 @@ export const Services: React.FC = () => {
           ))}
         </div>
 
+        {withLinks && <div className="mt-10 flex flex-wrap gap-3">
+          <Link to="/servicos" className="inline-flex items-center gap-2 rounded-lg border-2 border-[#001E4A] px-6 py-3 text-sm font-extrabold uppercase tracking-wide text-[#001E4A] transition hover:bg-[#001E4A] hover:text-white">
+            {t('nav.services')} <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link to="/rotas" className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-extrabold uppercase tracking-wide text-[#236199] transition hover:text-[#09172C]">
+            {t('nav.routes')} <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>}
       </div>
     </section>
   );

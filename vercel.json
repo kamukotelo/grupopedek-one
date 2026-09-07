@@ -1,19 +1,118 @@
 {
+  "redirects": [
+    {
+      "source": "/inicio",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/subpage",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/backup-start",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/start-whatsaap",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/emailenviado",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/erro-email",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/quemsomos",
+      "destination": "/quem-somos",
+      "permanent": true
+    },
+    {
+      "source": "/quemsomos-item/:slug",
+      "destination": "/quem-somos",
+      "permanent": true
+    },
+    {
+      "source": "/equipa-de-gestao-item/:slug",
+      "destination": "/quem-somos",
+      "permanent": true
+    },
+    {
+      "source": "/viaturas",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/viaturas-10",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/parceiros",
+      "destination": "/clientes",
+      "permanent": true
+    },
+    {
+      "source": "/legal-notice",
+      "destination": "/privacidade",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacidade",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Cross-Origin-Resource-Policy", "value": "same-origin" },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; font-src 'self' data:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://images.unsplash.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+        }
       ]
     }
   ]

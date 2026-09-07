@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const out=path.join(process.cwd(),'docs/revisao-logotipos-clientes-2026-09-02');
+const data=JSON.parse(await fs.readFile(path.join(out,'fontes.json'),'utf8'));
+const template=await fs.readFile('scripts/client-logo-review.template.html','utf8');
+await fs.writeFile(path.join(out,'index.html'),template.replace('__CLIENT_DATA__',JSON.stringify(data).replaceAll('<','\\u003c')));
+const lines=['# Revisão de logótipos dos clientes','', 'Consulta: 02/09/2026. Nenhuma alteração aplicada ao site. Abra `index.html` para comparar.','', '20 entidades no Hero.tsx; 6 adicionais apenas no componente InstitutionalClients.tsx não utilizado. Esta lista não comprova relações comerciais nem direitos de uso.','', 'Os nomes de ficheiros com anos antigos não provam que um logótipo esteja desatualizado. A referência é a versão encontrada na fonte consultada, não uma garantia de novo lançamento em 2026.',''];
+for(const c of data.clients)lines.push(`## ${c.name}`,``,`${c.scope==='active'?'Bloco ativo':'Bloco antigo não utilizado'} · ${c.status}`,``,c.source?`Fonte: ${c.source}`:'Fonte ainda por identificar.',c.asset?`Imagem: ${c.asset}`:'Sem nova imagem validada.',c.note||'',c.error?`Limitação na recolha: ${c.error}`:'',``);
+lines.push('## Uso e publicação','','Toda a decisão está pendente. Preservar os originais, cores e proporções. Confirmar autorização da entidade antes de publicar; em particular, a UNICEF exige autorização escrita: https://www.unicef.org/legal','', 'Os ficheiros estão isolados em docs/; não foram copiados para public/ nem associados aos componentes.');
+await fs.writeFile(path.join(out,'LEIA-ME.md'),lines.join('\n'));
+console.log('Review generated:',out);

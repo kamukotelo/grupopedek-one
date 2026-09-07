@@ -43,7 +43,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
           contents,
-          generationConfig: { temperature: 0.5, topP: 0.9, maxOutputTokens: 400 },
+          generationConfig: { temperature: 0.65, topP: 0.95, maxOutputTokens: 500 },
         }),
       },
     );

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Área autenticada — não indexar
+Disallow: /painel
+
+Sitemap: https://pepekgrupo.com/sitemap.xml

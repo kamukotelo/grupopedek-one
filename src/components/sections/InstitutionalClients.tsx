@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export const InstitutionalClients: React.FC = () => {
+/** `withLink` desliga a hiperligação quando a faixa já está dentro de /clientes. */
+export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLink = true }) => {
   const { t } = useTranslation();
 
   // 21 Authentic client logos
@@ -55,9 +58,16 @@ export const InstitutionalClients: React.FC = () => {
       <div className="container-pepek">
         {/* Subtle, discreet header strip */}
         <div className="flex items-center justify-between gap-4 mb-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8899BB]">
-            Confiança Institucional & Entidades de Referência
-          </p>
+          {withLink ? (
+            <Link to="/clientes" className="group inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#8899BB] transition-colors hover:text-[#FEC228]">
+              Confiança Institucional &amp; Entidades de Referência
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          ) : (
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8899BB]">
+              Confiança Institucional &amp; Entidades de Referência
+            </p>
+          )}
 
           {/* Dots navigation */}
           <div className="flex items-center gap-1.5">

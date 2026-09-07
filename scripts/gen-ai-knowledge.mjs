@@ -22,8 +22,13 @@ const catalog = FLYER_FLEET_2026.map((v) => ({
   categoryLabel: v.categoryLabel,
   seats: v.specs?.passengers ?? null,
   doors: v.specs?.doors ?? null,
+  luggage: v.specs?.luggage ?? null,
   transmission: v.specs?.transmission ?? '',
   fuel: v.specs?.fuelType ?? '',
+  tankCapacity: v.specs?.tankCapacity ?? '',
+  traction: v.specs?.traction ?? '',
+  engine: v.specs?.engine ?? '',
+  deposit: v.depositAOA ? `${v.depositAOA.toLocaleString('pt-AO')} Kz` : '',
   pricePerDay: v.pricePerDayFormatted?.replace(/\s*Kz$/, '') ?? '',
   transferPrice: v.transferPriceFormatted?.replace(/\s*Kz$/, '') ?? '',
 }));
