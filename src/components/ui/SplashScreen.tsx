@@ -50,17 +50,12 @@ export const SplashScreen: React.FC = () => {
       className={`pepek-intro ${isDeparting ? 'pepek-intro--departing' : ''}`}
       aria-hidden="true"
     >
-      <div className="pepek-intro__grid" />
-      <div className="pepek-intro__horizon" />
-
       <div ref={logoRef} className="pepek-intro__logo" style={{ willChange: 'transform, filter' }}>
         <img className="pepek-intro__letters pepek-intro__letters--left" src="/logo-pepek-light.png" alt="" />
         <img className="pepek-intro__letters pepek-intro__letters--right" src="/logo-pepek-light.png" alt="" />
         <img className="pepek-intro__road" src="/logo-pepek-light.png" alt="" />
-        <span className="pepek-intro__scanner" />
       </div>
 
-      <div className="pepek-intro__speed-lines" />
       <p className="pepek-intro__tagline">Movemos quem move Angola</p>
     </div>
   );
