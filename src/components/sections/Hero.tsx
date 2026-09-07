@@ -186,7 +186,7 @@ export const Hero: React.FC = () => {
       <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
         {/* Vertical stories carousel: portrait videos remain visible in their native format. */}
         <div data-home-video-showcase className="group relative mb-7 w-full overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-4 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5">
-          <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(280px,1.1fr)_minmax(440px,1.25fr)] lg:gap-6">
+          <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(230px,0.8fr)_minmax(560px,1.7fr)] lg:gap-5">
             <div className="relative z-10 order-2 flex min-w-0 flex-col justify-between px-1 py-1 sm:px-2 sm:py-2 lg:order-1">
               <div>
                 <p className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#FEC228] sm:text-xs">
@@ -217,7 +217,7 @@ export const Hero: React.FC = () => {
             </div>
 
             <div
-              className="relative order-1 h-[360px] touch-pan-y select-none overflow-hidden rounded-[22px] border border-white/10 bg-[#001E4A]/70 p-3 sm:h-[420px] sm:p-4 lg:order-2 lg:h-[460px]"
+              className="relative order-1 h-[380px] touch-pan-y select-none overflow-hidden rounded-[22px] border border-white/10 bg-[#001E4A]/70 p-3 sm:h-[440px] sm:p-4 lg:order-2 lg:h-[580px]"
               onPointerDown={(event) => { storyPointerStartX.current = event.clientX; }}
               onPointerUp={(event) => {
                 if (storyPointerStartX.current === null) return;
@@ -236,7 +236,7 @@ export const Hero: React.FC = () => {
                       key={`${position}-${story.id}`}
                       type="button"
                       onClick={() => isActive ? toggleStoryPlayback() : selectStory(index)}
-                      className={`relative aspect-[406/720] shrink-0 overflow-hidden rounded-[16px] border bg-[#04122A] text-left transition-all duration-500 ${isActive ? 'z-10 h-full border-[#FEC228]/75 shadow-[0_14px_32px_rgba(0,0,0,.38)]' : 'h-[76%] border-white/15 opacity-55 hover:opacity-90'}`}
+                      className={`relative aspect-[406/720] shrink-0 overflow-hidden rounded-[16px] border bg-[#04122A] text-left transition-all duration-500 ${isActive ? 'z-10 h-full border-[#FEC228]/75 shadow-[0_14px_32px_rgba(0,0,0,.38)]' : 'h-[62%] border-white/15 opacity-50 hover:opacity-85'}`}
                       aria-label={isActive ? (isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')) : `${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
                       aria-current={isActive ? 'true' : undefined}
                     >
