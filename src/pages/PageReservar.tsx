@@ -30,7 +30,7 @@ export const PageReservar: React.FC = () => (
       breadcrumb={[{ label: 'Reservar' }]}
     />
 
-    <BookingWidget initialVehicle="Novo Toyota Prado" />
+    <BookingWidget initialVehicle="Toyota Land Cruiser 250" />
     <PaymentSecurity />
   </>
 );

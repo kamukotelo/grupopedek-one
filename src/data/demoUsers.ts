@@ -114,7 +114,7 @@ export const DEMO_INVOICES: InvoiceItem[] = [
     amountAOA: 4200000, // TODO: PLACEHOLDER
     amountUSD: 4600,    // TODO: PLACEHOLDER
     status: 'paid',
-    description: 'Aluguer Mensal 2x Novo Toyota Prado com Motorista Protocolar (Demo)',
+    description: 'Aluguer Mensal 2x Toyota Land Cruiser 250 com Motorista Protocolar (Demo)',
     paymentGateway: 'Multicaixa Express',
     odooInvoiceId: 'INV/DEMO/00001' // TODO: PLACEHOLDER
   },
@@ -185,7 +185,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   },
   {
     id: 'flt_02',
-    vehicleName: 'Toyota LC300',
+    vehicleName: 'Toyota LC 300',
     plateNumber: 'LD-XX-XX-YY', // TODO: PLACEHOLDER
     assignedTo: 'Missão Institucional (Demo)',
     status: 'em_circulacao',
@@ -219,7 +219,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
   },
   {
     id: 'flt_05',
-    vehicleName: 'Novo Toyota Prado',
+    vehicleName: 'Toyota Land Cruiser 250',
     plateNumber: 'LD-XX-XX-WW', // TODO: PLACEHOLDER
     assignedTo: 'Manutenção Preventiva (Demo)',
     status: 'em_manutencao',
@@ -240,7 +240,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
     status: 'em_circulacao', location: 'AIAAN — Terminal Internacional', fuelLevel: 91, mileageKm: 12640, driverName: 'Motorista Protocolar Charlie (Demo)', driverPhone: '+244 9XX XXX XXX'
   },
   {
-    id: 'flt_09', vehicleName: 'Mercedes Sprinter 21L', plateNumber: 'LD-XX-13-DD', assignedTo: 'Conferência Internacional (Demo)',
+    id: 'flt_09', vehicleName: 'Mercedes-Benz Sprinter 21L', plateNumber: 'LD-XX-13-DD', assignedTo: 'Conferência Internacional (Demo)',
     status: 'em_reserva', location: 'Sede Talatona — Higienização', fuelLevel: 100, mileageKm: 23800, driverName: 'Equipa de Escala Delta (Demo)', driverPhone: '+244 9XX XXX XXX'
   },
   {
