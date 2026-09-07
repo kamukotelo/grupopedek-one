@@ -53,7 +53,7 @@ const FLYER_VEHICLES: FlyerVehicle[] = [
   { id: 'lexus-570', name: 'Lexus 570', fullDay: 550000, transfer: 412500, image: 'lexus-570' },
   { id: 'toyota-lc300-2023', name: 'Toyota LC300', fullDay: 599999, transfer: 449999, image: 'toyota-lc300-2023' },
   { id: 'mercedes-g63-2023', name: 'Mercedes G63', fullDay: 599999, transfer: 449999, image: 'mercedes-g63' },
-  { id: 'mercedes-vito', name: 'Mercedes Viano', fullDay: 799999, transfer: 599999, image: 'mercedes-viano' },
+  { id: 'mercedes-vito', name: 'Mercedes-Benz Viano', fullDay: 799999, transfer: 599999, image: 'mercedes-viano' },
   { id: 'mercedes-benz-v300-class', name: 'Mercedes-Benz V300 Class', fullDay: 800000, transfer: 600000, image: 'mercedes-v300-class' },
   { id: 'mercedes-g63', name: 'Mercedes G63 Atual', fullDay: 999999, transfer: 749999, image: 'mercedes-g63-atual' },
   { id: 'lexus-600', name: 'Lexus 600', fullDay: 800000, transfer: 600000, image: 'lexus-600' },
