@@ -21,11 +21,14 @@ export const Footer: React.FC = () => {
             <Link to="/" className="inline-block mb-1">
               <Logo height={48} variant="light" />
             </Link>
-            <p className="text-base font-bold text-white/75 italic">
-              "Movemos quem move Angola."
+            <p className="text-base font-bold text-white">
+              Experiência Premium em cada quilômetro
             </p>
             <p className="text-xs text-white/65 leading-relaxed max-w-md">
-              A escolha perfeita para cada viagem. Sociedade de mobilidade executiva e rent a car de luxo fundada em 2014 em Luanda. Atendemos com distinção embaixadas, entidades de estado, multinacionais e particulares de alto padrão.
+              A PEPEK Rent a Car é uma empresa angolana de mobilidade premium e transporte executivo, fundada em 2014, em Luanda.
+            </p>
+            <p className="text-xs text-white/65 leading-relaxed max-w-md">
+              Oferecemos soluções de mobilidade com conforto, segurança, discrição e excelência, para empresas, instituições, executivos e clientes particulares.
             </p>
 
             {/* Social Links with crisp vector SVGs */}
