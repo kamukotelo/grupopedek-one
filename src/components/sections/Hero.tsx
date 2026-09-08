@@ -254,9 +254,9 @@ export const Hero: React.FC = () => {
                       key={`${position}-${story.id}`}
                       type="button"
                       onClick={() => isActive ? toggleStoryPlayback() : selectStory(index)}
-                      className={`relative shrink-0 overflow-hidden text-left transition-all duration-500 ${
+                      className={`relative shrink-0 overflow-hidden bg-[#050f22] text-left transition-all duration-500 ${
                         isActive
-                          ? 'z-10 h-full aspect-[4/5] rounded-[22px] border-2 border-[#FEC228] shadow-[0_18px_40px_rgba(0,0,0,0.6),0_0_26px_rgba(254,194,40,0.24)]'
+                          ? 'z-10 h-full aspect-[406/720] rounded-[22px] border-2 border-[#FEC228] shadow-[0_18px_40px_rgba(0,0,0,0.6),0_0_26px_rgba(254,194,40,0.24)]'
                           : 'h-[52%] aspect-[406/720] rounded-[14px] border border-white/15 opacity-40 hover:opacity-75'
                       }`}
                       aria-label={isActive ? (isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')) : `${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
