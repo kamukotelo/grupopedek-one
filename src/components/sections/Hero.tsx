@@ -227,7 +227,7 @@ export const Hero: React.FC = () => {
               }}
               onPointerCancel={() => { storyPointerStartX.current = null; }}
             >
-              <div className="flex h-full items-center justify-center gap-2 sm:gap-4">
+              <div className="flex h-full items-center justify-center gap-3 sm:gap-10 lg:gap-16">
                 {visibleStories.map(({ position, index }) => {
                   const story = homepageStories[index];
                   const isActive = position === 0;
@@ -236,7 +236,7 @@ export const Hero: React.FC = () => {
                       key={`${position}-${story.id}`}
                       type="button"
                       onClick={() => isActive ? toggleStoryPlayback() : selectStory(index)}
-                      className={`relative aspect-[406/720] shrink-0 overflow-hidden rounded-[16px] border bg-[#04122A] text-left transition-all duration-500 ${isActive ? 'z-10 h-full border-[#FEC228]/75 shadow-[0_14px_32px_rgba(0,0,0,.38)]' : 'h-[62%] border-white/15 opacity-50 hover:opacity-85'}`}
+                      className={`relative aspect-[406/720] shrink-0 overflow-hidden rounded-[16px] border bg-[#04122A] text-left transition-all duration-500 ${isActive ? 'z-10 h-full border-[#FEC228]/75 shadow-[0_14px_32px_rgba(0,0,0,.38)]' : 'h-[54%] border-white/15 opacity-45 hover:opacity-80'}`}
                       aria-label={isActive ? (isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')) : `${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
                       aria-current={isActive ? 'true' : undefined}
                     >
