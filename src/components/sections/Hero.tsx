@@ -196,7 +196,7 @@ export const Hero: React.FC = () => {
                 <h2 className="mt-3 max-w-lg text-lg font-extrabold leading-tight !text-white sm:text-2xl xl:text-[26px]">
                   {homepageStories[currentStory].title}
                 </h2>
-                <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">{t('hero.tag')} · Luanda, Angola</p>
+                <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">{t('hero.videoStoriesTagline')}</p>
 
                 {/* Highlights list matching wireframe sketch */}
                 <div className="mt-4 space-y-2.5 border-t border-white/10 pt-3.5">
@@ -205,6 +205,7 @@ export const Hero: React.FC = () => {
                     t('hero.featureDriversTitle'),
                     t('hero.featureSupportTitle'),
                     t('hero.featureCoverageTitle'),
+                    t('hero.featureMultilingualTitle'),
                   ].map((feature, idx) => (
                     <div key={idx} className="flex items-center gap-2.5 text-xs text-white/85 sm:text-[13px]">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#FEC228] shrink-0 shadow-[0_0_8px_rgba(254,194,40,0.6)]" />

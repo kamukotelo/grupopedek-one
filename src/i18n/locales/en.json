@@ -33,7 +33,8 @@
   "hero": {
     "tag": "Premium Mobility in Angola",
     "videoStoriesLabel": "PEPEK stories",
-    "videoStoryPartnership": "PEPEK and African SEZs: mobility that supports investment",
+    "videoStoriesTagline": "Connecting decisions, business and opportunities.",
+    "videoStoryPartnership": "PEPEK supports the Africa SEZs Summit \u2014 Mobility that Drives Investment in Angola",
     "videoStoryInternational": "International mobility, the PEPEK way",
     "videoStoryOperation": "Inside PEPEK operations",
     "videoStoryFleet": "Vehicles prepared for every journey",
@@ -79,7 +80,7 @@
     "trustFastSub": "Response in minutes",
     "trustService": "Excellent service",
     "trustServiceSub": "Attention to every detail",
-    "featureSupportTitle": "24/7 service",
+    "featureSupportTitle": "Personalised 24/7 service",
     "featureSupportDetail": "Support available\n24 hours a day",
     "featureFleetTitle": "Premium fleet",
     "featureFleetDetail": "Modern, certified\nvehicles",
@@ -89,10 +90,11 @@
     "luxuryVip": "VIP comfort",
     "luxuryPerformance": "Prestige and performance",
     "luxuryDelegations": "Executive delegations",
-    "featureDriversTitle": "Professional chauffeurs",
+    "featureDriversTitle": "Executive chauffeurs",
     "featureDriversDetail": "Bilingual, trained\nand discreet",
-    "featureCoverageTitle": "National presence",
-    "featureCoverageDetail": "Luanda, Icolo e Bengo,\nLobito, Huambo and nationwide"
+    "featureCoverageTitle": "Nationwide coverage",
+    "featureCoverageDetail": "Luanda, Icolo e Bengo,\nLobito, Huambo and nationwide",
+    "featureMultilingualTitle": "Multilingual communication"
   },
   "booking": {
     "title": "Smart Booking & Fast Quote",
@@ -406,5 +408,31 @@
     "send": "Send",
     "handoffBtn": "Chat with Manager on WhatsApp",
     "welcome": "Hello! I am PEPEK GRUPO's Executive Assistant. How may I assist you with your mobility needs in Angola today?"
+  },
+  "footer": {
+    "tagline": "A premium experience in every kilometre",
+    "about1": "PEPEK Rent a Car is an Angolan premium mobility and executive transport company, founded in 2014 in Luanda.",
+    "about2": "We deliver mobility solutions with comfort, safety, discretion and excellence for companies, institutions, executives and private clients.",
+    "badge": "Registered NIF · AGT invoicing in national currency (AOA) and foreign currencies",
+    "socialAria": "PEPEK GRUPO on {{network}}",
+    "servicesTitle": "VIP Services",
+    "serviceLuxury": "Luxury Rent a Car",
+    "serviceExecutive": "Executive Support & Protocol",
+    "serviceTransfer": "Airport Transfers",
+    "serviceCorporate": "Corporate Mobility",
+    "serviceEvents": "Events & Official Delegations",
+    "navTitle": "Navigation",
+    "navHome": "Home",
+    "navAbout": "About Us",
+    "navFleet": "Luxury Fleet",
+    "navClients": "Institutional Clients",
+    "navBlog": "Blog & Newsletter",
+    "navContacts": "Direct Contacts",
+    "opsTitle": "Operations Centre",
+    "address": "Talatona, Rua Reino do Bailundo, Luanda — Angola",
+    "whatsapp": "Official WhatsApp 24/7",
+    "copyright": "© 2014 – {{year}} PEPEK GRUPO RENT-A-CAR. All rights reserved.",
+    "privacy": "Privacy",
+    "backToTop": "Back to top"
   }
 }
