@@ -3,16 +3,16 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, CalendarCheck, Car, Check, Clock3, Mail, MapPinned, Newspaper, PlayCircle, Search, Share2 } from 'lucide-react';
 
-type Story = { id: string; video: string; tag: 'Parcerias' | 'Protocolo' | 'Experiência' | 'Frota'; title: string; text: string; duration: string; audience: string };
+type Story = { id: string; video: string; tag: 'Parcerias' | 'Protocolo' | 'Experiência'; title: string; text: string; duration: string; audience: string };
 
 const stories: Story[] = [
   { id: 'african-sezs-mobilidade', video: '/videos/pepek-african-sezs-2-web.mp4', tag: 'Parcerias', title: 'PEPEK apoia Africa SEZs Summit — Mobilidade que Impulsiona o Investimento em Angola', text: 'Bastidores de uma parceria orientada para negócios, protocolo e deslocações executivas em Angola.', duration: '1 min', audience: 'Empresas e delegações' },
-  { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', tag: 'Protocolo', title: 'Mobilidade internacional com padrão PEPEK', text: 'Coordenação de viaturas, equipas e horários para missões que exigem discrição e rigor.', duration: '1 min', audience: 'Missões e protocolo' },
-  { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', tag: 'Experiência', title: 'Por dentro da operação PEPEK', text: 'Conheça momentos reais do serviço que move empresas, delegações e clientes particulares.', duration: '1 min', audience: 'Clientes PEPEK' },
-  { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', tag: 'Frota', title: 'Viaturas preparadas para cada percurso', text: 'Conforto, apresentação e segurança antes de cada levantamento ou transfer.', duration: '1 min', audience: 'Particulares e empresas' },
+  { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', tag: 'Protocolo', title: 'Comitivas e Delegações — Transporte Coordenado ao Minuto', text: 'Equipas, bagagem e horários sob controlo, do embarque à chegada ao recinto.', duration: '1 min', audience: 'Comitivas e delegações' },
+  { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', tag: 'Experiência', title: 'Operação PEPEK — A Excelência Começa nos Bastidores', text: 'Rigor na preparação. Resultado premium em cada viagem.', duration: '1 min', audience: 'Clientes PEPEK' },
+  { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', tag: 'Parcerias', title: 'Conexões que Criam Ecossistemas. Parcerias que Movem o Futuro.', text: 'A PEPEK no terreno: networking, parcerias e uma equipa onde valorizamos a liderança feminina.', duration: '1 min', audience: 'Parceiros e comunidade' },
 ];
 
-const categories = ['Todos', 'Parcerias', 'Protocolo', 'Experiência', 'Frota'] as const;
+const categories = ['Todos', 'Parcerias', 'Protocolo', 'Experiência'] as const;
 const resources = [
   { icon: Car, title: 'Escolher uma viatura', text: 'Compare categorias, lugares e tarifas da frota oficial.', to: '/frota', action: 'Ver frota' },
   { icon: MapPinned, title: 'Planear um percurso', text: 'Consulte soluções de transfer em Luanda e noutras províncias.', to: '/rotas', action: 'Explorar rotas' },

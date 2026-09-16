@@ -61,11 +61,11 @@ export const Hero: React.FC = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const today = new Date().toISOString().split('T')[0];
-  const homepageStories = [
+  const homepageStories: { id: string; video: string; title: string; tagline?: string }[] = [
     { id: 'african-sezs-mobilidade', video: '/videos/pepek-african-sezs-2-web.mp4', title: t('hero.videoStoryPartnership') },
-    { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', title: t('hero.videoStoryInternational') },
-    { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', title: t('hero.videoStoryOperation') },
-    { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet') },
+    { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', title: t('hero.videoStoryInternational'), tagline: t('hero.videoStoryInternationalTagline') },
+    { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', title: t('hero.videoStoryOperation'), tagline: t('hero.videoStoryOperationTagline') },
+    { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet'), tagline: t('hero.videoStoryFleetTagline') },
   ];
   const locationSuggestions = [
     'Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)',
@@ -196,7 +196,7 @@ export const Hero: React.FC = () => {
                 <h2 className="mt-3 max-w-lg text-lg font-extrabold leading-tight !text-white sm:text-2xl xl:text-[26px]">
                   {homepageStories[currentStory].title}
                 </h2>
-                <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">{t('hero.videoStoriesTagline')}</p>
+                <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">{homepageStories[currentStory].tagline ?? t('hero.videoStoriesTagline')}</p>
 
                 {/* Highlights list matching wireframe sketch */}
                 <div className="mt-4 space-y-2.5 border-t border-white/10 pt-3.5">
