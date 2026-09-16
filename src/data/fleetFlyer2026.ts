@@ -42,7 +42,7 @@ const FLYER_VEHICLES: FlyerVehicle[] = [
   { id: 'hyundai-staria-atual', name: 'Hyundai Staria', fullDay: 359999, transfer: 269999, image: 'hyundai-staria-atual' },
   { id: 'new-toyota-hiace', name: 'Toyota Hiace Furgão', fullDay: 379999, transfer: 284999, image: 'nova-toyota-hiace' },
   { id: 'mercedes-sprinter-atual', name: 'Mercedes-Benz Sprinter', fullDay: 369999, transfer: 277499, image: 'mercedes-sprinter-atual' },
-  { id: 'nissan-patrol', name: 'Nissan Patrol', fullDay: 390999, transfer: 293249, image: 'nissan-patrol' },
+  { id: 'nissan-patrol', name: 'Nissan Patrol', fullDay: 599999, transfer: 449999, image: 'nissan-patrol' },
   { id: 'new-toyota-prado', name: 'Toyota Land Cruiser 250', fullDay: 399999, transfer: 299999, image: 'novo-toyota-prado' },
   { id: 'mercedes-brabus', name: 'Mercedes Brabus', fullDay: 449999, transfer: 337499, image: 'mercedes-brabus' },
   { id: 'mercedes-cls63', name: 'Mercedes CLS63', fullDay: 699999, transfer: 524999, image: 'mercedes-cls63' },
