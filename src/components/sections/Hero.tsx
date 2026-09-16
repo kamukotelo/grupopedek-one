@@ -233,9 +233,11 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Right stage: 3 cards directly in showcase without inner boxed container */}
+            {/* Right stage: 3 cards directly in showcase without inner boxed container.
+                Below sm, only the active card renders — the side peeks made the stage
+                wider than the viewport and forced the whole row to overflow/clip. */}
             <div
-              className="relative order-1 flex h-[380px] touch-pan-y select-none items-center justify-center sm:h-[440px] lg:order-2 lg:h-[500px] xl:h-[540px]"
+              className="relative order-1 flex min-w-0 touch-pan-y select-none items-center justify-center py-1 sm:h-[440px] lg:order-2 lg:h-[500px] xl:h-[540px]"
               onPointerDown={(event) => { storyPointerStartX.current = event.clientX; }}
               onPointerUp={(event) => {
                 if (storyPointerStartX.current === null) return;
@@ -245,7 +247,7 @@ export const Hero: React.FC = () => {
               }}
               onPointerCancel={() => { storyPointerStartX.current = null; }}
             >
-              <div className="flex h-full items-center justify-center gap-3 sm:gap-5 lg:gap-6">
+              <div className="flex h-full w-full items-center justify-center gap-3 sm:gap-5 lg:gap-6">
                 {visibleStories.map(({ position, index }) => {
                   const story = homepageStories[index];
                   const isActive = position === 0;
@@ -256,8 +258,8 @@ export const Hero: React.FC = () => {
                       onClick={() => isActive ? toggleStoryPlayback() : selectStory(index)}
                       className={`relative shrink-0 overflow-hidden text-left transition-all duration-500 ${
                         isActive
-                          ? 'z-10 h-full aspect-[4/5] rounded-[22px] border-2 border-[#FEC228] shadow-[0_18px_40px_rgba(0,0,0,0.6),0_0_26px_rgba(254,194,40,0.24)]'
-                          : 'h-[52%] aspect-[406/720] rounded-[14px] border border-white/15 opacity-40 hover:opacity-75'
+                          ? 'z-10 w-full max-w-[360px] aspect-[4/5] rounded-[22px] border-2 border-[#FEC228] shadow-[0_18px_40px_rgba(0,0,0,0.6),0_0_26px_rgba(254,194,40,0.24)] sm:h-full sm:w-auto sm:max-w-none'
+                          : 'hidden h-[52%] aspect-[406/720] rounded-[14px] border border-white/15 opacity-40 hover:opacity-75 sm:block'
                       }`}
                       aria-label={isActive ? (isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')) : `${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
                       aria-current={isActive ? 'true' : undefined}
