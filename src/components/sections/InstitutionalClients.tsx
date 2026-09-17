@@ -7,13 +7,16 @@ import { useTranslation } from 'react-i18next';
 export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLink = true }) => {
   const { t } = useTranslation();
 
-  // 21 Authentic client logos
+  // Logótipos institucionais e empresariais confirmados pela PEPEK.
   const allLogos = [
     { name: 'Embaixada Americana', src: '/carrousel/america-american-EMBASSADAlogo-1-150x78.webp' },
     { name: 'Governo de Angola', src: '/carrousel/LOGO-GOVERNO-DE-ANGOLA-150x141.webp' },
     { name: 'Assembleia Nacional', src: '/carrousel/SEMBLEIA-ANGOLANA-logo-150x78.webp' },
     { name: 'ANPG Petróleos', src: '/carrousel/APNG-150x78.webp' },
-    { name: 'TAAG Linhas Aéreas', src: '/carrousel/TAAGG-150x78.webp' },
+    { name: 'Bestfly Angola', src: '/clients-color/bestfly.png' },
+    { name: 'DP World', src: '/clients-color/dp-world.png' },
+    { name: 'Câmara de Comércio e Indústria Angola–Arábia Saudita', src: '/clients-color/cciaas.png' },
+    { name: 'Programa das Nações Unidas para o Desenvolvimento', src: '/clients-color/undp.png' },
     { name: 'Banco BFA', src: '/carrousel/BFA-BANCO-DE-ANGOLA-150x78.webp' },
 
     { name: 'Banco Atlântico', src: '/clients-color/atlantico-oficial.png' },

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, CalendarCheck, Car, Check, Clock3, Mail, MapPinned, Newspaper, PlayCircle, Search, Share2 } from 'lucide-react';
+import { ArrowRight, Building2, CalendarCheck, Car, Check, Clock3, MapPinned, PlayCircle, Search, Share2 } from 'lucide-react';
 
 type Story = { id: string; video: string; tag: 'Parcerias' | 'Protocolo' | 'Experiência'; title: string; text: string; duration: string; audience: string };
 
@@ -60,21 +60,21 @@ export const PageBlog: React.FC = () => {
       <section className="overflow-hidden bg-[#001E4A] py-16 text-white sm:py-24">
         <div className="container-pepek grid items-center gap-10 lg:grid-cols-[1.05fr_.95fr]">
           <div>
-            <span className="mb-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[.16em] text-[#FEC228]"><Newspaper className="h-4 w-4" /> Blogue PEPEK</span>
-            <h1 className="max-w-3xl text-4xl font-black leading-tight !text-white sm:text-6xl">Histórias que movem Angola.</h1>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">Novidades da frota, bastidores das nossas operações e informação útil para planear viagens, transfers e missões corporativas.</p>
-            <div className="mt-7 flex flex-wrap gap-3 text-xs font-bold text-white/80"><span className="rounded-full border border-white/15 bg-white/5 px-4 py-2">Vídeos originais</span><span className="rounded-full border border-white/15 bg-white/5 px-4 py-2">Guias práticos</span><span className="rounded-full border border-white/15 bg-white/5 px-4 py-2">Atualidade PEPEK</span></div>
+            <span className="mb-5 inline-flex text-xs font-extrabold uppercase tracking-[.16em] text-[#FEC228]">Blogue PEPEK</span>
+            <h1 className="max-w-3xl text-[2.15rem] font-black leading-tight !text-white sm:text-5xl">Histórias que Movem Angola</h1>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-white/70">Conheça em primeira mão as novidades da frota.</p>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65 sm:text-base">Informação que antecipa necessidades. Histórias que revelam excelência. Mobilidade que faz Angola avançar.</p>
           </div>
           <form onSubmit={subscribe} className="rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur-sm sm:p-8">
-            <Mail className="h-8 w-8 text-[#FEC228]" /><h2 className="mt-4 text-2xl font-extrabold !text-white">Receba a Newsletter PEPEK</h2><p className="mt-2 text-sm leading-6 text-white/65">Uma seleção breve de novidades, serviços e oportunidades, diretamente no seu e-mail.</p>
+            <h2 className="text-xl font-extrabold !text-white sm:text-2xl">Subscreva a Newsletter e acompanhe o Blogue PEPEK.</h2><p className="mt-2 text-sm leading-6 text-white/65">Uma seleção breve de novidades, serviços e oportunidades, diretamente no seu e-mail.</p>
             {subscribed ? <div className="mt-6 rounded-xl bg-emerald-500/20 p-4 text-emerald-100" role="status"><p className="flex items-center gap-2 font-bold"><Check className="h-5 w-5" /> Subscrição registada</p><p className="mt-1 text-xs text-emerald-100/75">Obrigado por acompanhar a PEPEK.</p></div> : <div className="mt-6 flex flex-col gap-3 sm:flex-row"><label htmlFor="newsletter-email" className="sr-only">Endereço de e-mail</label><input id="newsletter-email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="O seu endereço de e-mail" className="min-h-12 flex-1 rounded-xl border border-white/20 bg-white px-4 text-sm text-[#09172C] outline-none focus:ring-2 focus:ring-[#FEC228]" /><button type="submit" className="min-h-12 rounded-xl bg-[#FEC228] px-5 text-sm font-extrabold text-[#09172C] transition hover:bg-[#FFD45F]">Subscrever</button></div>}
-            <p className="mt-3 text-[11px] text-white/45">Ao subscrever, aceita receber comunicações PEPEK. Pode cancelar quando desejar.</p>
+            <p className="mt-3 text-[11px] leading-5 text-white/50">Ao subscrever, concorda em receber comunicações da PEPEK. Pode cancelar a subscrição a qualquer momento.</p>
           </form>
         </div>
       </section>
 
       <section className="container-pepek py-16 sm:py-20">
-        <div className="mb-8 flex flex-col justify-between gap-4 lg:flex-row lg:items-end"><div><span className="text-xs font-extrabold uppercase tracking-[.15em] text-[#236199]">Vídeos & notícias</span><h2 className="mt-2 text-3xl font-black sm:text-4xl">Explore as últimas histórias</h2></div><p className="max-w-md text-sm leading-6 text-slate-600">Encontre rapidamente conteúdos sobre a frota, experiências, protocolo e parcerias.</p></div>
+        <div className="mb-8 flex flex-col justify-between gap-4 lg:flex-row lg:items-end"><div><span className="text-xs font-extrabold uppercase tracking-[.15em] text-[#236199]">Vídeos & notícias</span><h2 className="mt-2 text-3xl font-black sm:text-4xl">Explore as últimas notícias, vídeos e histórias da PEPEK</h2></div><p className="max-w-md text-sm leading-6 text-slate-600">Encontre rapidamente conteúdos sobre a frota, experiências, protocolo e parcerias.</p></div>
         <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="relative"><Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" /><label htmlFor="blog-search" className="sr-only">Pesquisar no blogue</label><input id="blog-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Pesquisar por tema, serviço ou experiência" className="min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pl-12 pr-4 text-sm outline-none focus:border-[#236199] focus:ring-2 focus:ring-[#236199]/20" /></div>
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1" aria-label="Filtrar conteúdos por tema">{categories.map((category) => <button key={category} type="button" onClick={() => setActiveCategory(category)} aria-pressed={activeCategory === category} className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-extrabold transition focus:ring-2 focus:ring-[#236199] ${activeCategory === category ? 'bg-[#001E4A] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>{category}</button>)}</div>

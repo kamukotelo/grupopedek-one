@@ -32,7 +32,10 @@ export const Hero: React.FC = () => {
     { name: 'Embaixada Americana', src: '/clients-color/embassy.png' },
     { name: 'Assembleia Nacional', src: '/clients-color/assembleia.png' },
     { name: 'ANPG Petróleos', src: '/clients-color/anpg.png' },
-    { name: 'TAAG Linhas Aéreas', src: '/clients-color/taag.png' },
+    { name: 'Bestfly Angola', src: '/clients-color/bestfly.png' },
+    { name: 'DP World', src: '/clients-color/dp-world.png' },
+    { name: 'Câmara de Comércio e Indústria Angola–Arábia Saudita', src: '/clients-color/cciaas.png' },
+    { name: 'Programa das Nações Unidas para o Desenvolvimento', src: '/clients-color/undp.png' },
     { name: 'Banco BFA', src: '/clients-color/bai.svg' },
     { name: 'Banco Atlântico', src: '/clients-color/atlantico-oficial.png' },
     { name: 'Standard Bank', src: '/clients-color/standard.png' },
@@ -342,10 +345,11 @@ export const Hero: React.FC = () => {
           <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight font-inter">
-            “{t('hero.title')}”
+          <h1 className="text-[2.15rem] sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] tracking-tight">
+            {t('hero.title')}
+            <span className="mt-1 block text-[#FEC228]">{t('hero.titleAccent')}</span>
           </h1>
-          <p className="text-lg sm:text-2xl text-gray-300 font-light mt-5 leading-relaxed max-w-4xl">
+          <p className="text-base sm:text-lg text-gray-300 font-normal mt-5 leading-7 sm:leading-8 max-w-3xl">
             {t('hero.description')}
           </p>
         </div>

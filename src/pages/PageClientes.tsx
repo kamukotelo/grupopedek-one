@@ -11,7 +11,7 @@ export const PageClientes: React.FC = () => (
   <>
     <Helmet>
       <title>Clientes de Referência – Embaixadas, Governo & Multinacionais | PEPEK GRUPO</title>
-      <meta name="description" content="Embaixadas, Governo angolano, UNICEF, TAAG, Banco BFA e dezenas de multinacionais confiam na PEPEK GRUPO para a sua mobilidade executiva em Angola." />
+      <meta name="description" content="Embaixadas, Governo angolano, UNDP, Bestfly, DP World, instituições e empresas confiam na PEPEK GRUPO para a sua mobilidade executiva em Angola." />
       <meta property="og:title" content="Clientes Institucionais | PEPEK GRUPO" />
       <meta property="og:description" content="Corpos diplomáticos, ministérios, banca, energia e media confiam a sua mobilidade à PEPEK GRUPO." />
       <meta property="og:url" content="https://pepekgrupo.com/clientes" />
