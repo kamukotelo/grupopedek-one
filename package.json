@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "gen:ai": "node scripts/gen-ai-knowledge.mjs",
     "test": "node scripts/validate-project.mjs",
-    "test:build": "npm test && npm run build"
+    "test:sales": "node scripts/test-sales-payments.mjs",
+    "test:build": "npm test && npm run test:sales && npm run build"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

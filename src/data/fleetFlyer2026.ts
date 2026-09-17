@@ -58,7 +58,7 @@ const FLYER_VEHICLES: FlyerVehicle[] = [
   { id: 'mercedes-g63', name: 'Mercedes-AMG G63 Executive', fullDay: 999999, transfer: 749999, image: 'mercedes-g63-atual' },
   { id: 'lexus-600', name: 'Lexus LX 600', fullDay: 800000, transfer: 600000, image: 'lexus-600' },
   { id: 'limousine', name: 'Limousine', fullDay: 999999, transfer: 749999, image: 'limousine' },
-  { id: 'range-rover-novo-modelo', name: 'Novo Range Rover Autobiography', fullDay: 1449999, transfer: 1087499, image: 'range-rover-novo-modelo' },
+  { id: 'range-rover-novo-modelo', name: 'Novo Range Rover Autobiography', fullDay: 1499999, transfer: 1124999, image: 'range-rover-novo-modelo' },
   { id: 'mercedes-class-s-2025', name: 'Mercedes-Benz Classe S', fullDay: 1449999, transfer: 1087499, image: 'mercedes-classe-s-2025' },
   { id: 'rangerover-blindado-2025', name: 'Range Rover Vogue Blindado', fullDay: 1999999, transfer: 1499999, image: 'range-rover-blindado-2025' },
   // Novas viaturas com fotografia oficial "Carros PNG" (Ago/2026). Preços provisórios — ver fleetData.ts.

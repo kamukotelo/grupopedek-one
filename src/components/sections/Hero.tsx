@@ -67,7 +67,7 @@ export const Hero: React.FC = () => {
   const homepageStories: { id: string; video: string; title: string; tagline?: string }[] = [
     { id: 'african-sezs-mobilidade', video: '/videos/pepek-african-sezs-2-web.mp4', title: t('hero.videoStoryPartnership') },
     { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', title: t('hero.videoStoryInternational'), tagline: t('hero.videoStoryInternationalTagline') },
-    { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', title: t('hero.videoStoryOperation'), tagline: t('hero.videoStoryOperationTagline') },
+    { id: 'operacao-pepek', video: '/videos/operacao-pepek-web.m4v', title: t('hero.videoStoryOperation'), tagline: t('hero.videoStoryOperationTagline') },
     { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet'), tagline: t('hero.videoStoryFleetTagline') },
     { id: 'hyundai-staria-vip', video: '/videos/img-8510-web.mp4', title: t('hero.videoStoryStaria'), tagline: t('hero.videoStoryStariaTagline') },
   ];

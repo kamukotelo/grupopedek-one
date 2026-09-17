@@ -30,8 +30,9 @@ import {
   BadgeCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { UserRole } from '../../types/auth';
+import { UserRole, InvoiceItem } from '../../types/auth';
 import { PaymentSimulatorModal } from './PaymentSimulatorModal';
+import { ReceiptModal } from './ReceiptModal';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { ClientAreaModal } from '../ui/ClientAreaModal';
 import { DEMO_OPERATIONAL_RECORDS, DEMO_ODOO_EVENTS } from '../../data/demoUsers';
@@ -55,6 +56,7 @@ export const ClientPortalModal: React.FC = () => {
   } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'overview' | 'fleet' | 'invoices' | 'operations' | 'odoo' | 'request'>('overview');
+  const [selectedReceiptInvoice, setSelectedReceiptInvoice] = useState<InvoiceItem | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
 
   if (!isPortalOpen) return null;
@@ -484,10 +486,21 @@ export const ClientPortalModal: React.FC = () => {
                               <span>{inv.status === 'overdue' ? 'Regularizar' : 'Pagar Agora'}</span>
                             </button>
                           ) : (
-                            <span className="px-3 py-1 rounded-xl bg-[#236199] text-white font-bold flex items-center gap-1">
-                              <CheckCircle2 className="w-3.5 h-3.5" />
-                              <span>{inv.paymentGateway}</span>
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="px-3 py-1 rounded-xl bg-[#236199] text-white font-bold flex items-center gap-1 text-xs">
+                                <CheckCircle2 className="w-3.5 h-3.5" />
+                                <span>{inv.paymentGateway}</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => setSelectedReceiptInvoice(inv)}
+                                className="flex items-center gap-1 rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-xs font-bold text-[#09172C] hover:border-[#236199] hover:bg-blue-50/50 transition cursor-pointer shadow-sm"
+                                title="Ver e descarregar recibo oficial certificado AGT"
+                              >
+                                <FileText className="w-3.5 h-3.5 text-[#236199]" />
+                                <span>Recibo</span>
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -702,6 +715,13 @@ export const ClientPortalModal: React.FC = () => {
         onSuccess={(id, gw) => {
           payInvoice(id, gw);
         }}
+      />
+
+      {/* AGT Certified Receipt Modal */}
+      <ReceiptModal
+        invoice={selectedReceiptInvoice}
+        user={currentUser}
+        onClose={() => setSelectedReceiptInvoice(null)}
       />
     </>
   );

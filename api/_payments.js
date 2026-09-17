@@ -24,7 +24,7 @@ export const FAILURE_MESSAGES = {
 export const failureMessage = (code) => FAILURE_MESSAGES[code] || 'Não foi possível concluir o pagamento. Nenhum valor foi cobrado.';
 
 export const getSupabaseAdmin = () => {
-  const url = process.env.SUPABASE_URL;
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return { url: url.replace(/\/$/, ''), key };
@@ -65,7 +65,9 @@ export const paymentReference = () => `PK-PAY-${new Date().getUTCFullYear()}-${c
 export const createStripeCheckout = async ({ amountMinor, currency, description, paymentOrderId, clientReference, customerEmail }) => {
   const secret = process.env.STRIPE_SECRET_KEY;
   if (!secret) throw new Error('STRIPE_NOT_CONFIGURED');
-  const siteUrl = process.env.SITE_URL;
+  const siteUrl = process.env.SITE_URL
+    || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null)
+    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null);
   if (!siteUrl) throw new Error('SITE_URL_NOT_CONFIGURED');
   const body = new URLSearchParams({
     mode: 'payment',
@@ -91,13 +93,27 @@ export const createStripeCheckout = async ({ amountMinor, currency, description,
 };
 
 export const verifyStripeSignature = (rawBody, signatureHeader) => {
-  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  const secret = process.env.STRIPE_SECRET_KEY && process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret || !signatureHeader) return false;
   const parts = Object.fromEntries(String(signatureHeader).split(',').map((part) => part.split('=', 2)));
   const timestamp = Number(parts.t);
   if (!timestamp || Math.abs(Date.now() / 1000 - timestamp) > 300) return false;
-  const expected = crypto.createHmac('sha256', secret).update(`${timestamp}.${rawBody}`).digest('hex');
+  const expected = crypto.createHmac('sha256', process.env.STRIPE_WEBHOOK_SECRET).update(`${timestamp}.${rawBody}`).digest('hex');
   return safeEqual(expected, parts.v1);
+};
+
+export const verifyMulticaixaSignature = (rawBody, signatureHeader) => {
+  const secret = process.env.EMIS_WEBHOOK_SECRET;
+  if (!secret || !signatureHeader) return false;
+  const expected = crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
+  return safeEqual(expected, signatureHeader.trim());
+};
+
+export const verifyMbWaySignature = (rawBody, signatureHeader) => {
+  const secret = process.env.MBWAY_WEBHOOK_SECRET || process.env.SIBS_WEBHOOK_SECRET;
+  if (!secret || !signatureHeader) return false;
+  const expected = crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
+  return safeEqual(expected, signatureHeader.trim());
 };
 
 export const sha256 = (value) => crypto.createHash('sha256').update(value).digest('hex');

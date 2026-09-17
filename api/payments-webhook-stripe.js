@@ -11,6 +11,13 @@ const readRawBody = async (req) => {
 };
 
 export default async function handler(req, res) {
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      service: 'PEPEK Payments Stripe Webhook',
+      status: 'online',
+      message: 'Endpoint operacional. Envie eventos POST com assinatura Stripe no header stripe-signature.',
+    });
+  }
   if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
   const rawBody = await readRawBody(req);
   if (!verifyStripeSignature(rawBody, req.headers['stripe-signature'])) return res.status(400).json({ error: 'Assinatura inválida.' });

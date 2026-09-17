@@ -26,11 +26,14 @@ export default async function handler(req, res) {
   if (!invoice) return res.status(404).json({ error: 'Fatura não encontrada.' });
   if (invoice.status === 'paid') return res.status(409).json({ error: 'Esta fatura já está liquidada.' });
 
-  const currency = provider === 'multicaixa' || provider === 'bank_transfer' ? 'AOA'
+  const currency = provider === 'multicaixa' ? 'AOA'
     : provider === 'mbway' ? 'EUR'
-    : (cleanText(req.body?.currency, 3) || 'EUR').toUpperCase();
+    : (cleanText(req.body?.currency, 3) || (provider === 'bank_transfer' ? 'AOA' : 'EUR')).toUpperCase();
   if (!['AOA', 'USD', 'EUR'].includes(currency)) return res.status(400).json({ error: 'Moeda inválida.' });
-  const sourceAmount = currency === 'AOA' ? invoice.amount_aoa : currency === 'USD' ? invoice.amount_usd : invoice.amount_eur;
+  let sourceAmount = currency === 'AOA' ? invoice.amount_aoa : currency === 'USD' ? invoice.amount_usd : invoice.amount_eur;
+  if (!sourceAmount && currency === 'EUR' && invoice.amount_usd) {
+    sourceAmount = Math.round(Number(invoice.amount_usd) * 0.92);
+  }
   const amountMinor = amountToMinor(sourceAmount, currency);
   if (!amountMinor) return res.status(409).json({ error: `A fatura não possui valor autorizado em ${currency}.` });
 

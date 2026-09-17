@@ -111,60 +111,63 @@ export const DEMO_INVOICES: InvoiceItem[] = [
     invoiceNumber: 'FT-PEPEK-DEMO/0001',
     date: '15/08/2026',
     dueDate: '15/09/2026',
-    amountAOA: 4200000, // TODO: PLACEHOLDER
-    amountUSD: 4600,    // TODO: PLACEHOLDER
+    amountAOA: 4200000,
+    amountUSD: 4600,
+    amountEUR: 4250,
     status: 'paid',
     description: 'Aluguer Mensal 2x Toyota Land Cruiser 250 com Motorista Protocolar (Demo)',
     paymentGateway: 'Multicaixa Express',
-    odooInvoiceId: 'INV/DEMO/00001' // TODO: PLACEHOLDER
+    odooInvoiceId: 'INV/DEMO/00001'
   },
   {
     id: 'inv_002',
     invoiceNumber: 'FT-PEPEK-DEMO/0002',
     date: '19/08/2026',
     dueDate: '25/08/2026',
-    amountAOA: 1850000, // TODO: PLACEHOLDER
-    amountUSD: 2050,    // TODO: PLACEHOLDER
+    amountAOA: 1850000,
+    amountUSD: 2050,
+    amountEUR: 1900,
     status: 'pending',
     description: 'Transfers VIP Aeroporto AIAAN + Escolta Huambo Toyota Hilux Dupla Cabine (Demo)',
     paymentGateway: 'Stripe',
-    odooInvoiceId: 'INV/DEMO/00002' // TODO: PLACEHOLDER
+    odooInvoiceId: 'INV/DEMO/00002'
   },
   {
     id: 'inv_003',
     invoiceNumber: 'FT-PEPEK-DEMO/0003',
     date: '21/08/2026',
     dueDate: '30/08/2026',
-    amountAOA: 890000, // TODO: PLACEHOLDER
-    amountUSD: 980,    // TODO: PLACEHOLDER
+    amountAOA: 890000,
+    amountUSD: 980,
+    amountEUR: 900,
     status: 'pending',
     description: 'Aluguer Semanal Mercedes-Benz V300 Class VIP — Comitiva Técnica (Demo)',
     paymentGateway: 'MB WAY',
-    odooInvoiceId: 'INV/DEMO/00003' // TODO: PLACEHOLDER
+    odooInvoiceId: 'INV/DEMO/00003'
   },
   {
     id: 'inv_004', invoiceNumber: 'FT-PEPEK-DEMO/0004', date: '22/08/2026', dueDate: '05/09/2026',
-    amountAOA: 675000, amountUSD: 725, status: 'paid', description: 'Transfer executivo AIAAN — Talatona, com motorista bilingue (Demo)',
+    amountAOA: 675000, amountUSD: 725, amountEUR: 670, status: 'paid', description: 'Transfer executivo AIAAN — Talatona, com motorista bilingue (Demo)',
     paymentGateway: 'BAI Direto', odooInvoiceId: 'INV/DEMO/00004'
   },
   {
     id: 'inv_005', invoiceNumber: 'FT-PEPEK-DEMO/0005', date: '23/08/2026', dueDate: '23/09/2026',
-    amountAOA: 7850000, amountUSD: 8435, status: 'pending', description: 'Contrato mensal de mobilidade corporativa — 5 viaturas executivas (Demo)',
+    amountAOA: 7850000, amountUSD: 8435, amountEUR: 7800, status: 'pending', description: 'Contrato mensal de mobilidade corporativa — 5 viaturas executivas (Demo)',
     paymentGateway: 'Transferência SWIFT', odooInvoiceId: 'INV/DEMO/00005'
   },
   {
     id: 'inv_006', invoiceNumber: 'FT-PEPEK-DEMO/0006', date: '24/08/2026', dueDate: '31/08/2026',
-    amountAOA: 1295000, amountUSD: 1390, status: 'pending', description: 'Comitiva internacional — Mercedes V300 VIP e apoio protocolar (Demo)',
+    amountAOA: 1295000, amountUSD: 1390, amountEUR: 1280, status: 'pending', description: 'Comitiva internacional — Mercedes V300 VIP e apoio protocolar (Demo)',
     paymentGateway: 'Stripe', odooInvoiceId: 'INV/DEMO/00006'
   },
   {
     id: 'inv_007', invoiceNumber: 'FT-PEPEK-DEMO/0007', date: '25/08/2026', dueDate: '25/09/2026',
-    amountAOA: 3480000, amountUSD: 3740, status: 'paid', description: 'Missão técnica Luanda–Huambo com frota 4x4 (Demo)',
+    amountAOA: 3480000, amountUSD: 3740, amountEUR: 3450, status: 'paid', description: 'Missão técnica Luanda–Huambo com frota 4x4 (Demo)',
     paymentGateway: 'Multicaixa Express', odooInvoiceId: 'INV/DEMO/00007'
   },
   {
     id: 'inv_008', invoiceNumber: 'FT-PEPEK-DEMO/0008', date: '26/08/2026', dueDate: '26/09/2026',
-    amountAOA: 960000, amountUSD: 1032, status: 'overdue', description: 'Aluguer semanal Toyota Prado — conta corporativa (Demo)',
+    amountAOA: 960000, amountUSD: 1032, amountEUR: 950, status: 'overdue', description: 'Aluguer semanal Toyota Prado — conta corporativa (Demo)',
     paymentGateway: 'MB WAY', odooInvoiceId: 'INV/DEMO/00008'
   }
 ];

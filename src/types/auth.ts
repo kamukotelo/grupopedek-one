@@ -74,6 +74,13 @@ export interface InvoiceItem {
   description: string;
   paymentGateway: 'Multicaixa Express' | 'Stripe' | 'Cartão / Stripe' | 'BAI Direto' | 'MB WAY' | 'MB WAY / Portugal' | 'Transferência Bancária' | 'Transferência SWIFT';
   odooInvoiceId?: string;
+  receiptNumber?: string;
+  paidAt?: string;
+  integrityHash?: string;
+  clientReference?: string;
+  providerReference?: string;
+  customerNif?: string;
+  customerName?: string;
 }
 
 export interface FleetTelemetryItem {
