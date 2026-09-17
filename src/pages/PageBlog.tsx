@@ -10,6 +10,7 @@ const stories: Story[] = [
   { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', tag: 'Protocolo', title: 'Comitivas e Delegações — Transporte Coordenado ao Minuto', text: 'Equipas, bagagem e horários sob controlo, do embarque à chegada ao recinto.', duration: '1 min', audience: 'Comitivas e delegações' },
   { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', tag: 'Experiência', title: 'Operação PEPEK — A Excelência Começa nos Bastidores', text: 'Rigor na preparação. Resultado premium em cada viagem.', duration: '1 min', audience: 'Clientes PEPEK' },
   { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', tag: 'Parcerias', title: 'Conexões que Criam Ecossistemas. Parcerias que Movem o Futuro.', text: 'A PEPEK no terreno: networking, parcerias e uma equipa onde valorizamos a liderança feminina.', duration: '1 min', audience: 'Parceiros e comunidade' },
+  { id: 'hyundai-staria-vip', video: '/videos/img-8510-web.mp4', tag: 'Experiência', title: 'Hyundai Staria Lounge VIP — Conforto Executivo e Espaço de Primeira Classe', text: 'Elegância, espaço e acabamentos de alto padrão. Perfeita para viagens corporativas, missões diplomáticas e transfers executivos em Angola.', duration: '1 min', audience: 'Executivos e delegações VIP' },
 ];
 
 const categories = ['Todos', 'Parcerias', 'Protocolo', 'Experiência'] as const;

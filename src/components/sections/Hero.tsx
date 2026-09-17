@@ -66,6 +66,7 @@ export const Hero: React.FC = () => {
     { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', title: t('hero.videoStoryInternational'), tagline: t('hero.videoStoryInternationalTagline') },
     { id: 'operacao-pepek', video: '/videos/pepek-african-sezs-1-web.mp4', title: t('hero.videoStoryOperation'), tagline: t('hero.videoStoryOperationTagline') },
     { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet'), tagline: t('hero.videoStoryFleetTagline') },
+    { id: 'hyundai-staria-vip', video: '/videos/img-8510-web.mp4', title: t('hero.videoStoryStaria'), tagline: t('hero.videoStoryStariaTagline') },
   ];
   const locationSuggestions = [
     'Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)',
