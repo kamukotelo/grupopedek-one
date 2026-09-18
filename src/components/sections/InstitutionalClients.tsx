@@ -103,12 +103,12 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
               {group.map((client, logoIdx) => (
                 <div
                   key={logoIdx}
-                  className="group flex h-20 items-center justify-center rounded-xl border border-white/5 bg-white/[0.03] p-3 transition-all hover:border-[#FEC228]/50 hover:bg-white/[0.06]"
+                  className="group flex h-20 items-center justify-center rounded-xl border border-white/20 bg-white p-3 shadow-sm transition-all hover:border-[#FEC228]/70 hover:shadow-md"
                 >
                   <img
                     src={client.src}
                     alt={client.name}
-                    className="max-h-11 max-w-[130px] w-auto object-contain filter brightness-[0.9] contrast-[1.15] opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                    className="max-h-11 max-w-[130px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
                 </div>
