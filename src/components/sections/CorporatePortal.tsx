@@ -21,7 +21,7 @@ export const CorporatePortal: React.FC = () => {
     {
       icon: <FileText className="w-6 h-6 text-[#236199]" />,
       title: 'Faturação e Condições de Pagamento',
-      desc: 'Emissão formal de faturas em conformidade legal, com prazos de liquidação a 30 ou 60 dias para empresas credenciadas.'
+      desc: 'Emissão de faturas com prazos de pagamento de 30 ou 60 dias para empresas credenciadas, conforme acordo.'
     },
     {
       icon: <ShieldCheck className="w-6 h-6 text-[#236199]" />,

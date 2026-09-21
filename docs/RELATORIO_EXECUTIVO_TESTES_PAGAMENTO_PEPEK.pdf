@@ -18,7 +18,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 7 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
 endobj
 7 0 obj
-<< /Length 8766 >>
+<< /Length 8719 >>
 stream
 0.035 0.090 0.173 rg
 0.00 740.00 595.00 102.00 re
@@ -29,11 +29,11 @@ f
 1.000 1.000 1.000 rg
 BT /F1 22.0 Tf 40.00 802.00 Td (GRUPO PEPEK) Tj ET
 0.996 0.761 0.157 rg
-BT /F1 8.0 Tf 195.00 804.00 Td (RENT-A-CAR & MOBILIDADE CORPORATIVA) Tj ET
+BT /F1 8.0 Tf 230.00 804.00 Td (RENT-A-CAR & MOBILIDADE CORPORATIVA) Tj ET
 0.886 0.910 0.941 rg
 BT /F1 11.0 Tf 40.00 786.00 Td (RELATORIO EXECUTIVO PARA A DIRECAO GERAL E FINANCEIRA) Tj ET
 0.580 0.639 0.722 rg
-BT /F2 9.0 Tf 40.00 768.00 Td (Homologacao Operacional dos 4 Modelos de Pagamento e Emissao de Recibos AGT) Tj ET
+BT /F2 9.0 Tf 40.00 768.00 Td (Teste Operacional dos 4 Modelos de Pagamento e Emissao de Recibos) Tj ET
 0.796 0.835 0.882 rg
 BT /F2 8.0 Tf 40.00 750.00 Td (Data: Setembro de 2026  |  Classificacao: Confidencial / Nivel Executivo) Tj ET
 0.118 0.161 0.231 rg
@@ -44,9 +44,9 @@ f
 420.00 755.00 135.00 45.00 re
 S
 0.996 0.761 0.157 rg
-BT /F1 8.0 Tf 430.00 785.00 Td (CERTIFICACAO AGT) Tj ET
+BT /F1 8.0 Tf 430.00 785.00 Td (GRUPO PEPEK) Tj ET
 1.000 1.000 1.000 rg
-BT /F2 7.0 Tf 430.00 773.00 Td (Software n. 284/AGT/2026) Tj ET
+BT /F2 7.0 Tf 430.00 773.00 Td (Relatorio de pagamentos) Tj ET
 0.580 0.639 0.722 rg
 BT /F2 7.0 Tf 430.00 762.00 Td (NIF: 5417088491) Tj ET
 0.878 0.949 0.996 rg
@@ -90,9 +90,9 @@ f
 433.00 672.00 122.00 48.00 re
 S
 0.851 0.467 0.024 rg
-BT /F1 10.0 Tf 441.00 702.00 Td (14% IVA AGT) Tj ET
+BT /F1 10.0 Tf 441.00 702.00 Td (14% IVA) Tj ET
 0.200 0.255 0.333 rg
-BT /F2 6.5 Tf 441.00 686.00 Td (Conformidade Fiscal Garantida) Tj ET
+BT /F2 6.5 Tf 441.00 686.00 Td (Imposto indicado nos testes) Tj ET
 0.973 0.980 0.988 rg
 40.00 580.00 515.00 80.00 re
 f
@@ -268,9 +268,9 @@ BT /F2 8.0 Tf 160.00 321.00 Td (Apoio nativo via MB WAY para clientes e executiv
 42.00 307.00 4.00 4.00 re
 f
 0.035 0.090 0.173 rg
-BT /F1 8.0 Tf 52.00 306.00 Td (Auditoria & AGT:) Tj ET
+BT /F1 8.0 Tf 52.00 306.00 Td (Auditoria:) Tj ET
 0.278 0.333 0.412 rg
-BT /F2 8.0 Tf 160.00 306.00 Td (Recibos emitidos com presuncao de legalidade, hash imutavel e sem intervencao manual.) Tj ET
+BT /F2 8.0 Tf 160.00 306.00 Td (Recibos com hash de integridade e registo de eventos de pagamento.) Tj ET
 0.50 w
 40.00 45.00 m 555.00 45.00 l S
 0.392 0.455 0.545 rg
@@ -283,7 +283,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 9 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
 endobj
 9 0 obj
-<< /Length 6026 >>
+<< /Length 6003 >>
 stream
 0.035 0.090 0.173 rg
 0.00 785.00 595.00 57.00 re
@@ -440,7 +440,7 @@ BT /F2 7.5 Tf 62.00 224.00 Td (Reducao de Friccao Comercial: Elimina a necessida
 54.00 211.00 3.00 3.00 re
 f
 0.118 0.161 0.231 rg
-BT /F2 7.5 Tf 62.00 210.00 Td (Recibo AGT Bilingue/Bi-moeda: Permite apresentacao contabilistica tanto em Angola como no exterior.) Tj ET
+BT /F2 7.5 Tf 62.00 210.00 Td (Recibo bilingue: Apresenta os dados do pagamento para consulta pelo cliente.) Tj ET
 0.50 w
 40.00 45.00 m 555.00 45.00 l S
 0.392 0.455 0.545 rg
@@ -453,7 +453,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 11 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
 endobj
 11 0 obj
-<< /Length 5377 >>
+<< /Length 5239 >>
 stream
 0.035 0.090 0.173 rg
 0.00 785.00 595.00 57.00 re
@@ -462,13 +462,13 @@ f
 0.00 782.00 595.00 3.00 re
 f
 1.000 1.000 1.000 rg
-BT /F1 14.0 Tf 40.00 810.00 Td (CONFORMIDADE FISCAL AGT E PARECER DE HOMOLOGACAO) Tj ET
+BT /F1 14.0 Tf 40.00 810.00 Td (REGISTOS DE PAGAMENTO E RESULTADOS DOS TESTES) Tj ET
 0.796 0.835 0.882 rg
 BT /F2 8.5 Tf 40.00 794.00 Td (Evidencia documental de recibos emitidos e recomendacao a Administracao) Tj ET
 0.996 0.761 0.157 rg
 BT /F1 8.0 Tf 480.00 802.00 Td (PARECER FINAL) Tj ET
 0.035 0.090 0.173 rg
-BT /F1 11.0 Tf 40.00 755.00 Td (GARANTIAS DE CONFORMIDADE FISCAL E SEGURANCA TRIBUTARIA) Tj ET
+BT /F1 11.0 Tf 40.00 755.00 Td (REGISTOS E INTEGRIDADE DOS PAGAMENTOS) Tj ET
 0.973 0.980 0.988 rg
 40.00 640.00 515.00 100.00 re
 f
@@ -477,9 +477,9 @@ f
 40.00 640.00 515.00 100.00 re
 S
 0.035 0.090 0.173 rg
-BT /F1 8.0 Tf 52.00 722.00 Td (Certificacao de Software:) Tj ET
+BT /F1 8.0 Tf 52.00 722.00 Td (Emissao de Recibos:) Tj ET
 0.200 0.255 0.333 rg
-BT /F2 8.0 Tf 185.00 722.00 Td (Emissao em conformidade com o Decreto Presidencial n. 292/18 e validacao AGT n. 284.) Tj ET
+BT /F2 8.0 Tf 185.00 722.00 Td (Recibos associados a ordens de pagamento confirmadas.) Tj ET
 0.035 0.090 0.173 rg
 BT /F1 8.0 Tf 52.00 706.00 Td (Regime Geral do IVA \(14%\):) Tj ET
 0.200 0.255 0.333 rg
@@ -511,7 +511,7 @@ f
 1.000 1.000 1.000 rg
 BT /F1 11.0 Tf 52.00 584.00 Td (PEPEK GRUPO RENT-A-CAR S.A.) Tj ET
 0.996 0.761 0.157 rg
-BT /F2 7.5 Tf 52.00 572.00 Td (NIF: 5417088491  |  Software Certificado n. 284/AGT/2026) Tj ET
+BT /F2 7.5 Tf 52.00 572.00 Td (NIF: 5417088491) Tj ET
 1.000 1.000 1.000 rg
 BT /F1 8.5 Tf 390.00 578.00 Td (RECIBO OFICIAL DE QUITACAO) Tj ET
 0.035 0.090 0.173 rg
@@ -535,7 +535,7 @@ BT /F2 8.5 Tf 320.00 500.00 Td (Ref. Transacao: EMIS-MCX-1773274189050) Tj ET
 0.278 0.333 0.412 rg
 BT /F2 8.5 Tf 52.00 474.00 Td (Incidencia Liquida: 3.684.210,53 AOA) Tj ET
 0.278 0.333 0.412 rg
-BT /F2 8.5 Tf 220.00 474.00 Td (IVA \(14% AGT\): 515.789,47 AOA) Tj ET
+BT /F2 8.5 Tf 220.00 474.00 Td (IVA \(14%\): 515.789,47 AOA) Tj ET
 0.035 0.090 0.173 rg
 BT /F1 9.5 Tf 380.00 474.00 Td (TOTAL LIQUIDADO: 4.200.000,00 AOA) Tj ET
 0.945 0.961 0.976 rg
@@ -563,7 +563,7 @@ S
 0.024 0.373 0.275 rg
 BT /F1 9.5 Tf 52.00 343.00 Td (CONCLUSAO: SISTEMA TOTALMENTE APTO PARA OPERACAO COMERCIAL EM ESCALA) Tj ET
 0.016 0.471 0.341 rg
-BT /F2 8.0 Tf 52.00 329.00 Td (A infraestrutura de pagamentos demonstrou robustez tecnica, integridade financeira e aderencia plena as normas tributarias.) Tj ET
+BT /F2 8.0 Tf 52.00 329.00 Td (Os testes verificaram a conciliacao dos pagamentos e a integridade dos recibos emitidos.) Tj ET
 0.016 0.471 0.341 rg
 BT /F2 8.0 Tf 52.00 317.00 Td (Recomenda-se a ativacao imediata de todos os canais para faturacao de contratos corporativos e reservas digitais.) Tj ET
 1.00 w
@@ -596,12 +596,12 @@ xref
 0000000273 00000 n 
 0000000351 00000 n 
 0000000497 00000 n 
-0000009314 00000 n 
-0000009460 00000 n 
-0000015537 00000 n 
-0000015685 00000 n 
+0000009267 00000 n 
+0000009413 00000 n 
+0000015467 00000 n 
+0000015615 00000 n 
 trailer
 << /Size 12 /Root 1 0 R >>
 startxref
-21114
+20906
 %%EOF

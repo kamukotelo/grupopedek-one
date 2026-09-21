@@ -190,18 +190,18 @@ def build_executive_report():
     
     # Logotipo / Marca
     p1.text(40, 802, "GRUPO PEPEK", font="F1", size=22, color="#FFFFFF")
-    p1.text(195, 804, "RENT-A-CAR & MOBILIDADE CORPORATIVA", font="F1", size=8, color="#FEC228")
+    p1.text(230, 804, "RENT-A-CAR & MOBILIDADE CORPORATIVA", font="F1", size=8, color="#FEC228")
     p1.text(40, 786, "RELATORIO EXECUTIVO PARA A DIRECAO GERAL E FINANCEIRA", font="F1", size=11, color="#E2E8F0")
-    p1.text(40, 768, "Homologacao Operacional dos 4 Modelos de Pagamento e Emissao de Recibos AGT", font="F2", size=9, color="#94A3B8")
+    p1.text(40, 768, "Teste Operacional dos 4 Modelos de Pagamento e Emissao de Recibos", font="F2", size=9, color="#94A3B8")
     p1.text(40, 750, "Data: Setembro de 2026  |  Classificacao: Confidencial / Nivel Executivo", font="F2", size=8, color="#CBD5E1")
     
-    # Badge AGT no canto superior direito
+    # Identificacao da empresa no canto superior direito
     p1.hex_color("#1E293B")
     p1.rect(420, 755, 135, 45, fill=True)
     p1.hex_color("#FEC228", stroke=True)
     p1.rect(420, 755, 135, 45, fill=False, stroke=True, stroke_w=1)
-    p1.text(430, 785, "CERTIFICACAO AGT", font="F1", size=8, color="#FEC228")
-    p1.text(430, 773, "Software n. 284/AGT/2026", font="F2", size=7, color="#FFFFFF")
+    p1.text(430, 785, "GRUPO PEPEK", font="F1", size=8, color="#FEC228")
+    p1.text(430, 773, "Relatorio de pagamentos", font="F2", size=7, color="#FFFFFF")
     p1.text(430, 762, "NIF: 5417088491", font="F2", size=7, color="#94A3B8")
 
     # 1. Painel de Indicadores Executivos (KPI Cards)
@@ -209,7 +209,7 @@ def build_executive_report():
         ("4 / 4 HOMOLOGADOS", "Modelos de Pagamento Testados", "#0284C7", "#E0F2FE"),
         ("100% SUCESSO", "Taxa de Liquidacao e Recibo", "#059669", "#D1FAE5"),
         ("0 RISCO FRAUDE", "Integridade Criptografica SHA-256", "#0D9488", "#CCFBF1"),
-        ("14% IVA AGT", "Conformidade Fiscal Garantida", "#D97706", "#FEF3C7"),
+        ("14% IVA", "Imposto indicado nos testes", "#D97706", "#FEF3C7"),
     ]
     
     card_w = 122
@@ -302,7 +302,7 @@ def build_executive_report():
         ("Nacional (AOA):", "Conversao imediata via Multicaixa Express e conciliacao bancaria direta para BFA/BAI."),
         ("Captacao Externa (USD):", "Abertura direta para clientes internacionais, embaixadas e petroleiras pagarem em moeda forte."),
         ("Expansao Europa (EUR):", "Apoio nativo via MB WAY para clientes e executivos em transito Lisboa-Luanda."),
-        ("Auditoria & AGT:", "Recibos emitidos com presuncao de legalidade, hash imutavel e sem intervencao manual."),
+        ("Auditoria:", "Recibos com hash de integridade e registo de eventos de pagamento."),
     ]
     for idx, (b_title, b_desc) in enumerate(bullets):
         by = y_dec + 50 - (idx * 15)
@@ -380,7 +380,7 @@ def build_executive_report():
                 "Tempo de Liquidacao: Notificacao direta no telemovel do cliente (+351).",
                 "Moeda: Transacoes expressas em Euros (EUR), simplificando a contabilidade de comitivas europeias.",
                 "Reducao de Friccao Comercial: Elimina a necessidade de burocracia cambial para clientes da diaspora.",
-                "Recibo AGT Bilingue/Bi-moeda: Permite apresentacao contabilistica tanto em Angola como no exterior.",
+                "Recibo bilingue: Apresenta os dados do pagamento para consulta pelo cliente.",
             ],
             "box_color": "#FEF3C7",
             "border_color": "#D97706",
@@ -430,12 +430,12 @@ def build_executive_report():
     p3.rect(0, 785, 595, 57, fill=True)
     p3.hex_color("#FEC228")
     p3.rect(0, 782, 595, 3, fill=True)
-    p3.text(40, 810, "CONFORMIDADE FISCAL AGT E PARECER DE HOMOLOGACAO", font="F1", size=14, color="#FFFFFF")
+    p3.text(40, 810, "REGISTOS DE PAGAMENTO E RESULTADOS DOS TESTES", font="F1", size=14, color="#FFFFFF")
     p3.text(40, 794, "Evidencia documental de recibos emitidos e recomendacao a Administracao", font="F2", size=8.5, color="#CBD5E1")
     p3.text(480, 802, "PARECER FINAL", font="F1", size=8, color="#FEC228")
 
-    # 1. Secção de Conformidade com a AGT
-    p3.text(40, 755, "GARANTIAS DE CONFORMIDADE FISCAL E SEGURANCA TRIBUTARIA", font="F1", size=11, color="#09172C")
+    # 1. Secao de registos e integridade
+    p3.text(40, 755, "REGISTOS E INTEGRIDADE DOS PAGAMENTOS", font="F1", size=11, color="#09172C")
     
     p3.hex_color("#F8FAFC")
     p3.rect(40, 640, 515, 100, fill=True)
@@ -443,7 +443,7 @@ def build_executive_report():
     p3.rect(40, 640, 515, 100, fill=False, stroke=True, stroke_w=1)
     
     tax_items = [
-        ("Certificacao de Software:", "Emissao em conformidade com o Decreto Presidencial n. 292/18 e validacao AGT n. 284."),
+        ("Emissao de Recibos:", "Recibos associados a ordens de pagamento confirmadas."),
         ("Regime Geral do IVA (14%):", "Todos os recibos discriminam base de incidencia liquida e imposto liquidado exato."),
         ("Assinatura Digital SHA-256:", "Cada recibo possui um Hash de integridade derivado de [Ordem|Valor|Moeda|Ref|Data]."),
         ("Imutabilidade e Auditoria:", "Tabela payment_events e estritamente append-only (sem permissao de DELETE/UPDATE)."),
@@ -467,7 +467,7 @@ def build_executive_report():
     p3.hex_color("#09172C")
     p3.rect(40, 565, 515, 35, fill=True)
     p3.text(52, 584, "PEPEK GRUPO RENT-A-CAR S.A.", font="F1", size=11, color="#FFFFFF")
-    p3.text(52, 572, "NIF: 5417088491  |  Software Certificado n. 284/AGT/2026", font="F2", size=7.5, color="#FEC228")
+    p3.text(52, 572, "NIF: 5417088491", font="F2", size=7.5, color="#FEC228")
     p3.text(390, 578, "RECIBO OFICIAL DE QUITACAO", font="F1", size=8.5, color="#FFFFFF")
     
     # Dados do Recibo
@@ -487,7 +487,7 @@ def build_executive_report():
     
     # Valores
     p3.text(52, 474, "Incidencia Liquida: 3.684.210,53 AOA", font="F2", size=8.5, color="#475569")
-    p3.text(220, 474, "IVA (14% AGT): 515.789,47 AOA", font="F2", size=8.5, color="#475569")
+    p3.text(220, 474, "IVA (14%): 515.789,47 AOA", font="F2", size=8.5, color="#475569")
     p3.text(380, 474, "TOTAL LIQUIDADO: 4.200.000,00 AOA", font="F1", size=9.5, color="#09172C")
     
     # Caixa Hash
@@ -509,7 +509,7 @@ def build_executive_report():
     p3.rect(40, y_parecer - 65, 515, 55, fill=False, stroke=True, stroke_w=1)
     
     p3.text(52, y_parecer - 22, "CONCLUSAO: SISTEMA TOTALMENTE APTO PARA OPERACAO COMERCIAL EM ESCALA", font="F1", size=9.5, color="#065F46")
-    p3.text(52, y_parecer - 36, "A infraestrutura de pagamentos demonstrou robustez tecnica, integridade financeira e aderencia plena as normas tributarias.", font="F2", size=8, color="#047857")
+    p3.text(52, y_parecer - 36, "Os testes verificaram a conciliacao dos pagamentos e a integridade dos recibos emitidos.", font="F2", size=8, color="#047857")
     p3.text(52, y_parecer - 48, "Recomenda-se a ativacao imediata de todos os canais para faturacao de contratos corporativos e reservas digitais.", font="F2", size=8, color="#047857")
 
     # Blocos de Assinatura
