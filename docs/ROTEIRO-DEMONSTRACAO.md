@@ -4,7 +4,7 @@
 
 Os nove perfis demonstrativos podem ser abertos directamente na Área Cliente, com um clique e sem introduzir utilizador ou senha. O formulário abaixo deles permanece reservado às contas reais autenticadas pelo Supabase. Todos os nomes, matrículas, faturas e movimentos apresentados no modo demo são fictícios.
 
-Senha comum dos perfis: `PepekDemo2026!`
+Perfis disponíveis:
 
 - `vip.demo`
 - `cliente.demo`
