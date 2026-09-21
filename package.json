@@ -11,7 +11,8 @@
     "test": "node scripts/validate-project.mjs",
     "test:sales": "node scripts/test-sales-payments.mjs",
     "test:bank-transfer": "node scripts/test-bank-transfer.mjs",
-    "test:build": "npm test && npm run test:bank-transfer && npm run build"
+    "test:build": "npm test && npm run test:bank-transfer && npm run build",
+    "users:update-passwords": "node scripts/update-users-passwords.mjs"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
