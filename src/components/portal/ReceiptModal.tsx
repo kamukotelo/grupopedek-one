@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Printer, ShieldCheck, Copy, Check, FileText, CheckCircle2, Lock, Building2 } from 'lucide-react';
+import { X, Printer, FileText, CheckCircle2, Building2 } from 'lucide-react';
 import { InvoiceItem, UserProfile } from '../../types/auth';
 
 interface ReceiptModalProps {
@@ -9,7 +9,6 @@ interface ReceiptModalProps {
 }
 
 export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClose }) => {
-  const [copied, setCopied] = useState(false);
 
   if (!invoice) return null;
 
@@ -18,25 +17,14 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
   const paidAt = invoice.paidAt || `${invoice.date} às 14:30`;
   const clientReference = invoice.clientReference || `PK-PAY-2026-${invoice.id.toUpperCase().slice(0, 8)}`;
   const customerName = invoice.customerName || user?.name || 'Cliente Institucional PEPEK';
-  const customerNif = invoice.customerNif || user?.nif || '5412345678';
+  const customerNif = invoice.customerNif || user?.nif;
   const customerCompany = user?.company || 'Entidade Titular';
 
-  // Cálculo de impostos AGT (14% IVA incluído)
+  // Valores apresentados no comprovativo do sistema.
   const totalAOA = invoice.amountAOA;
-  const netAmountAOA = Math.round(totalAOA / 1.14);
-  const ivaAmountAOA = totalAOA - netAmountAOA;
-
-  // Hash determinístico de integridade para verificação
-  const integrityHash = invoice.integrityHash || `9e2d4f8a1c5b7063${invoice.id.slice(0, 8)}7b4d1892f3ac04856127bc4f783109a25b184f`;
 
   const handlePrint = () => {
     window.print();
-  };
-
-  const handleCopyHash = () => {
-    navigator.clipboard.writeText(integrityHash);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
   };
 
   return (
@@ -51,7 +39,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
               <FileText className="h-4 w-4 text-[#FEC228]" />
             </span>
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-[#09172C]">Recibo Oficial de Quitação</span>
+              <span className="text-xs font-extrabold uppercase tracking-wider text-[#09172C]">Comprovativo de Pagamento</span>
               <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">Liquidado</span>
             </div>
           </div>
@@ -108,7 +96,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
               <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Exmo.(a) Sr.(a) / Cliente</span>
               <p className="mt-1 font-bold text-[#09172C] text-sm">{customerName}</p>
               <p className="text-gray-600 flex items-center gap-1 mt-0.5"><Building2 className="h-3 w-3 text-gray-400" />{customerCompany}</p>
-              <p className="text-gray-600 mt-0.5">NIF: <span className="font-mono font-bold text-gray-800">{customerNif}</span></p>
+              {customerNif && <p className="text-gray-600 mt-0.5">NIF: <span className="font-mono font-bold text-gray-800">{customerNif}</span></p>}
             </div>
 
             <div className="sm:border-l sm:border-gray-200 sm:pl-4">
@@ -119,7 +107,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
                 </span>
               </div>
               <p className="mt-1 text-gray-600">Ref. Transação: <span className="font-mono font-medium text-gray-800">{clientReference}</span></p>
-              <p className="text-gray-500 text-[11px]">Estado: Certificado & Reconciliado</p>
+              <p className="text-gray-500 text-[11px]">Estado: Pagamento confirmado</p>
             </div>
           </div>
 
@@ -131,8 +119,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
                 <thead className="bg-gray-100 text-gray-600 font-bold border-b border-gray-200">
                   <tr>
                     <th className="p-3">Descrição / Detalhe Operacional</th>
-                    <th className="p-3 text-center">Taxa IVA</th>
-                    <th className="p-3 text-right">Subtotal</th>
+                    <th className="p-3 text-right">Valor</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -141,9 +128,8 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
                       <strong className="block text-[#09172C]">{invoice.description}</strong>
                       <span className="text-[11px] text-gray-500">Mobilidade Executiva e Protocolar PEPEK · Luanda / Angola</span>
                     </td>
-                    <td className="p-3 text-center font-mono">14% (Geral)</td>
                     <td className="p-3 text-right font-mono font-bold text-gray-800">
-                      {netAmountAOA.toLocaleString('pt-AO')} AOA
+                      {totalAOA.toLocaleString('pt-AO')} AOA
                     </td>
                   </tr>
                 </tbody>
@@ -155,21 +141,12 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-t border-gray-200 pt-4">
             <div className="text-[11px] text-gray-500 space-y-1 max-w-xs">
               <div className="flex items-center gap-1 text-blue-900 font-bold">
-                <ShieldCheck className="h-4 w-4 text-[#236199]" />
-                <span>Certificação Tributária AGT</span>
+                <span>Comprovativo do sistema</span>
               </div>
-              <p>Software de Faturação e Recibos Certificado n.º 284/AGT/2026. Documento processado por computador.</p>
+              <p>Pagamento registado e confirmado no sistema.</p>
             </div>
 
             <div className="w-full sm:w-64 space-y-1.5 text-xs">
-              <div className="flex justify-between text-gray-600">
-                <span>Incidência Líquida:</span>
-                <span className="font-mono">{netAmountAOA.toLocaleString('pt-AO')} AOA</span>
-              </div>
-              <div className="flex justify-between text-gray-600">
-                <span>IVA (14% Geral AGT):</span>
-                <span className="font-mono">{ivaAmountAOA.toLocaleString('pt-AO')} AOA</span>
-              </div>
               <div className="flex justify-between border-t border-gray-200 pt-2 text-sm font-black text-[#09172C]">
                 <span>Total Liquidado:</span>
                 <span className="font-mono text-base text-[#09172C]">
@@ -184,29 +161,6 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ invoice, user, onClo
             </div>
           </div>
 
-          {/* Hash de Integridade e Assinatura Digital */}
-          <div className="rounded-xl border border-gray-200 bg-gray-50/70 p-3.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-[11px] font-bold text-gray-700">
-                <Lock className="h-3.5 w-3.5 text-emerald-600" />
-                <span>Assinatura Digital & Hash de Integridade (SHA-256)</span>
-              </div>
-              <button
-                type="button"
-                onClick={handleCopyHash}
-                className="flex items-center gap-1 text-[10px] font-bold text-[#236199] hover:underline print:hidden"
-              >
-                {copied ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
-                <span>{copied ? 'Copiado!' : 'Copiar Hash'}</span>
-              </button>
-            </div>
-            <p className="mt-1.5 break-all font-mono text-[10px] text-gray-600 bg-white p-2 rounded-lg border border-gray-200">
-              {integrityHash}
-            </p>
-            <p className="mt-1 text-[9px] text-gray-400">
-              Este recibo de quitação confere quitação total dos montantes discriminados. Os bens e serviços foram prestados de acordo com os termos contratuais.
-            </p>
-          </div>
         </div>
 
         {/* Rodapé do Modal */}

@@ -32,6 +32,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { UserRole, InvoiceItem } from '../../types/auth';
 import { PaymentSimulatorModal } from './PaymentSimulatorModal';
+import { BankTransferBackoffice } from './BankTransferBackoffice';
 import { ReceiptModal } from './ReceiptModal';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { ClientAreaModal } from '../ui/ClientAreaModal';
@@ -52,7 +53,8 @@ export const ClientPortalModal: React.FC = () => {
     refreshOdooSync,
     selectedPaymentInvoice,
     setSelectedPaymentInvoice,
-    payInvoice
+    payInvoice,
+    refreshInvoices
   } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'overview' | 'fleet' | 'invoices' | 'operations' | 'odoo' | 'request'>('overview');
@@ -88,7 +90,7 @@ export const ClientPortalModal: React.FC = () => {
     { role: 'gestor_reservas', label: 'Gestor de Reservas', icon: '🎫', category: 'Administrativo' },
     { role: 'diretor_frotas', label: 'Director de Frotas', icon: '🚚', category: 'Administrativo' },
     { role: 'motorista', label: 'Motorista Protocolar', icon: '🧑🏾‍✈️', category: 'Administrativo' },
-    { role: 'contabilista', label: 'Contabilista AGT', icon: '📊', category: 'Administrativo' },
+    { role: 'contabilista', label: 'Contabilista', icon: '📊', category: 'Administrativo' },
     { role: 'gestor_portugal', label: 'Gestor Portugal', icon: '🇵🇹', category: 'Administrativo' },
     { role: 'direcao', label: 'Direcção Executiva', icon: '🏛️', category: 'Administrativo' }
   ];
@@ -205,7 +207,7 @@ export const ClientPortalModal: React.FC = () => {
                 }`}
               >
                 <FileText className="w-4 h-4" />
-                <span>{isAdminOrStaff ? 'Faturamento & Finanças AGT' : 'Minhas Faturas & Recibos'}</span>
+                <span>{isAdminOrStaff ? 'Faturação & Finanças' : 'Minhas Faturas & Recibos'}</span>
                 {invoices.some(i => i.status === 'pending' || i.status === 'overdue') && (
                   <span className="w-2 h-2 rounded-full bg-[#FEC228]"></span>
                 )}
@@ -429,13 +431,14 @@ export const ClientPortalModal: React.FC = () => {
             {/* Tab 2: Invoices & Payments */}
             {activeTab === 'invoices' && canViewFinances && (
               <div className="space-y-5">
+                {!isDemoSession && ['contabilista', 'gestor_portugal', 'direcao'].includes(currentUser?.role || '') && <BankTransferBackoffice onReconciled={refreshInvoices} />}
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-base font-extrabold text-[#09172C]">
-                      Extrato de Faturas Certificadas AGT
+                      Extrato de Faturas e Pagamentos
                     </h4>
                     <p className="text-gray-500 text-xs">
-                      Liquidável via Multicaixa Express, Stripe Internacional, BAI Direto ou MB WAY.
+                      Transferência bancária em AOA, cartão internacional, Multicaixa Express ou MB WAY.
                     </p>
                   </div>
                   <div className="hidden items-center gap-2 sm:flex" aria-label="Moedas disponíveis">
@@ -495,7 +498,7 @@ export const ClientPortalModal: React.FC = () => {
                                 type="button"
                                 onClick={() => setSelectedReceiptInvoice(inv)}
                                 className="flex items-center gap-1 rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-xs font-bold text-[#09172C] hover:border-[#236199] hover:bg-blue-50/50 transition cursor-pointer shadow-sm"
-                                title="Ver e descarregar recibo oficial certificado AGT"
+                                title="Ver e descarregar comprovativo de pagamento"
                               >
                                 <FileText className="w-3.5 h-3.5 text-[#236199]" />
                                 <span>Recibo</span>
@@ -717,7 +720,7 @@ export const ClientPortalModal: React.FC = () => {
         }}
       />
 
-      {/* AGT Certified Receipt Modal */}
+      {/* Payment receipt modal */}
       <ReceiptModal
         invoice={selectedReceiptInvoice}
         user={currentUser}

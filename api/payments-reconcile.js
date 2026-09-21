@@ -15,6 +15,8 @@ export default async function handler(req, res) {
 
   const orderId = cleanText(req.body?.orderId, 80);
   const providerReference = cleanText(req.body?.providerReference, 180);
+  const confirmedAmountMinor = Number(req.body?.confirmedAmountMinor);
+  const confirmedCurrency = cleanText(req.body?.confirmedCurrency, 3).toUpperCase();
   const idempotencyKey = cleanText(req.body?.idempotencyKey, 80);
   if (!/^[0-9a-f-]{36}$/i.test(orderId) || !/^[0-9a-f-]{36}$/i.test(idempotencyKey) || providerReference.length < 6) {
     return res.status(400).json({ error: 'Ordem, idempotência e comprovativo bancário são obrigatórios.' });
@@ -24,8 +26,16 @@ export default async function handler(req, res) {
   const [order] = orderResponse.ok ? await orderResponse.json() : [];
   if (!order) return res.status(404).json({ error: 'Ordem não encontrada.' });
   if (order.provider === 'stripe') return res.status(409).json({ error: 'Pagamentos Stripe só podem ser liquidados pelo webhook assinado.' });
+  if (order.provider !== 'bank_transfer') return res.status(409).json({ error: 'Esta baixa manual está disponível apenas para transferências bancárias.' });
   if (order.status === 'paid') return res.status(200).json({ id: order.id, status: 'paid', alreadyReconciled: true });
   if (!['created', 'pending', 'authorized'].includes(order.status)) return res.status(409).json({ error: `A ordem está no estado ${order.status}.` });
+  if (!Number.isSafeInteger(confirmedAmountMinor) || confirmedAmountMinor !== Number(order.amount_minor) || confirmedCurrency !== order.currency) return res.status(409).json({ error: 'Valor ou moeda não corresponde à ordem. Confirme o extrato bancário.' });
+  const invoiceResponse = await supabaseRequest(admin, `invoices?id=eq.${order.invoice_id}&select=id,status`);
+  const [invoice] = invoiceResponse.ok ? await invoiceResponse.json() : [];
+  if (!invoice || !['pending', 'overdue'].includes(invoice.status)) return res.status(409).json({ error: 'A fatura não está pendente.' });
+  const duplicateReferenceResponse = await supabaseRequest(admin, `payment_orders?provider=eq.bank_transfer&provider_reference=eq.${encodeURIComponent(providerReference)}&select=id`);
+  const duplicates = duplicateReferenceResponse.ok ? await duplicateReferenceResponse.json() : [];
+  if (duplicates.length) return res.status(409).json({ error: 'Esta referência bancária já foi utilizada.' });
 
   const providerEventId = `manual:${idempotencyKey}`;
   const auditPayload = JSON.stringify({ orderId, providerReference, operatorId: user.id, amountMinor: order.amount_minor, currency: order.currency });

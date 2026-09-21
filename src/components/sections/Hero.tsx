@@ -36,7 +36,7 @@ export const Hero: React.FC = () => {
     { name: 'DP World', src: '/clients-color/dp-world.png' },
     { name: 'Câmara de Comércio e Indústria Angola–Arábia Saudita', src: '/clients-color/cciaas.png' },
     { name: 'Programa das Nações Unidas para o Desenvolvimento', src: '/clients-color/undp.png' },
-    { name: 'Banco BFA', src: '/clients-color/bai.svg' },
+    { name: 'Banco BFA', src: '/clients-color/bfa.svg' },
     { name: 'Banco Atlântico', src: '/clients-color/atlantico-oficial.png' },
     { name: 'Standard Bank', src: '/clients-color/standard.png' },
     { name: 'UNICEF Angola', src: '/clients-color/unicef.png' },
@@ -345,11 +345,11 @@ export const Hero: React.FC = () => {
           <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
-          <h1 className="text-[2.15rem] sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] tracking-tight">
+          <h1 className="text-[2rem] sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.12] tracking-tight">
             {t('hero.title')}
             <span className="mt-1 block text-[#FEC228]">{t('hero.titleAccent')}</span>
           </h1>
-          <p className="text-base sm:text-lg text-gray-300 font-normal mt-5 leading-7 sm:leading-8 max-w-3xl">
+          <p className="text-sm sm:text-base text-gray-200/90 font-normal mt-4 leading-relaxed max-w-2xl">
             {t('hero.description')}
           </p>
         </div>
@@ -465,10 +465,10 @@ export const Hero: React.FC = () => {
           </div>
           <div className="relative min-h-[120px] overflow-hidden">
             {slides.map((group, slideIndex) => (
-              <div key={slideIndex} className={`grid grid-cols-2 items-center justify-items-center gap-6 transition-all duration-700 ease-out sm:grid-cols-3 sm:gap-10 md:grid-cols-5 ${currentSlide === slideIndex ? 'relative translate-x-0 opacity-100' : 'pointer-events-none absolute inset-0 translate-x-16 opacity-0'}`}>
+              <div key={slideIndex} className={`grid grid-cols-2 items-center justify-items-center gap-6 transition-all duration-700 ease-out sm:grid-cols-3 sm:gap-8 md:grid-cols-5 ${currentSlide === slideIndex ? 'relative translate-x-0 opacity-100' : 'pointer-events-none absolute inset-0 translate-x-16 opacity-0'}`}>
                 {group.map((client) => (
-                  <div key={client.name} className="group flex h-24 w-full items-center justify-center p-3 sm:h-28">
-                    <img src={client.src} alt={client.name} className="h-16 w-full max-w-[170px] object-contain drop-shadow-[0_4px_9px_rgba(9,23,44,.16)] transition-transform duration-300 group-hover:scale-110 sm:h-20 sm:max-w-[200px]" loading="lazy" />
+                  <div key={client.name} className="group flex h-20 w-full items-center justify-center p-2 sm:h-24">
+                    <img src={client.src} alt={client.name} className="h-12 w-full max-w-[140px] object-contain drop-shadow-[0_2px_6px_rgba(9,23,44,.12)] transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:max-w-[180px]" loading="lazy" />
                   </div>
                 ))}
               </div>

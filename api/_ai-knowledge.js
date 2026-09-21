@@ -41,7 +41,7 @@ DADOS FACTUAIS OFICIAIS E REGRAS OPERACIONAIS (BASE EXATA DOS PDFs E TABELAS 202
 - Higienização e Combustível: Mínimo 25.000 Kz, Máximo 100.000 Kz.
 - Entrega e Recolha de Viaturas (Pick-up/Drop-off em hotel, residência ou empresa): Mínimo 15.000 Kz, Máximo 30.000 Kz.
 - Deslocação Interprovincial Geral: Mínimo 100.000 Kz, Máximo 700.000 Kz (ver tabela por província).
-- Nota Fiscal: Os custos tabelados não incluem IVA (14%) ou outras taxas legais aplicáveis. Faturação certificada AGT com NIF em Kwanzas (AOA) e moeda estrangeira (USD/EUR) para entidades diplomáticas e multinacionais.
+- Nota Fiscal: Os custos tabelados não incluem IVA (14%) ou outras taxas legais aplicáveis. Faturação pelo sistema em Kwanzas (AOA) e moeda estrangeira (USD/EUR) para entidades diplomáticas e multinacionais.
 
 4. TABELA EXATA DE TAXAS DE DESLOCAÇÃO INTERPROVINCIAL (PARTIDA DE LUANDA):
 - Bengo: 150.000 Kz (Ida e Regresso 2x: 300.000 Kz)
@@ -82,7 +82,7 @@ DADOS FACTUAIS OFICIAIS E REGRAS OPERACIONAIS (BASE EXATA DOS PDFs E TABELAS 202
 - Garantia Total de Continuidade: Assistência 24/7 com viatura de substituição equivalente ou superior em caso de avaria.
 
 7. MÉTODOS DE PAGAMENTO ACEITES:
-- Angola: Multicaixa e Multicaixa Express (Rede EMIS), transferências bancárias bancas nacionais (BAI, BFA, Atlântico).
+- Angola: Transferência bancária (BAI, Standard Bank, Atlântico, BFA) e Multicaixa Express (Rede EMIS).
 - Internacional: Cartões Visa e Mastercard, MB WAY (clientes em Portugal/Europa), transferências bancárias internacionais SWIFT em USD ou EUR.
 
 8. TRANSFERS AEROPORTUÁRIOS VIP:

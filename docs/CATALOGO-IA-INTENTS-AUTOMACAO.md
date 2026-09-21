@@ -47,7 +47,7 @@ Este documento transforma o ecossistema PEPEK numa base extensível para atendim
 | `PROF.RES` | `reservas.demo` | Despacho, frota global, acompanhamento integração operacional. |
 | `PROF.FLEET` | `frotas.demo` | Telemetria, disponibilidade, manutenção, integração ERP. |
 | `PROF.DRIVER` | `motorista.demo` | Viaturas, atribuições, localização, estado operacional. **Sem finanças**. |
-| `PROF.ACC` | `contabilidade.demo`| Faturas, liquidação, reconciliação, integração ERP (AGT). |
+| `PROF.ACC` | `contabilidade.demo`| Faturas, liquidação, reconciliação e conferência bancária. |
 | `PROF.PT` | `portugal.demo` | Financeiro internacional, Stripe/MB WAY, ERP em Euros. |
 | `PROF.EXEC` | `direcao.demo` | Visão global executiva: frota, finanças e integração administrativa. |
 
@@ -121,7 +121,7 @@ lexicon_pt_AO:
 #### `INT.PAYMENT.METHODS` — Métodos de pagamento aceites
 - **Variantes:** "Como posso pagar?", "Aceitam multicaixa?", "Pagamento em euros."
 - **Resposta:**
-  > "Para Angola, aceitamos Multicaixa Express e BAI Direto. Para Portugal, utilizamos MB WAY. Para pagamentos internacionais com cartão, utilizamos a plataforma segura Stripe. Na faturação corporativa credenciada, operamos com prazos de 30 a 60 dias em conformidade com a AGT."
+  > "Para Angola, aceitamos transferência bancária (BAI, Standard Bank, Atlântico, BFA) e Multicaixa Express. Para Portugal, utilizamos MB WAY. Para pagamentos internacionais com cartão, utilizamos a plataforma segura Stripe. Na faturação corporativa credenciada, operamos com prazos acordados contratualmente."
 
 #### `INT.PAYMENT.SIMULATE` — Como simular pagamento na demo
 - **Variantes:** "Como fecho a fatura na demo?", "Quero simular um pagamento."

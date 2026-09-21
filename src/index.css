@@ -55,9 +55,9 @@
   }
 
   body {
-    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
-    font-size: 15px;
-    line-height: 1.65;
+    font-family: 'Plus Jakarta Sans', 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.6;
     color: var(--gray-800);
     background-color: var(--white);
     -webkit-font-smoothing: antialiased;

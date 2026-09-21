@@ -243,7 +243,7 @@ export const RouteEstimator: React.FC = () => {
                 <div className="space-y-2.5 mb-8">
                   <div className="flex items-center gap-2.5 text-xs font-semibold text-[#09172C]">
                     <CheckCircle2 className="w-4 h-4 text-[#236199] shrink-0" />
-                    <span>Facturação em {currency} com conformidade legal AGT</span>
+                    <span>Faturação em {currency} pelo sistema</span>
                   </div>
                   <div className="flex items-center gap-2.5 text-xs font-semibold text-[#09172C]">
                     <CheckCircle2 className="w-4 h-4 text-[#236199] shrink-0" />

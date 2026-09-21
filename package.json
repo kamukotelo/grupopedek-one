@@ -10,7 +10,8 @@
     "gen:ai": "node scripts/gen-ai-knowledge.mjs",
     "test": "node scripts/validate-project.mjs",
     "test:sales": "node scripts/test-sales-payments.mjs",
-    "test:build": "npm test && npm run test:sales && npm run build"
+    "test:bank-transfer": "node scripts/test-bank-transfer.mjs",
+    "test:build": "npm test && npm run test:bank-transfer && npm run build"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

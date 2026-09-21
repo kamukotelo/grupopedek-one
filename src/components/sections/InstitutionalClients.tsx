@@ -17,7 +17,7 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
     { name: 'DP World', src: '/clients-color/dp-world.png' },
     { name: 'Câmara de Comércio e Indústria Angola–Arábia Saudita', src: '/clients-color/cciaas.png' },
     { name: 'Programa das Nações Unidas para o Desenvolvimento', src: '/clients-color/undp.png' },
-    { name: 'Banco BFA', src: '/carrousel/BFA-BANCO-DE-ANGOLA-150x78.webp' },
+    { name: 'Banco BFA', src: '/clients-color/bfa.svg' },
 
     { name: 'Banco Atlântico', src: '/clients-color/atlantico-oficial.png' },
     { name: 'Standard Bank', src: '/carrousel/standard-150x78.webp' },

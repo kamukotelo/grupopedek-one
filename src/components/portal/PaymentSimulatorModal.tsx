@@ -12,7 +12,7 @@ interface PaymentSimulatorModalProps {
 
 export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ invoice, onClose, onSuccess }) => {
   const isDemo = import.meta.env.VITE_DEMO_MODE === 'true';
-  const [provider, setProvider] = useState<PaymentProvider>('multicaixa');
+  const [provider, setProvider] = useState<PaymentProvider>('bank_transfer');
   const [currency, setCurrency] = useState<'AOA' | 'USD' | 'EUR'>('AOA');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
@@ -22,25 +22,18 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
   const [showReceiptModal, setShowReceiptModal] = useState(false);
   const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
 
-  // Coordenadas Bancárias Reais / Configuráveis via .env
-  const bankConfig = {
-    pt: {
-      name: import.meta.env.VITE_BANK_PT_NAME || 'Banco em Portugal (ex.: Millennium BCP)',
-      beneficiary: import.meta.env.VITE_BANK_PT_BENEFICIARY || 'PEPEK / GRUPO PEDEK',
-      iban: import.meta.env.VITE_BANK_PT_IBAN || 'PT50 0000 0000 0000 0000 0000 0',
-      swift: import.meta.env.VITE_BANK_PT_SWIFT || 'BCPTPTLX',
-    },
-    ao: {
-      name: import.meta.env.VITE_BANK_AO_NAME || 'Banco BAI / BFA',
-      beneficiary: import.meta.env.VITE_BANK_AO_BENEFICIARY || 'PEPEK GRUPO RENT-A-CAR S.A.',
-      iban: import.meta.env.VITE_BANK_AO_IBAN || 'AO06 0000 0000 0000 0000 0000 0',
-      swift: import.meta.env.VITE_BANK_AO_SWIFT || 'BAIAAO22',
-    },
-  };
+  const bankAccounts = [
+    { name: 'BAI', account: '7100 6979 10001', iban: 'AO06 0040 0000 7100 69791011 9' },
+    { name: 'Standard Bank', account: '1000 1107 29', iban: 'AO06 0060 0117 0100 0110 7297 3' },
+    { name: 'Atlântico', account: '1887 8498 3100 01', iban: 'AO06 0055 0000 8878 4983 1010 6' },
+    { name: 'BFA', account: '1413 8612 7300 01', iban: 'AO06 0006 0000 4138 6127 3010 7' },
+  ];
+  const [selectedBank, setSelectedBank] = useState('BAI');
+  const activeBank = bankAccounts.find((bank) => bank.name === selectedBank) || bankAccounts[0];
 
   useEffect(() => {
     setError(''); setReference(''); setDone(false); setIsProcessing(false); setShowReceiptModal(false);
-    setProvider('multicaixa'); setCurrency('AOA');
+    setProvider('bank_transfer'); setCurrency('AOA'); setSelectedBank('BAI');
     setIdempotencyKey(crypto.randomUUID());
   }, [invoice?.id]);
 
@@ -48,7 +41,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
     if (provider === 'multicaixa') setCurrency('AOA');
     else if (provider === 'mbway') setCurrency('EUR');
     else if (provider === 'stripe') setCurrency('EUR');
-    else if (provider === 'bank_transfer') setCurrency('EUR'); // Padrão internacional para contas em Portugal
+    else if (provider === 'bank_transfer') setCurrency('AOA');
   }, [provider]);
 
   if (!invoice) return null;
@@ -94,13 +87,11 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
   };
 
   const methods: Array<{ id: PaymentProvider; label: string; detail: string; Icon: typeof CreditCard }> = [
+    { id: 'bank_transfer', label: 'Transferência bancária', detail: 'Quatro bancos em Angola · AOA', Icon: Landmark },
     { id: 'stripe', label: 'Cartão internacional', detail: 'Visa / Mastercard · EUR ou USD (Stripe)', Icon: CreditCard },
-    { id: 'bank_transfer', label: 'Transferência bancária', detail: 'IBAN Portugal (EUR) ou Angola (AOA)', Icon: Landmark },
     { id: 'multicaixa', label: 'Multicaixa Express', detail: 'AOA · Angola', Icon: Smartphone },
     { id: 'mbway', label: 'MB WAY', detail: 'EUR · Portugal', Icon: Smartphone },
   ];
-
-  const activeBank = currency === 'EUR' ? bankConfig.pt : bankConfig.ao;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md">
@@ -126,7 +117,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                 {isDemo
                   ? 'Nenhuma cobrança foi efetuada.'
                   : provider === 'bank_transfer'
-                  ? 'Por favor realize a transferência com os dados abaixo e indique a referência na descrição da transferência.'
+                  ? 'Transfira exatamente o valor indicado em AOA, inclua a referência na descrição e aguarde a confirmação da equipa financeira após conferência do extrato bancário.'
                   : 'A fatura será liquidada automaticamente após confirmação assinada do provedor.'}
               </p>
               <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 text-left text-xs space-y-1">
@@ -147,13 +138,13 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                 <div className="rounded-xl border border-blue-200 bg-blue-50/70 p-3.5 text-left text-xs space-y-2">
                   <div className="flex items-center justify-between border-b border-blue-200/60 pb-1.5">
                     <strong className="text-[#09172C] font-bold">
-                      {currency === 'EUR' ? 'Conta Bancária em Portugal (EUR)' : 'Conta Bancária em Angola (AOA)'}
+                      Conta Bancária em Angola (AOA)
                     </strong>
                     <span className="text-[10px] font-bold uppercase text-[#236199]">{currency}</span>
                   </div>
                   <div className="text-[11px] space-y-1 text-gray-700">
                     <p><span className="text-gray-500">Banco:</span> <strong>{activeBank.name}</strong></p>
-                    <p><span className="text-gray-500">Titular:</span> <strong>{activeBank.beneficiary}</strong></p>
+                    <p><span className="text-gray-500">Conta:</span> <strong>{activeBank.account}</strong></p>
                     <div className="flex items-center justify-between bg-white px-2 py-1 rounded border border-blue-200">
                       <span className="font-mono text-[11px] text-gray-900 font-semibold">{activeBank.iban}</span>
                       <button
@@ -165,9 +156,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                         {copiedKey === 'iban_done' ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
                       </button>
                     </div>
-                    {activeBank.swift && (
-                      <p><span className="text-gray-500">SWIFT / BIC:</span> <strong className="font-mono">{activeBank.swift}</strong></p>
-                    )}
+                    <p className="text-amber-800">A ordem fica pendente até a entrada do dinheiro ser confirmada no banco. Esta página não confirma a execução da transferência.</p>
                   </div>
                 </div>
               )}
@@ -209,13 +198,12 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                 ))}
               </div>
 
-              {/* Seletor de moeda quando Stripe ou Transferência Bancária */}
-              {(provider === 'stripe' || provider === 'bank_transfer') && (
+              {/* O banco recebe apenas AOA; outras moedas dependem de provedores externos. */}
+              {provider === 'stripe' && (
                 <div className="space-y-1.5">
                   <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Moeda de pagamento:</span>
                   <div className="flex gap-2 rounded-xl bg-gray-100 p-1.5" aria-label="Moeda do pagamento">
-                    {provider === 'stripe' ? (
-                      (['EUR', 'USD'] as const).map((item) => (
+                    {(['EUR', 'USD'] as const).map((item) => (
                         <button
                           key={item}
                           type="button"
@@ -226,21 +214,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                         >
                           {item === 'EUR' ? 'EUR (€) - Europa' : 'USD ($) - Internacional'}
                         </button>
-                      ))
-                    ) : (
-                      (['EUR', 'AOA'] as const).map((item) => (
-                        <button
-                          key={item}
-                          type="button"
-                          onClick={() => setCurrency(item)}
-                          className={`flex-1 rounded-lg py-1.5 text-xs font-bold transition cursor-pointer ${
-                            currency === item ? 'bg-[#09172C] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900'
-                          }`}
-                        >
-                          {item === 'EUR' ? 'EUR (€) - Conta Portugal' : 'AOA (Kz) - Conta Angola'}
-                        </button>
-                      ))
-                    )}
+                      ))}
                   </div>
                 </div>
               )}
@@ -248,16 +222,20 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
               {/* Informações da conta quando Transferência Bancária */}
               {provider === 'bank_transfer' && (
                 <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 text-xs space-y-1.5">
+                  <label className="block text-[11px] font-bold text-[#09172C]" htmlFor="payment-bank">Escolha o banco destinatário</label>
+                  <select id="payment-bank" value={selectedBank} onChange={(event) => setSelectedBank(event.target.value)} className="w-full rounded-lg border border-gray-300 bg-white p-2 text-xs">
+                    {bankAccounts.map((bank) => <option key={bank.name} value={bank.name}>{bank.name}</option>)}
+                  </select>
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-bold text-[#09172C] flex items-center gap-1">
                       <Landmark className="h-3.5 w-3.5 text-[#236199]" />
-                      {currency === 'EUR' ? 'Dados da Conta em Portugal' : 'Dados da Conta em Angola'}
+                      Dados da Conta em Angola
                     </span>
                     <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded">{currency}</span>
                   </div>
                   <div className="text-[11px] text-gray-600 space-y-0.5">
                     <div>Banco: <strong className="text-gray-900">{activeBank.name}</strong></div>
-                    <div>Beneficiário: <strong className="text-gray-900">{activeBank.beneficiary}</strong></div>
+                    <div>Conta: <strong className="text-gray-900">{activeBank.account}</strong></div>
                     <div className="flex items-center justify-between bg-white px-2 py-1 rounded border border-gray-200 mt-1">
                       <span className="font-mono text-[11px] font-bold text-[#09172C]">{activeBank.iban}</span>
                       <button
@@ -269,9 +247,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                         {copiedKey === 'iban_prev' ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
                       </button>
                     </div>
-                    {activeBank.swift && (
-                      <div className="text-[10px] text-gray-500 pt-0.5">SWIFT/BIC: <span className="font-mono font-bold text-gray-700">{activeBank.swift}</span></div>
-                    )}
+                    <div className="text-[10px] text-gray-500">Confirme os dados da conta no seu banco antes de autorizar. Valor e referência são fixados pela fatura.</div>
                   </div>
                 </div>
               )}
@@ -289,11 +265,11 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                 ) : (
                   <>
                     {provider === 'stripe' ? <ExternalLink className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
-                    {isDemo ? 'Simular' : provider === 'stripe' ? 'Ir para Checkout Seguro' : 'Registar Pagamento com'} {providerLabels[provider]}
+                    {isDemo ? 'Simular' : provider === 'stripe' ? 'Ir para Checkout Seguro' : provider === 'bank_transfer' ? 'Gerar referência para' : 'Registar Pagamento com'} {providerLabels[provider]}
                   </>
                 )}
               </button>
-              <p className="text-center text-[9px] text-gray-400">Transação auditada com selo de integridade criptográfica SHA-256.</p>
+              <p className="text-center text-[9px] text-gray-500">A transferência só é dada como paga depois da conferência bancária pela equipa financeira.</p>
             </div>
           )}
         </div>

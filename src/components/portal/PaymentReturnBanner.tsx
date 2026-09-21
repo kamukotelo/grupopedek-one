@@ -94,7 +94,7 @@ export const PaymentReturnBanner: React.FC = () => {
       case 'checking':
         return { title: 'A confirmar o seu pagamento…', body: 'Aguarde enquanto validamos a confirmação do provedor. Não feche esta janela.' };
       case 'paid':
-        return { title: 'Pagamento confirmado', body: `Fatura liquidada. Referência ${s.reference}. O recibo certificado fica disponível no extrato.` };
+        return { title: 'Pagamento confirmado', body: `Fatura liquidada. Referência ${s.reference}. O comprovativo de pagamento fica disponível no extrato.` };
       case 'pending':
         return { title: 'Pagamento em processamento', body: `Recebemos a instrução (ref. ${s.reference}). A fatura é marcada como paga assim que o provedor confirmar — normalmente em minutos.` };
       case 'failed':

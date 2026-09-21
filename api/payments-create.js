@@ -19,12 +19,13 @@ export default async function handler(req, res) {
   const idempotencyKey = cleanText(req.body?.idempotencyKey, 80);
   if (!/^[0-9a-f-]{36}$/i.test(invoiceId) || !/^[0-9a-f-]{36}$/i.test(idempotencyKey)) return res.status(400).json({ error: 'Referência de pagamento inválida.' });
   if (!PAYMENT_PROVIDERS.has(provider) || !PAYMENT_CATEGORIES.has(category)) return res.status(400).json({ error: 'Método ou categoria inválida.' });
+  if (provider === 'bank_transfer' && cleanText(req.body?.currency, 3).toUpperCase() !== 'AOA') return res.status(400).json({ error: 'Transferência bancária disponível apenas em AOA.' });
 
   const invoiceResponse = await supabaseRequest(admin, `invoices?id=eq.${encodeURIComponent(invoiceId)}&user_id=eq.${encodeURIComponent(user.id)}&select=id,invoice_number,amount_aoa,amount_usd,amount_eur,status,description,user_id`);
   if (!invoiceResponse.ok) return res.status(502).json({ error: 'Não foi possível validar a fatura.' });
   const [invoice] = await invoiceResponse.json();
   if (!invoice) return res.status(404).json({ error: 'Fatura não encontrada.' });
-  if (invoice.status === 'paid') return res.status(409).json({ error: 'Esta fatura já está liquidada.' });
+  if (!['pending', 'overdue'].includes(invoice.status)) return res.status(409).json({ error: 'Esta fatura não está disponível para pagamento.' });
 
   const currency = provider === 'multicaixa' ? 'AOA'
     : provider === 'mbway' ? 'EUR'

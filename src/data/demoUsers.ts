@@ -78,7 +78,7 @@ export const DEMO_USERS: Record<string, UserProfile> = {
     email: 'financas@pepekgrupo.com',
     phone: '+244 923 719 090',
     role: 'contabilista',
-    roleLabel: 'Responsável de Contabilidade AGT',
+    roleLabel: 'Responsável de Contabilidade',
     company: 'PEPEK GRUPO — Finanças',
     tier: 'Administrativo'
   },

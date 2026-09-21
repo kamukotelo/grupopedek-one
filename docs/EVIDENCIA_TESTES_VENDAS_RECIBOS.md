@@ -1,7 +1,7 @@
-# Relatório de Testes de Vendas e Evidência de Recibos
-**Data de Execução:** 17/09/2026 às 15:47:35  
+# Relatório de Testes de Vendas e Evidência de Pagamentos
+**Data de Execução:** 21/09/2026 às 17:23:28  
 **Entidade Emissora:** PEPEK GRUPO RENT-A-CAR S.A. (NIF: 5417088491)  
-**Certificação de Software:** Software Certificado n.º 284/AGT/2026  
+**Registo Comercial:** Conservatória do Registo Comercial de Luanda n.º 14.892/2018  
 **Resultado dos Testes:** ✅ 46 verificações com sucesso (0 falhas)
 
 ---
@@ -9,37 +9,37 @@
 ## 1. Resumo Executivo dos Modelos de Pagamento Testados
 
 Foram executados testes de ponta a ponta para todos os modelos de pagamento disponíveis no sistema PEPEK, cobrindo o ciclo completo:
-1. Emissão de Fatura Comercial (conforme normas da Administração Geral Tributária - AGT de Angola).
+1. Emissão de Fatura Comercial no servidor com montantes fixados.
 2. Registo de Ordem de Pagamento no livro-razão protegido do servidor (`payment_orders`).
 3. Validação de idempotência e imutabilidade de montante.
 4. Processamento da transação pelo gateway com verificação de assinatura / autorização.
 5. Auditoria em trilha append-only (`payment_events`).
-6. Emissão de Recibo Oficial de Quitação com assinatura criptográfica SHA-256 (`payment_receipts`).
+6. Emissão de Comprovativo Oficial de Pagamento com assinatura criptográfica SHA-256 (`payment_receipts`).
 
-| Modelo de Pagamento | Canal / Rede | Moeda | Caso de Venda | N.º Fatura | N.º Recibo | Hash Integridade SHA-256 |
+| Modelo de Pagamento | Canal / Rede | Moeda | Caso de Venda | N.º Fatura | N.º Comprovativo | Hash Integridade SHA-256 |
 |---|---|---|---|---|---|---|
-| **Multicaixa Express** | MULTICAIXA | AOA | Aluguer Mensal Executivo Toyot... | `FT-PEPEK-2026/4498` | `REC-2026-EE020ED02B39` | `dd1cd9608c556834...` |
-| **Cartão / Stripe** | STRIPE | USD | Transfer VIP Aeroporto Interna... | `FT-PEPEK-2026/6750` | `REC-2026-28CD2E04AA28` | `2a62dda7e50ef149...` |
-| **Transferência Bancária** | BANK_TRANSFER | AOA | Contrato Mensal de Mobilidade ... | `FT-PEPEK-2026/8270` | `REC-2026-19C6D2BDEAAF` | `b71353668802bf82...` |
-| **MB WAY** | MBWAY | EUR | Aluguer Semanal Mercedes-Benz ... | `FT-PEPEK-2026/9494` | `REC-2026-FB65F1F2A157` | `7a8427a8dc74ae6c...` |
+| **Multicaixa Express** | MULTICAIXA | AOA | Aluguer Mensal Executivo Toyot... | `FT-PEPEK-2026/7962` | `REC-2026-B5929F65DD9B` | `3eefba0de30ac569...` |
+| **Cartão / Stripe** | STRIPE | USD | Transfer VIP Aeroporto Interna... | `FT-PEPEK-2026/4293` | `REC-2026-2E357FEDC53D` | `ca97a548ad05f845...` |
+| **Transferência Bancária** | BANK_TRANSFER | AOA | Contrato Mensal de Mobilidade ... | `FT-PEPEK-2026/4379` | `REC-2026-6CCED1573029` | `940c640e8f2799e1...` |
+| **MB WAY** | MBWAY | EUR | Aluguer Semanal Mercedes-Benz ... | `FT-PEPEK-2026/8888` | `REC-2026-001449B7BCA0` | `edb7bb497b9a2b1e...` |
 
 ---
 
-## 2. Evidências Detalhadas dos Recibos Emitidos
+## 2. Evidências Detalhadas dos Comprovativos Emitidos
 
 
-### Evidência 1: Recibo REC-2026-EE020ED02B39 (Multicaixa Express)
+### Evidência 1: Comprovativo REC-2026-B5929F65DD9B (Multicaixa Express)
 
 ```text
 ================================================================================
                     PEPEK GRUPO RENT-A-CAR S.A.
-        NIF: 5417088491 · Software Certificado n.º 284/AGT/2026
+        NIF: 5417088491 · Conservatória do Registo Comercial de Luanda n.º 14.892/2018
         Complexo Talatona Park, Luanda · financas@pepekgrupo.com
 ================================================================================
-RECIBO DE QUITAÇÃO FISCAL: REC-2026-EE020ED02B39
-Fatura Liquidada          : FT-PEPEK-2026/4498
-Data e Hora de Liquidação : 2026-09-17T14:47:35.306Z
-Referência de Pagamento   : PK-PAY-2026-48E8DC7CEACB
+COMPROVATIVO DE PAGAMENTO : REC-2026-B5929F65DD9B
+Fatura Liquidada          : FT-PEPEK-2026/7962
+Data e Hora de Liquidação : 2026-09-21T16:23:28.857Z
+Referência de Pagamento   : PK-PAY-2026-F4AAACCAB270
 
 DADOS DO CLIENTE:
 Nome    : Embaixada Parceira de Luanda / Corpo Diplomático
@@ -51,34 +51,31 @@ Frota     : LD-42-88-GG
 
 MEIO DE PAGAMENTO E AUDITORIA:
 Provedor / Gateway     : Multicaixa Express
-Comprovativo Provedor  : EMIS-MCX-1789656455306-1F31796C
+Comprovativo Provedor  : EMIS-MCX-1790007808857-26116ACF
 Evento de Auditoria    : emis.multicaixa.settled
 
-DISCRIMINAÇÃO FINANCEIRA E TRIBUTÁRIA:
-Incidência Líquida     : 4 200 000,00 (Base Tributável)
-Taxa IVA               : 14% (Regime Geral AGT)
-Imposto IVA Liquidado  : 515 789,47 AOA
+VALOR DO PAGAMENTO:
 TOTAL PAGO / LIQUIDADO : 4 200 000,00 AOA
 
-ASSINATURA DIGITAL / INTEGRITY HASH (SHA-256):
-dd1cd9608c55683476422cfd526218b1a521376894ceecb2221adf96709f38da
-(Garantia de autenticidade, não-repúdio e imutabilidade conforme padrão AGT)
+INTEGRITY HASH DO SISTEMA (SHA-256):
+3eefba0de30ac5699b96872d13f770ce50745b363d141c1f0061889ab691083c
+(Garantia técnica de integridade, imutabilidade da ordem e reconciliação)
 ================================================================================
 ```
 
 
-### Evidência 2: Recibo REC-2026-28CD2E04AA28 (Cartão / Stripe)
+### Evidência 2: Comprovativo REC-2026-2E357FEDC53D (Cartão / Stripe)
 
 ```text
 ================================================================================
                     PEPEK GRUPO RENT-A-CAR S.A.
-        NIF: 5417088491 · Software Certificado n.º 284/AGT/2026
+        NIF: 5417088491 · Conservatória do Registo Comercial de Luanda n.º 14.892/2018
         Complexo Talatona Park, Luanda · financas@pepekgrupo.com
 ================================================================================
-RECIBO DE QUITAÇÃO FISCAL: REC-2026-28CD2E04AA28
-Fatura Liquidada          : FT-PEPEK-2026/6750
-Data e Hora de Liquidação : 2026-09-17T14:47:35.307Z
-Referência de Pagamento   : PK-PAY-2026-3573CFB361F4
+COMPROVATIVO DE PAGAMENTO : REC-2026-2E357FEDC53D
+Fatura Liquidada          : FT-PEPEK-2026/4293
+Data e Hora de Liquidação : 2026-09-21T16:23:28.859Z
+Referência de Pagamento   : PK-PAY-2026-414E8949E90E
 
 DADOS DO CLIENTE:
 Nome    : Global Energy Consult Ltd (UK / Staging)
@@ -90,34 +87,31 @@ Frota     : LD-99-10-EE
 
 MEIO DE PAGAMENTO E AUDITORIA:
 Provedor / Gateway     : Cartão / Stripe
-Comprovativo Provedor  : pi_test_3dd065c9682fe9a73438ecd93710d6b6
+Comprovativo Provedor  : pi_test_e1a70de3f8b0e29c935308d41d391e5f
 Evento de Auditoria    : stripe.checkout.session.completed
 
-DISCRIMINAÇÃO FINANCEIRA E TRIBUTÁRIA:
-Incidência Líquida     : $2,050.00 (Base Tributável)
-Taxa IVA               : 14% (Regime Geral AGT)
-Imposto IVA Liquidado  : $251.75 USD
+VALOR DO PAGAMENTO:
 TOTAL PAGO / LIQUIDADO : $2,050.00 USD
 
-ASSINATURA DIGITAL / INTEGRITY HASH (SHA-256):
-2a62dda7e50ef149ce5d2ada9e58e4a219c18f6f1699e73cd5071145c0d1f9f0
-(Garantia de autenticidade, não-repúdio e imutabilidade conforme padrão AGT)
+INTEGRITY HASH DO SISTEMA (SHA-256):
+ca97a548ad05f845dc8af97608434dfd9dbd0c17ae741d80999dc23e1ce32c64
+(Garantia técnica de integridade, imutabilidade da ordem e reconciliação)
 ================================================================================
 ```
 
 
-### Evidência 3: Recibo REC-2026-19C6D2BDEAAF (Transferência Bancária)
+### Evidência 3: Comprovativo REC-2026-6CCED1573029 (Transferência Bancária)
 
 ```text
 ================================================================================
                     PEPEK GRUPO RENT-A-CAR S.A.
-        NIF: 5417088491 · Software Certificado n.º 284/AGT/2026
+        NIF: 5417088491 · Conservatória do Registo Comercial de Luanda n.º 14.892/2018
         Complexo Talatona Park, Luanda · financas@pepekgrupo.com
 ================================================================================
-RECIBO DE QUITAÇÃO FISCAL: REC-2026-19C6D2BDEAAF
-Fatura Liquidada          : FT-PEPEK-2026/8270
-Data e Hora de Liquidação : 2026-09-17T14:47:35.309Z
-Referência de Pagamento   : PK-PAY-2026-FAC415206C72
+COMPROVATIVO DE PAGAMENTO : REC-2026-6CCED1573029
+Fatura Liquidada          : FT-PEPEK-2026/4379
+Data e Hora de Liquidação : 2026-09-21T16:23:28.860Z
+Referência de Pagamento   : PK-PAY-2026-0D050E839A6E
 
 DADOS DO CLIENTE:
 Nome    : Sociedade Mineira do Catoca & Associados
@@ -132,31 +126,28 @@ Provedor / Gateway     : Transferência Bancária
 Comprovativo Provedor  : BFA-COMPROV-20260909-98124
 Evento de Auditoria    : finance.reconciled
 
-DISCRIMINAÇÃO FINANCEIRA E TRIBUTÁRIA:
-Incidência Líquida     : 7 850 000,00 (Base Tributável)
-Taxa IVA               : 14% (Regime Geral AGT)
-Imposto IVA Liquidado  : 964 035,09 AOA
+VALOR DO PAGAMENTO:
 TOTAL PAGO / LIQUIDADO : 7 850 000,00 AOA
 
-ASSINATURA DIGITAL / INTEGRITY HASH (SHA-256):
-b71353668802bf824557bd8c3979a440ccd6d21f71594b0dd9cf092551b1d68b
-(Garantia de autenticidade, não-repúdio e imutabilidade conforme padrão AGT)
+INTEGRITY HASH DO SISTEMA (SHA-256):
+940c640e8f2799e150c518e97f7e672e416088c56425e5a322691c6c7dd0772c
+(Garantia técnica de integridade, imutabilidade da ordem e reconciliação)
 ================================================================================
 ```
 
 
-### Evidência 4: Recibo REC-2026-FB65F1F2A157 (MB WAY)
+### Evidência 4: Comprovativo REC-2026-001449B7BCA0 (MB WAY)
 
 ```text
 ================================================================================
                     PEPEK GRUPO RENT-A-CAR S.A.
-        NIF: 5417088491 · Software Certificado n.º 284/AGT/2026
+        NIF: 5417088491 · Conservatória do Registo Comercial de Luanda n.º 14.892/2018
         Complexo Talatona Park, Luanda · financas@pepekgrupo.com
 ================================================================================
-RECIBO DE QUITAÇÃO FISCAL: REC-2026-FB65F1F2A157
-Fatura Liquidada          : FT-PEPEK-2026/9494
-Data e Hora de Liquidação : 2026-09-17T14:47:35.309Z
-Referência de Pagamento   : PK-PAY-2026-8379E5FF7386
+COMPROVATIVO DE PAGAMENTO : REC-2026-001449B7BCA0
+Fatura Liquidada          : FT-PEPEK-2026/8888
+Data e Hora de Liquidação : 2026-09-21T16:23:28.861Z
+Referência de Pagamento   : PK-PAY-2026-8A2B96BC4396
 
 DADOS DO CLIENTE:
 Nome    : Eng. António Silva (Missão Técnica Lisboa-Luanda)
@@ -168,18 +159,15 @@ Frota     : LD-77-33-VV
 
 MEIO DE PAGAMENTO E AUDITORIA:
 Provedor / Gateway     : MB WAY
-Comprovativo Provedor  : MBW-PT-MU5N8UPF-EAFE19
+Comprovativo Provedor  : MBW-PT-MUBGFKUM-C4FEC4
 Evento de Auditoria    : mbway.notification.authorized
 
-DISCRIMINAÇÃO FINANCEIRA E TRIBUTÁRIA:
-Incidência Líquida     : €950,00 (Base Tributável)
-Taxa IVA               : 14% (Regime Geral AGT)
-Imposto IVA Liquidado  : €116,67 EUR
+VALOR DO PAGAMENTO:
 TOTAL PAGO / LIQUIDADO : €950,00 EUR
 
-ASSINATURA DIGITAL / INTEGRITY HASH (SHA-256):
-7a8427a8dc74ae6c3c7c79e3b5bac9ba94f9bda8e33b5b91be8793cd6f65bb47
-(Garantia de autenticidade, não-repúdio e imutabilidade conforme padrão AGT)
+INTEGRITY HASH DO SISTEMA (SHA-256):
+edb7bb497b9a2b1ece71d942f5ca96e38db0437f9c19c019800684e4d9060825
+(Garantia técnica de integridade, imutabilidade da ordem e reconciliação)
 ================================================================================
 ```
 

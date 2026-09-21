@@ -23,7 +23,7 @@ export const faqItems = [
     },
     {
       q: 'Como funciona a faturação para embaixadas, governos e empresas?',
-      a: 'Emitimos faturas proforma e definitivas em conformidade com as directrizes da AGT (Administração Geral Tributária), em moeda nacional (AOA) ou moeda estrangeira (USD/EUR) para entidades diplomáticas e multinacionais. Oferecemos contratos de conta-corrente com termos de pagamento a 30 dias mediante acreditação prévia.'
+      a: 'O sistema regista as faturas e disponibiliza comprovativos de pagamento após a confirmação da liquidação, em moeda nacional (AOA) ou moeda estrangeira (USD/EUR), conforme a fatura. Oferecemos contratos de conta-corrente com termos de pagamento a 30 dias mediante acreditação prévia.'
     },
     {
       q: 'O que acontece em caso de avaria ou incidente durante a viagem?',

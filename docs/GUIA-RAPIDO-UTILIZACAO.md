@@ -47,7 +47,7 @@ Aceda a **Portal do Cliente** (ou Área Cliente):
 | **Gestor de Reservas** (`reservas.demo`) | Despacho operacional | Frota global, alocações e status de reservas |
 | **Director de Frotas** (`frotas.demo`) | Manutenção e telemetria | KM, combustível, estado operacional e alertas de oficina |
 | **Motorista Protocolar** (`motorista.demo`) | Execução de campo | Escalas e viaturas atribuídas (sem dados financeiros) |
-| **Contabilista AGT** (`contabilidade.demo`)| Finanças e fiscalidade | Faturas, liquidações e conformidade AGT |
+| **Responsável de Contabilidade** (`contabilidade.demo`)| Finanças e reconciliação | Faturas, liquidações e conferência bancária |
 | **Gestor Portugal** (`portugal.demo`) | Gestão internacional | Liquidações em Euros (€) via MB WAY e Stripe |
 | **Direcção Executiva** (`direcao.demo`) | Visão panorâmica | Dashboard consolidado: frota, operações e finanças |
 

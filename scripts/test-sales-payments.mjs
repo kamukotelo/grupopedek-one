@@ -37,16 +37,14 @@ const formatCurrency = (amount, currency) => {
   return `€${new Intl.NumberFormat('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount)} EUR`;
 };
 
-// Empresa Emissora Certificada AGT
+// Empresa Emissora
 const EMISSOR_PEPEK = {
   denominacao: 'PEPEK GRUPO RENT-A-CAR S.A.',
   nif: '5417088491',
   morada: 'Avenida 21 de Janeiro, Complexo Talatona Park, Luanda - Angola',
   registoComercial: 'Conservatória do Registo Comercial de Luanda n.º 14.892/2018',
-  softwareCertificadoAGT: 'Software Certificado n.º 284/AGT/2026',
   email: 'financas@pepekgrupo.com',
   telefone: '+244 923 719 090',
-  ivaTaxaPercentual: 14.0, // IVA Geral AGT Angola
 };
 
 // Base de Dados em Memória para Execução dos Testes
@@ -141,7 +139,7 @@ const SALES_SCENARIOS = [
       ibanDestino: 'AO06.0006.0000.9999.8888.7777.1 (PEPEK BFA Conta Principal)',
       bankVoucherNumber: 'BFA-COMPROV-20260909-98124',
       reconciledByRole: 'contabilista',
-      reconciledByName: 'Dra. Maria Antónia (Finanças & AGT)',
+      reconciledByName: 'Dra. Maria Antónia (Finanças)',
     },
   },
   {
@@ -181,15 +179,10 @@ for (const scenario of SALES_SCENARIOS) {
   console.log(`   Valor: ${formatCurrency(scenario.totalAmount, scenario.currency)}`);
   console.log(`--------------------------------------------------------------------------------`);
 
-  // 1. Emissão da Fatura Comercial Certificada AGT
+  // 1. Emissão da Fatura Comercial no Servidor
   const invoiceId = crypto.randomUUID();
   const invoiceNumber = `FT-PEPEK-2026/${Math.floor(1000 + Math.random() * 9000)}`;
   const amountMinor = Math.round(scenario.totalAmount * 100);
-
-  // Cálculo do IVA (14% incluído no valor bruto)
-  // Valor Líquido = Total / 1.14 | IVA = Total - Valor Líquido
-  const netAmount = Number((scenario.totalAmount / (1 + EMISSOR_PEPEK.ivaTaxaPercentual / 100)).toFixed(2));
-  const ivaAmount = Number((scenario.totalAmount - netAmount).toFixed(2));
 
   const invoice = {
     id: invoiceId,
@@ -203,8 +196,6 @@ for (const scenario of SALES_SCENARIOS) {
     vehicle_plate: scenario.vehiclePlate,
     period: scenario.period,
     currency: scenario.currency,
-    net_amount: netAmount,
-    iva_amount: ivaAmount,
     total_amount: scenario.totalAmount,
     amount_minor: amountMinor,
     status: 'pending',
@@ -214,7 +205,7 @@ for (const scenario of SALES_SCENARIOS) {
 
   assert(invoice.id && invoice.invoice_number.startsWith('FT-PEPEK-2026/'), `Fatura emitida com sucesso: ${invoice.invoice_number}`);
   assert(amountMinor > 0, `Montante em cêntimos calculado corretamente: ${amountMinor} minor units`);
-  assert(Math.abs((netAmount + ivaAmount) - scenario.totalAmount) < 0.05, `Cálculo fiscal AGT coerente (Líquido: ${netAmount} + IVA 14%: ${ivaAmount} = Total: ${scenario.totalAmount})`);
+  assert(invoice.total_amount === scenario.totalAmount, `Montante da fatura validado no servidor: ${formatCurrency(scenario.totalAmount, scenario.currency)}`);
 
   // 2. Criação da Ordem de Pagamento no Servidor (payment_orders)
   const idempotencyKey = crypto.randomUUID();
@@ -428,7 +419,7 @@ for (const scenario of SALES_SCENARIOS) {
     assert(paymentOrder.status === 'paid', `MB WAY: autorização móvel validada e liquidada`);
   }
 
-  // 4. Emissão do Recibo Oficial Certificado com Assinatura Criptográfica (payment_receipts)
+  // 4. Emissão do Comprovativo Oficial com Assinatura Criptográfica (payment_receipts)
   const receiptNumber = `REC-2026-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
   // Fórmula de integridade idêntica à do backend: sha256(`${order.id}|${order.amount_minor}|${order.currency}|${providerReference}|${paidAt}`)
   const integrityHashRaw = `${paymentOrder.id}|${paymentOrder.amount_minor}|${paymentOrder.currency}|${providerReference}|${paidAt}`;
@@ -443,8 +434,6 @@ for (const scenario of SALES_SCENARIOS) {
     issued_at: paidAt,
     amount_minor: paymentOrder.amount_minor,
     currency: paymentOrder.currency,
-    net_amount: netAmount,
-    iva_amount: ivaAmount,
     total_amount: scenario.totalAmount,
     provider: scenario.provider,
     gateway_label: PROVIDER_LABELS[scenario.provider],
@@ -468,10 +457,10 @@ for (const scenario of SALES_SCENARIOS) {
   };
   database.payment_receipts.push(receipt);
 
-  assert(receipt.receipt_number.startsWith('REC-2026-'), `Recibo certificado emitido: ${receipt.receipt_number}`);
+  assert(receipt.receipt_number.startsWith('REC-2026-'), `Comprovativo emitido: ${receipt.receipt_number}`);
   assert(receipt.integrity_hash.length === 64, `Hash de integridade criptográfica SHA-256 gerado: ${receipt.integrity_hash.slice(0, 16)}...`);
 
-  // Verificação de Não-Repúdio: Recomputar o hash a partir dos dados do recibo
+  // Verificação de Não-Repúdio: Recomputar o hash a partir dos dados do comprovativo
   const recomputedHash = sha256(`${paymentOrder.id}|${paymentOrder.amount_minor}|${paymentOrder.currency}|${providerReference}|${paidAt}`);
   assert(receipt.integrity_hash === recomputedHash, `Garantia de não-adulteração: Hash recomputado confere 100% com a emissão`);
 
@@ -491,37 +480,33 @@ for (const scenario of SALES_SCENARIOS) {
     currency: scenario.currency,
     totalAmount: scenario.totalAmount,
     formattedAmount: formatCurrency(scenario.totalAmount, scenario.currency),
-    netAmount,
-    ivaAmount,
     issuedAt: paidAt,
     integrityHash: receipt.integrity_hash,
     auditEventType,
   });
 
-  // Apresentação visual do recibo emitido
-  console.log('\n📄 EVIDÊNCIA DO RECIBO OFICIAL EMITIDO:');
+  // Apresentação visual do comprovativo emitido
+  console.log('\n📄 EVIDÊNCIA DO COMPROVATIVO EMITIDO:');
   console.log('┌──────────────────────────────────────────────────────────────────────────────┐');
   console.log(`│ ${EMISSOR_PEPEK.denominacao.padEnd(76)} │`);
-  console.log(`│ NIF: ${EMISSOR_PEPEK.nif} · ${EMISSOR_PEPEK.softwareCertificadoAGT.padEnd(54)} │`);
+  console.log(`│ NIF: ${EMISSOR_PEPEK.nif} · ${EMISSOR_PEPEK.registoComercial.padEnd(54)} │`);
   console.log('├──────────────────────────────────────────────────────────────────────────────┤');
-  console.log(`│ RECIBO DE QUITAÇÃO: ${receipt.receipt_number.padEnd(52)} │`);
-  console.log(`│ Referência Fatura : ${invoice.invoice_number.padEnd(52)} │`);
-  console.log(`│ Data de Emissão   : ${paidAt.padEnd(52)} │`);
-  console.log(`│ Cliente           : ${scenario.customer.name.slice(0, 52).padEnd(52)} │`);
-  console.log(`│ NIF do Cliente    : ${scenario.customer.nif.padEnd(52)} │`);
+  console.log(`│ COMPROVATIVO DE PAGAMENTO: ${receipt.receipt_number.padEnd(49)} │`);
+  console.log(`│ Referência Fatura        : ${invoice.invoice_number.padEnd(49)} │`);
+  console.log(`│ Data de Emissão          : ${paidAt.padEnd(49)} │`);
+  console.log(`│ Cliente                  : ${scenario.customer.name.slice(0, 49).padEnd(49)} │`);
+  console.log(`│ NIF do Cliente           : ${scenario.customer.nif.padEnd(49)} │`);
   console.log('├──────────────────────────────────────────────────────────────────────────────┤');
-  console.log(`│ Serviço           : ${scenario.serviceTitle.slice(0, 52).padEnd(52)} │`);
-  console.log(`│ Viatura/Frota     : ${scenario.vehiclePlate.slice(0, 52).padEnd(52)} │`);
-  console.log(`│ Período           : ${scenario.period.slice(0, 52).padEnd(52)} │`);
+  console.log(`│ Serviço                  : ${scenario.serviceTitle.slice(0, 49).padEnd(49)} │`);
+  console.log(`│ Viatura/Frota            : ${scenario.vehiclePlate.slice(0, 49).padEnd(49)} │`);
+  console.log(`│ Período                  : ${scenario.period.slice(0, 49).padEnd(49)} │`);
   console.log('├──────────────────────────────────────────────────────────────────────────────┤');
-  console.log(`│ Método Pagamento  : ${PROVIDER_LABELS[scenario.provider].padEnd(52)} │`);
-  console.log(`│ Ref. Transação    : ${providerReference.slice(0, 52).padEnd(52)} │`);
-  console.log(`│ Valor Incidência  : ${formatCurrency(netAmount, scenario.currency).padEnd(52)} │`);
-  console.log(`│ IVA (14% Geral)   : ${formatCurrency(ivaAmount, scenario.currency).padEnd(52)} │`);
-  console.log(`│ TOTAL LIQUIDADO   : ${formatCurrency(scenario.totalAmount, scenario.currency).padEnd(52)} │`);
+  console.log(`│ Método Pagamento         : ${PROVIDER_LABELS[scenario.provider].padEnd(49)} │`);
+  console.log(`│ Ref. Transação           : ${providerReference.slice(0, 49).padEnd(49)} │`);
+  console.log(`│ TOTAL LIQUIDADO          : ${formatCurrency(scenario.totalAmount, scenario.currency).padEnd(49)} │`);
   console.log('├──────────────────────────────────────────────────────────────────────────────┤');
-  console.log(`│ HASH INTEGRIDADE  : ${receipt.integrity_hash.slice(0, 36)}... │`);
-  console.log(`│ ESTADO            : LIQUIDADO / EMITIDO COM SUCESSO                        │`);
+  console.log(`│ HASH INTEGRIDADE (SHA256): ${receipt.integrity_hash.slice(0, 36)}... │`);
+  console.log(`│ ESTADO                   : LIQUIDADO / CONFIRMADO NO SISTEMA                 │`);
   console.log('└──────────────────────────────────────────────────────────────────────────────┘');
 }
 
@@ -576,10 +561,10 @@ console.log(`  📁 JSON exportado com sucesso: ${jsonEvidencePath}`);
 
 // 2. Exportar relatório formal em Markdown
 const mdEvidencePath = path.join(docsDir, 'EVIDENCIA_TESTES_VENDAS_RECIBOS.md');
-const mdContent = `# Relatório de Testes de Vendas e Evidência de Recibos
+const mdContent = `# Relatório de Testes de Vendas e Evidência de Pagamentos
 **Data de Execução:** ${new Date().toLocaleDateString('pt-AO')} às ${new Date().toLocaleTimeString('pt-AO')}  
 **Entidade Emissora:** ${EMISSOR_PEPEK.denominacao} (NIF: ${EMISSOR_PEPEK.nif})  
-**Certificação de Software:** ${EMISSOR_PEPEK.softwareCertificadoAGT}  
+**Registo Comercial:** ${EMISSOR_PEPEK.registoComercial}  
 **Resultado dos Testes:** ✅ ${passedTests.length} verificações com sucesso (0 falhas)
 
 ---
@@ -587,31 +572,31 @@ const mdContent = `# Relatório de Testes de Vendas e Evidência de Recibos
 ## 1. Resumo Executivo dos Modelos de Pagamento Testados
 
 Foram executados testes de ponta a ponta para todos os modelos de pagamento disponíveis no sistema PEPEK, cobrindo o ciclo completo:
-1. Emissão de Fatura Comercial (conforme normas da Administração Geral Tributária - AGT de Angola).
+1. Emissão de Fatura Comercial no servidor com montantes fixados.
 2. Registo de Ordem de Pagamento no livro-razão protegido do servidor (\`payment_orders\`).
 3. Validação de idempotência e imutabilidade de montante.
 4. Processamento da transação pelo gateway com verificação de assinatura / autorização.
 5. Auditoria em trilha append-only (\`payment_events\`).
-6. Emissão de Recibo Oficial de Quitação com assinatura criptográfica SHA-256 (\`payment_receipts\`).
+6. Emissão de Comprovativo Oficial de Pagamento com assinatura criptográfica SHA-256 (\`payment_receipts\`).
 
-| Modelo de Pagamento | Canal / Rede | Moeda | Caso de Venda | N.º Fatura | N.º Recibo | Hash Integridade SHA-256 |
+| Modelo de Pagamento | Canal / Rede | Moeda | Caso de Venda | N.º Fatura | N.º Comprovativo | Hash Integridade SHA-256 |
 |---|---|---|---|---|---|---|
 ${evidenceRecords.map(e => `| **${e.gatewayLabel}** | ${e.provider.toUpperCase()} | ${e.currency} | ${e.serviceTitle.slice(0, 30)}... | \`${e.invoiceNumber}\` | \`${e.receiptNumber}\` | \`${e.integrityHash.slice(0, 16)}...\` |`).join('\n')}
 
 ---
 
-## 2. Evidências Detalhadas dos Recibos Emitidos
+## 2. Evidências Detalhadas dos Comprovativos Emitidos
 
 ${evidenceRecords.map((e, index) => `
-### Evidência ${index + 1}: Recibo ${e.receiptNumber} (${e.gatewayLabel})
+### Evidência ${index + 1}: Comprovativo ${e.receiptNumber} (${e.gatewayLabel})
 
 \`\`\`text
 ================================================================================
                     PEPEK GRUPO RENT-A-CAR S.A.
-        NIF: 5417088491 · Software Certificado n.º 284/AGT/2026
+        NIF: 5417088491 · ${EMISSOR_PEPEK.registoComercial}
         Complexo Talatona Park, Luanda · financas@pepekgrupo.com
 ================================================================================
-RECIBO DE QUITAÇÃO FISCAL: ${e.receiptNumber}
+COMPROVATIVO DE PAGAMENTO : ${e.receiptNumber}
 Fatura Liquidada          : ${e.invoiceNumber}
 Data e Hora de Liquidação : ${e.issuedAt}
 Referência de Pagamento   : ${e.clientReference}
@@ -629,15 +614,12 @@ Provedor / Gateway     : ${e.gatewayLabel}
 Comprovativo Provedor  : ${e.providerReference}
 Evento de Auditoria    : ${e.auditEventType}
 
-DISCRIMINAÇÃO FINANCEIRA E TRIBUTÁRIA:
-Incidência Líquida     : ${e.formattedAmount.split(' ')[0]} (Base Tributável)
-Taxa IVA               : 14% (Regime Geral AGT)
-Imposto IVA Liquidado  : ${formatCurrency(e.ivaAmount, e.currency)}
+VALOR DO PAGAMENTO:
 TOTAL PAGO / LIQUIDADO : ${e.formattedAmount}
 
-ASSINATURA DIGITAL / INTEGRITY HASH (SHA-256):
+INTEGRITY HASH DO SISTEMA (SHA-256):
 ${e.integrityHash}
-(Garantia de autenticidade, não-repúdio e imutabilidade conforme padrão AGT)
+(Garantia técnica de integridade, imutabilidade da ordem e reconciliação)
 ================================================================================
 \`\`\`
 `).join('\n')}

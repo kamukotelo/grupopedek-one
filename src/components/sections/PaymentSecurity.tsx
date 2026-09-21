@@ -16,7 +16,7 @@ export const PaymentSecurity: React.FC = () => {
               Métodos de Pagamento Oficiais Aceites
             </h3>
             <p className="text-xs text-gray-500 mt-1">
-              Facturação electrónica certificada em conformidade com as regras da Administração Geral Tributária (AGT).
+              Comprovativos de pagamento disponíveis no portal após confirmação da liquidação.
             </p>
           </div>
 

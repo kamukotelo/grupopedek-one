@@ -39,7 +39,7 @@ Senha comum dos perfis: `PepekDemo2026!`
 4. **Gestor de Reservas** — despacho, frota global e acompanhamento da integração operacional.
 5. **Director de Frotas** — telemetria, disponibilidade, manutenção e integração ERP.
 6. **Motorista Protocolar** — viaturas, atribuições, localização e estado operacional; sem finanças.
-7. **Contabilista AGT** — faturas, liquidação, reconciliação e integração ERP.
+7. **Responsável de Contabilidade** — faturas, liquidação, reconciliação e conferência bancária.
 8. **Gestor Portugal** — acompanhamento financeiro internacional, Stripe/MB WAY e ERP.
 9. **Direcção Executiva** — visão global de frota, finanças e integração administrativa.
 

@@ -206,16 +206,16 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 12. INTENT: Métodos de Pagamento e Moedas
   if (lower.includes('pagamento') || lower.includes('pagar') || lower.includes('cartão') || lower.includes('multicaixa') || lower.includes('euros') || lower.includes('dólares') || lower.includes('moeda')) {
     return {
-      message: 'Facilitamos o seu pagamento com total segurança e comodidade! 💳 Em Angola aceitamos Multicaixa, Multicaixa Express e transferências bancárias (BAI, BFA, Atlântico). Do exterior, aceitamos cartões Visa, Mastercard, MB WAY e transferências SWIFT em USD ou EUR. Emitimos fatura certificada AGT.',
-      suggestedQuickReplies: ['Faturação para Empresa (AGT)', 'Pagamento Multicaixa Express', 'Cartão Internacional / MB WAY']
+      message: 'Facilitamos o seu pagamento com total segurança e comodidade! 💳 Em Angola aceitamos Multicaixa, Multicaixa Express e transferências bancárias (BAI, BFA, Atlântico). Do exterior, aceitamos cartões Visa, Mastercard, MB WAY e transferências SWIFT em USD ou EUR. O comprovativo fica disponível após confirmação do pagamento.',
+      suggestedQuickReplies: ['Faturação para Empresa', 'Pagamento Multicaixa Express', 'Cartão Internacional / MB WAY']
     };
   }
 
   // 13. INTENT: Faturação para Empresas / Embaixadas / NIF
-  if (lower.includes('fatura') || lower.includes('factura') || lower.includes('agt') || lower.includes('nif') || lower.includes('empresa') || lower.includes('instituição')) {
+  if (lower.includes('fatura') || lower.includes('factura') || lower.includes('nif') || lower.includes('empresa') || lower.includes('instituição')) {
     return {
-      message: 'Sim, com total conformidade fiscal! 📄 Emitimos faturas certificadas pela AGT com o NIF da sua empresa ou embaixada, em Kwanzas (AOA) ou moeda estrangeira (USD/EUR). Para clientes corporativos acreditados, disponibilizamos condições de pagamento a 30 dias.',
-      suggestedQuickReplies: ['Empresa em Angola (AGT)', 'Embaixada / Diplomático', 'Contrato Corporativo']
+      message: 'O sistema regista a fatura da sua empresa ou embaixada em Kwanzas (AOA) ou moeda estrangeira (USD/EUR) e disponibiliza o comprovativo depois da confirmação do pagamento. Para clientes corporativos acreditados, disponibilizamos condições de pagamento a 30 dias.',
+      suggestedQuickReplies: ['Empresa em Angola', 'Embaixada / Diplomático', 'Contrato Corporativo']
     };
   }
 
