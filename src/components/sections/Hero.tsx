@@ -156,7 +156,7 @@ export const Hero: React.FC = () => {
 
       <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
         {/* Vertical stories carousel: portrait videos remain visible in their native format. */}
-        <div data-home-video-showcase className="group relative order-2 mt-10 w-full overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-3 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5">
+        <div data-home-video-showcase className="group relative order-1 mb-8 w-full overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-3 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5 lg:mb-12">
           <div className="grid items-center gap-3">
             {/* Right stage: 3 cards directly in showcase without inner boxed container.
                 Below sm, only the active card renders — the side peeks made the stage
@@ -264,7 +264,7 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        <div className="order-1 grid items-start gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,500px)] xl:gap-12 2xl:grid-cols-[minmax(0,1.35fr)_520px]">
+        <div className="order-2 grid items-start gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,500px)] xl:gap-12 2xl:grid-cols-[minmax(0,1.35fr)_520px]">
           <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
