@@ -56,6 +56,7 @@
 
   body {
     font-family: 'Plus Jakarta Sans', 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
     font-size: 14.5px;
     line-height: 1.6;
     color: var(--gray-800);
@@ -69,7 +70,7 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
     line-height: 1.18;
-    font-weight: 600;
+    font-weight: 600 !important;
     color: var(--navy);
     letter-spacing: -0.02em;
   }
@@ -395,7 +396,7 @@
 
   .section-title {
     font-size: clamp(2.25rem, 4.5vw, 3.5rem);
-    font-weight: 600;
+    font-weight: 600 !important;
     color: var(--navy);
     line-height: 1.12;
   }
