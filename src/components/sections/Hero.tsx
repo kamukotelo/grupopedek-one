@@ -270,7 +270,9 @@ export const Hero: React.FC = () => {
         <div className="max-w-4xl mb-6">
           <h1 className="text-[2rem] sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.12] tracking-tight">
             {t('hero.title')}
-            <span className="mt-1 block text-[#FEC228]">{t('hero.titleAccent')}</span>
+            {t('hero.titleAccent') ? (
+              <span className="mt-1 block text-[#FEC228]">{t('hero.titleAccent')}</span>
+            ) : null}
           </h1>
           <p className="text-sm sm:text-base text-gray-200/90 font-normal mt-4 leading-relaxed max-w-2xl">
             {t('hero.description')}
@@ -296,11 +298,6 @@ export const Hero: React.FC = () => {
           >
             <span>{t('hero.ctaFleet')}</span>
           </button>
-
-          <div className="flex items-center gap-3 pl-2 text-xs text-gray-300">
-            <div className="h-2.5 w-2.5 rounded-full bg-[#236199] animate-pulse"></div>
-            <span>{t('hero.trustFastSub')}</span>
-          </div>
         </div>
 
           </div>

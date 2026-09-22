@@ -33,16 +33,16 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
     { name: 'DSTV MultiChoice', src: '/clients-color/dstv.png' },
     { name: 'ZAP Angola', src: '/clients-color/zap.png' },
 
-    { name: 'SIC Investigação Criminal', src: '/carrousel/SIC-ANGOOLA-150x78.webp' },
-    { name: 'ELISAL', src: '/carrousel/ELISAL-150x78.webp' },
+    { name: 'SIC Investigação Criminal', src: '/clients-color/sic.svg' },
+    { name: 'ELISAL', src: '/clients-color/elisal.png' },
     { name: 'Catoca Diamantes', src: '/clients-color/catoca.png' },
-    { name: 'COSMOS Viagens', src: '/carrousel/COSMO-150x78.webp' },
-    { name: 'HV International', src: '/carrousel/HV-LOGO-1-150x78.webp' },
-    { name: 'FAF Futebol', src: '/carrousel/FAFI-LOGO-150x78.webp' },
+    { name: 'COSMOS Viagens', src: '/clients-color/cosmos.png' },
+    { name: 'HV International', src: '/clients-color/hv.svg' },
+    { name: 'FAF Futebol', src: '/clients-color/faf.png' },
 
     { name: 'Rede Globo', src: '/clients-color/globo.png' },
     { name: 'CNN Brasil', src: '/clients-color/cnn.png' },
-    { name: 'Deutsche Welle (DW)', src: '/carrousel/Dw-150x78.webp' },
+    { name: 'Deutsche Welle (DW)', src: '/clients-color/dw.svg' },
   ];
 
   const slides = Array.from({ length: Math.ceil(allLogos.length / logosPerSlide) }, (_, index) =>
@@ -89,7 +89,7 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
           {slides[currentSlide].map((client) => (
             <div
               key={client.name}
-              className={`group flex h-24 min-w-0 items-center justify-center rounded-xl border border-white/20 p-3 shadow-sm transition-all hover:border-[#FEC228]/70 hover:shadow-md sm:h-28 sm:p-4 ${client.src.startsWith('/carrousel/') ? 'bg-[#183451]' : 'bg-white'}`}
+              className="group flex h-24 min-w-0 items-center justify-center rounded-xl border border-white/20 bg-white p-3 shadow-sm transition-all hover:border-[#FEC228]/70 hover:shadow-md sm:h-28 sm:p-4"
             >
               <img
                 src={client.src}

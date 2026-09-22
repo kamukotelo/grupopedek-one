@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BriefcaseBusiness, Building2, CalendarCheck, CircleGauge, Plane, ShieldCheck } from 'lucide-react';
+import { ArrowRight, BriefcaseBusiness, Building2, CalendarCheck, Plane, ShieldCheck, UserRound } from 'lucide-react';
 
 /** `withLinks` desliga as chamadas cruzadas quando a secção já é a própria página /servicos. */
 export const Services: React.FC<{ withLinks?: boolean }> = ({ withLinks = true }) => {
@@ -11,7 +11,7 @@ export const Services: React.FC<{ withLinks?: boolean }> = ({ withLinks = true }
     ['services.executiveTitle', 'services.executiveDesc', BriefcaseBusiness, 'group-hover:-translate-y-2'],
     ['services.corporateTitle', 'services.corporateDesc', Building2, 'group-hover:scale-110'],
     ['services.eventsTitle', 'services.eventsDesc', CalendarCheck, 'group-hover:-translate-y-1 group-hover:rotate-6'],
-    ['services.chauffeurTitle', 'services.chauffeurDesc', CircleGauge, 'group-hover:rotate-12'],
+    ['services.chauffeurTitle', 'services.chauffeurDesc', UserRound, 'group-hover:scale-110'],
     ['services.securityTitle', 'services.securityDesc', ShieldCheck, 'group-hover:scale-110'],
   ] as const;
 

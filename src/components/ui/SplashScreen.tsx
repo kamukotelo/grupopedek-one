@@ -56,7 +56,7 @@ export const SplashScreen: React.FC = () => {
         <img className="pepek-intro__road" src="/logo-pepek-light.png" alt="" />
       </div>
 
-      <p className="pepek-intro__tagline">Movemos quem move Angola</p>
+      <p className="pepek-intro__tagline">Experiência premium em cada quilômetro</p>
     </div>
   );
 };
