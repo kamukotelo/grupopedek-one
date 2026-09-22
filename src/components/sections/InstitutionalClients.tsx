@@ -90,7 +90,8 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
         </div>
 
         {/* 5 to 6 Logos Grid (Smooth Slide Transition every 5s) */}
-        <div className="relative min-h-[90px]">
+        {/* min-h acomoda 2 linhas × h-20 + gap em mobile (grid-cols-3) */}
+        <div className="relative min-h-[176px] sm:min-h-[96px]">
           {slides.map((group, slideIdx) => (
             <div
               key={slideIdx}
@@ -109,7 +110,7 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
                     src={client.src}
                     alt={client.name}
                     className="max-h-11 max-w-[130px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
+                    loading="eager"
                   />
                 </div>
               ))}

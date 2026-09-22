@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, ChevronRight, ChevronLeft, Car, Sparkles, CalendarDays, MapPin, Pause, Play, Volume2, VolumeX } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Car, CalendarDays, MapPin, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
@@ -22,33 +22,6 @@ export const Hero: React.FC = () => {
     const vehicle = PUBLIC_FLEET.find((item) => item.id === id);
     return vehicle ? [{ id: vehicle.id, name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted, segment: t(segmentKey) }] : [];
   });
-
-  const clientLogos = [
-    { name: 'Sonangol', src: '/clients-color/sonangol.png' },
-    { name: 'Unitel', src: '/clients-color/unitel.svg' },
-    { name: 'BAI', src: '/clients-color/bai.svg' },
-    { name: 'Governo de Angola', src: '/clients-color/governo-angola.png' },
-    { name: 'Fundo de Garantia de Crédito', src: '/clients-color/fgc.png' },
-    { name: 'Embaixada Americana', src: '/clients-color/embassy.png' },
-    { name: 'Assembleia Nacional', src: '/clients-color/assembleia.png' },
-    { name: 'ANPG Petróleos', src: '/clients-color/anpg.png' },
-    { name: 'Bestfly Angola', src: '/clients-color/bestfly.png' },
-    { name: 'DP World', src: '/clients-color/dp-world.png' },
-    { name: 'Câmara de Comércio e Indústria Angola–Arábia Saudita', src: '/clients-color/cciaas.png' },
-    { name: 'Programa das Nações Unidas para o Desenvolvimento', src: '/clients-color/undp.png' },
-    { name: 'Banco BFA', src: '/clients-color/bfa.svg' },
-    { name: 'Banco Atlântico', src: '/clients-color/atlantico-oficial.png' },
-    { name: 'Standard Bank', src: '/clients-color/standard.png' },
-    { name: 'UNICEF Angola', src: '/clients-color/unicef.png' },
-    { name: 'Fidelidade Seguros', src: '/clients-color/fidelidade.png' },
-    { name: 'DSTV MultiChoice', src: '/clients-color/dstv.png' },
-    { name: 'ZAP Angola', src: '/clients-color/zap.png' },
-    { name: 'Catoca Diamantes', src: '/clients-color/catoca.png' },
-    { name: 'Rede Globo', src: '/clients-color/globo.png' },
-    { name: 'CNN Brasil', src: '/clients-color/cnn.png' },
-  ];
-  const slides = Array.from({ length: Math.ceil(clientLogos.length / 5) }, (_, index) => clientLogos.slice(index * 5, index * 5 + 5));
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   const [currentLuxury, setCurrentLuxury] = useState(0);
   const [currentStory, setCurrentStory] = useState(0);
@@ -88,12 +61,6 @@ export const Hero: React.FC = () => {
   const filteredLocations = (value: string) => locationSuggestions.filter((location) =>
     !value.trim() || location.toLocaleLowerCase('pt').includes(value.toLocaleLowerCase('pt'))
   ).slice(0, 6);
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => setCurrentSlide((current) => (current + 1) % slides.length), 7000);
-    return () => window.clearInterval(timer);
-  }, [slides.length]);
 
   useEffect(() => {
     if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -189,60 +156,13 @@ export const Hero: React.FC = () => {
 
       <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
         {/* Vertical stories carousel: portrait videos remain visible in their native format. */}
-        <div data-home-video-showcase className="group relative mb-7 w-full overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-5 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-7">
-          <div className="grid items-center gap-6 lg:grid-cols-[minmax(260px,0.85fr)_minmax(520px,1.35fr)] lg:gap-8 xl:gap-10">
-            <div className="relative z-10 order-2 flex min-w-0 flex-col justify-between px-1 py-1 sm:px-2 lg:order-1">
-              <div>
-                <p className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#FEC228] sm:text-xs">
-                  <ShieldCheck className="h-4 w-4 shrink-0" />
-                  <span>{t('hero.videoStoriesLabel')} · {currentStory + 1}/{homepageStories.length}</span>
-                </p>
-                <h2 className="mt-3 max-w-lg text-lg font-extrabold leading-tight !text-white sm:text-2xl xl:text-[26px]">
-                  {homepageStories[currentStory].title}
-                </h2>
-                <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">{homepageStories[currentStory].tagline ?? t('hero.videoStoriesTagline')}</p>
-
-                {/* Highlights list matching wireframe sketch */}
-                <div className="mt-4 space-y-2.5 border-t border-white/10 pt-3.5">
-                  {[
-                    t('hero.featureFleetTitle'),
-                    t('hero.featureDriversTitle'),
-                    t('hero.featureSupportTitle'),
-                    t('hero.featureCoverageTitle'),
-                    t('hero.featureMultilingualTitle'),
-                  ].map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2.5 text-xs text-white/85 sm:text-[13px]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#FEC228] shrink-0 shadow-[0_0_8px_rgba(254,194,40,0.6)]" />
-                      <span className="font-medium">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-5 flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-2">
-                  {homepageStories.map((story, index) => (
-                    <button
-                      key={story.id}
-                      type="button"
-                      onClick={() => selectStory(index)}
-                      aria-label={`${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
-                      aria-current={currentStory === index ? 'true' : undefined}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${currentStory === index ? 'w-8 bg-[#FEC228]' : 'w-3 bg-white/30 hover:bg-white/60'}`}
-                    />
-                  ))}
-                </div>
-                <button type="button" onClick={() => navigate(`/blogue#${homepageStories[currentStory].id}`)} className="ml-1 inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-white/75 transition hover:text-[#FEC228]">
-                  {t('hero.videoViewBlog')} <ChevronRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            </div>
-
+        <div data-home-video-showcase className="group relative order-2 mt-10 w-full overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-3 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5">
+          <div className="grid items-center gap-3">
             {/* Right stage: 3 cards directly in showcase without inner boxed container.
                 Below sm, only the active card renders — the side peeks made the stage
                 wider than the viewport and forced the whole row to overflow/clip. */}
             <div
-              className="relative order-1 flex min-w-0 touch-pan-y select-none items-center justify-center py-1 sm:h-[440px] lg:order-2 lg:h-[500px] xl:h-[540px]"
+              className="relative flex min-w-0 touch-pan-y select-none items-center justify-center py-1 sm:h-[440px] lg:h-[500px] xl:h-[540px]"
               onPointerDown={(event) => { storyPointerStartX.current = event.clientX; }}
               onPointerUp={(event) => {
                 if (storyPointerStartX.current === null) return;
@@ -263,7 +183,7 @@ export const Hero: React.FC = () => {
                       onClick={() => isActive ? toggleStoryPlayback() : selectStory(index)}
                       className={`relative shrink-0 overflow-hidden text-left transition-all duration-500 ${
                         isActive
-                          ? 'z-10 w-full max-w-[360px] aspect-[4/5] rounded-[22px] border-2 border-[#FEC228] shadow-[0_18px_40px_rgba(0,0,0,0.6),0_0_26px_rgba(254,194,40,0.24)] sm:h-full sm:w-auto sm:max-w-none'
+                          ? 'z-10 w-full max-w-[360px] aspect-[3/4] rounded-[22px] border-2 border-[#FEC228] shadow-[0_18px_40px_rgba(0,0,0,0.6),0_0_26px_rgba(254,194,40,0.24)] sm:h-full sm:w-auto sm:max-w-none'
                           : 'hidden h-[52%] aspect-[406/720] rounded-[14px] border border-white/15 opacity-40 hover:opacity-75 sm:block'
                       }`}
                       aria-label={isActive ? (isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')) : `${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
@@ -324,7 +244,7 @@ export const Hero: React.FC = () => {
               <button
                 type="button"
                 onClick={() => changeStory(-1)}
-                className="absolute left-0 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228] sm:-left-2"
+                className="absolute left-2 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]"
                 aria-label={t('hero.videoPrevious')}
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -332,16 +252,19 @@ export const Hero: React.FC = () => {
               <button
                 type="button"
                 onClick={() => changeStory(1)}
-                className="absolute right-0 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228] sm:-right-2"
+                className="absolute right-2 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-[#001E4A]/90 text-white shadow-lg backdrop-blur-md transition hover:border-[#FEC228] hover:text-[#FEC228]"
                 aria-label={t('hero.videoNext')}
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
+            <button type="button" onClick={() => navigate(`/blogue#${homepageStories[currentStory].id}`)} className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-white/80 transition hover:text-[#FEC228]">
+              {t('hero.videoViewBlog')} <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
 
-        <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,500px)] xl:gap-12 2xl:grid-cols-[minmax(0,1.35fr)_520px]">
+        <div className="order-1 grid items-start gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,500px)] xl:gap-12 2xl:grid-cols-[minmax(0,1.35fr)_520px]">
           <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
@@ -454,27 +377,6 @@ export const Hero: React.FC = () => {
           </aside>
         </div>
 
-        {/* Client logos use one continuous light stage so every official colourway
-            remains legible without introducing individual logo cards. */}
-        <div className="mt-6 rounded-2xl bg-white px-5 py-5 shadow-[0_18px_45px_rgba(4,16,38,0.24)] sm:px-8">
-          <div className="mb-3 flex items-center justify-between gap-4">
-            <p className="flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#236199]">
-              <Sparkles className="h-3.5 w-3.5 text-[#E4AD28]" />
-              <span>{t('clients.title')}</span>
-            </p>
-          </div>
-          <div className="relative min-h-[120px] overflow-hidden">
-            {slides.map((group, slideIndex) => (
-              <div key={slideIndex} className={`grid grid-cols-2 items-center justify-items-center gap-6 transition-all duration-700 ease-out sm:grid-cols-3 sm:gap-8 md:grid-cols-5 ${currentSlide === slideIndex ? 'relative translate-x-0 opacity-100' : 'pointer-events-none absolute inset-0 translate-x-16 opacity-0'}`}>
-                {group.map((client) => (
-                  <div key={client.name} className="group flex h-20 w-full items-center justify-center p-2 sm:h-24">
-                    <img src={client.src} alt={client.name} className="h-12 w-full max-w-[140px] object-contain drop-shadow-[0_2px_6px_rgba(9,23,44,.12)] transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:max-w-[180px]" loading="lazy" />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

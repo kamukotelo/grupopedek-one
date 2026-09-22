@@ -68,8 +68,8 @@ export const Header: React.FC = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-[0_7px_25px_rgba(9,23,44,0.14)]">
       <div className="border-b border-slate-200 bg-white">
-        <div className="container-pepek flex h-[76px] items-center justify-between gap-4 lg:h-[92px]">
-          <Link to="/" className="flex h-14 w-[190px] min-w-0 items-center justify-center overflow-hidden px-1 py-1 sm:w-[215px] lg:h-[72px] lg:w-[250px]" aria-label="PEPEK Grupo — início" data-header-logo>
+        <div className="container-pepek flex h-[76px] items-center justify-between gap-2 sm:gap-4 lg:h-[92px]">
+          <Link to="/" className="flex h-14 w-[clamp(120px,42vw,190px)] shrink-0 items-center justify-center overflow-hidden px-1 py-1 sm:w-[215px] lg:h-[72px] lg:w-[250px]" aria-label="PEPEK Grupo — início" data-header-logo>
             <img src="/Logos/Negativo%20.png" alt="PEPEK Grupo Rent-a-Car Angola" className="block h-auto max-h-full w-full object-contain object-center" />
           </Link>
 
