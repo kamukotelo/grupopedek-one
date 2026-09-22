@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 /** `withLink` desliga a hiperligação quando a faixa já está dentro de /clientes. */
 export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLink = true }) => {
@@ -59,18 +59,18 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
     <section className="relative select-none overflow-hidden border-b border-white/10 bg-[#09172C] py-8">
       <div className="container-pepek">
         {/* Subtle, discreet header strip */}
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="mb-4 flex items-center justify-between gap-4">
           {withLink ? (
-            <Link to="/clientes" className="group inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#8899BB] transition-colors hover:text-[#FEC228]">
+            <Link to="/clientes" className="group inline-flex max-w-[300px] items-center gap-2 text-[10px] font-bold uppercase leading-5 tracking-[0.14em] text-[#A9BAD5] transition-colors hover:text-[#FEC228] sm:max-w-none sm:text-[11px] sm:tracking-[0.2em]">
               Confiança Institucional &amp; Entidades de Referência
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-1" />
             </Link>
           ) : (
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8899BB]">
+            <p className="max-w-[300px] text-[10px] font-bold uppercase leading-5 tracking-[0.14em] text-[#A9BAD5] sm:max-w-none sm:text-[11px] sm:tracking-[0.2em]">
               Confiança Institucional &amp; Entidades de Referência
             </p>
           )}
-          <div className="flex items-center gap-1.5" aria-label="Grupos de clientes">
+          <div className="hidden items-center gap-1.5 sm:flex" aria-label="Grupos de clientes">
             {slides.map((_, index) => (
               <button
                 key={index}
@@ -99,6 +99,15 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
               />
             </div>
           ))}
+        </div>
+        <div className="mt-5 flex items-center justify-center gap-5 sm:hidden" aria-label="Navegação dos clientes">
+          <button type="button" onClick={() => setCurrentSlide((slide) => (slide - 1 + slides.length) % slides.length)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white" aria-label="Grupo anterior">
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <span className="min-w-12 text-center text-xs font-semibold tabular-nums text-[#A9BAD5]">{currentSlide + 1} / {slides.length}</span>
+          <button type="button" onClick={() => setCurrentSlide((slide) => (slide + 1) % slides.length)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white" aria-label="Grupo seguinte">
+            <ChevronRight className="h-5 w-5" />
+          </button>
         </div>
       </div>
     </section>
