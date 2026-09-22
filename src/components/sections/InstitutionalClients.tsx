@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 /** `withLink` desliga a hiperligação quando a faixa já está dentro de /clientes. */
 export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLink = true }) => {
+  const [logosPerSlide, setLogosPerSlide] = useState(6);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const updateColumns = () => setLogosPerSlide(window.innerWidth < 640 ? 2 : window.innerWidth < 1024 ? 3 : 6);
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
   // Logótipos institucionais e empresariais confirmados pela PEPEK.
   const allLogos = [
     { name: 'Embaixada Americana', src: '/clients-color/embassy.png' },
@@ -35,6 +45,16 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
     { name: 'Deutsche Welle (DW)', src: '/carrousel/Dw-150x78.webp' },
   ];
 
+  const slides = Array.from({ length: Math.ceil(allLogos.length / logosPerSlide) }, (_, index) =>
+    allLogos.slice(index * logosPerSlide, (index + 1) * logosPerSlide)
+  );
+
+  useEffect(() => {
+    setCurrentSlide(0);
+    const timer = window.setInterval(() => setCurrentSlide((slide) => (slide + 1) % slides.length), 5000);
+    return () => window.clearInterval(timer);
+  }, [logosPerSlide, slides.length]);
+
   return (
     <section className="relative select-none overflow-hidden border-b border-white/10 bg-[#09172C] py-8">
       <div className="container-pepek">
@@ -50,12 +70,23 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
               Confiança Institucional &amp; Entidades de Referência
             </p>
           )}
-
+          <div className="flex items-center gap-1.5" aria-label="Grupos de clientes">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setCurrentSlide(index)}
+                className={`h-1.5 rounded-full transition-all ${currentSlide === index ? 'w-6 bg-[#FEC228]' : 'w-1.5 bg-white/30 hover:bg-white/50'}`}
+                aria-label={`Ver grupo ${index + 1}`}
+                aria-current={currentSlide === index ? 'true' : undefined}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Cada logótipo fica visível num quadro próprio, sem sobreposição de slides. */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-          {allLogos.map((client) => (
+        {/* Uma linha por vez; todos os grupos são acessíveis pelos indicadores. */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6" aria-live="polite">
+          {slides[currentSlide].map((client) => (
             <div
               key={client.name}
               className={`group flex h-24 min-w-0 items-center justify-center rounded-xl border border-white/20 p-3 shadow-sm transition-all hover:border-[#FEC228]/70 hover:shadow-md sm:h-28 sm:p-4 ${client.src.startsWith('/carrousel/') ? 'bg-[#183451]' : 'bg-white'}`}
