@@ -112,7 +112,7 @@ export const RouteEstimator: React.FC = () => {
               Mobilidade que acompanha o seu destino
             </h2>
             <p className="text-base text-gray-300 mt-3">
-              Da capital para as principais províncias de Angola, a PEPEK disponibiliza soluções de mobilidade premium para deslocações executivas, corporativas e particulares, com conforto, segurança e acompanhamento personalizado.
+              Da capital para às principais províncias de Angola, a PEPEK disponibiliza soluções de mobilidade premium para deslocações executivas, corporativas e particulares, com conforto, segurança e acompanhamento personalizado.
             </p>
           </div>
 
