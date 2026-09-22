@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" xml:space="preserve">
+  <rect width="200" height="160" fill="#ffffff"/>
+  <!-- Shield shape -->
+  <path d="M100 15 L155 38 L155 90 C155 122 128 145 100 155 C72 145 45 122 45 90 L45 38 Z" fill="#0A2463" stroke="#0A2463" stroke-width="2"/>
+  <!-- Inner shield highlight -->
+  <path d="M100 25 L148 46 L148 90 C148 118 124 138 100 148 C76 138 52 118 52 90 L52 46 Z" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <!-- STC text inside shield -->
+  <text x="100" y="80" font-family="Arial, sans-serif" font-size="26" font-weight="900" text-anchor="middle" fill="#ffffff" letter-spacing="2">STC</text>
+  <!-- "Serviço de Investigação" below -->
+  <text x="100" y="102" font-family="Arial, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" fill="#FFD700">Serviço de</text>
+  <text x="100" y="113" font-family="Arial, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" fill="#FFD700">Investigação Criminal</text>
+</svg>

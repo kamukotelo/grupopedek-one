@@ -33,7 +33,8 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
     { name: 'DSTV MultiChoice', src: '/clients-color/dstv.png' },
     { name: 'ZAP Angola', src: '/clients-color/zap.png' },
 
-    { name: 'SIC Investigação Criminal', src: '/clients-color/sic.svg' },
+    { name: 'SIC Angola', src: '/clients-color/sic.svg' },
+    { name: 'STC — Serviço de Investigação Criminal', src: '/clients-color/stc.svg' },
     { name: 'ELISAL', src: '/clients-color/elisal.png' },
     { name: 'Catoca Diamantes', src: '/clients-color/catoca.png' },
     { name: 'COSMOS Viagens', src: '/clients-color/cosmos.png' },

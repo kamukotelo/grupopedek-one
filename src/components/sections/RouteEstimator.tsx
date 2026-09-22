@@ -106,13 +106,13 @@ export const RouteEstimator: React.FC = () => {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FEC228]/30 backdrop-blur-md text-xs font-bold text-[#FEC228] uppercase tracking-widest mb-4">
               <Compass className="w-4 h-4 text-[#FEC228]" />
-              <span>Rotas & Itinerários Estratégicos</span>
+              <span>Rotas & Destinos</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Simulador de Rotas Executivas
+              Mobilidade que acompanha o seu destino
             </h2>
             <p className="text-base text-gray-300 mt-3">
-              Consulte as rotas mais frequentes em Angola com tempos estimados e especificações técnicas de mobilidade protocolar.
+              Da capital para as principais províncias de Angola, a PEPEK disponibiliza soluções de mobilidade premium para deslocações executivas, corporativas e particulares, com conforto, segurança e acompanhamento personalizado.
             </p>
           </div>
 
