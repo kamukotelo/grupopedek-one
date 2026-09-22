@@ -29,6 +29,9 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = () =
     {/* Identidade + pedido rápido */}
     <Hero />
 
+    {/* Faixa de clientes logo abaixo do hero */}
+    <InstitutionalClients />
+
     {/* Resumo da oferta → /servicos */}
     <Services />
 
@@ -38,7 +41,6 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = () =
     {/* Prova institucional */}
     <TrustStats />
     <AboutTeaser />
-    <InstitutionalClients />
 
     {/* Garantias de pagamento e faturação */}
     <PaymentSecurity />

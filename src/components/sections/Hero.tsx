@@ -140,7 +140,7 @@ export const Hero: React.FC = () => {
   const scrollToFleet = goToSection('frota', '/frota');
 
   return (
-    <section id="inicio" className="relative bg-[#001E4A] text-white pt-32 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
+    <section id="inicio" className="relative bg-[#001E4A] text-white pt-24 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
       {/* Cinematic Background Image with Dark Vignette */}
       <div className="absolute inset-0 z-0" data-future-video-stage aria-label="Área visual preparada para o futuro vídeo institucional">
         <img
