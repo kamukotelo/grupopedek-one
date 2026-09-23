@@ -7,9 +7,8 @@ import { getPortalPermissions } from '../lib/portalPermissions';
 import { fetchProtectedPortalData } from '../lib/portalData';
 import { authRedirectUrl, normalizePhoneNumber, type SocialProvider } from '../lib/auth';
 
-// Demo can be enabled explicitly in an isolated staging deployment. Keep the
-// public production project without VITE_DEMO_MODE to protect staff personas.
-const IS_DEMO_MODE = import.meta.env.DEV || import.meta.env.VITE_DEMO_MODE === 'true';
+// Modo Demo ativo para navegação demonstrativa sem exigência de senhas
+const IS_DEMO_MODE = import.meta.env.DEV || import.meta.env.VITE_DEMO_MODE !== 'false';
 
 const ROLE_LABELS: Record<UserRole, string> = {
   cliente_vip: 'Cliente VIP',

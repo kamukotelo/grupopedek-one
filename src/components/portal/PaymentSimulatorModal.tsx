@@ -11,7 +11,7 @@ interface PaymentSimulatorModalProps {
 }
 
 export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ invoice, onClose, onSuccess }) => {
-  const isDemo = import.meta.env.VITE_DEMO_MODE === 'true';
+  const isDemo = import.meta.env.VITE_DEMO_MODE !== 'false';
   const [provider, setProvider] = useState<PaymentProvider>('bank_transfer');
   const [currency, setCurrency] = useState<'AOA' | 'USD' | 'EUR'>('AOA');
   const [isProcessing, setIsProcessing] = useState(false);
