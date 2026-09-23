@@ -5,6 +5,7 @@ import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from 
 import { supabase } from '../lib/supabase';
 import { getPortalPermissions } from '../lib/portalPermissions';
 import { fetchProtectedPortalData } from '../lib/portalData';
+import { authRedirectUrl, normalizePhoneNumber, type SocialProvider } from '../lib/auth';
 
 // Demo can be enabled explicitly in an isolated staging deployment. Keep the
 // public production project without VITE_DEMO_MODE to protect staff personas.
@@ -64,7 +65,12 @@ interface AuthContextType {
   loginAs: (role: UserRole) => void;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
   signUp: (name: string, email: string, password: string) => Promise<{ error?: string }>;
+  requestPhoneOtp: (phone: string) => Promise<{ error?: string; phone?: string }>;
+  verifyPhoneOtp: (phone: string, token: string) => Promise<{ error?: string }>;
+  signInWithSocial: (provider: SocialProvider) => Promise<{ error?: string }>;
   requestPasswordReset: (email: string) => Promise<{ error?: string }>;
+  updatePassword: (password: string) => Promise<{ error?: string }>;
+  isPasswordRecovery: boolean;
   logout: () => Promise<void>;
   isPortalOpen: boolean;
   setIsPortalOpen: (open: boolean) => void;
@@ -85,6 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return getStoredDemoUser();
   });
   const [isAuthReady, setIsAuthReady] = useState(IS_DEMO_MODE);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
   const [isPortalOpen, setIsPortalOpen] = useState(false);
   const [invoices, setInvoices] = useState<InvoiceItem[]>(IS_DEMO_MODE ? DEMO_INVOICES : []);
   const [fleetTelemetry, setFleetTelemetry] = useState<FleetTelemetryItem[]>(IS_DEMO_MODE ? DEMO_FLEET_TELEMETRY : []);
@@ -100,7 +107,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isDemoSession = currentUser?.id.startsWith('demo_') ?? false;
 
   useEffect(() => {
-    if (IS_DEMO_MODE || getStoredDemoUser()) {
+    const demoUser = getStoredDemoUser();
+    if (demoUser) {
       setIsAuthReady(true);
       return;
     }
@@ -110,9 +118,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setCurrentUser(data.session?.user ? mapAuthUser(data.session.user) : null);
       setIsAuthReady(true);
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
       setCurrentUser(session?.user ? mapAuthUser(session.user) : null);
+      if (event === 'PASSWORD_RECOVERY') setIsPasswordRecovery(true);
+      if (event === 'SIGNED_IN' && session?.user) setIsPortalOpen(true);
       setIsAuthReady(true);
     });
     return () => {
@@ -122,7 +132,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const loadPortalData = useCallback(async () => {
-    if (IS_DEMO_MODE || isDemoSession) {
+    if (isDemoSession) {
       setInvoices(DEMO_INVOICES);
       setFleetTelemetry(DEMO_FLEET_TELEMETRY);
       setOdooSync(DEMO_ODOO_SYNC);
@@ -196,21 +206,56 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email: email.trim(),
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/painel`,
+        emailRedirectTo: authRedirectUrl(),
         data: { full_name: name.trim() },
       },
     });
     return error ? { error: error.message } : {};
   };
 
+  const requestPhoneOtp = async (input: string) => {
+    const phone = normalizePhoneNumber(input);
+    if (!phone) return { error: 'Número de telefone inválido.' };
+    const { error } = await supabase.auth.signInWithOtp({
+      phone,
+      options: { shouldCreateUser: true },
+    });
+    return error ? { error: error.message } : { phone };
+  };
+
+  const verifyPhoneOtp = async (input: string, token: string) => {
+    const phone = normalizePhoneNumber(input);
+    if (!phone || !/^\d{6}$/.test(token.trim())) return { error: 'Código inválido.' };
+    const { error } = await supabase.auth.verifyOtp({ phone, token: token.trim(), type: 'sms' });
+    return error ? { error: error.message } : {};
+  };
+
+  const signInWithSocial = async (provider: SocialProvider) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: authRedirectUrl(),
+        scopes: provider === 'azure' ? 'email openid profile' : undefined,
+      },
+    });
+    return error ? { error: error.message } : {};
+  };
+
   const requestPasswordReset = async (email: string) => {
-    const redirectTo = `${window.location.origin}/painel`;
+    const redirectTo = authRedirectUrl();
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
     return error ? { error: error.message } : {};
   };
 
+  const updatePassword = async (password: string) => {
+    if (password.length < 10) return { error: 'A palavra-passe deve ter pelo menos 10 caracteres.' };
+    const { error } = await supabase.auth.updateUser({ password });
+    if (!error) setIsPasswordRecovery(false);
+    return error ? { error: error.message } : {};
+  };
+
   const logout = async () => {
-    if (!IS_DEMO_MODE && !isDemoSession) await supabase.auth.signOut();
+    if (!isDemoSession) await supabase.auth.signOut();
     setCurrentUser(null);
     localStorage.removeItem('pepek_demo_user');
     setInvoices(IS_DEMO_MODE ? DEMO_INVOICES : []);
@@ -219,14 +264,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const payInvoice = (invoiceId: string, gateway: string) => {
-    if (!IS_DEMO_MODE && !isDemoSession) return;
+    if (!isDemoSession) return;
     setInvoices(prev => prev.map(inv => inv.id === invoiceId
       ? { ...inv, status: 'paid' as const, paymentGateway: gateway as InvoiceItem['paymentGateway'] }
       : inv));
   };
 
   const refreshOdooSync = async () => {
-    if (IS_DEMO_MODE || isDemoSession) {
+    if (isDemoSession) {
       setOdooSync(prev => ({ ...prev, serverStatus: 'syncing' }));
       await new Promise(resolve => setTimeout(resolve, 800));
       setOdooSync({ ...DEMO_ODOO_SYNC, lastSync: `Demo actualizado (${new Date().toLocaleTimeString('pt-AO')})` });
@@ -252,7 +297,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider value={{
-      currentUser, isAuthReady, isDemoMode: IS_DEMO_MODE, loginAs, signIn, signUp, requestPasswordReset,
+      currentUser, isAuthReady, isDemoMode: IS_DEMO_MODE, loginAs, signIn, signUp,
+      requestPhoneOtp, verifyPhoneOtp, signInWithSocial, requestPasswordReset, updatePassword, isPasswordRecovery,
       logout, isPortalOpen, setIsPortalOpen, invoices, payInvoice, refreshInvoices: loadPortalData,
       fleetTelemetry, odooSync, refreshOdooSync, selectedPaymentInvoice, setSelectedPaymentInvoice,
     }}>

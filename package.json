@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "gen:ai": "node scripts/gen-ai-knowledge.mjs",
-    "test": "node scripts/validate-project.mjs",
+    "test": "node scripts/validate-project.mjs && vitest run",
+    "test:auth": "vitest run src/lib/auth.test.ts",
     "test:sales": "node scripts/test-sales-payments.mjs",
     "test:bank-transfer": "node scripts/test-bank-transfer.mjs",
     "test:build": "npm test && npm run test:bank-transfer && npm run build",
@@ -23,7 +24,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",
-    "vite-plugin-pwa": "^1.3.0"
+    "vite-plugin-pwa": "^1.3.0",
+    "vitest": "^5.0.1"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

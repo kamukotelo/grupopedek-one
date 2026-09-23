@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { X, Building2, User, Lock, Mail, ArrowRight, ShieldCheck, Loader2, ChevronDown, Sparkles } from 'lucide-react';
+import { X, Building2, User, Lock, Mail, ArrowRight, ShieldCheck, Loader2, ChevronDown, Sparkles, Smartphone, KeyRound } from 'lucide-react';
 import type { UserRole } from '../../types/auth';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { SOCIAL_PROVIDER_LABELS, type SocialProvider } from '../../lib/auth';
 
 interface ClientAreaModalProps {
   isOpen: boolean;
@@ -23,7 +24,11 @@ const PROFILE_CHOICES: Array<{ role: UserRole; group: 'Clientes' | 'Operações'
 ];
 
 export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClose }) => {
-  const { signIn, signUp, requestPasswordReset, isAuthReady, isDemoMode, loginAs } = useAuth();
+  const {
+    signIn, signUp, requestPhoneOtp, verifyPhoneOtp, signInWithSocial,
+    requestPasswordReset, updatePassword, isPasswordRecovery,
+    isAuthReady, isDemoMode, loginAs,
+  } = useAuth();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'corporate' | 'private'>('corporate');
   const [emailOrNif, setEmailOrNif] = useState('');
@@ -34,6 +39,10 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
   const [showRealLogin, setShowRealLogin] = useState(false);
   const [showRegistration, setShowRegistration] = useState(false);
   const [registrationName, setRegistrationName] = useState('');
+  const [loginMethod, setLoginMethod] = useState<'email' | 'phone'>('email');
+  const [phone, setPhone] = useState('');
+  const [normalizedPhone, setNormalizedPhone] = useState('');
+  const [otp, setOtp] = useState('');
 
   if (!isOpen) return null;
 
@@ -71,6 +80,45 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
     setIsSubmitting(false);
     if (result.error) setErrorMessage('Não foi possível criar a conta. Confirme os dados ou tente outro e-mail.');
     else setResetMessage('Conta criada. Consulte o seu e-mail para confirmar o acesso antes de iniciar sessão.');
+  };
+
+  const handlePhoneSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMessage('');
+    setResetMessage('');
+    setIsSubmitting(true);
+    const result: { error?: string; phone?: string } = normalizedPhone
+      ? await verifyPhoneOtp(normalizedPhone, otp)
+      : await requestPhoneOtp(phone);
+    setIsSubmitting(false);
+    if (result.error) {
+      setErrorMessage(normalizedPhone ? 'Código inválido ou expirado. Solicite um novo código.' : 'Não foi possível enviar o SMS. Confirme o número e tente novamente.');
+      return;
+    }
+    if (result.phone) {
+      setNormalizedPhone(result.phone);
+      setResetMessage(`Código enviado por SMS para ${result.phone}.`);
+    }
+  };
+
+  const handleSocial = async (provider: SocialProvider) => {
+    setErrorMessage('');
+    setIsSubmitting(true);
+    const result = await signInWithSocial(provider);
+    if (result.error) {
+      setIsSubmitting(false);
+      setErrorMessage(`Não foi possível continuar com ${SOCIAL_PROVIDER_LABELS[provider]}.`);
+    }
+  };
+
+  const handlePasswordUpdate = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMessage('');
+    setIsSubmitting(true);
+    const result = await updatePassword(password);
+    setIsSubmitting(false);
+    if (result.error) setErrorMessage('Use uma palavra-passe nova com pelo menos 10 caracteres.');
+    else setResetMessage('Palavra-passe atualizada com sucesso.');
   };
 
   return (
@@ -160,7 +208,45 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               <ShieldCheck className="mr-1.5 inline h-4 w-4" />
               Sessão protegida. A PEPEK nunca solicitará a sua palavra-passe por telefone, WhatsApp ou e-mail.
             </div>
-            <form onSubmit={showRegistration ? handleRegistration : handleSubmit} className="space-y-4">
+            {isPasswordRecovery ? (
+              <form onSubmit={handlePasswordUpdate} className="space-y-4">
+                <div className="rounded-xl border border-[#236199] bg-white p-4">
+                  <KeyRound className="mb-2 h-5 w-5 text-[#236199]" />
+                  <strong className="block text-sm text-[#09172C]">Definir nova palavra-passe</strong>
+                  <p className="mt-1 text-[10px] text-slate-500">A ligação de recuperação foi validada. Escolha uma palavra-passe com pelo menos 10 caracteres.</p>
+                </div>
+                <input type="password" autoComplete="new-password" minLength={10} value={password} onChange={(e) => setPassword(e.target.value)} className="form-input" required aria-label="Nova palavra-passe" />
+                {errorMessage && <p role="alert" className="rounded-xl bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">{errorMessage}</p>}
+                {resetMessage && <p role="status" className="rounded-xl bg-[#236199] p-3 text-xs font-semibold text-white">{resetMessage}</p>}
+                <button type="submit" disabled={isSubmitting} className="btn-primary w-full justify-center py-3.5 text-xs font-bold">
+                  {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <KeyRound className="h-4 w-4" />} Atualizar palavra-passe
+                </button>
+              </form>
+            ) : <>
+            <div className="mb-4 grid grid-cols-2 rounded-xl bg-white p-1 shadow-sm" role="tablist" aria-label="Método de entrada">
+              <button type="button" role="tab" aria-selected={loginMethod === 'email'} onClick={() => { setLoginMethod('email'); setErrorMessage(''); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'email' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Mail className="h-4 w-4" />E-mail</button>
+              <button type="button" role="tab" aria-selected={loginMethod === 'phone'} onClick={() => { setLoginMethod('phone'); setErrorMessage(''); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'phone' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Smartphone className="h-4 w-4" />Telefone</button>
+            </div>
+
+            {loginMethod === 'phone' ? <form onSubmit={handlePhoneSubmit} className="space-y-4">
+              <div>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-600">{normalizedPhone ? 'Código SMS de 6 dígitos' : 'Número de telefone'}</label>
+                <input
+                  type={normalizedPhone ? 'text' : 'tel'} inputMode={normalizedPhone ? 'numeric' : 'tel'}
+                  autoComplete={normalizedPhone ? 'one-time-code' : 'tel'}
+                  value={normalizedPhone ? otp : phone}
+                  onChange={(e) => normalizedPhone ? setOtp(e.target.value.replace(/\D/g, '').slice(0, 6)) : setPhone(e.target.value)}
+                  placeholder={normalizedPhone ? '000000' : '+244 923 000 000'} className="form-input" required
+                  pattern={normalizedPhone ? '[0-9]{6}' : undefined}
+                />
+              </div>
+              {errorMessage && <p role="alert" className="rounded-xl bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">{errorMessage}</p>}
+              {resetMessage && <p role="status" className="rounded-xl bg-[#236199] p-3 text-xs font-semibold text-white">{resetMessage}</p>}
+              <button type="submit" disabled={isSubmitting || !isAuthReady} className="btn-primary w-full justify-center py-3.5 text-xs font-bold">
+                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Smartphone className="h-4 w-4" />}{normalizedPhone ? 'Confirmar código e entrar' : 'Enviar código por SMS'}
+              </button>
+              {normalizedPhone && <button type="button" onClick={() => { setNormalizedPhone(''); setOtp(''); setResetMessage(''); }} className="w-full text-xs font-bold text-[#236199] hover:underline">Alterar número ou reenviar código</button>}
+            </form> : <form onSubmit={showRegistration ? handleRegistration : handleSubmit} className="space-y-4">
               {showRegistration && <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Nome completo</label>
                 <div className="relative">
@@ -234,7 +320,19 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               <button type="button" onClick={() => { setShowRegistration((open) => !open); setErrorMessage(''); setResetMessage(''); }} className="w-full pt-1 text-xs font-bold text-[#236199] hover:underline">
                 {showRegistration ? 'Já possui conta? Iniciar sessão' : 'Criar conta de cliente'}
               </button>
-            </form>
+            </form>}
+
+            {!showRegistration && <div className="mt-5">
+              <div className="mb-3 flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-slate-400"><span className="h-px flex-1 bg-slate-200" />ou continuar com<span className="h-px flex-1 bg-slate-200" /></div>
+              <div className="grid gap-2 sm:grid-cols-3">
+                {(Object.keys(SOCIAL_PROVIDER_LABELS) as SocialProvider[]).map((provider) => (
+                  <button key={provider} type="button" disabled={isSubmitting} onClick={() => void handleSocial(provider)} className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-xs font-bold text-[#09172C] transition hover:border-[#236199] disabled:opacity-50" aria-label={`Continuar com ${SOCIAL_PROVIDER_LABELS[provider]}`}>
+                    {SOCIAL_PROVIDER_LABELS[provider]}
+                  </button>
+                ))}
+              </div>
+            </div>}
+            </>}
             </div>}
           {/* Footer Note */}
           <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">

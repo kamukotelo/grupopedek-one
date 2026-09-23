@@ -1,42 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, ChevronLeft, Car, CalendarDays, MapPin, Pause, Play, Volume2, VolumeX } from 'lucide-react';
-import { checkVehicleAvailability } from '../../lib/reservations';
+import { ChevronRight, ChevronLeft, Car, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
-import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const luxuryVehicles = [
-    ['rangerover-blindado-2025', 'hero.luxuryArmored'],
-    ['mercedes-class-s-2025', 'hero.luxuryProtocol'],
-    ['range-rover-novo-modelo', 'hero.luxurySuv'],
-    ['lexus-600', 'hero.luxuryVip'],
-    ['mercedes-g63-2023', 'hero.luxuryPerformance'],
-    ['mercedes-benz-v300-class', 'hero.luxuryDelegations'],
-  ] as const;
-  const luxuryHeroVehicles = luxuryVehicles.flatMap(([id, segmentKey]) => {
-    const vehicle = PUBLIC_FLEET.find((item) => item.id === id);
-    return vehicle ? [{ id: vehicle.id, name: vehicle.name, image: vehicle.primaryImage, price: vehicle.pricePerDayFormatted, segment: t(segmentKey) }] : [];
-  });
+  // Imagem de fundo — usa a primeira viatura VIP da frota
+  const bgVehicle = PUBLIC_FLEET.find((v) => v.id === 'rangerover-blindado-2025');
+  const bgImage = bgVehicle?.primaryImage ?? '';
 
-  const [currentLuxury, setCurrentLuxury] = useState(0);
   const [currentStory, setCurrentStory] = useState(0);
   const [isStoryPlaying, setIsStoryPlaying] = useState(true);
   const [isStoryMuted, setIsStoryMuted] = useState(true);
   const storyVideoRef = useRef<HTMLVideoElement>(null);
   const storyPointerStartX = useRef<number | null>(null);
-  const [isLuxuryPaused, setIsLuxuryPaused] = useState(false);
-  const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'on_request' | 'unavailable' | 'unknown'>('idle');
-  const [pickup, setPickup] = useState('');
-  const [destination, setDestination] = useState('');
-  const [activeLocationField, setActiveLocationField] = useState<'pickup' | 'destination' | null>(null);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const today = new Date().toISOString().split('T')[0];
+
   const homepageStories: { id: string; video: string; title: string; tagline?: string }[] = [
     { id: 'african-sezs-mobilidade', video: '/videos/pepek-african-sezs-2-web.mp4', title: t('hero.videoStoryPartnership') },
     { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', title: t('hero.videoStoryInternational'), tagline: t('hero.videoStoryInternationalTagline') },
@@ -44,31 +25,16 @@ export const Hero: React.FC = () => {
     { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet'), tagline: t('hero.videoStoryFleetTagline') },
     { id: 'hyundai-staria-vip', video: '/videos/img-8510-web.mp4', title: t('hero.videoStoryStaria'), tagline: t('hero.videoStoryStariaTagline') },
   ];
-  const locationSuggestions = [
-    'Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)',
-    'Aeroporto 4 de Fevereiro, Luanda',
-    'Sede PEPEK — Talatona',
-    'Talatona — Hotéis e Centros Empresariais',
-    'Miramar — Zona Diplomática',
-    'Ilha de Luanda',
-    'Maianga — Centro de Luanda',
-    'Viana — Pólo Industrial',
-    'Cacuaco',
-    'Caxito — Bengo',
-    'Huambo — Centro',
-  ];
 
-  const filteredLocations = (value: string) => locationSuggestions.filter((location) =>
-    !value.trim() || location.toLocaleLowerCase('pt').includes(value.toLocaleLowerCase('pt'))
-  ).slice(0, 6);
-
+  // Rotação automática das histórias (máx. 12 s por história, mas respeita prefers-reduced-motion)
   useEffect(() => {
-    if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
-      setCurrentLuxury((current) => (current + 1) % luxuryHeroVehicles.length);
+      setCurrentStory((s) => (s + 1) % homepageStories.length);
+      setIsStoryPlaying(true);
     }, 6000);
     return () => window.clearInterval(timer);
-  }, [luxuryHeroVehicles.length, isLuxuryPaused]);
+  }, [homepageStories.length]);
 
   useEffect(() => {
     const video = storyVideoRef.current;
@@ -107,32 +73,9 @@ export const Hero: React.FC = () => {
     index: (currentStory + offset + homepageStories.length) % homepageStories.length,
   }));
 
-  const handleQuickAvailability = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const vehicle = luxuryHeroVehicles[currentLuxury];
-    setIsLuxuryPaused(true);
-    setAvailabilityStatus('checking');
-    const availability = await checkVehicleAvailability({ vehicle: vehicle.name, startDate, endDate });
-    setAvailabilityStatus(availability.status);
-    if (availability.status === 'unavailable') return;
-    const params = new URLSearchParams({
-      pickup,
-      destination,
-      startDate,
-      endDate,
-      viatura: vehicle.name,
-    });
-    navigate(`/reservar?${params.toString()}`);
-  };
-
-  // A reserva e a frota vivem agora em páginas próprias. Se a secção estiver na
-  // página actual, rolamos até ela; caso contrário navegamos para a rota certa.
   const goToSection = (id: string, route: string) => () => {
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
+    if (el) { el.scrollIntoView({ behavior: 'smooth' }); return; }
     navigate(route);
   };
 
@@ -141,26 +84,26 @@ export const Hero: React.FC = () => {
 
   return (
     <section id="inicio" className="relative bg-[#001E4A] text-white pt-24 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
-      {/* Cinematic Background Image with Dark Vignette */}
-      <div className="absolute inset-0 z-0" data-future-video-stage aria-label="Área visual preparada para o futuro vídeo institucional">
+      {/* Fundo cinemático */}
+      <div className="absolute inset-0 z-0" aria-hidden="true">
         <img
-          src={luxuryHeroVehicles[0]?.image}
-          alt="Viatura oficial da frota executiva PEPEK"
+          src={bgImage}
+          alt=""
           className="h-full w-full scale-[1.02] object-cover object-center brightness-[0.58] contrast-[1.12]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#001E4A]/95 via-[#001E4A]/76 to-[#174B86]/44" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#001E4A] via-transparent to-[#001E4A]/65" />
-        {/* Subtle Radial Glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#236199]/20 rounded-full blur-[160px] pointer-events-none" />
       </div>
 
       <div className="container-pepek relative z-10 flex-1 flex flex-col justify-center">
-        {/* Vertical stories carousel: portrait videos remain visible in their native format. */}
-        <div data-home-video-showcase className="group relative order-1 mb-8 w-full overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-3 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5 lg:mb-12">
+
+        {/* ── VÍDEOS (Stories) ── */}
+        <div
+          data-home-video-showcase
+          className="group relative order-1 mb-8 w-full overflow-hidden rounded-[26px] border border-white/15 bg-[#07182F]/95 p-3 shadow-[0_20px_55px_rgba(0,0,0,.28)] animate-fadeIn sm:p-5 lg:mb-12"
+        >
           <div className="grid items-center gap-3">
-            {/* Right stage: 3 cards directly in showcase without inner boxed container.
-                Below sm, only the active card renders — the side peeks made the stage
-                wider than the viewport and forced the whole row to overflow/clip. */}
             <div
               className="relative flex min-w-0 touch-pan-y select-none items-center justify-center py-1 sm:h-[440px] lg:h-[500px] xl:h-[540px]"
               onPointerDown={(event) => { storyPointerStartX.current = event.clientX; }}
@@ -240,7 +183,7 @@ export const Hero: React.FC = () => {
                 })}
               </div>
 
-              {/* Navigation arrows */}
+              {/* Setas de navegação */}
               <button
                 type="button"
                 onClick={() => changeStory(-1)}
@@ -258,16 +201,19 @@ export const Hero: React.FC = () => {
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
-            <button type="button" onClick={() => navigate(`/blogue#${homepageStories[currentStory].id}`)} className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-white/80 transition hover:text-[#FEC228]">
+
+            <button
+              type="button"
+              onClick={() => navigate(`/blogue#${homepageStories[currentStory].id}`)}
+              className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-white/80 transition hover:text-[#FEC228]"
+            >
               {t('hero.videoViewBlog')} <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        <div className="order-2 grid items-start gap-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,500px)] xl:gap-12 2xl:grid-cols-[minmax(0,1.35fr)_520px]">
-          <div>
-        {/* Main Headline */}
-        <div className="max-w-4xl mb-6">
+        {/* ── HEADLINE + CTAs ── */}
+        <div className="order-2 max-w-4xl mb-6">
           <h1 className="text-[2rem] sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.12] tracking-tight">
             {t('hero.title')}
             {t('hero.titleAccent') ? (
@@ -279,7 +225,7 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="order-3 flex flex-wrap items-center gap-4">
           <button
             type="button"
             onClick={scrollToBooking}
@@ -298,80 +244,6 @@ export const Hero: React.FC = () => {
           >
             <span>{t('hero.ctaFleet')}</span>
           </button>
-        </div>
-
-          </div>
-
-          <aside
-            className="overflow-hidden rounded-[26px] border border-white/15 bg-white text-[#09172C] shadow-[0_28px_70px_rgba(9,23,44,.36)]"
-            onMouseEnter={() => setIsLuxuryPaused(true)}
-            onMouseLeave={() => setIsLuxuryPaused(false)}
-            onFocusCapture={() => setIsLuxuryPaused(true)}
-            onBlurCapture={() => setIsLuxuryPaused(false)}
-          >
-            <div className="relative min-h-[310px] overflow-hidden bg-[#20558D] bg-cover bg-center px-6 pt-5 sm:min-h-[350px] sm:px-7 sm:pt-6" style={{ backgroundColor: '#20558D', backgroundImage: `url('${FLEET_STUDIO_BACKGROUNDS.luxury}')` }}>
-              <div className="relative z-20 flex items-start justify-between gap-4">
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#E4AD28]">{luxuryHeroVehicles[currentLuxury].segment}</span>
-                  <h2 className="mt-1 max-w-[280px] text-xl font-extrabold text-white drop-shadow-md">{luxuryHeroVehicles[currentLuxury].name}</h2>
-                  <p className="mt-1 text-sm font-extrabold text-[#FEC228]">{luxuryHeroVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
-                </div>
-                <div className="flex gap-1">
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryHeroVehicles.length) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
-                </div>
-              </div>
-              {luxuryHeroVehicles.map((vehicle, index) => (
-                <img
-                  key={vehicle.name}
-                  src={vehicle.image}
-                  alt={vehicle.name}
-                  style={{ '--fleet-image-scale': vehicle.id === 'rangerover-blindado-2025' ? '1.16' : '0.96' } as React.CSSProperties}
-                  className={`fleet-vehicle-image absolute bottom-[-8px] left-1/2 h-[260px] w-[100%] -translate-x-1/2 object-contain drop-shadow-[0_24px_24px_rgba(9,23,44,.38)] transition-all duration-700 sm:bottom-[-12px] sm:h-[300px] ${currentLuxury === index ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                />
-              ))}
-            </div>
-
-            <form onSubmit={handleQuickAvailability} className="p-5 sm:p-6">
-              <div className="mb-4 flex items-center gap-2.5">
-                <CalendarDays className="h-5 w-5 text-[#E4AD28]" />
-                <h3 className="text-lg font-extrabold text-[#09172C]">{t('hero.quickTitle')}</h3>
-              </div>
-              <label className="relative block text-xs font-extrabold text-slate-700">
-                <span className="mb-1.5 block">{t('hero.quickPickup')}</span>
-                <span className="relative block">
-                  <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input required autoComplete="off" value={pickup} onFocus={() => { setIsLuxuryPaused(true); setActiveLocationField('pickup'); }} onBlur={() => window.setTimeout(() => setActiveLocationField(null), 120)} onChange={(event) => { setPickup(event.target.value); setActiveLocationField('pickup'); }} placeholder={t('hero.quickPickupPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#FEC228]" />
-                </span>
-                {activeLocationField === 'pickup' && (
-                  <span className="absolute left-0 right-0 top-full z-40 mt-1 max-h-52 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-2xl">
-                    {filteredLocations(pickup).map((location) => <button key={location} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => { setPickup(location); setActiveLocationField(null); }} className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-slate-700 hover:bg-[#F5F6F6]"><MapPin className="h-3.5 w-3.5 shrink-0 text-[#E4AD28]" />{location}</button>)}
-                  </span>
-                )}
-              </label>
-              <label className="relative mt-3 block text-xs font-extrabold text-slate-700">
-                <span className="mb-1.5 block">{t('hero.quickReturn')}</span>
-                <span className="relative block">
-                  <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input autoComplete="off" value={destination} onFocus={() => { setIsLuxuryPaused(true); setActiveLocationField('destination'); }} onBlur={() => window.setTimeout(() => setActiveLocationField(null), 120)} onChange={(event) => { setDestination(event.target.value); setActiveLocationField('destination'); }} placeholder={t('hero.quickReturnPlaceholder')} className="h-11 w-full rounded-lg border border-slate-300 pl-9 pr-3 text-sm outline-none focus:border-[#FEC228]" />
-                </span>
-                {activeLocationField === 'destination' && (
-                  <span className="absolute left-0 right-0 top-full z-30 mt-1 max-h-52 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-2xl">
-                    {filteredLocations(destination).map((location) => <button key={location} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => { setDestination(location); setActiveLocationField(null); }} className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-slate-700 hover:bg-[#F5F6F6]"><MapPin className="h-3.5 w-3.5 shrink-0 text-[#E4AD28]" />{location}</button>)}
-                  </span>
-                )}
-              </label>
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><span className="relative block"><input required min={today} type="date" value={startDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => { setStartDate(event.target.value); if (endDate && endDate < event.target.value) setEndDate(''); }} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#FEC228]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E4AD28]" /></span></label>
-                <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><span className="relative block"><input required min={startDate || today} type="date" value={endDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#FEC228]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E4AD28]" /></span></label>
-              </div>
-              {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-[#FEC228] p-2 text-[11px] font-bold text-[#09172C]">Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.</p>}
-              {availabilityStatus === 'on_request' && <p role="status" className="mt-3 rounded-lg border border-[#236199]/20 bg-[#236199]/5 p-2 text-[11px] font-semibold text-[#09172C]">Pedido elegível para confirmação. A equipa valida a viatura física, motorista e condições operacionais antes de confirmar.</p>}
-              <button type="submit" disabled={availabilityStatus === 'checking'} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#FEC228] px-4 text-xs font-extrabold uppercase tracking-[0.08em] text-[#09172C] transition hover:bg-[#FFD45F] disabled:opacity-60">
-                {availabilityStatus === 'checking' ? 'A verificar…' : t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
-              </button>
-            </form>
-          </aside>
         </div>
 
       </div>

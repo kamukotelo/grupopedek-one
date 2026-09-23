@@ -63,7 +63,7 @@ export const ClientPortalModal: React.FC = () => {
 
   if (!isPortalOpen) return null;
 
-  if (!isDemoMode && !currentUser) {
+  if (!currentUser) {
     return <ClientAreaModal isOpen={isPortalOpen} onClose={() => setIsPortalOpen(false)} />;
   }
 

@@ -23,7 +23,6 @@ export const PagePainel: React.FC = () => {
           <div className="text-center text-white space-y-4 p-8">
             <h1 className="text-2xl font-bold">Área Reservada</h1>
             <p className="text-gray-400">Por favor inicie sessão para aceder ao painel de gestão.</p>
-            {/* TODO: Implementar formulário de login real (email/password ou OAuth) */}
           </div>
         )}
       </div>
