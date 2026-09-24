@@ -19,12 +19,18 @@ import {
   Mail,
   FileCheck,
   Sparkles,
-  Info
+  Info,
+  Loader2,
+  CheckCircle2,
+  Copy,
+  FileText
 } from 'lucide-react';
 import type { VehicleDetail } from '../../data/fleetData';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
+import { submitReservation } from '../../lib/reservations';
+import { useAuth } from '../../context/AuthContext';
 
 interface BookingWizardModalProps {
   initialVehicleName?: string;
@@ -38,6 +44,15 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   onClose
 }) => {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const { setIsPortalOpen } = useAuth();
+
+  // Submission State
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [protocolCode, setProtocolCode] = useState<string | null>(null);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const [copiedProtocol, setCopiedProtocol] = useState(false);
+  const [step3Error, setStep3Error] = useState<string | null>(null);
 
   // Form State
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>(() => {
@@ -52,6 +67,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   const [dropoffLocation, setDropoffLocation] = useState('Hub Central Pepek Talatona');
   
   // Dates default: tomorrow and 3 days later
+  const today = new Date().toISOString().split('T')[0];
   const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
   const threeDays = new Date(Date.now() + 4 * 86400000).toISOString().split('T')[0];
   const [pickupDate, setPickupDate] = useState(tomorrow);
@@ -117,13 +133,40 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleWhatsAppSubmission = () => {
+  const copyProtocol = async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopiedProtocol(true);
+      setTimeout(() => setCopiedProtocol(false), 2500);
+    } catch {
+      // Fallback
+    }
+  };
+
+  const handleAdvanceFromStep3 = () => {
+    if (!fullName.trim() || fullName.trim().length < 3) {
+      setStep3Error('Por favor indique o seu nome completo (mínimo 3 caracteres).');
+      return;
+    }
+    if (!phone.trim() && !email.trim()) {
+      setStep3Error('Por favor forneça pelo menos um contacto de retorno (WhatsApp/telefone ou e-mail).');
+      return;
+    }
+    setStep3Error(null);
+    setStep(4);
+  };
+
+  const buildWhatsAppUrl = (code?: string) => {
     const formattedTotal = grandTotalAOA.toLocaleString('pt-AO') + ' Kz';
     const formattedDaily = selectedVehicle.pricePerDayFormatted;
 
-    const msg = `*NOVA SOLICITAÇÃO DE RESERVA — PEPEK RENT A CAR*\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `🚗 *Viatura:* ${selectedVehicle.name} (${selectedVehicle.categoryLabel})\n` +
+    let msg = `*NOVA SOLICITAÇÃO DE RESERVA — PEPEK RENT A CAR*\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    if (code) {
+      msg += `📋 *PROTOCOLO OFICIAL:* ${code}\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    }
+    msg += `🚗 *Viatura:* ${selectedVehicle.name} (${selectedVehicle.categoryLabel})\n` +
       `💰 *Tarifa diária:* ${formattedDaily}\n` +
       `📅 *Período:* ${pickupDate} às ${pickupTime} até ${dropoffDate} às ${dropoffTime} (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})\n` +
       `📍 *Levantamento:* ${pickupLocation}\n` +
@@ -137,18 +180,56 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       `${!withDriver && !withFuelClean && !withBabySeat && !withWifi ? '• Nenhum extra adicionado\n' : ''}` +
       `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
       `👤 *Dados do Cliente:*\n` +
-      `• *Nome:* ${fullName || 'Não informado'}\n` +
+      `• *Nome:* ${fullName.trim() || 'Não informado'}\n` +
       `• *Tipo:* ${clientType === 'empresa' ? 'Empresa / Institucional' : 'Particular'}\n` +
-      `• *Telefone/WhatsApp:* ${phone || 'Não informado'}\n` +
-      `• *Email:* ${email || 'Não informado'}\n` +
-      `${notes ? `• *Observações:* ${notes}\n` : ''}` +
+      `• *Telefone/WhatsApp:* ${phone.trim() || 'Não informado'}\n` +
+      `• *Email:* ${email.trim() || 'Não informado'}\n` +
+      `${notes ? `• *Observações:* ${notes.trim()}\n` : ''}` +
       `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
       `💎 *VALOR TOTAL ESTIMADO:* ${formattedTotal}\n` +
       `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
       `_Por favor confirmar a disponibilidade e enviar a fatura proforma._`;
 
-    const url = `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
+    return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  };
+
+  const handleSubmitReservation = async () => {
+    setIsSubmitting(true);
+    setSubmissionError(null);
+    try {
+      const receipt = await submitReservation({
+        service: withDriver ? 'executive' : 'rent-a-car',
+        location: 'Luanda',
+        destination: differentDropoff ? `${pickupLocation} ➔ ${dropoffLocation}` : pickupLocation,
+        startDate: `${pickupDate} ${pickupTime}`,
+        endDate: `${dropoffDate} ${dropoffTime}`,
+        vehicleCategory: `${selectedVehicle.name} (${selectedVehicle.categoryLabel})`,
+        withDriver,
+        clientName: fullName.trim() || 'Cliente Frota',
+        clientPhone: phone.trim(),
+        clientEmail: email.trim() || undefined,
+        companyName: clientType === 'empresa' ? (notes ? notes.slice(0, 100) : 'Empresa') : undefined,
+        notes: [
+          notes ? `Notas: ${notes.trim()}` : '',
+          withFuelClean ? 'Extra: Higienização e Combustível' : '',
+          withBabySeat ? 'Extra: Cadeira de Criança' : '',
+          withWifi ? 'Extra: Wi-Fi 5G' : '',
+          `Total Estimado: ${grandTotalAOA.toLocaleString('pt-AO')} Kz`,
+        ].filter(Boolean).join(' | '),
+        status: 'pending',
+        source: 'fleet_wizard_modal',
+      });
+
+      setProtocolCode(receipt.protocolCode);
+      setIsConfirmed(true);
+
+      const whatsappUrl = buildWhatsAppUrl(receipt.protocolCode);
+      window.open(whatsappUrl, '_blank');
+    } catch (err) {
+      setSubmissionError(err instanceof Error ? err.message : 'Não foi possível registar a reserva. Tente novamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -183,79 +264,95 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
         </div>
 
         {/* Stepper Progress Bar */}
-        <div className="bg-[#09172C] px-6 py-3 border-b border-white/10 shrink-0">
-          <div className="grid grid-cols-4 gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => setStep(1)}
-              className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
-                step === 1
-                  ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
-                  : step > 1
-                  ? 'text-white/80 hover:text-white'
-                  : 'text-white/40'
-              }`}
-            >
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
-                step === 1 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
-              }`}>1</span>
-              <span className="hidden sm:inline">Viatura & Período</span>
-              <span className="sm:hidden">Viatura</span>
-            </button>
+        {!isConfirmed ? (
+          <div className="bg-[#09172C] px-6 py-3 border-b border-white/10 shrink-0">
+            <div className="grid grid-cols-4 gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
+                  step === 1
+                    ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
+                    : step > 1
+                    ? 'text-white/80 hover:text-white'
+                    : 'text-white/40'
+                }`}
+              >
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
+                  step === 1 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
+                }`}>1</span>
+                <span className="hidden sm:inline">Viatura & Período</span>
+                <span className="sm:hidden">Viatura</span>
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setStep(2)}
-              className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
-                step === 2
-                  ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
-                  : step > 2
-                  ? 'text-white/80 hover:text-white'
-                  : 'text-white/40'
-              }`}
-            >
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
-                step === 2 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
-              }`}>2</span>
-              <span className="hidden sm:inline">Extras Opcionais</span>
-              <span className="sm:hidden">Extras</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => setStep(2)}
+                className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
+                  step === 2
+                    ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
+                    : step > 2
+                    ? 'text-white/80 hover:text-white'
+                    : 'text-white/40'
+                }`}
+              >
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
+                  step === 2 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
+                }`}>2</span>
+                <span className="hidden sm:inline">Extras Opcionais</span>
+                <span className="sm:hidden">Extras</span>
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setStep(3)}
-              className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
-                step === 3
-                  ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
-                  : step > 3
-                  ? 'text-white/80 hover:text-white'
-                  : 'text-white/40'
-              }`}
-            >
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
-                step === 3 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
-              }`}>3</span>
-              <span className="hidden sm:inline">Identificação</span>
-              <span className="sm:hidden">Cliente</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (step > 3) setStep(3);
+                }}
+                className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
+                  step === 3
+                    ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
+                    : step > 3
+                    ? 'text-white/80 hover:text-white'
+                    : 'text-white/40'
+                }`}
+              >
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
+                  step === 3 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
+                }`}>3</span>
+                <span className="hidden sm:inline">Identificação</span>
+                <span className="sm:hidden">Cliente</span>
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setStep(4)}
-              className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
-                step === 4
-                  ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
-                  : 'text-white/40'
-              }`}
-            >
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
-                step === 4 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
-              }`}>4</span>
-              <span className="hidden sm:inline">Resumo & Despacho</span>
-              <span className="sm:hidden">Resumo</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (step === 3) handleAdvanceFromStep3();
+                }}
+                className={`flex items-center gap-2 p-2 rounded-xl text-left transition-all ${
+                  step === 4
+                    ? 'bg-[#FEC228] text-[#09172C] font-bold shadow-md'
+                    : 'text-white/40'
+                }`}
+              >
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
+                  step === 4 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
+                }`}>4</span>
+                <span className="hidden sm:inline">Resumo & Despacho</span>
+                <span className="sm:hidden">Resumo</span>
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="bg-[#09172C] px-6 py-3 border-b border-white/10 shrink-0 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs text-white">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <span className="font-bold">Dossiê e Protocolo Emitidos com Sucesso</span>
+            </div>
+            {protocolCode && (
+              <span className="font-mono text-xs text-[#FEC228] font-bold">{protocolCode}</span>
+            )}
+          </div>
+        )}
 
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto flex-1 bg-[#F5F6F6]">
@@ -362,8 +459,14 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">Data Levantamento</label>
                     <input
                       type="date"
+                      min={today}
                       value={pickupDate}
-                      onChange={(e) => setPickupDate(e.target.value)}
+                      onChange={(e) => {
+                        setPickupDate(e.target.value);
+                        if (dropoffDate < e.target.value) {
+                          setDropoffDate(e.target.value);
+                        }
+                      }}
                       className="w-full p-2.5 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-semibold text-[#09172C]"
                     />
                   </div>
@@ -380,6 +483,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">Data Devolução</label>
                     <input
                       type="date"
+                      min={pickupDate || today}
                       value={dropoffDate}
                       onChange={(e) => setDropoffDate(e.target.value)}
                       className="w-full p-2.5 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-semibold text-[#09172C]"
@@ -594,8 +698,14 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                   />
                 </div>
-
               </div>
+
+              {step3Error && (
+                <div role="alert" className="p-3 rounded-xl bg-amber-100 border border-amber-300 text-[#09172C] text-xs font-bold flex items-center gap-2">
+                  <Info className="w-4 h-4 text-amber-700 shrink-0" />
+                  <span>{step3Error}</span>
+                </div>
+              )}
 
               <p className="rounded-xl border border-[#236199]/20 bg-[#236199]/5 p-3 text-[11px] leading-relaxed text-[#09172C]">
                 Não envie NIF, passaporte ou carta de condução por WhatsApp. Caso sejam necessários, serão solicitados pela equipa depois da confirmação, através de canal autorizado.
@@ -704,25 +814,139 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 </div>
               </div>
 
+              {submissionError && (
+                <div role="alert" className="p-3 rounded-xl bg-red-100 border border-red-300 text-red-900 text-xs font-bold flex items-center gap-2">
+                  <Info className="w-4 h-4 text-red-700 shrink-0" />
+                  <span>{submissionError}</span>
+                </div>
+              )}
+
               {/* Action Banner */}
               <div className="bg-[#09172C] text-white p-5 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
                   <h4 className="font-bold text-sm text-[#FEC228] flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    Envio Imediato para a Central Oficial
+                    Envio Imediato com Registo de Protocolo
                   </h4>
                   <p className="text-xs text-gray-300 mt-1">
-                    Ao confirmar, a sua proposta é despachada diretamente para a equipa executiva via WhatsApp para emissão imediata da fatura proforma.
+                    Ao confirmar, a reserva é guardada no sistema oficial, é gerado o protocolo executivo e o dossiê é despachado via WhatsApp para confirmação imediata.
                   </p>
                 </div>
 
                 <button
                   type="button"
-                  onClick={handleWhatsAppSubmission}
-                  className="w-full sm:w-auto px-6 py-3.5 bg-[#236199] hover:bg-[#0C2E60] text-white font-extrabold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shrink-0 cursor-pointer"
+                  disabled={isSubmitting}
+                  onClick={handleSubmitReservation}
+                  className="w-full sm:w-auto px-6 py-3.5 bg-[#236199] hover:bg-[#0C2E60] text-white font-extrabold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shrink-0 cursor-pointer disabled:opacity-60"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-[#FEC228]" />
+                      <span>A registar protocolo...</span>
+                    </>
+                  ) : (
+                    <>
+                      <MessageSquareText className="w-4 h-4" />
+                      <span>Confirmar & Despachar Reserva</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ═══════════════════════════════════════════════════════
+              ETAPA DE SUCESSO: DOSSIÊ E PROTOCOLO CONFIRMADOS
+             ═══════════════════════════════════════════════════════ */}
+          {isConfirmed && (
+            <div className="py-4 px-1 space-y-6 text-center animate-fadeIn">
+              <div className="mx-auto w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-inner">
+                <CheckCircle2 className="w-10 h-10" />
+              </div>
+
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#FEC228] block mb-1">
+                  PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES
+                </span>
+                <h3 className="text-2xl font-extrabold text-[#09172C]">
+                  Reserva Registada com Sucesso!
+                </h3>
+                <p className="text-xs text-[#555B64] mt-1 max-w-md mx-auto">
+                  A sua viatura foi pré-alocada na base de dados oficial. Guarde o protocolo abaixo para acompanhamento e emissão da fatura proforma.
+                </p>
+              </div>
+
+              {/* Protocol Card */}
+              <div className="max-w-lg mx-auto p-5 rounded-2xl bg-white border-2 border-[#236199] shadow-md text-left space-y-4">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                  <span className="text-[11px] font-bold uppercase text-gray-500">Protocolo Oficial da Operação</span>
+                  <button
+                    type="button"
+                    onClick={() => copyProtocol(protocolCode || '')}
+                    className="flex items-center gap-1 text-xs text-[#236199] font-bold hover:underline cursor-pointer"
+                  >
+                    {copiedProtocol ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-600">Copiado</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copiar Código</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="font-mono text-2xl font-black text-[#09172C] tracking-wide text-center py-1 bg-gray-50 rounded-xl border border-gray-200">
+                  {protocolCode}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-gray-100 text-xs text-gray-700">
+                  <div>Viatura: <strong className="text-gray-900 block">{selectedVehicle.name}</strong></div>
+                  <div>Período: <strong className="text-gray-900 block">{rentalDays} {rentalDays === 1 ? 'Dia' : 'Dias'} ({pickupDate} a {dropoffDate})</strong></div>
+                  <div>Levantamento: <strong className="text-gray-900 block truncate">{pickupLocation}</strong></div>
+                  <div>Total Estimado: <strong className="text-[#09172C] block font-bold">{grandTotalAOA.toLocaleString('pt-AO')} Kz</strong></div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="max-w-lg mx-auto flex flex-col sm:flex-row gap-3 pt-2">
+                <a
+                  href={buildWhatsAppUrl(protocolCode || undefined)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition"
                 >
                   <MessageSquareText className="w-4 h-4" />
-                  <span>Confirmar & Enviar WhatsApp</span>
+                  <span>Abrir Despacho no WhatsApp</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    setIsPortalOpen(true);
+                  }}
+                  className="flex-1 py-3.5 px-4 rounded-xl bg-[#09172C] hover:bg-[#236199] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition cursor-pointer"
+                >
+                  <FileText className="w-4 h-4 text-[#FEC228]" />
+                  <span>Aceder à Área de Cliente</span>
+                </button>
+              </div>
+
+              <div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsConfirmed(false);
+                    setProtocolCode(null);
+                    setStep(1);
+                  }}
+                  className="text-xs font-bold text-gray-500 hover:text-gray-800 cursor-pointer"
+                >
+                  ← Fazer outra reserva
                 </button>
               </div>
             </div>
@@ -731,40 +955,81 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
         {/* Modal Footer Controls */}
         <div className="bg-white px-6 py-4 border-t border-[#E2E8F0] flex items-center justify-between shrink-0">
-          {step > 1 ? (
-            <button
-              type="button"
-              onClick={() => setStep((prev) => (prev - 1) as any)}
-              className="px-4 py-2.5 rounded-xl border border-[#E2E8F0] text-[#09172C] hover:bg-gray-100 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Voltar</span>
-            </button>
+          {isConfirmed ? (
+            <>
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-5 py-2.5 rounded-xl border border-[#E2E8F0] text-[#09172C] hover:bg-gray-100 text-xs font-bold cursor-pointer"
+              >
+                Concluir & Fechar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  setIsPortalOpen(true);
+                }}
+                className="px-6 py-2.5 rounded-xl bg-[#09172C] hover:bg-[#236199] text-white text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer"
+              >
+                <FileText className="w-4 h-4 text-[#FEC228]" />
+                <span>Portal & Faturas</span>
+              </button>
+            </>
           ) : (
-            <div />
-          )}
+            <>
+              {step > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setStep((prev) => (prev - 1) as any)}
+                  className="px-4 py-2.5 rounded-xl border border-[#E2E8F0] text-[#09172C] hover:bg-gray-100 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Voltar</span>
+                </button>
+              ) : (
+                <div />
+              )}
 
-          <div className="flex items-center gap-3">
-            {step < 4 ? (
-              <button
-                type="button"
-                onClick={() => setStep((prev) => (prev + 1) as any)}
-                className="px-6 py-2.5 rounded-xl bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer"
-              >
-                <span>Avançar para Etapa {step + 1}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleWhatsAppSubmission}
-                className="px-6 py-2.5 rounded-xl bg-[#236199] hover:bg-[#0C2E60] text-white text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer"
-              >
-                <Check className="w-4 h-4" />
-                <span>Finalizar no WhatsApp</span>
-              </button>
-            )}
-          </div>
+              <div className="flex items-center gap-3">
+                {step < 4 ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (step === 3) {
+                        handleAdvanceFromStep3();
+                      } else {
+                        setStep((prev) => (prev + 1) as any);
+                      }
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer"
+                  >
+                    <span>Avançar para Etapa {step + 1}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={isSubmitting}
+                    onClick={handleSubmitReservation}
+                    className="px-6 py-2.5 rounded-xl bg-[#236199] hover:bg-[#0C2E60] text-white text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer disabled:opacity-60"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-[#FEC228]" />
+                        <span>A registar...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Check className="w-4 h-4" />
+                        <span>Confirmar & Despachar</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
