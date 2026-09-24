@@ -337,7 +337,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
                   step === 4 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
                 }`}>4</span>
-                <span className="hidden sm:inline">Resumo & Despacho</span>
+                <span className="hidden sm:inline">Resumo & Confirmação</span>
                 <span className="sm:hidden">Resumo</span>
               </button>
             </div>
@@ -728,7 +728,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
           )}
 
           {/* ═══════════════════════════════════════════════════════
-              ETAPA 4: RESUMO DETALHADO & DESPACHO
+              ETAPA 4: RESUMO DETALHADO & CONFIRMAÇÃO
              ═══════════════════════════════════════════════════════ */}
           {step === 4 && (
             <div className="space-y-5">
@@ -829,7 +829,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     Envio Imediato com Registo de Protocolo
                   </h4>
                   <p className="text-xs text-gray-300 mt-1">
-                    Ao confirmar, a reserva é guardada no sistema oficial, é gerado o protocolo executivo e o dossiê é despachado via WhatsApp para confirmação imediata.
+                    Ao confirmar, a reserva é guardada no sistema oficial, é gerado o protocolo executivo e o pedido é encaminhado via WhatsApp para confirmação imediata.
                   </p>
                 </div>
 
@@ -847,7 +847,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   ) : (
                     <>
                       <MessageSquareText className="w-4 h-4" />
-                      <span>Confirmar & Despachar Reserva</span>
+                      <span>Confirmar Reserva no WhatsApp</span>
                     </>
                   )}
                 </button>
@@ -920,7 +920,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   className="flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition"
                 >
                   <MessageSquareText className="w-4 h-4" />
-                  <span>Abrir Despacho no WhatsApp</span>
+                  <span>Confirmar Reserva no WhatsApp</span>
                 </a>
 
                 <button
@@ -1022,7 +1022,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     ) : (
                       <>
                         <Check className="w-4 h-4" />
-                        <span>Confirmar & Despachar</span>
+                        <span>Confirmar Reserva</span>
                       </>
                     )}
                   </button>

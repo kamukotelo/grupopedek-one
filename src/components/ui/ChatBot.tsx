@@ -51,7 +51,7 @@ export const ChatBot: React.FC = () => {
         'Consultar Viaturas Disponíveis',
         'Faturas e Documentos',
         'Pedir Nova Viatura',
-        'Falar com Despacho'
+        'Falar com a Central'
       ]);
     } else if (currentUser && !isDemoMode) {
       const firstName = currentUser.name.split(' ')[0];

@@ -196,7 +196,7 @@
     "dossierClosing": "Le dossier est ouvert et enregistré. Vous pouvez attendre le contact de notre directeur de flotte ou accélérer la validation immédiate via WhatsApp.",
     "newRequest": "Créer un Nouveau Formulaire",
     "portalInvoice": "Continuer vers le Portail & la Facture Démo",
-    "whatsappDispatch": "Accélérer la Répartition via WhatsApp Direction",
+    "whatsappDispatch": "Confirmer la Réservation via WhatsApp Officiel",
     "dossierSummary": "Le formulaire officiel nº {{code}} a été enregistré pour analyse par la Direction des Opérations PEPEK à Talatona. La disponibilité finale du véhicule {{vehicle}} sera confirmée par l'équipe opérationnelle.",
     "whatsappNote": "FORMULAIRE OFFICIEL À LA DIRECTION : {{code}} | Identifié par {{method}} : {{identifier}}"
   },

@@ -11,7 +11,7 @@ export const CorporatePortal: React.FC = () => {
     {
       icon: <Clock className="w-6 h-6 text-[#236199]" />,
       title: 'SLA Prioritário < 10 Minutos',
-      desc: 'Atendimento directo com despacho prioritário 24 horas por dia, 365 dias por ano.'
+      desc: 'Atendimento directo com prioridade máxima 24 horas por dia, 365 dias por ano.'
     },
     {
       icon: <UserCheck className="w-6 h-6 text-[#236199]" />,

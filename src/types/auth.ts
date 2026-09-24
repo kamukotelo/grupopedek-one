@@ -42,7 +42,7 @@ export interface OdooSyncStatus {
 
 export interface OperationalRecord {
   id: string;
-  type: 'reserva' | 'despacho' | 'motorista' | 'manutencao' | 'contrato';
+  type: 'reserva' | 'entrega' | 'motorista' | 'manutencao' | 'contrato';
   reference: string;
   title: string;
   owner: string;

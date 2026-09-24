@@ -272,7 +272,7 @@ export const FLEET_DATABASE: VehicleDetail[] = [
       airConditioning: true
     },
     features: ['Escape Desportivo AMG com Válvula Ativa', 'Interior em Pele Designo', '3 Bloqueios de Diferencial 100%'],
-    inclusions: ['Seguro de Danos Próprios VIP', 'Despacho com viatura selada', 'Motorista de segurança disponível'],
+    inclusions: ['Seguro de Danos Próprios VIP', 'Entrega com viatura selada', 'Motorista de segurança disponível'],
     recommendedFor: ['Personalidades e Celebridades', 'Eventos VIP e Produções', 'Condução de Prestígio']
   },
   {

@@ -99,10 +99,10 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 3. INTENT: Alterar ou Cancelar Reserva Existente
   if (lower.includes('cancelar') || lower.includes('mudar data') || lower.includes('alterar reserva') || lower.includes('trocar data') || lower.includes('remarcar')) {
     return {
-      message: 'Compreendo perfeitamente a necessidade de ajustar a sua viagem! ✨ A nossa equipa de despacho trata de qualquer remarcação ou cancelamento com rapidez e flexibilidade. Vou encaminhá-lo para a nossa central com a referência do seu pedido.',
+      message: 'Compreendo perfeitamente a necessidade de ajustar a sua viagem! ✨ A nossa equipa de apoio e operações trata de qualquer remarcação ou cancelamento com rapidez e flexibilidade. Vou encaminhá-lo para a nossa central com a referência do seu pedido.',
       requiresHumanHandover: true,
       handoverContext: 'Alteração/Cancelamento de Reserva',
-      suggestedQuickReplies: ['Falar com Despacho no WhatsApp', 'Consultar Política de Cancelamento']
+      suggestedQuickReplies: ['Falar com a Central no WhatsApp', 'Consultar Política de Cancelamento']
     };
   }
 
@@ -301,7 +301,7 @@ function processIntentMatch(prompt: string, context?: SessionContext): Assistant
   // 22. INTENT: Horário de Funcionamento
   if (lower.includes('horário') || lower.includes('aberto') || lower.includes('fim de semana') || lower.includes('24h') || lower.includes('madrugada')) {
     return {
-      message: 'A nossa central de operações e despacho em Talatona e o balcão no Aeroporto AIAAN estão em funcionamento contínuo 24 horas por dia, 7 dias por semana, incluindo fins de semana e feriados! 🕒',
+      message: 'A nossa central de apoio e operações em Talatona e o balcão no Aeroporto AIAAN estão em funcionamento contínuo 24 horas por dia, 7 dias por semana, incluindo fins de semana e feriados! 🕒',
       suggestedQuickReplies: ['Fazer Reserva Agora', 'Ligar para a Central', 'Localização em Talatona']
     };
   }

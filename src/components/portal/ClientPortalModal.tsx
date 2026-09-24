@@ -518,7 +518,7 @@ export const ClientPortalModal: React.FC = () => {
                 <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                   <div>
                     <span className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#E4AD28]">Excelência operacional PEPEK</span>
-                    <h4 className="mt-1 text-lg font-extrabold text-[#09172C]">Centro Nacional de Mobilidade & Despacho</h4>
+                    <h4 className="mt-1 text-lg font-extrabold text-[#09172C]">Centro Nacional de Mobilidade & Operações</h4>
                     <p className="text-xs text-gray-500">Reserva, protocolo, motorista, manutenção e contrato numa única linha de controlo.</p>
                   </div>
                   <span className="rounded-full bg-[#236199] px-3 py-1 text-[10px] font-extrabold text-white">Operação 24/7 · Demo</span>
@@ -682,7 +682,7 @@ export const ClientPortalModal: React.FC = () => {
                   Solicitação Prioritária à Direcção
                 </h4>
                 <p className="text-xs text-gray-500 text-center leading-relaxed">
-                  Como cliente acreditado ({currentUser?.name}), o seu pedido tem prioridade máxima na central de despacho em Talatona.
+                  Como cliente acreditado ({currentUser?.name}), o seu pedido tem prioridade máxima na central de operações em Talatona.
                 </p>
 
                 <div className="space-y-2 pt-2">

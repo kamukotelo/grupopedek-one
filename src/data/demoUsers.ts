@@ -44,11 +44,11 @@ export const DEMO_USERS: Record<string, UserProfile> = {
   },
   gestor_reservas: {
     id: 'demo_reservas_007',
-    name: 'Gestora de Reservas & Despacho (Demo)',
+    name: 'Gestora de Reservas & Operações (Demo)',
     email: 'reservas@pepekgrupo.com',
     phone: '+244 923 719 090',
     role: 'gestor_reservas',
-    roleLabel: 'Gestora de Reservas & Despacho',
+    roleLabel: 'Gestora de Reservas & Operações',
     company: 'PEPEK GRUPO — Central de Reservas',
     tier: 'Administrativo'
   },
@@ -214,7 +214,7 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
     id: 'flt_04',
     vehicleName: 'Mercedes-Benz V300 Class VIP',
     plateNumber: 'LD-XX-XX-ZZ', // TODO: PLACEHOLDER
-    assignedTo: 'Disponível para Despacho Imediato',
+    assignedTo: 'Disponível para Entrega Imediata',
     status: 'disponivel_talatona',
     location: 'Sede Talatona, Rua Reino do Bailundo',
     fuelLevel: 100, // TODO: PLACEHOLDER
@@ -262,12 +262,12 @@ export const DEMO_FLEET_TELEMETRY: FleetTelemetryItem[] = [
 
 export const DEMO_OPERATIONAL_RECORDS: OperationalRecord[] = [
   { id: 'op_01', type: 'reserva', reference: 'RSV-2026-1048', title: 'Transfer VIP AIAAN — Miramar', owner: 'Gestão de Reservas', location: 'Luanda', scheduledAt: '27/08/2026 · 08:30', status: 'confirmado', odooModel: 'sale.order', odooId: 'SO/DEMO/1048' },
-  { id: 'op_02', type: 'despacho', reference: 'DSP-2026-0381', title: 'Comitiva executiva — 4 SUVs', owner: 'Central de Despacho', location: 'Talatona', scheduledAt: '27/08/2026 · 10:00', status: 'em_execucao', odooModel: 'fleet.vehicle.assignment', odooId: 'FVA/DEMO/0381' },
+  { id: 'op_02', type: 'entrega', reference: 'ENT-2026-0381', title: 'Comitiva executiva — 4 SUVs', owner: 'Central de Operações', location: 'Talatona', scheduledAt: '27/08/2026 · 10:00', status: 'em_execucao', odooModel: 'fleet.vehicle.assignment', odooId: 'FVA/DEMO/0381' },
   { id: 'op_03', type: 'motorista', reference: 'DRV-2026-0217', title: 'Escala protocolar PT/EN', owner: 'Coordenação de Motoristas', location: 'AIAAN', scheduledAt: '27/08/2026 · 14:15', status: 'confirmado', odooModel: 'hr.employee', odooId: 'EMP/DEMO/0217' },
   { id: 'op_04', type: 'manutencao', reference: 'MNT-2026-0094', title: 'Revisão preventiva Nissan Patrol', owner: 'Oficina PEPEK', location: 'Talatona', scheduledAt: '28/08/2026 · 07:30', status: 'atencao', odooModel: 'fleet.vehicle.log.services', odooId: 'MNT/DEMO/0094' },
   { id: 'op_05', type: 'contrato', reference: 'CTR-2026-0062', title: 'Renovação de mobilidade corporativa', owner: 'Vendas & CRM', location: 'Luanda', scheduledAt: '29/08/2026 · 11:00', status: 'pendente', odooModel: 'sale.subscription', odooId: 'SUB/DEMO/0062' },
   { id: 'op_06', type: 'reserva', reference: 'RSV-2026-1052', title: 'Missão técnica Luanda — Huambo', owner: 'Gestão de Reservas', location: 'Huambo', scheduledAt: '30/08/2026 · 05:45', status: 'confirmado', odooModel: 'sale.order', odooId: 'SO/DEMO/1052' },
-  { id: 'op_07', type: 'despacho', reference: 'DSP-2026-0388', title: 'Entrega executiva Toyota Prado', owner: 'Central de Despacho', location: 'Maianga', scheduledAt: '30/08/2026 · 09:20', status: 'concluido', odooModel: 'stock.picking', odooId: 'PICK/DEMO/0388' },
+  { id: 'op_07', type: 'entrega', reference: 'ENT-2026-0388', title: 'Entrega executiva Toyota Prado', owner: 'Central de Operações', location: 'Maianga', scheduledAt: '30/08/2026 · 09:20', status: 'concluido', odooModel: 'stock.picking', odooId: 'PICK/DEMO/0388' },
   { id: 'op_08', type: 'motorista', reference: 'DRV-2026-0223', title: 'Formação em condução defensiva', owner: 'Recursos Humanos', location: 'Talatona', scheduledAt: '31/08/2026 · 08:00', status: 'pendente', odooModel: 'hr.appraisal', odooId: 'APP/DEMO/0223' }
 ];
 

@@ -15,7 +15,7 @@ const PROFILE_CHOICES: Array<{ role: UserRole; group: 'Clientes' | 'Operações'
   { role: 'cliente_vip', group: 'Clientes', icon: '👑', title: 'Cliente VIP', description: 'Viaturas, faturas e pedidos prioritários.' },
   { role: 'cliente_normal', group: 'Clientes', icon: '👤', title: 'Cliente Particular ou PME', description: 'Reservas, pagamentos e acompanhamento.' },
   { role: 'vendedor', group: 'Operações', icon: '💼', title: 'Consultor Comercial', description: 'Clientes, propostas e oportunidades.' },
-  { role: 'gestor_reservas', group: 'Operações', icon: '🎫', title: 'Gestão de Reservas', description: 'Pedidos, confirmação e despacho.' },
+  { role: 'gestor_reservas', group: 'Operações', icon: '🎫', title: 'Gestão de Reservas', description: 'Pedidos, alocação e confirmação.' },
   { role: 'diretor_frotas', group: 'Operações', icon: '🚙', title: 'Direção de Frotas', description: 'Viaturas, manutenção e disponibilidade.' },
   { role: 'motorista', group: 'Operações', icon: '🧑🏾‍✈️', title: 'Motorista Protocolar', description: 'Escalas, missões e estado operacional.' },
   { role: 'contabilista', group: 'Gestão', icon: '📊', title: 'Contabilidade', description: 'Faturas, pagamentos e reconciliação.' },

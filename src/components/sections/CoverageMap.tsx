@@ -10,7 +10,7 @@ export const CoverageMap: React.FC = () => {
       name: 'Luanda — Sede Central & Hub Internacional',
       status: 'Operação 24 Horas',
       type: 'Sede Principal',
-      facilities: ['Aeroporto 4 de Fevereiro & AIAAN', 'Centro de Despacho VIP', 'Base de Manutenção Própria', 'Frota de Reserva Imediata'],
+      facilities: ['Aeroporto 4 de Fevereiro & AIAAN', 'Centro Operacional VIP', 'Base de Manutenção Própria', 'Frota de Reserva Imediata'],
       isPrimary: true
     },
     {
