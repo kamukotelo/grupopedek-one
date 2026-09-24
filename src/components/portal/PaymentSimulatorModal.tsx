@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { X, ShieldCheck, CreditCard, Landmark, Smartphone, Loader2, CheckCircle2, Clock3, ExternalLink, FileText, Copy, Check } from 'lucide-react';
+import { X, ShieldCheck, CreditCard, Landmark, Smartphone, Loader2, CheckCircle2, Clock3, ExternalLink, FileText, Copy, Check, MessageCircle } from 'lucide-react';
 import { InvoiceItem } from '../../types/auth';
 import { createPaymentOrder, PROVIDER_LABELS as providerLabels, type PaymentProvider } from '../../lib/payments';
 import { ReceiptModal } from './ReceiptModal';
@@ -159,6 +159,20 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                     <p className="text-amber-800">A ordem fica pendente até a entrada do dinheiro ser confirmada no banco. Esta página não confirma a execução da transferência.</p>
                   </div>
                 </div>
+              )}
+
+              {provider === 'bank_transfer' && (
+                <a
+                  href={`https://wa.me/244923719090?text=${encodeURIComponent(
+                    `*COMPROVATIVO DE TRANSFERÊNCIA — PEPEK GRUPO*\n-----------------------------------------\n*Fatura:* ${invoice.invoiceNumber}\n*Referência:* ${reference}\n*Montante:* ${invoice.amountAOA.toLocaleString('pt-AO')} AOA\n*Banco Destino:* ${activeBank.name} (${activeBank.iban})\n-----------------------------------------\nSegue em anexo o comprovativo bancário para conferência e emissão do recibo de quitação.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 text-xs font-bold shadow-md transition"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  <span>Enviar Comprovativo via WhatsApp</span>
+                </a>
               )}
 
               <div className="flex flex-col sm:flex-row gap-2 pt-2">
