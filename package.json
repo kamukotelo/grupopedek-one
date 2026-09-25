@@ -12,8 +12,7 @@
     "test:auth": "vitest run src/lib/auth.test.ts",
     "test:sales": "node scripts/test-sales-payments.mjs",
     "test:bank-transfer": "node scripts/test-bank-transfer.mjs",
-    "test:build": "npm test && npm run test:bank-transfer && npm run build",
-    "users:update-passwords": "node scripts/update-users-passwords.mjs"
+    "test:build": "npm test && npm run test:bank-transfer && npm run build"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -29,15 +28,17 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
+    "@neondatabase/neon-js": "^0.7.0-beta",
+    "@neondatabase/serverless": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-select": "^2.3.7",
     "@radix-ui/react-tabs": "^1.1.21",
-    "@supabase/supabase-js": "^2.112.3",
     "date-fns": "^4.4.0",
     "dexie": "^4.4.5",
     "framer-motion": "^13.1.1",
     "i18next": "^26.4.0",
     "i18next-browser-languagedetector": "^8.2.1",
+    "jose": "^6.2.12",
     "lucide-react": "^1.33.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

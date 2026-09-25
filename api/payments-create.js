@@ -1,16 +1,16 @@
 import { applyApiSecurity, cleanText, takeRateLimit } from './_security.js';
 import {
   PAYMENT_CATEGORIES, PAYMENT_PROVIDERS, amountToMinor, authenticatePaymentUser,
-  createStripeCheckout, failureMessage, getSupabaseAdmin, paymentReference, supabaseRequest,
+  createStripeCheckout, failureMessage, getPaymentDatabase, paymentReference,
 } from './_payments.js';
 
 export default async function handler(req, res) {
   if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
   if (takeRateLimit(req, 'payments-create', 8, 60_000)) return res.status(429).json({ error: 'Muitos pedidos de pagamento. Aguarde um minuto.' });
 
-  const admin = getSupabaseAdmin();
-  if (!admin) return res.status(503).json({ error: 'Pagamentos ainda não configurados.' });
-  const user = await authenticatePaymentUser(req, admin);
+  const sql = getPaymentDatabase();
+  if (!sql) return res.status(503).json({ error: 'Pagamentos ainda não configurados.' });
+  const user = await authenticatePaymentUser(req);
   if (!user) return res.status(401).json({ error: 'Sessão autenticada necessária.' });
 
   const invoiceId = cleanText(req.body?.invoiceId, 80);
@@ -21,9 +21,16 @@ export default async function handler(req, res) {
   if (!PAYMENT_PROVIDERS.has(provider) || !PAYMENT_CATEGORIES.has(category)) return res.status(400).json({ error: 'Método ou categoria inválida.' });
   if (provider === 'bank_transfer' && cleanText(req.body?.currency, 3).toUpperCase() !== 'AOA') return res.status(400).json({ error: 'Transferência bancária disponível apenas em AOA.' });
 
-  const invoiceResponse = await supabaseRequest(admin, `invoices?id=eq.${encodeURIComponent(invoiceId)}&user_id=eq.${encodeURIComponent(user.id)}&select=id,invoice_number,amount_aoa,amount_usd,amount_eur,status,description,user_id`);
-  if (!invoiceResponse.ok) return res.status(502).json({ error: 'Não foi possível validar a fatura.' });
-  const [invoice] = await invoiceResponse.json();
+  let invoice;
+  try {
+    [invoice] = await sql.query(
+      `SELECT id, invoice_number, amount_aoa, amount_usd, amount_eur, status, description, user_id
+       FROM public.invoices WHERE id = $1 AND user_id = $2 LIMIT 1`,
+      [invoiceId, user.id],
+    );
+  } catch {
+    return res.status(502).json({ error: 'Não foi possível validar a fatura.' });
+  }
   if (!invoice) return res.status(404).json({ error: 'Fatura não encontrada.' });
   if (!['pending', 'overdue'].includes(invoice.status)) return res.status(409).json({ error: 'Esta fatura não está disponível para pagamento.' });
 
@@ -38,45 +45,55 @@ export default async function handler(req, res) {
   const amountMinor = amountToMinor(sourceAmount, currency);
   if (!amountMinor) return res.status(409).json({ error: `A fatura não possui valor autorizado em ${currency}.` });
 
-  const existingResponse = await supabaseRequest(admin, `payment_orders?user_id=eq.${encodeURIComponent(user.id)}&idempotency_key=eq.${encodeURIComponent(idempotencyKey)}&select=id,status,checkout_url,client_reference,provider,currency,amount_minor`);
-  const [existing] = existingResponse.ok ? await existingResponse.json() : [];
+  const [existing] = await sql.query(
+    `SELECT id, status, checkout_url, client_reference, provider, currency, amount_minor
+     FROM public.payment_orders WHERE user_id = $1 AND idempotency_key = $2 LIMIT 1`,
+    [user.id, idempotencyKey],
+  );
   if (existing) return res.status(200).json(existing);
 
   const clientReference = paymentReference();
-  const order = {
-    invoice_id: invoice.id, user_id: user.id, category, provider, currency,
-    amount_minor: amountMinor, status: 'created', idempotency_key: idempotencyKey,
-    client_reference: clientReference, metadata: { invoice_number: invoice.invoice_number },
-  };
-  const insertResponse = await supabaseRequest(admin, 'payment_orders', {
-    method: 'POST', headers: { Prefer: 'return=representation' }, body: JSON.stringify(order),
-  });
-  if (!insertResponse.ok) return res.status(502).json({ error: 'Não foi possível criar a ordem de pagamento.' });
-  const [created] = await insertResponse.json();
+  let created;
+  try {
+    [created] = await sql.query(
+      `INSERT INTO public.payment_orders
+        (invoice_id, user_id, category, provider, currency, amount_minor, status,
+         idempotency_key, client_reference, metadata)
+       VALUES ($1,$2,$3,$4,$5,$6,'created',$7,$8,$9::jsonb)
+       RETURNING id`,
+      [invoice.id, user.id, category, provider, currency, amountMinor, idempotencyKey,
+        clientReference, JSON.stringify({ invoice_number: invoice.invoice_number })],
+    );
+  } catch {
+    return res.status(502).json({ error: 'Não foi possível criar a ordem de pagamento.' });
+  }
 
   if (provider === 'stripe') {
     try {
       const session = await createStripeCheckout({ amountMinor, currency, description: invoice.description, paymentOrderId: created.id, clientReference, customerEmail: user.email });
-      await supabaseRequest(admin, `payment_orders?id=eq.${created.id}`, {
-        method: 'PATCH', headers: { Prefer: 'return=minimal' },
-        body: JSON.stringify({ status: 'pending', provider_reference: session.reference, checkout_url: session.checkoutUrl, expires_at: session.expiresAt, updated_at: new Date().toISOString() }),
-      });
+      await sql.query(
+        `UPDATE public.payment_orders SET status = 'pending', provider_reference = $2,
+         checkout_url = $3, expires_at = $4, updated_at = now() WHERE id = $1`,
+        [created.id, session.reference, session.checkoutUrl, session.expiresAt],
+      );
       return res.status(201).json({ id: created.id, status: 'pending', checkoutUrl: session.checkoutUrl, clientReference, provider, currency, amountMinor });
     } catch (error) {
       const failureCode = String(error.message || 'STRIPE_SESSION_FAILED').slice(0, 80);
       const message = failureMessage(failureCode);
-      await supabaseRequest(admin, `payment_orders?id=eq.${created.id}`, {
-        method: 'PATCH', headers: { Prefer: 'return=minimal' },
-        body: JSON.stringify({ status: 'failed', failure_code: failureCode, failure_message: message, updated_at: new Date().toISOString() }),
-      });
+      await sql.query(
+        `UPDATE public.payment_orders SET status = 'failed', failure_code = $2,
+         failure_message = $3, updated_at = now() WHERE id = $1`,
+        [created.id, failureCode, message],
+      );
       return res.status(503).json({ error: message });
     }
   }
 
   // EMIS/BAI/MB WAY require contracted provider APIs. Until credentials are
   // supplied, issue a traceable pending reference and never claim settlement.
-  await supabaseRequest(admin, `payment_orders?id=eq.${created.id}`, {
-    method: 'PATCH', body: JSON.stringify({ status: 'pending', expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), updated_at: new Date().toISOString() }),
-  });
+  await sql.query(
+    `UPDATE public.payment_orders SET status = 'pending', expires_at = $2, updated_at = now() WHERE id = $1`,
+    [created.id, new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()],
+  );
   return res.status(201).json({ id: created.id, status: 'pending', clientReference, provider, currency, amountMinor, requiresReconciliation: true });
 }

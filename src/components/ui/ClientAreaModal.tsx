@@ -225,7 +225,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
             ) : <>
             <div className="mb-4 grid grid-cols-2 rounded-xl bg-white p-1 shadow-sm" role="tablist" aria-label="Método de entrada">
               <button type="button" role="tab" aria-selected={loginMethod === 'email'} onClick={() => { setLoginMethod('email'); setErrorMessage(''); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'email' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Mail className="h-4 w-4" />E-mail</button>
-              <button type="button" role="tab" aria-selected={loginMethod === 'phone'} onClick={() => { setLoginMethod('phone'); setErrorMessage(''); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'phone' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Smartphone className="h-4 w-4" />Telefone</button>
+              <button type="button" role="tab" aria-selected={loginMethod === 'phone'} onClick={() => { setLoginMethod('phone'); setErrorMessage('O acesso por telefone está temporariamente indisponível. Utilize o e-mail.'); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'phone' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Smartphone className="h-4 w-4" />Telefone</button>
             </div>
 
             {loginMethod === 'phone' ? <form onSubmit={handlePhoneSubmit} className="space-y-4">

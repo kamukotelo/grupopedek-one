@@ -1,5 +1,5 @@
 import { applyApiSecurity, cleanText, isIsoDate, takeRateLimit } from './_security.js';
-import { getSupabaseAdminConfig, supabaseApiHeaders } from './_supabase-admin.js';
+import { getDatabase } from './_neon.js';
 
 export default async function handler(req, res) {
   if (!applyApiSecurity(req, res, { methods: ['GET'] })) return;
@@ -9,26 +9,25 @@ export default async function handler(req, res) {
   const endDate = cleanText(req.query.endDate, 10);
   if (!vehicle || !isIsoDate(startDate) || !isIsoDate(endDate) || endDate < startDate) return res.status(400).json({ status: 'unknown' });
 
-  let supabaseUrl;
-  let supabaseKey;
+  let sql;
   try {
-    ({ url: supabaseUrl, serviceKey: supabaseKey } = getSupabaseAdminConfig());
+    sql = getDatabase();
   } catch {
     return res.status(503).json({ status: 'unknown' });
   }
 
-  const query = new URLSearchParams({
-    select: 'id',
-    vehicle_category: `eq.${vehicle}`,
-    start_date: `lte.${endDate}`,
-    end_date: `gte.${startDate}`,
-    status: 'in.(pending,contacted,confirmed)',
-  });
-  const response = await fetch(`${supabaseUrl}/rest/v1/bookings?${query}`, {
-    headers: supabaseApiHeaders(supabaseKey),
-  });
-  if (!response.ok) return res.status(503).json({ status: 'unknown' });
-  const conflicts = await response.json();
+  let conflicts;
+  try {
+    conflicts = await sql.query(
+      `SELECT id FROM public.bookings
+       WHERE vehicle_category = $1 AND start_date <= $2 AND end_date >= $3
+         AND status IN ('pending','contacted','confirmed')
+       LIMIT 1`,
+      [vehicle, endDate, startDate],
+    );
+  } catch {
+    return res.status(503).json({ status: 'unknown' });
+  }
 
   // A public request must never reserve or promise a physical vehicle. The
   // operations team still assigns the exact unit only after checking service,

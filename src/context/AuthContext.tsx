@@ -1,11 +1,18 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import type { User } from '@supabase/supabase-js';
 import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
 import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
-import { supabase } from '../lib/supabase';
+import { neonClient } from '../lib/neon';
 import { getPortalPermissions } from '../lib/portalPermissions';
 import { fetchProtectedPortalData } from '../lib/portalData';
-import { authRedirectUrl, normalizePhoneNumber, type SocialProvider } from '../lib/auth';
+import { authRedirectUrl, type SocialProvider } from '../lib/auth';
+
+type AuthUser = {
+  id: string;
+  email?: string | null;
+  phone?: string | null;
+  user_metadata?: Record<string, unknown>;
+  app_metadata?: Record<string, unknown>;
+};
 
 // Modo Demo ativo para navegação demonstrativa sem exigência de senhas
 const IS_DEMO_MODE = import.meta.env.DEV || import.meta.env.VITE_DEMO_MODE !== 'false';
@@ -27,6 +34,11 @@ const safeRole = (value: unknown): UserRole => {
   return roles.includes(value as UserRole) ? value as UserRole : 'cliente_normal';
 };
 
+const safeTier = (value: unknown): UserProfile['tier'] => {
+  const tiers: NonNullable<UserProfile['tier']>[] = ['Diplomático', 'Corporativo Gold', 'Standard', 'Administrativo'];
+  return tiers.includes(value as NonNullable<UserProfile['tier']>) ? value as NonNullable<UserProfile['tier']> : 'Standard';
+};
+
 const getStoredDemoUser = (): UserProfile | null => {
   if (!IS_DEMO_MODE) return null;
   const saved = localStorage.getItem('pepek_demo_user');
@@ -39,21 +51,27 @@ const getStoredDemoUser = (): UserProfile | null => {
   }
 };
 
-const mapAuthUser = (user: User): UserProfile => {
+const mapAuthUser = async (user: AuthUser): Promise<UserProfile> => {
   const metadata = user.user_metadata || {};
-  // Privileged roles are controlled by server-managed app_metadata. A client
-  // cannot promote itself by editing its public user_metadata.
-  const role = user.app_metadata?.role ? safeRole(user.app_metadata.role) : 'cliente_normal';
+  const { data: profile } = await neonClient
+    .from('profiles')
+    .select('full_name,phone,company,nif,role,tier')
+    .eq('id', user.id)
+    .maybeSingle();
+  const row = profile as Record<string, unknown> | null;
+  // Business roles live in the protected profiles table. Neon Auth's JWT role
+  // only distinguishes authenticated from anonymous users.
+  const role = safeRole(row?.role);
   return {
     id: user.id,
-    name: metadata.full_name || metadata.name || user.email?.split('@')[0] || 'Cliente PEPEK',
+    name: String(row?.full_name || metadata.full_name || metadata.name || user.email?.split('@')[0] || 'Cliente PEPEK'),
     email: user.email || '',
-    phone: user.phone || metadata.phone || '',
+    phone: String(row?.phone || user.phone || metadata.phone || ''),
     role,
     roleLabel: ROLE_LABELS[role],
-    company: metadata.company,
-    nif: metadata.nif,
-    tier: metadata.tier || 'Standard',
+    company: row?.company ? String(row.company) : undefined,
+    nif: row?.nif ? String(row.nif) : undefined,
+    tier: safeTier(row?.tier),
   };
 };
 
@@ -112,14 +130,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
     let mounted = true;
-    supabase.auth.getSession().then(({ data }) => {
+    neonClient.auth.getSession().then(async ({ data }) => {
       if (!mounted) return;
-      setCurrentUser(data.session?.user ? mapAuthUser(data.session.user) : null);
+      setCurrentUser(data.session?.user ? await mapAuthUser(data.session.user as AuthUser) : null);
       setIsAuthReady(true);
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: listener } = neonClient.auth.onAuthStateChange(async (event, session) => {
       if (!mounted) return;
-      setCurrentUser(session?.user ? mapAuthUser(session.user) : null);
+      setCurrentUser(session?.user ? await mapAuthUser(session.user as AuthUser) : null);
       if (event === 'PASSWORD_RECOVERY') setIsPasswordRecovery(true);
       if (event === 'SIGNED_IN' && session?.user) setIsPortalOpen(true);
       setIsAuthReady(true);
@@ -196,12 +214,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    const { error } = await neonClient.auth.signInWithPassword({ email: email.trim(), password });
     return error ? { error: error.message } : {};
   };
 
   const signUp = async (name: string, email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await neonClient.auth.signUp({
       email: email.trim(),
       password,
       options: {
@@ -209,28 +227,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         data: { full_name: name.trim() },
       },
     });
+    if (!error && data.user) {
+      await neonClient.from('profiles').insert({
+        id: data.user.id,
+        full_name: name.trim(),
+        role: 'cliente_normal',
+        tier: 'Standard',
+      });
+    }
     return error ? { error: error.message } : {};
   };
 
-  const requestPhoneOtp = async (input: string) => {
-    const phone = normalizePhoneNumber(input);
-    if (!phone) return { error: 'Número de telefone inválido.' };
-    const { error } = await supabase.auth.signInWithOtp({
-      phone,
-      options: { shouldCreateUser: true },
-    });
-    return error ? { error: error.message } : { phone };
+  const requestPhoneOtp = async (_input: string) => {
+    return { error: 'O acesso por SMS está temporariamente indisponível. Utilize o e-mail.' };
   };
 
-  const verifyPhoneOtp = async (input: string, token: string) => {
-    const phone = normalizePhoneNumber(input);
-    if (!phone || !/^\d{6}$/.test(token.trim())) return { error: 'Código inválido.' };
-    const { error } = await supabase.auth.verifyOtp({ phone, token: token.trim(), type: 'sms' });
-    return error ? { error: error.message } : {};
+  const verifyPhoneOtp = async (_input: string, _token: string) => {
+    return { error: 'O acesso por SMS está temporariamente indisponível. Utilize o e-mail.' };
   };
 
   const signInWithSocial = async (provider: SocialProvider) => {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error } = await neonClient.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: authRedirectUrl(),
@@ -242,19 +259,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const requestPasswordReset = async (email: string) => {
     const redirectTo = authRedirectUrl();
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
+    const { error } = await neonClient.auth.resetPasswordForEmail(email.trim(), { redirectTo });
     return error ? { error: error.message } : {};
   };
 
   const updatePassword = async (password: string) => {
     if (password.length < 10) return { error: 'A palavra-passe deve ter pelo menos 10 caracteres.' };
-    const { error } = await supabase.auth.updateUser({ password });
+    const { error } = await neonClient.auth.updateUser({ password });
     if (!error) setIsPasswordRecovery(false);
     return error ? { error: error.message } : {};
   };
 
   const logout = async () => {
-    if (!isDemoSession) await supabase.auth.signOut();
+    if (!isDemoSession) await neonClient.auth.signOut();
     setCurrentUser(null);
     localStorage.removeItem('pepek_demo_user');
     setInvoices(IS_DEMO_MODE ? DEMO_INVOICES : []);
@@ -278,7 +295,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     setOdooSync(prev => ({ ...prev, serverStatus: 'syncing' }));
     try {
-      const { data } = await supabase.auth.getSession();
+      const { data } = await neonClient.auth.getSession();
       const token = data.session?.access_token;
       if (!token) throw new Error('Sessão necessária');
       const syncResponse = await fetch('/api/odoo-sync', {

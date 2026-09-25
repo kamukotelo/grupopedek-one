@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { neonClient } from './neon';
 import type { InvoiceItem } from '../types/auth';
 
 export type PaymentProvider = 'stripe' | 'multicaixa' | 'bank_transfer' | 'mbway';
@@ -42,7 +42,7 @@ export interface PaymentStatusResult {
 }
 
 const authHeader = async (): Promise<string> => {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await neonClient.auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new Error('Inicie sessão novamente para continuar o pagamento.');
   return `Bearer ${token}`;

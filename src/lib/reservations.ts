@@ -1,5 +1,5 @@
 import { BookingData } from '../types';
-import { supabase } from './supabase';
+import { neonClient } from './neon';
 
 export interface ReservationReceipt {
   protocolCode: string;
@@ -51,7 +51,7 @@ export async function submitReservation(booking: BookingData): Promise<Reservati
 
   const protocolCode = `PK-DIR-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
   try {
-    const { error } = await supabase.from('bookings').insert([toDatabaseRow(booking, protocolCode)]);
+    const { error } = await neonClient.from('bookings').insert([toDatabaseRow(booking, protocolCode)]);
     return { protocolCode, persisted: !error, crmQueued: false };
   } catch {
     return { protocolCode, persisted: false, crmQueued: false };

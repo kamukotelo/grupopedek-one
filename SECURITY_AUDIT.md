@@ -1,20 +1,20 @@
 # Auditoria de Segurança - PEPEK GRUPO
 
-Data: 2026-08-24  
-Stack: React 19 + Vite + Vercel Functions + Supabase
+Data: 2026-09-25  
+Stack: React 19 + Vite + Vercel Functions + Neon PostgreSQL / Neon Auth
 
 ## Resultado
 
 1. Chaves públicas vs. privadas .......... 🔧 Corrigido
 2. Segredos hardcoded ..................... 🔧 Corrigido
-3. RLS / regras de banco de dados ......... 🔧 Corrigido no schema; aplicar no projeto Supabase antes do deploy
+3. RLS / regras de banco de dados ......... 🔧 Corrigido no schema Neon; aplicação em produção pendente de aprovação
 4. Páginas internas sem autenticação ...... 🔧 Corrigido
 5. SQL Injection ........................... ✅ OK - não existem queries SQL concatenadas
 6. Itens extras de higiene ................. 🔧 Corrigido
 
 ## Problemas encontrados
 
-- A configuração pública do Supabase possuía valores de fallback hardcoded no frontend.
+- A configuração pública do antigo provedor possuía valores de fallback hardcoded no frontend.
 - Perfis fictícios podiam ser acionados pela interface de produção e restaurados pelo armazenamento local.
 - Existia uma senha de demonstração hardcoded no bundle do frontend.
 - O schema permitia inserção anónima direta na tabela `bookings`, contornando validação e rate limiting do servidor.
@@ -28,7 +28,8 @@ Stack: React 19 + Vite + Vercel Functions + Supabase
 - Perfis demo limitados ao modo de desenvolvimento, com dupla proteção na interface e no contexto de autenticação.
 - Login real separado em Conta Corporativa e Cliente Particular, com campos, contexto e avisos próprios.
 - Endpoints protegidos com cabeçalhos `no-store`, validação de origem/método, rate limiting e limpeza de entradas.
-- Reservas e disponibilidade exigem `SUPABASE_SECRET_KEY` apenas no servidor, com suporte temporário à chave legada `SUPABASE_SERVICE_ROLE_KEY`.
+- Reservas, disponibilidade, pagamentos e Odoo usam `DATABASE_URL` apenas no servidor.
+- Tokens do Neon Auth são verificados por assinatura através de `NEON_AUTH_JWKS_URL` antes do acesso a dados protegidos.
 - Validação de e-mail, telefone, datas, lotação e limites de tamanho antes da persistência.
 - Consulta e sincronização Odoo exigem sessão válida e perfil autorizado.
 - Matriz de permissões por função aplicada na interface e no carregamento de dados.
@@ -47,12 +48,12 @@ Stack: React 19 + Vite + Vercel Functions + Supabase
 
 ## Ação operacional obrigatória
 
-Executar o conteúdo atualizado de `supabase/schema.sql` no projeto Supabase de produção. A alteração revoga a inserção anónima em `bookings`, restringe a atualização de perfis e aplica a leitura de reservas por `user_id`.
+Aplicar `neon/schema.sql` no projeto Neon de produção após a aprovação operacional. O esquema revoga escrita anónima, restringe alterações de perfis e aplica leitura por utilizador e por função.
 
 Confirmar na Vercel que estas variáveis existem apenas no servidor:
 
-- `SUPABASE_URL`
-- `SUPABASE_SECRET_KEY` (recomendado) ou `SUPABASE_SERVICE_ROLE_KEY` (legado)
+- `DATABASE_URL`
+- `NEON_AUTH_JWKS_URL`
 - `GEMINI_API_KEY`
 - `ODOO_API_TOKEN`
 - `CRM_SYNC_TOKEN`
@@ -60,7 +61,7 @@ Confirmar na Vercel que estas variáveis existem apenas no servidor:
 - `STRIPE_WEBHOOK_SECRET`
 - `SITE_URL`
 
-Antes de ativar cobranças, executar `supabase/schema.sql` em produção e registar no Stripe o webhook HTTPS `/api/payments-webhook-stripe`. Multicaixa Express/EMIS, BAI/BFA e MB WAY exigem contratos e credenciais oficiais dos respetivos provedores; enquanto não existirem, o sistema emite apenas uma referência pendente e não declara pagamento concluído.
+Antes de ativar cobranças, aplicar `neon/schema.sql` em produção e registar no Stripe o webhook HTTPS `/api/payments-webhook-stripe`. Multicaixa Express/EMIS, BAI/BFA e MB WAY exigem contratos e credenciais oficiais dos respetivos provedores; enquanto não existirem, o sistema emite apenas uma referência pendente e não declara pagamento concluído.
 
 Variáveis `VITE_*` são públicas por definição e não podem conter segredos.
 

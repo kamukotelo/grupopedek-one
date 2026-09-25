@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { neonClient } from '../../lib/neon';
 
 type PendingTransfer = { id: string; client_reference: string; amount_minor: number; currency: string; created_at: string; invoices?: { invoice_number: string; description: string } | null };
 
@@ -10,7 +10,7 @@ export function BankTransferBackoffice({ onReconciled }: { onReconciled: () => P
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<string | null>(null);
   const auth = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
+    const { data } = await neonClient.auth.getSession();
     if (!data.session) throw new Error('Inicie sessão novamente.');
     return { Authorization: `Bearer ${data.session.access_token}` };
   }, []);

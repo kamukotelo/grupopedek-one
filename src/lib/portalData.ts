@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { neonClient } from './neon';
 
 export interface ProtectedPortalData {
   invoices: Record<string, unknown>[];
@@ -8,7 +8,7 @@ export interface ProtectedPortalData {
 }
 
 export const fetchProtectedPortalData = async (): Promise<ProtectedPortalData> => {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await neonClient.auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new Error('Sessão necessária');
   const response = await fetch('/api/portal-data', {

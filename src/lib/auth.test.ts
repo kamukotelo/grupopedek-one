@@ -20,7 +20,7 @@ describe('normalizePhoneNumber', () => {
 });
 
 describe('provedores sociais', () => {
-  it('mantém os identificadores exigidos pelo Supabase', () => {
+  it('mantém os identificadores aceites pelos provedores OAuth', () => {
     expect(SOCIAL_PROVIDER_LABELS).toEqual({ google: 'Google', azure: 'Microsoft', apple: 'Apple' });
   });
 });

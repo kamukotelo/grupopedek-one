@@ -1,5 +1,5 @@
 import { applyApiSecurity, cleanText, isIsoDate, takeRateLimit } from './_security.js';
-import { getSupabaseAdminConfig, supabaseApiHeaders } from './_supabase-admin.js';
+import { getDatabase } from './_neon.js';
 
 export default async function handler(req, res) {
   if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
@@ -20,10 +20,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Período da reserva inválido.' });
   }
 
-  let supabaseUrl;
-  let supabaseKey;
+  let sql;
   try {
-    ({ url: supabaseUrl, serviceKey: supabaseKey } = getSupabaseAdminConfig());
+    sql = getDatabase();
   } catch {
     return res.status(503).json({ error: 'Persistência não configurada.' });
   }
@@ -49,17 +48,20 @@ export default async function handler(req, res) {
     source: cleanText(body.source, 50) || 'web',
   };
 
-  const insertResponse = await fetch(`${supabaseUrl}/rest/v1/bookings`, {
-    method: 'POST',
-    headers: {
-      ...supabaseApiHeaders(supabaseKey),
-      Prefer: 'return=representation',
-    },
-    body: JSON.stringify(row),
-  });
-  if (!insertResponse.ok) {
-    const detail = await insertResponse.text();
-    console.error('[reservation] insert failed', detail.slice(0, 500));
+  try {
+    await sql.query(
+      `INSERT INTO public.bookings
+        (protocol_code, service, location, destination, start_date, end_date,
+         vehicle_category, with_driver, client_name, client_phone, client_email,
+         company_name, flight_number, passengers_count, notes, status, source)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
+      [row.protocol_code, row.service, row.location, row.destination, row.start_date,
+        row.end_date, row.vehicle_category, row.with_driver, row.client_name,
+        row.client_phone, row.client_email, row.company_name, row.flight_number,
+        row.passengers_count, row.notes, row.status, row.source],
+    );
+  } catch (error) {
+    console.error('[reservation] insert failed', String(error?.message || error).slice(0, 500));
     return res.status(502).json({ error: 'A reserva não pôde ser guardada.' });
   }
 

@@ -1,27 +1,17 @@
 import { applyApiSecurity, takeRateLimit } from './_security.js';
-import { getSupabaseAdminConfig, supabaseApiHeaders } from './_supabase-admin.js';
+import { authenticateNeonRequest } from './_neon.js';
 
 const ALLOWED_ROLES = new Set(['gestor_reservas', 'diretor_frotas', 'contabilista', 'gestor_portugal', 'direcao']);
 
 export default async function handler(_req, res) {
   if (!applyApiSecurity(_req, res, { methods: ['GET'] })) return;
   if (takeRateLimit(_req, 'odoo-status', 30)) return res.status(429).json({ error: 'Muitos pedidos.' });
-  const authHeader = _req.headers.authorization || '';
-  let supabaseUrl;
-  let supabaseKey;
+  let user;
   try {
-    ({ url: supabaseUrl, serviceKey: supabaseKey } = getSupabaseAdminConfig());
+    user = await authenticateNeonRequest(_req);
   } catch {
-    return res.status(503).json({ error: 'Supabase não configurado' });
+    return res.status(401).json({ error: 'Sessão inválida' });
   }
-  if (!authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Autenticação necessária' });
-  }
-  const authCheck = await fetch(`${supabaseUrl}/auth/v1/user`, {
-    headers: supabaseApiHeaders(supabaseKey, authHeader.slice(7)),
-  });
-  if (!authCheck.ok) return res.status(401).json({ error: 'Sessão inválida' });
-  const user = await authCheck.json();
   if (!ALLOWED_ROLES.has(user?.app_metadata?.role)) return res.status(403).json({ error: 'Perfil sem autorização' });
   if (!process.env.ODOO_STATUS_URL || !process.env.ODOO_API_TOKEN) {
     return res.status(503).json({ error: 'Odoo não configurado' });
