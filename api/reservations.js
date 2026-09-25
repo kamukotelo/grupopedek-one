@@ -1,4 +1,5 @@
 import { applyApiSecurity, cleanText, isIsoDate, takeRateLimit } from './_security.js';
+import { getSupabaseAdminConfig, supabaseApiHeaders } from './_supabase-admin.js';
 
 export default async function handler(req, res) {
   if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
@@ -19,9 +20,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Período da reserva inválido.' });
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !supabaseKey) return res.status(503).json({ error: 'Persistência não configurada.' });
+  let supabaseUrl;
+  let supabaseKey;
+  try {
+    ({ url: supabaseUrl, serviceKey: supabaseKey } = getSupabaseAdminConfig());
+  } catch {
+    return res.status(503).json({ error: 'Persistência não configurada.' });
+  }
 
   const protocolCode = `PK-DIR-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
   const row = {
@@ -47,9 +52,7 @@ export default async function handler(req, res) {
   const insertResponse = await fetch(`${supabaseUrl}/rest/v1/bookings`, {
     method: 'POST',
     headers: {
-      apikey: supabaseKey,
-      Authorization: `Bearer ${supabaseKey}`,
-      'Content-Type': 'application/json',
+      ...supabaseApiHeaders(supabaseKey),
       Prefer: 'return=representation',
     },
     body: JSON.stringify(row),

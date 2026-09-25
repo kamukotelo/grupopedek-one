@@ -28,7 +28,7 @@ Stack: React 19 + Vite + Vercel Functions + Supabase
 - Perfis demo limitados ao modo de desenvolvimento, com dupla proteção na interface e no contexto de autenticação.
 - Login real separado em Conta Corporativa e Cliente Particular, com campos, contexto e avisos próprios.
 - Endpoints protegidos com cabeçalhos `no-store`, validação de origem/método, rate limiting e limpeza de entradas.
-- Reservas e disponibilidade exigem `SUPABASE_SERVICE_ROLE_KEY` apenas no servidor.
+- Reservas e disponibilidade exigem `SUPABASE_SECRET_KEY` apenas no servidor, com suporte temporário à chave legada `SUPABASE_SERVICE_ROLE_KEY`.
 - Validação de e-mail, telefone, datas, lotação e limites de tamanho antes da persistência.
 - Consulta e sincronização Odoo exigem sessão válida e perfil autorizado.
 - Matriz de permissões por função aplicada na interface e no carregamento de dados.
@@ -52,7 +52,7 @@ Executar o conteúdo atualizado de `supabase/schema.sql` no projeto Supabase de 
 Confirmar na Vercel que estas variáveis existem apenas no servidor:
 
 - `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_SECRET_KEY` (recomendado) ou `SUPABASE_SERVICE_ROLE_KEY` (legado)
 - `GEMINI_API_KEY`
 - `ODOO_API_TOKEN`
 - `CRM_SYNC_TOKEN`

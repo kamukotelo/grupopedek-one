@@ -1,4 +1,5 @@
 import { applyApiSecurity, takeRateLimit } from './_security.js';
+import { getSupabaseAdminConfig, supabaseApiHeaders } from './_supabase-admin.js';
 
 const ALLOWED_ROLES = new Set(['gestor_reservas', 'diretor_frotas', 'contabilista', 'gestor_portugal', 'direcao']);
 
@@ -6,15 +7,20 @@ export default async function handler(req, res) {
   if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
   if (takeRateLimit(req, 'odoo-sync', 5)) return res.status(429).json({ error: 'Muitos pedidos.' });
 
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const authHeader = req.headers.authorization || '';
-  if (!supabaseUrl || !supabaseKey || !authHeader.startsWith('Bearer ')) {
+  let supabaseUrl;
+  let supabaseKey;
+  try {
+    ({ url: supabaseUrl, serviceKey: supabaseKey } = getSupabaseAdminConfig());
+  } catch {
+    return res.status(503).json({ error: 'Supabase não configurado' });
+  }
+  if (!authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Autenticação necessária' });
   }
 
   const authCheck = await fetch(`${supabaseUrl}/auth/v1/user`, {
-    headers: { apikey: supabaseKey, Authorization: authHeader },
+    headers: supabaseApiHeaders(supabaseKey, authHeader.slice(7)),
   });
   if (!authCheck.ok) return res.status(401).json({ error: 'Sessão inválida' });
   const user = await authCheck.json();

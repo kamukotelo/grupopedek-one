@@ -1,12 +1,22 @@
-const jsonHeaders = (key, token) => ({
-  apikey: key,
-  Authorization: `Bearer ${token || key}`,
-  'Content-Type': 'application/json',
-});
+const isLegacyJwtKey = (key) => String(key || '').startsWith('eyJ');
+
+export const supabaseApiHeaders = (key, token) => {
+  const headers = {
+    apikey: key,
+    'Content-Type': 'application/json',
+  };
+
+  // Supabase secret keys (sb_secret_...) are opaque API keys and must not be
+  // sent as Bearer tokens. Legacy service_role JWTs still need Authorization.
+  if (token) headers.Authorization = `Bearer ${token}`;
+  else if (isLegacyJwtKey(key)) headers.Authorization = `Bearer ${key}`;
+
+  return headers;
+};
 
 export const getSupabaseAdminConfig = () => {
-  const url = process.env.SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !serviceKey) throw new Error('Supabase privado não configurado');
   return { url: url.replace(/\/$/, ''), serviceKey };
 };
@@ -16,7 +26,7 @@ export const authenticateSupabaseRequest = async (req) => {
   const authorization = String(req.headers.authorization || '');
   if (!authorization.startsWith('Bearer ')) throw new Error('Autenticação necessária');
   const response = await fetch(`${url}/auth/v1/user`, {
-    headers: jsonHeaders(serviceKey, authorization.slice(7)),
+    headers: supabaseApiHeaders(serviceKey, authorization.slice(7)),
   });
   if (!response.ok) throw new Error('Sessão inválida');
   return response.json();
@@ -26,7 +36,7 @@ export const querySupabaseAdmin = async (path, { optional = false } = {}) => {
   const { url, serviceKey } = getSupabaseAdminConfig();
   const response = await fetch(`${url}/rest/v1/${path}`, {
     headers: {
-      ...jsonHeaders(serviceKey),
+      ...supabaseApiHeaders(serviceKey),
       Accept: 'application/json',
       'Accept-Profile': 'public',
     },

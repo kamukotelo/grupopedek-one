@@ -126,7 +126,9 @@ expect(demoUsersSource.includes('totalVehiclesSynced: 51'), 'Frota oficial não 
 const securitySource = fs.readFileSync('api/_security.js', 'utf8');
 expect(securitySource.includes('takeRateLimit') && securitySource.includes('applyApiSecurity'), 'Proteções comuns dos endpoints estão ausentes');
 const reservationApiSource = fs.readFileSync('api/reservations.js', 'utf8');
-expect(reservationApiSource.includes('SUPABASE_SERVICE_ROLE_KEY') && !reservationApiSource.includes('VITE_SUPABASE_ANON_KEY'), 'Reservas não estão restritas à credencial do servidor');
+const supabaseAdminSource = fs.readFileSync('api/_supabase-admin.js', 'utf8');
+expect(reservationApiSource.includes('getSupabaseAdminConfig') && !reservationApiSource.includes('VITE_SUPABASE_ANON_KEY'), 'Reservas não estão restritas à credencial do servidor');
+expect(supabaseAdminSource.includes('SUPABASE_SECRET_KEY') && supabaseAdminSource.includes('SUPABASE_SERVICE_ROLE_KEY'), 'Compatibilidade com as chaves privadas do Supabase está incompleta');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 expect(schemaSource.includes('REVOKE ALL ON public.bookings FROM anon'), 'A escrita anónima em reservas não foi revogada');
 expect(schemaSource.includes('Finance roles read all invoices'), 'O filtro RLS para perfis financeiros está ausente');

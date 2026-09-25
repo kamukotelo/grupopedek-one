@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 import { safeEqual } from './_security.js';
+import { getSupabaseAdminConfig, supabaseApiHeaders } from './_supabase-admin.js';
 
 export const PAYMENT_PROVIDERS = new Set(['stripe', 'multicaixa', 'bank_transfer', 'mbway']);
 export const PAYMENT_CATEGORIES = new Set(['rent_a_car', 'transfer', 'route', 'chauffeur', 'event', 'corporate', 'invoice', 'other']);
@@ -24,18 +25,18 @@ export const FAILURE_MESSAGES = {
 export const failureMessage = (code) => FAILURE_MESSAGES[code] || 'Não foi possível concluir o pagamento. Nenhum valor foi cobrado.';
 
 export const getSupabaseAdmin = () => {
-  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return { url: url.replace(/\/$/, ''), key };
+  try {
+    const { url, serviceKey } = getSupabaseAdminConfig();
+    return { url, key: serviceKey };
+  } catch {
+    return null;
+  }
 };
 
 export const supabaseRequest = async (admin, path, init = {}) => fetch(`${admin.url}/rest/v1/${path}`, {
   ...init,
   headers: {
-    apikey: admin.key,
-    Authorization: `Bearer ${admin.key}`,
-    'Content-Type': 'application/json',
+    ...supabaseApiHeaders(admin.key),
     ...(init.headers || {}),
   },
 });
@@ -46,7 +47,7 @@ export const authenticatePaymentUser = async (req, admin) => {
   const token = authorization.slice(7).trim();
   if (!token) return null;
   const response = await fetch(`${admin.url}/auth/v1/user`, {
-    headers: { apikey: admin.key, Authorization: `Bearer ${token}` },
+    headers: supabaseApiHeaders(admin.key, token),
   });
   if (!response.ok) return null;
   const user = await response.json();
@@ -117,4 +118,3 @@ export const verifyMbWaySignature = (rawBody, signatureHeader) => {
 };
 
 export const sha256 = (value) => crypto.createHash('sha256').update(value).digest('hex');
-
