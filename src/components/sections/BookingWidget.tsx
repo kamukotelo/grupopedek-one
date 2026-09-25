@@ -210,8 +210,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
     }
   };
 
-  const whatsappDossierUrl = directorateDossier
-    ? generateWhatsAppBookingUrl({
+  const whatsappDossierUrl = generateWhatsAppBookingUrl({
         service: selectedService as any,
         location: 'Luanda',
         destination: pickupLocation,
@@ -223,19 +222,20 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         clientPhone: loginMethod === 'phone' ? clientIdentifier : '',
         clientEmail: loginMethod === 'email' ? clientIdentifier : '',
         companyName,
-        notes: t('booking.whatsappNote', {
-          code: directorateDossier.protocolCode,
-          method: loginMethod === 'phone' ? t('booking.byPhone') : t('booking.byEmail'),
-          identifier: clientIdentifier,
-        })
-      })
-    : '';
+        notes: directorateDossier
+          ? t('booking.whatsappNote', {
+              code: directorateDossier.protocolCode,
+              method: loginMethod === 'phone' ? t('booking.byPhone') : t('booking.byEmail'),
+              identifier: clientIdentifier,
+            })
+          : notes,
+      });
 
   return (
     <section id="reserva" className="section-padding bg-[#F5F6F6] relative border-b border-[#E2E8F0]">
       <div className="container-pepek">
         {/* Section Header */}
-        <div className="max-w-4xl mb-12">
+        <div className="mb-8 max-w-4xl sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#09172C] text-[#FEC228] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-sm">
             <Shield className="w-3.5 h-3.5" />
             <span>{t('booking.systemLabel')}</span>
@@ -251,7 +251,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         </div>
 
         {!directorateDossier ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12 lg:gap-8">
             {/* Left Column: Interactive Visual Simulator & Vehicle Spotlight */}
             <div className="lg:col-span-8 space-y-8">
               {/* 1. Interactive Visual Service Cards */}
@@ -437,7 +437,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#09172C] mb-2">
                     {t('booking.drivingMode')}
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <button
                       type="button"
                       onClick={() => setWithDriver(true)}
@@ -448,12 +448,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       <UserCheck className="w-4 h-4" />
                       <span>{t('booking.withProtocolDriver')}</span>
                     </button>
-                    {submissionError && (
-                      <p role="alert" className="rounded-xl border border-[#E4AD28] bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">
-                        {submissionError}
-                      </p>
-                    )}
-
                     <button
                       type="button"
                       onClick={() => setWithDriver(false)}
@@ -625,6 +619,21 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       <span>{isSubmitting ? t('booking.sendingOfficial') : t('booking.submitOfficial')}</span>
                     </button>
                   </div>
+
+                  {submissionError && (
+                    <div role="alert" className="space-y-3 rounded-xl border border-[#E4AD28] bg-[#FEC228]/20 p-3 text-xs font-semibold text-[#09172C]">
+                      <p>{submissionError}</p>
+                      <a
+                        href={whatsappDossierUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#236199] px-4 py-2.5 text-center font-extrabold text-white transition hover:bg-[#0C2E60]"
+                      >
+                        <MessageSquare className="h-4 w-4" />
+                        <span>{t('booking.whatsappDispatch')}</span>
+                      </a>
+                    </div>
+                  )}
                 </form>
               </div>
 
@@ -691,7 +700,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#E2E8F0]">
+            <div className="flex flex-col items-stretch justify-between gap-4 border-t border-[#E2E8F0] pt-4 sm:flex-row sm:items-center">
               <button
                 type="button"
                 onClick={() => setDirectorateDossier(null)}
@@ -700,7 +709,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 ← {t('booking.newRequest')}
               </button>
 
-              <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
                 {isDemoMode && (
                   <button
                     type="button"

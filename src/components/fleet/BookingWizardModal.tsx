@@ -194,6 +194,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   };
 
   const handleSubmitReservation = async () => {
+    // Reserve the new tab while the click gesture is still active. Browsers
+    // commonly block window.open calls made only after an awaited request.
+    const whatsappWindow = window.open('', '_blank');
+    if (whatsappWindow) whatsappWindow.opener = null;
     setIsSubmitting(true);
     setSubmissionError(null);
     try {
@@ -224,8 +228,13 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       setIsConfirmed(true);
 
       const whatsappUrl = buildWhatsAppUrl(receipt.protocolCode);
-      window.open(whatsappUrl, '_blank');
+      if (whatsappWindow && !whatsappWindow.closed) {
+        whatsappWindow.location.replace(whatsappUrl);
+      } else {
+        window.location.assign(whatsappUrl);
+      }
     } catch (err) {
+      if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
       setSubmissionError(err instanceof Error ? err.message : 'Não foi possível registar a reserva. Tente novamente.');
     } finally {
       setIsSubmitting(false);

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import {
   MessageSquare,
   X,
@@ -17,6 +18,7 @@ import { useAuth } from '../../context/AuthContext';
 
 export const ChatBot: React.FC = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const { currentUser, isDemoMode, setIsPortalOpen } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<
@@ -40,6 +42,7 @@ export const ChatBot: React.FC = () => {
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [proactiveBubbleVisible, setProactiveBubbleVisible] = useState(false);
+  const isFormRoute = ['/reservar', '/contactos'].includes(location.pathname);
 
   // Saudação contextual personalizada apenas para utilizadores autenticados.
   // Visitantes anónimos recebem uma saudação humana, calorosa, elegante e sem jargão.
@@ -166,6 +169,10 @@ export const ChatBot: React.FC = () => {
     return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
+  // Estas páginas já têm formulários e ações fixas de contacto. O assistente
+  // flutuante retiraria espaço aos campos, sobretudo em ecrãs pequenos.
+  if (isFormRoute) return null;
+
   return (
     <>
       {/* Floating Trigger Button & Contextual Speech Bubble */}
@@ -174,8 +181,8 @@ export const ChatBot: React.FC = () => {
         style={{ bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px) + 12px)' }}
       >
         {/* Contextual Nudge Bubble */}
-        {proactiveBubbleVisible && !isOpen && (
-          <div className="mb-2 max-w-[280px] sm:max-w-[320px] p-3.5 rounded-2xl bg-white text-gray-900 shadow-2xl border border-gray-200 animate-scaleUp relative flex items-start gap-2.5">
+        {proactiveBubbleVisible && !isOpen && !isFormRoute && (
+          <div className="relative mb-2 hidden max-w-[320px] items-start gap-2.5 rounded-2xl border border-gray-200 bg-white p-3.5 text-gray-900 shadow-2xl animate-scaleUp sm:flex">
             <div className="w-7 h-7 rounded-lg bg-[#236199] text-white flex items-center justify-center shrink-0">
               <Sparkles className="w-3.5 h-3.5" />
             </div>

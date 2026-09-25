@@ -16,14 +16,24 @@ export const Contact: React.FC = () => {
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Open the destination tab synchronously so Safari/Chrome do not treat
+    // the WhatsApp handoff after the network request as an unwanted popup.
+    const whatsappWindow = window.open('', '_blank');
+    if (whatsappWindow) whatsappWindow.opener = null;
     setIsSubmitting(true);
     setSubmitError('');
     try {
       await submitContactLead({ name, contact, subject, message });
       const waMsg = `*MENSAGEM DE CONTACTO — PEPEK GRUPO*\n*Nome:* ${name}\n*Contacto:* ${contact}\n*Assunto:* ${subject}\n*Mensagem:* ${message}`;
-      window.open(`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
+      const whatsappUrl = `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`;
+      if (whatsappWindow && !whatsappWindow.closed) {
+        whatsappWindow.location.replace(whatsappUrl);
+      } else {
+        window.location.assign(whatsappUrl);
+      }
       setSent(true);
     } catch (err) {
+      if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
       setSubmitError(err instanceof Error ? err.message : 'Não foi possível registar a mensagem.');
     } finally {
       setIsSubmitting(false);
@@ -202,7 +212,7 @@ export const Contact: React.FC = () => {
 
                 {sent && (
                   <div className="p-3 bg-[#236199] text-white rounded-lg text-xs flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#236199]" />
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-white" />
                     <span>Mensagem registada e canal WhatsApp aberto com a nossa central!</span>
                   </div>
                 )}

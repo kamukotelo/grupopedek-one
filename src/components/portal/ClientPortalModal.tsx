@@ -527,8 +527,8 @@ export const ClientPortalModal: React.FC = () => {
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
                   {[
                     ['Reservas activas', '34', CalendarCheck, 'text-blue-700 bg-blue-50'],
-                    ['Em execução', '6', Activity, 'text-[#236199] bg-[#236199]'],
-                    ['Motoristas escalados', '28', User, 'text-[#236199] bg-[#236199]'],
+                    ['Em execução', '6', Activity, 'text-white bg-[#236199]'],
+                    ['Motoristas escalados', '28', User, 'text-white bg-[#236199]'],
                     ['Manutenções abertas', '3', Wrench, 'text-[#E4AD28] bg-[#FEC228]'],
                     ['SLA no prazo', '96,8%', ShieldCheck, 'text-[#09172C] bg-[#FFF7D6]'],
                   ].map(([label, value, Icon, tone]) => (

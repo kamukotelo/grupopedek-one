@@ -35,7 +35,7 @@ export const App: React.FC = () => {
         {/* Lightweight splash screen */}
         <SplashScreen />
 
-        <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#236199] selection:text-white pb-14 lg:pb-0">
+        <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-[#236199] selection:text-white pb-20 lg:pb-0">
           {/* Sticky navigation header */}
           <Header />
 
