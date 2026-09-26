@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Compass, Clock, MapPin, ArrowRight, ShieldCheck, Phone, CheckCircle2 } from 'lucide-react';
+import { Clock, MapPin, ArrowRight, ShieldCheck, Phone, CheckCircle2 } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 
@@ -25,7 +24,6 @@ const officialVehicleImages = new Map(
 );
 
 export const RouteEstimator: React.FC = () => {
-  const { t } = useTranslation();
   const [selectedRouteId, setSelectedRouteId] = useState<string>('route-airport-talatona');
   const [currency, setCurrency] = useState<'AOA' | 'USD' | 'EUR'>('AOA');
 
@@ -101,21 +99,7 @@ export const RouteEstimator: React.FC = () => {
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#FEC228]/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container-pepek relative z-10">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FEC228]/30 backdrop-blur-md text-xs font-bold text-[#FEC228] uppercase tracking-widest mb-4">
-              <Compass className="w-4 h-4 text-[#FEC228]" />
-              <span>Rotas & Destinos</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Mobilidade que acompanha o seu destino
-            </h2>
-            <p className="text-base text-gray-300 mt-3">
-              Da capital para às principais províncias de Angola, a PEPEK disponibiliza soluções de mobilidade premium para deslocações executivas, corporativas e particulares, com conforto, segurança e acompanhamento personalizado.
-            </p>
-          </div>
-
+        <div className="flex justify-end mb-12">
           {/* Currency Toggle */}
           <div className="flex items-center gap-2 bg-white/10 p-1.5 rounded-xl border border-white/15">
             <span className="text-xs text-gray-300 font-semibold px-2">Facturação:</span>

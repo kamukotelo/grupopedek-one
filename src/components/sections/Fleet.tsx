@@ -148,22 +148,6 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
       <div className="pointer-events-none absolute -right-40 top-1/3 h-[460px] w-[460px] rounded-full bg-[#09172C]/30 blur-[140px]" />
       <div className="container-pepek relative z-10">
         {/* ═══════════════════════════════════════════════════════
-            SECTION HEADER
-           ═══════════════════════════════════════════════════════ */}
-        <div className="max-w-4xl mb-8">
-          <div className="mb-3.5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.12em] text-[#FEC228]">
-            <Car className="w-3.5 h-3.5" />
-            <span>{t('fleet.availabilityTag')}</span>
-          </div>
-          <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            {t('fleet.catalogTitle')}
-          </h2>
-          <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-            {t('fleet.catalogSubtitle', { count: versionedFleet.length })}
-          </p>
-        </div>
-
-        {/* ═══════════════════════════════════════════════════════
             QUICK SEARCH HERO BAR
            ═══════════════════════════════════════════════════════ */}
         <div className="mb-10 rounded-2xl border border-[#3A73A8]/70 bg-gradient-to-br from-[#09172C] via-[#0C2E60] to-[#001E4A] p-5 text-white shadow-[0_22px_55px_rgba(4,16,38,.3)] sm:p-7">
