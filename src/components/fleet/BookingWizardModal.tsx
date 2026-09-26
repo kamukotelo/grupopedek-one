@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   X,
   Calendar,
@@ -23,7 +23,9 @@ import {
   Loader2,
   CheckCircle2,
   Copy,
-  FileText
+  FileText,
+  Pause,
+  Play
 } from 'lucide-react';
 import type { VehicleDetail } from '../../data/fleetData';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
@@ -51,6 +53,8 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [protocolCode, setProtocolCode] = useState<string | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const [isCountdownPaused, setIsCountdownPaused] = useState(false);
   const [copiedProtocol, setCopiedProtocol] = useState(false);
   const [step3Error, setStep3Error] = useState<string | null>(null);
 
@@ -194,10 +198,6 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   };
 
   const handleSubmitReservation = async () => {
-    // Reserve the new tab while the click gesture is still active. Browsers
-    // commonly block window.open calls made only after an awaited request.
-    const whatsappWindow = window.open('', '_blank');
-    if (whatsappWindow) whatsappWindow.opener = null;
     setIsSubmitting(true);
     setSubmissionError(null);
     try {
@@ -226,19 +226,42 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
       setProtocolCode(receipt.protocolCode);
       setIsConfirmed(true);
-
-      const whatsappUrl = buildWhatsAppUrl(receipt.protocolCode);
-      if (whatsappWindow && !whatsappWindow.closed) {
-        whatsappWindow.location.replace(whatsappUrl);
-      } else {
-        window.location.assign(whatsappUrl);
-      }
+      setCountdown(10);
+      setIsCountdownPaused(false);
     } catch (err) {
-      if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
       setSubmissionError(err instanceof Error ? err.message : 'Não foi possível registar a reserva. Tente novamente.');
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleOpenWhatsAppImmediately = () => {
+    setCountdown(null);
+    const whatsappUrl = buildWhatsAppUrl(protocolCode || undefined);
+    window.open(whatsappUrl, '_blank');
+  };
+
+  useEffect(() => {
+    if (!isConfirmed || countdown === null || isCountdownPaused) return;
+
+    if (countdown <= 0) {
+      const whatsappUrl = buildWhatsAppUrl(protocolCode || undefined);
+      window.open(whatsappUrl, '_blank');
+      setCountdown(null);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCountdown((prev) => (prev !== null ? prev - 1 : null));
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isConfirmed, countdown, isCountdownPaused, protocolCode]);
+
+  const handleModalClose = () => {
+    setCountdown(null);
+    setIsCountdownPaused(false);
+    onClose();
   };
 
   return (
@@ -247,7 +270,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       role="dialog"
       aria-modal="true"
     >
-      <div className="absolute inset-0" onClick={onClose} />
+      <div className="absolute inset-0" onClick={handleModalClose} />
 
       <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden z-10 my-auto border border-[#E2E8F0] animate-scaleUp flex flex-col max-h-[92vh]">
         {/* Header */}
@@ -265,7 +288,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
           </div>
 
           <button
-            onClick={onClose}
+            onClick={handleModalClose}
             className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -920,21 +943,64 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 </div>
               </div>
 
+              {/* Countdown / Transition Banner */}
+              {countdown !== null && (
+                <div className="max-w-lg mx-auto p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-left shadow-sm space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Clock className={`w-4 h-4 text-emerald-700 ${!isCountdownPaused ? 'animate-spin' : ''}`} style={{ animationDuration: '6s' }} />
+                      <span className="text-xs font-bold text-emerald-950">
+                        {isCountdownPaused ? (
+                          'Abertura automática em pausa — consulte os dados com calma'
+                        ) : (
+                          <>A abrir o WhatsApp da Direção em <strong className="text-sm font-extrabold text-emerald-700 font-mono">{countdown}s</strong>...</>
+                        )}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsCountdownPaused((prev) => !prev)}
+                      className="px-2.5 py-1 rounded-lg bg-white border border-emerald-300 text-emerald-800 text-[11px] font-bold hover:bg-emerald-100 flex items-center gap-1 transition cursor-pointer"
+                    >
+                      {isCountdownPaused ? (
+                        <>
+                          <Play className="w-3 h-3" />
+                          <span>Retomar</span>
+                        </>
+                      ) : (
+                        <>
+                          <Pause className="w-3 h-3" />
+                          <span>Pausar</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  {!isCountdownPaused && (
+                    <div className="w-full bg-emerald-200/70 h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className="bg-emerald-600 h-full transition-all duration-1000 ease-linear rounded-full"
+                        style={{ width: `${(countdown / 10) * 100}%` }}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Action Buttons */}
               <div className="max-w-lg mx-auto flex flex-col sm:flex-row gap-3 pt-2">
-                <a
-                  href={buildWhatsAppUrl(protocolCode || undefined)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition"
+                <button
+                  type="button"
+                  onClick={handleOpenWhatsAppImmediately}
+                  className="flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition cursor-pointer"
                 >
                   <MessageSquareText className="w-4 h-4" />
-                  <span>Confirmar Reserva no WhatsApp</span>
-                </a>
+                  <span>Abrir WhatsApp Agora</span>
+                </button>
 
                 <button
                   type="button"
                   onClick={() => {
+                    setCountdown(null);
                     onClose();
                     setIsPortalOpen(true);
                   }}
