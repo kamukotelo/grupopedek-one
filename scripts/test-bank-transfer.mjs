@@ -56,7 +56,9 @@ const invoke = async (handler, body = {}, method = 'POST') => {
 };
 
 try {
-  const base = { invoiceId, provider: 'bank_transfer', currency: 'AOA', idempotencyKey: key, amountMinor: 1 };
+  const base = { invoiceId, provider: 'bank_transfer', currency: 'AOA', idempotencyKey: key, destinationBank: 'bai', amountMinor: 1 };
+  assert.equal((await invoke(create, { ...base, destinationBank: 'conta-inexistente' })).code, 400);
+  assert.equal(writes.length, 0);
   assert.equal((await invoke(create, { ...base, currency: 'EUR' })).code, 400);
   assert.equal(writes.length, 0);
 
@@ -87,7 +89,7 @@ try {
   assert.equal(settled.body.status, 'paid');
   assert.ok(writes.some((write) => write.status === 'paid'));
   assert.ok(writes.some((write) => write.receipt_number));
-  console.log('Transferência bancária no Neon: todas as 11 verificações de conformidade passaram.');
+  console.log('Transferência bancária no Neon: todas as 12 verificações de conformidade passaram.');
 } finally {
   delete globalThis.__PEPEK_NEON_TEST_DATABASE__;
   delete globalThis.__PEPEK_NEON_TEST_USER__;

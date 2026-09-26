@@ -3,7 +3,7 @@
 ## Antes de abrir reservas reais
 
 - [ ] Aplicar `supabase/schema.sql` no projeto Supabase de produção e testar RLS com duas contas distintas.
-- [ ] Confirmar que `VITE_DEMO_MODE` não existe na Vercel de produção.
+- [ ] Confirmar que `VITE_DEMO_MODE=false` na Vercel de produção (a ausência também mantém o modo real).
 - [ ] Verificar que nenhuma variável `VITE_*` contém segredo.
 - [ ] Definir uma unidade física por viatura, estado de manutenção e responsável de despacho antes de confirmar qualquer pedido.
 - [ ] Confirmar autorização escrita para cada logótipo de cliente e cada imagem externa usada no site.

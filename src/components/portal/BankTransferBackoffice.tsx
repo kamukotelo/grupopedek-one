@@ -1,7 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { neonClient } from '../../lib/neon';
 
-type PendingTransfer = { id: string; client_reference: string; amount_minor: number; currency: string; created_at: string; invoices?: { invoice_number: string; description: string } | null };
+type PendingTransfer = {
+  id: string;
+  client_reference: string;
+  amount_minor: number;
+  currency: string;
+  created_at: string;
+  destination_bank?: { id?: string; name?: string; account?: string; iban?: string } | null;
+  invoices?: { invoice_number: string; description: string } | null;
+};
 
 export function BankTransferBackoffice({ onReconciled }: { onReconciled: () => Promise<void> }) {
   const [orders, setOrders] = useState<PendingTransfer[]>([]);
@@ -50,6 +58,7 @@ export function BankTransferBackoffice({ onReconciled }: { onReconciled: () => P
     <div className="mt-3 space-y-3">{orders.map((order) => <div key={order.id} className="rounded-xl border border-gray-200 p-3 text-xs">
       <p className="font-bold">{order.invoices?.invoice_number || order.id} · {(Number(order.amount_minor) / 100).toLocaleString('pt-AO', { minimumFractionDigits: 2 })} {order.currency}</p>
       <p className="text-gray-600">Referência do cliente: <strong>{order.client_reference}</strong> · {new Date(order.created_at).toLocaleString('pt-AO')}</p>
+      {order.destination_bank && <p className="mt-1 text-gray-600">Destino: <strong>{order.destination_bank.name}</strong> · IBAN <strong className="font-mono">{order.destination_bank.iban}</strong></p>}
       <div className="mt-2 flex flex-wrap gap-2"><input aria-label="Referência do movimento bancário" placeholder="Referência no extrato" value={references[order.id] || ''} onChange={(e) => setReferences((prev) => ({ ...prev, [order.id]: e.target.value }))} className="rounded-lg border p-2" /><input aria-label="Valor creditado em AOA" placeholder="Valor creditado (AOA)" inputMode="decimal" value={amounts[order.id] || ''} onChange={(e) => setAmounts((prev) => ({ ...prev, [order.id]: e.target.value }))} className="rounded-lg border p-2" /><button type="button" disabled={busy === order.id} onClick={() => void reconcile(order)} className="rounded-lg bg-[#09172C] px-3 py-2 font-bold text-white disabled:opacity-50">Confirmar entrada e dar baixa</button></div>
     </div>)}</div>
   </section>;

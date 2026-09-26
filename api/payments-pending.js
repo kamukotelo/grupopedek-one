@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   try {
     const rows = await sql.query(
       `SELECT po.id, po.invoice_id, po.client_reference, po.amount_minor,
-        po.currency, po.created_at,
+        po.currency, po.created_at, po.metadata->'destination_bank' AS destination_bank,
         json_build_object('invoice_number', i.invoice_number, 'description', i.description) AS invoices
        FROM public.payment_orders po
        JOIN public.invoices i ON i.id = po.invoice_id

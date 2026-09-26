@@ -61,7 +61,7 @@ export default async function handler(req, res) {
   const integrityHash = sha256(`${order.id}|${order.amount_minor}|${order.currency}|${providerReference}|${paidAt}`);
   const [, , receipts] = await sql.transaction([
     sql`UPDATE public.payment_orders SET status = 'paid', provider_reference = ${providerReference},
-      paid_at = ${paidAt}, updated_at = ${paidAt}, metadata = ${JSON.stringify({ reconciled_by: user.id })}::jsonb
+      paid_at = ${paidAt}, updated_at = ${paidAt}, metadata = metadata || ${JSON.stringify({ reconciled_by: user.id })}::jsonb
       WHERE id = ${order.id}`,
     sql`UPDATE public.invoices SET status = 'paid', payment_gateway = ${providerLabel(order.provider)}
       WHERE id = ${order.invoice_id}`,

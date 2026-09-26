@@ -14,8 +14,12 @@ type AuthUser = {
   app_metadata?: Record<string, unknown>;
 };
 
-// Modo Demo ativo para navegação demonstrativa sem exigência de senhas
-const IS_DEMO_MODE = import.meta.env.DEV || import.meta.env.VITE_DEMO_MODE !== 'false';
+// Em produção, a ausência da variável deve manter o portal no modo real.
+// Em desenvolvimento, o demo continua a ser o padrão, mas pode ser desligado
+// explicitamente com VITE_DEMO_MODE=false para testar pagamentos reais.
+const DEMO_MODE_SETTING = import.meta.env.VITE_DEMO_MODE;
+const IS_DEMO_MODE = DEMO_MODE_SETTING === 'true'
+  || (import.meta.env.DEV && DEMO_MODE_SETTING !== 'false');
 
 const ROLE_LABELS: Record<UserRole, string> = {
   cliente_vip: 'Cliente VIP',

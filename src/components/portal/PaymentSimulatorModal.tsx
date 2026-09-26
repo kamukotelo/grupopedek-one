@@ -11,7 +11,8 @@ interface PaymentSimulatorModalProps {
 }
 
 export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ invoice, onClose, onSuccess }) => {
-  const isDemo = import.meta.env.VITE_DEMO_MODE !== 'false';
+  const demoModeSetting = import.meta.env.VITE_DEMO_MODE;
+  const isDemo = demoModeSetting === 'true' || (import.meta.env.DEV && demoModeSetting !== 'false');
   const [provider, setProvider] = useState<PaymentProvider>('bank_transfer');
   const [currency, setCurrency] = useState<'AOA' | 'USD' | 'EUR'>('AOA');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -23,17 +24,17 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
   const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
 
   const bankAccounts = [
-    { name: 'BAI', account: '7100 6979 10001', iban: 'AO06 0040 0000 7100 69791011 9' },
-    { name: 'Standard Bank', account: '1000 1107 29', iban: 'AO06 0060 0117 0100 0110 7297 3' },
-    { name: 'Atlântico', account: '1887 8498 3100 01', iban: 'AO06 0055 0000 8878 4983 1010 6' },
-    { name: 'BFA', account: '1413 8612 7300 01', iban: 'AO06 0006 0000 4138 6127 3010 7' },
+    { id: 'bai', name: 'BAI', account: '7100 6979 10001', iban: 'AO06 0040 0000 7100 69791011 9' },
+    { id: 'standard_bank', name: 'Standard Bank', account: '1000 1107 29', iban: 'AO06 0060 0117 0100 0110 7297 3' },
+    { id: 'atlantico', name: 'Atlântico', account: '1887 8498 3100 01', iban: 'AO06 0055 0000 8878 4983 1010 6' },
+    { id: 'bfa', name: 'BFA', account: '1413 8612 7300 01', iban: 'AO06 0006 0000 4138 6127 3010 7' },
   ];
-  const [selectedBank, setSelectedBank] = useState('BAI');
-  const activeBank = bankAccounts.find((bank) => bank.name === selectedBank) || bankAccounts[0];
+  const [selectedBank, setSelectedBank] = useState('bai');
+  const activeBank = bankAccounts.find((bank) => bank.id === selectedBank) || bankAccounts[0];
 
   useEffect(() => {
     setError(''); setReference(''); setDone(false); setIsProcessing(false); setShowReceiptModal(false);
-    setProvider('bank_transfer'); setCurrency('AOA'); setSelectedBank('BAI');
+    setProvider('bank_transfer'); setCurrency('AOA'); setSelectedBank('bai');
     setIdempotencyKey(crypto.randomUUID());
   }, [invoice?.id]);
 
@@ -77,7 +78,13 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
         onSuccess(invoice.id, providerLabels[provider]);
         return;
       }
-      const order = await createPaymentOrder({ invoiceId: invoice.id, provider, currency, idempotencyKey });
+      const order = await createPaymentOrder({
+        invoiceId: invoice.id,
+        provider,
+        currency,
+        idempotencyKey,
+        destinationBank: provider === 'bank_transfer' ? activeBank.id : undefined,
+      });
       setReference(order.clientReference);
       if (order.checkoutUrl) { window.location.assign(order.checkoutUrl); return; }
       setDone(true);
@@ -238,7 +245,7 @@ export const PaymentSimulatorModal: React.FC<PaymentSimulatorModalProps> = ({ in
                 <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 text-xs space-y-1.5">
                   <label className="block text-[11px] font-bold text-[#09172C]" htmlFor="payment-bank">Escolha o banco destinatário</label>
                   <select id="payment-bank" value={selectedBank} onChange={(event) => setSelectedBank(event.target.value)} className="w-full rounded-lg border border-gray-300 bg-white p-2 text-xs">
-                    {bankAccounts.map((bank) => <option key={bank.name} value={bank.name}>{bank.name}</option>)}
+                    {bankAccounts.map((bank) => <option key={bank.id} value={bank.id}>{bank.name}</option>)}
                   </select>
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-bold text-[#09172C] flex items-center gap-1">

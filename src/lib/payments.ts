@@ -54,6 +54,7 @@ export async function createPaymentOrder(input: {
   category?: PaymentCategory;
   currency?: 'AOA' | 'USD' | 'EUR';
   idempotencyKey: string;
+  destinationBank?: string;
 }): Promise<PaymentOrderResult> {
   const response = await fetch('/api/payments-create', {
     method: 'POST',

@@ -4,6 +4,13 @@ import {
   createStripeCheckout, failureMessage, getPaymentDatabase, paymentReference,
 } from './_payments.js';
 
+const BANK_TRANSFER_DESTINATIONS = {
+  bai: { name: 'BAI', account: '7100 6979 10001', iban: 'AO06 0040 0000 7100 69791011 9' },
+  standard_bank: { name: 'Standard Bank', account: '1000 1107 29', iban: 'AO06 0060 0117 0100 0110 7297 3' },
+  atlantico: { name: 'Atlântico', account: '1887 8498 3100 01', iban: 'AO06 0055 0000 8878 4983 1010 6' },
+  bfa: { name: 'BFA', account: '1413 8612 7300 01', iban: 'AO06 0006 0000 4138 6127 3010 7' },
+};
+
 export default async function handler(req, res) {
   if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
   if (takeRateLimit(req, 'payments-create', 8, 60_000)) return res.status(429).json({ error: 'Muitos pedidos de pagamento. Aguarde um minuto.' });
@@ -17,9 +24,11 @@ export default async function handler(req, res) {
   const provider = cleanText(req.body?.provider, 30);
   const category = cleanText(req.body?.category, 40) || 'invoice';
   const idempotencyKey = cleanText(req.body?.idempotencyKey, 80);
+  const destinationBankId = cleanText(req.body?.destinationBank, 30).toLowerCase();
   if (!/^[0-9a-f-]{36}$/i.test(invoiceId) || !/^[0-9a-f-]{36}$/i.test(idempotencyKey)) return res.status(400).json({ error: 'Referência de pagamento inválida.' });
   if (!PAYMENT_PROVIDERS.has(provider) || !PAYMENT_CATEGORIES.has(category)) return res.status(400).json({ error: 'Método ou categoria inválida.' });
   if (provider === 'bank_transfer' && cleanText(req.body?.currency, 3).toUpperCase() !== 'AOA') return res.status(400).json({ error: 'Transferência bancária disponível apenas em AOA.' });
+  if (provider === 'bank_transfer' && !BANK_TRANSFER_DESTINATIONS[destinationBankId]) return res.status(400).json({ error: 'Selecione uma conta bancária válida.' });
 
   let invoice;
   try {
@@ -62,7 +71,10 @@ export default async function handler(req, res) {
        VALUES ($1,$2,$3,$4,$5,$6,'created',$7,$8,$9::jsonb)
        RETURNING id`,
       [invoice.id, user.id, category, provider, currency, amountMinor, idempotencyKey,
-        clientReference, JSON.stringify({ invoice_number: invoice.invoice_number })],
+        clientReference, JSON.stringify({
+          invoice_number: invoice.invoice_number,
+          ...(provider === 'bank_transfer' ? { destination_bank: { id: destinationBankId, ...BANK_TRANSFER_DESTINATIONS[destinationBankId] } } : {}),
+        })],
     );
   } catch {
     return res.status(502).json({ error: 'Não foi possível criar a ordem de pagamento.' });
