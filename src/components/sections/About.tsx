@@ -8,7 +8,6 @@ import {
   Headphones,
   HeartHandshake,
   Languages,
-  Leaf,
   MapPin,
   ShieldCheck,
   Sparkles,
@@ -33,10 +32,12 @@ export const About: React.FC = () => {
   const { t } = useTranslation();
 
   const principles = [
-    ['about.principle1Title', 'about.principle1Desc', HeartHandshake],
+    ['about.principle1Title', 'about.principle1Desc', Sparkles],
     ['about.principle2Title', 'about.principle2Desc', Eye],
     ['about.principle3Title', 'about.principle3Desc', ShieldCheck],
-    ['about.principle4Title', 'about.principle4Desc', Leaf],
+    ['about.principle4Title', 'about.principle4Desc', Clock3],
+    ['about.principle5Title', 'about.principle5Desc', HeartHandshake],
+    ['about.principle6Title', 'about.principle6Desc', Users],
   ] as const;
 
   const support = [
@@ -111,10 +112,10 @@ export const About: React.FC = () => {
       <div className="bg-slate-50 py-16 sm:py-24">
         <div className="container-pepek">
           <div className="max-w-3xl">
-            <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.principlesTag')}</span>
-            <h2 className="mt-4 text-3xl font-extrabold text-[#09172C] sm:text-5xl">{t('about.principlesTitle')}</h2>
+            <h2 className="text-3xl font-extrabold text-[#09172C] sm:text-5xl">{t('about.principlesTitle')}</h2>
+            <p className="mt-5 text-base leading-8 text-slate-600">{t('about.principlesIntro')}</p>
           </div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {principles.map(([title, desc, Icon]) => (
               <article key={title} className="rounded-2xl border border-slate-200 bg-white p-7 transition hover:-translate-y-1 hover:border-[#236199]/30 hover:shadow-xl hover:shadow-blue-950/5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#236199]"><Icon className="h-6 w-6" /></div>
