@@ -24,12 +24,6 @@ export const Footer: React.FC = () => {
             <p className="text-base font-bold text-white">
               {t('footer.tagline')}
             </p>
-            <p className="text-xs text-white/65 leading-relaxed max-w-md">
-              {t('footer.about1')}
-            </p>
-            <p className="text-xs text-white/65 leading-relaxed max-w-md">
-              {t('footer.about2')}
-            </p>
 
             {/* Social Links with crisp vector SVGs */}
             <div className="flex items-center gap-3 pt-2">
@@ -100,6 +94,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.serviceExecutive')}</Link></li>
               <li><Link to="/rotas" className="hover:text-white transition-colors">{t('footer.serviceTransfer')}</Link></li>
               <li><Link to="/clientes" className="hover:text-white transition-colors">{t('footer.serviceCorporate')}</Link></li>
+              <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.serviceFleet')}</Link></li>
               <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.serviceEvents')}</Link></li>
             </ul>
           </div>
@@ -113,6 +108,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/" className="hover:text-white transition-colors">{t('footer.navHome')}</Link></li>
               <li><Link to="/quem-somos" className="hover:text-white transition-colors">{t('footer.navAbout')}</Link></li>
               <li><Link to="/frota" className="hover:text-white transition-colors">{t('footer.navFleet')}</Link></li>
+              <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.navServices')}</Link></li>
               <li><Link to="/clientes" className="hover:text-white transition-colors">{t('footer.navClients')}</Link></li>
               <li><Link to="/blogue" className="hover:text-white transition-colors">{t('footer.navBlog')}</Link></li>
               <li><Link to="/contactos" className="hover:text-white transition-colors">{t('footer.navContacts')}</Link></li>

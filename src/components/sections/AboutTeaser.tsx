@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Eye, HeartHandshake, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Eye, HeartHandshake, ShieldCheck } from 'lucide-react';
 
 const values = [
   ['about.val1Title', 'about.val1Desc', ShieldCheck],
@@ -22,15 +22,8 @@ export const AboutTeaser: React.FC = () => {
         <div>
           <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.storyTag')}</span>
           <h2 className="mt-4 max-w-xl text-3xl font-extrabold leading-tight text-[#09172C] sm:text-4xl">{t('about.title')}</h2>
-          <p className="mt-6 text-base leading-8 text-slate-600">{t('about.p1')}</p>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {[t('about.check1'), t('about.check2')].map((item) => (
-              <div key={item} className="flex gap-3 rounded-xl bg-[#F5F6F6] p-4 text-sm font-bold text-[#09172C]">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#236199]" /> {item}
-              </div>
-            ))}
-          </div>
+          <p className="mt-6 text-base leading-8 text-slate-600">{t('footer.about1')}</p>
+          <p className="mt-4 text-base leading-8 text-slate-600">{t('footer.about2')}</p>
 
           <Link
             to="/quem-somos"
