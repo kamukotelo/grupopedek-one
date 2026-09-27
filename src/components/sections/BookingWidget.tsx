@@ -511,11 +511,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
             {/* Right Column: Verified Login & Ficha de Cadastro para a Direcção */}
             <div className="lg:col-span-4 space-y-6">
               <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E2E8F0] shadow-md">
-                <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#FEC228] mb-1">
-                  <Shield className="w-4 h-4 text-[#FEC228]" />
-                  <span>{t('booking.requesterId')}</span>
-                </div>
-
                 <h3 className="text-xl font-bold text-[#09172C] mb-2">
                   {t('booking.officialForm')}
                 </h3>
