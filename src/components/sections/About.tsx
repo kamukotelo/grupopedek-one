@@ -119,7 +119,7 @@ export const About: React.FC = () => {
             {principles.map(([title, desc, Icon]) => (
               <article key={title} className="rounded-2xl border border-slate-200 bg-white p-7 transition hover:-translate-y-1 hover:border-[#236199]/30 hover:shadow-xl hover:shadow-blue-950/5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#236199]"><Icon className="h-6 w-6" /></div>
-                <h3 className="mt-6 text-lg font-extrabold text-[#09172C]">{t(title)}</h3>
+                <h3 className="mt-6 text-lg font-extrabold uppercase tracking-wide text-[#09172C]">{t(title)}</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{t(desc)}</p>
               </article>
             ))}
