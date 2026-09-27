@@ -28,8 +28,8 @@ export const PageRotas: React.FC = () => (
     <PageHero
       icon={Compass}
       eyebrow="Mobilidade sem fronteiras"
-      title="De Luanda para todo o território nacional"
-      description="Conte com uma solução de mobilidade pensada para o seu destino, com viaturas e motoristas adequados ao percurso, à duração e às necessidades da sua viagem."
+      title="O seu destino começa onde estiver"
+      description="Serviço de mobilidade à medida, disponível em todo o território nacional, com viaturas e motoristas selecionados para cada viagem."
       breadcrumb={[{ label: 'Rotas' }]}
     />
 

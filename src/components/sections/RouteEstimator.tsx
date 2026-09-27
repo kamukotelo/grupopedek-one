@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Clock, MapPin, ArrowRight, ShieldCheck, Phone, CheckCircle2 } from 'lucide-react';
+import { Compass, Clock, MapPin, ArrowRight, ShieldCheck, Phone, CheckCircle2 } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 
@@ -14,6 +14,8 @@ interface RouteOption {
   vehicleId: string;
   badge?: string;
   description: string;
+  /** Mostra no cartão o preço de transfer mais baixo da frota. */
+  showTransferFrom?: boolean;
 }
 
 const officialVehicleImages = new Map(
@@ -22,6 +24,12 @@ const officialVehicleImages = new Map(
     alt: `${vehicle.name} — imagem oficial do catálogo PEPEK 2026`,
   }])
 );
+
+// Transfer mais barato da frota pública — acompanha a tabela de preços sem valor fixo no código.
+const lowestTransferAOA = Math.min(
+  ...PUBLIC_FLEET.map((vehicle) => vehicle.transferPriceAOA ?? Infinity)
+);
+const formatKz = (value: number) => `${new Intl.NumberFormat('pt-PT', { maximumFractionDigits: 0 }).format(value)} Kz`;
 
 export const RouteEstimator: React.FC = () => {
   const [selectedRouteId, setSelectedRouteId] = useState<string>('route-airport-talatona');
@@ -38,7 +46,8 @@ export const RouteEstimator: React.FC = () => {
       vehicle: 'SUV Executiva (Toyota Land Cruiser 250 / LC300)',
       vehicleId: 'new-toyota-prado',
       badge: 'Mais Frequente',
-      description: 'Recepção VIP Meet & Greet no desembarque internacional, auxílio com bagagem e transporte climatizado directo ao hotel/residência.'
+      description: 'Receção à saída, assistência com a bagagem e transporte climatizado, complementados por um detalhe de cortesia para tornar a sua chegada ainda mais especial. Serviço Meet & Greet disponível mediante consulta.',
+      showTransferFrom: true
     },
     {
       id: 'route-airport-miramar',
@@ -50,7 +59,8 @@ export const RouteEstimator: React.FC = () => {
       vehicle: 'Sedan / SUV de Luxo (Mercedes-Benz Classe S / Lexus LX 600)',
       vehicleId: 'mercedes-class-s-2025',
       badge: 'Corpo Diplomático',
-      description: 'Percurso com piloto treinado em protocolo de segurança e conduta discreta para diplomatas e delegações oficiais.'
+      description: 'Percurso com piloto treinado em protocolo de segurança e conduta discreta para diplomatas e delegações oficiais.',
+      showTransferFrom: true
     },
     {
       id: 'route-luanda-viana',
@@ -99,7 +109,21 @@ export const RouteEstimator: React.FC = () => {
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#FEC228]/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container-pepek relative z-10">
-        <div className="flex justify-end mb-12">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FEC228]/30 backdrop-blur-md text-xs font-bold text-[#FEC228] uppercase tracking-widest mb-4">
+              <Compass className="w-4 h-4 text-[#FEC228]" />
+              <span>Rotas & Destinos</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+              Mobilidade que acompanha o seu percurso.
+            </h2>
+            <p className="text-base text-gray-300 mt-3">
+              Ligamos Luanda às principais províncias de Angola através de um serviço de mobilidade premium, pensado para garantir conforto, segurança e excelência, em cada deslocação.
+            </p>
+          </div>
+
           {/* Currency Toggle */}
           <div className="flex items-center gap-2 bg-white/10 p-1.5 rounded-xl border border-white/15">
             <span className="text-xs text-gray-300 font-semibold px-2">Facturação:</span>
@@ -147,6 +171,12 @@ export const RouteEstimator: React.FC = () => {
                   <h3 className="text-base font-bold text-white mb-2">
                     {route.name}
                   </h3>
+
+                  {route.showTransferFrom && (
+                    <p className="text-xs text-gray-300 mb-2">
+                      Preços desde <strong className="text-sm font-extrabold text-[#FEC228]">{formatKz(lowestTransferAOA)}</strong>
+                    </p>
+                  )}
 
                   <div className="flex items-center gap-4 text-xs text-gray-300 pt-2 border-t border-white/10">
                     <div className="flex items-center gap-1.5">

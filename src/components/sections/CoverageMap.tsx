@@ -44,11 +44,11 @@ export const CoverageMap: React.FC = () => {
           </div>
 
           <h2 className="section-title mb-4">
-            Cobertura Operacional em Toda a Angola
+            Cobertura operacional em toda Angola.
           </h2>
 
           <p className="section-subtitle">
-            Com bases estratégicas e rede de assistência móvel, garantimos continuidade operacional e segurança em qualquer província do país.
+            Com bases estratégicas e uma rede de assistência virtual, asseguramos continuidade operacional, acompanhamento e segurança em qualquer província do país.
           </p>
         </div>
 
