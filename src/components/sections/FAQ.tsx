@@ -94,7 +94,7 @@ export const FAQ: React.FC = () => {
           <div className="flex items-center gap-3">
             <Phone className="w-5 h-5 text-[#236199]" />
             <span className="text-sm font-semibold text-gray-800">
-              Tem alguma dúvida específica sobre uma operação de grande escala?
+              Tem uma operação de maior complexidade?
             </span>
           </div>
 
@@ -104,7 +104,7 @@ export const FAQ: React.FC = () => {
             rel="noopener noreferrer"
             className="btn-primary text-xs font-bold py-2.5 px-5 flex items-center gap-2 shrink-0"
           >
-            <span>Falar com Especialista</span>
+            <span>Fale com a nossa equipa</span>
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
