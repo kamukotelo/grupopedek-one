@@ -27,7 +27,7 @@ export const PageFrota: React.FC<{ onSelectVehicle: (v: string) => void }> = ({ 
       icon={Car}
       eyebrow="A nossa frota"
       title="Uma viatura certa para cada missão."
-      description="Blindados, berlinas executivas, SUVs, 4x4 para o interior e Vans VIP. Compare categorias, lugares e condições, e escolha com ou sem motorista."
+      description="Blindados, Executivos, SUVs, 4x4 (para operações no interior do país) e Vans. Compare categorias, lotação e condições, e escolha a solução que melhor se adapta à sua deslocação com ou sem motorista."
       breadcrumb={[{ label: 'Frota' }]}
     />
 

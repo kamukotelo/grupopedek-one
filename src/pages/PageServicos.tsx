@@ -48,7 +48,7 @@ export const PageServicos: React.FC = () => (
       icon={Briefcase}
       eyebrow="O que fazemos"
       title="Mobilidade executiva pensada ao detalhe."
-      description="Do transfer de aeroporto ao contrato corporativo de longa duração: viatura, motorista e planeamento operacional ajustados a cada deslocação em Angola."
+      description="Do transfer aeroportuário ao contrato de longa duração, ajustamos viaturas, motoristas e planeamento operacional às necessidades de cada deslocação, em qualquer ponto de Angola."
       breadcrumb={[{ label: 'Serviços' }]}
     />
 

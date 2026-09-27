@@ -21,8 +21,8 @@ export const PageClientes: React.FC = () => (
     <PageHero
       icon={Users}
       eyebrow="Confiança institucional"
-      title="Quem nos confia a sua mobilidade."
-      description="Corpos diplomáticos, entidades de Estado, banca, energia, telecomunicações e media escolhem a PEPEK GRUPO pelos padrões de segurança, discrição e pontualidade."
+      title="A confiança de quem exige mais."
+      description="Servimos corpos diplomáticos, entidades do Estado e empresas de setores estratégicos, onde segurança, discrição e pontualidade não são opcionais, são o padrão."
       breadcrumb={[{ label: 'Clientes' }]}
     />
 
