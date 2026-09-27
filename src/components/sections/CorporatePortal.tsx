@@ -9,24 +9,24 @@ export const CorporatePortal: React.FC = () => {
 
   const benefits = [
     {
-      icon: <Clock className="w-6 h-6 text-[#236199]" />,
-      title: 'SLA Prioritário < 10 Minutos',
-      desc: 'Atendimento directo com prioridade máxima 24 horas por dia, 365 dias por ano.'
-    },
-    {
       icon: <UserCheck className="w-6 h-6 text-[#236199]" />,
-      title: 'Pilotos de Protocolo Bilingues',
+      title: 'Motoristas protocolares e bilingues',
       desc: 'Formação rigorosa em etiqueta diplomática, sigilo profissional, primeiros socorros e condução defensiva.'
     },
     {
       icon: <FileText className="w-6 h-6 text-[#236199]" />,
-      title: 'Faturação e Condições de Pagamento',
+      title: 'Faturação centralizada e soluções de pagamento flexíveis',
       desc: 'Emissão de faturas com prazos de pagamento de 30 ou 60 dias para empresas credenciadas, conforme acordo.'
     },
     {
       icon: <ShieldCheck className="w-6 h-6 text-[#236199]" />,
-      title: 'Garantia de Viatura de Substituição',
+      title: 'Viatura de substituição assegurada',
       desc: 'Disponibilização imediata de viatura equivalente em qualquer província em caso de intervenção técnica.'
+    },
+    {
+      icon: <Clock className="w-6 h-6 text-[#236199]" />,
+      title: 'Assistência operacional 24/7',
+      desc: 'Atendimento directo com prioridade máxima 24 horas por dia, 365 dias por ano.'
     },
   ];
 
@@ -44,11 +44,11 @@ export const CorporatePortal: React.FC = () => {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-inter">
-              Soluções Estratégicas para Grandes Organizações
+              Soluções Estratégicas de Mobilidade
             </h2>
 
             <p className="text-base text-gray-300 mt-4 leading-relaxed">
-              Desenhamos pacotes de mobilidade sob medida para embaixadas, petrolíferas, instituições financeiras e entidades governamentais que não podem prescindir de pontualidade e discrição.
+              Desenhamos soluções de mobilidade à medida para embaixadas, empresas do setor energético, instituições financeiras e entidades governamentais, com elevados padrões de pontualidade, segurança e discrição.
             </p>
           </div>
 
@@ -78,29 +78,29 @@ export const CorporatePortal: React.FC = () => {
           <div className="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
               <h4 className="text-base font-bold text-white">
-                Deseja abrir uma conta corporativa ou solicitar um acordo-quadro?
+                Pretende estabelecer uma parceria corporativa?
               </h4>
               <p className="text-xs text-gray-400 mt-0.5">
-                O nosso gestor de contas institucionais entrará em contacto directo com a sua direcção.
+                Abra uma conta corporativa ou solicite um acordo de protocolo com a PEPEK. Um gestor de relação dedicado acompanhará o seu pedido e apresentará uma solução ajustada às necessidades da sua organização.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <a
-                href={generateQuickWhatsAppUrl('Abertura de Conta Corporativa / Acordo Diplomático')}
+                href={generateQuickWhatsAppUrl('Parceria Corporativa / Acordo de Protocolo')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-whatsapp w-full sm:w-auto text-xs font-bold py-3.5 px-6 flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4" />
-                <span>Falar com Gestor Institucional</span>
+                <span>Falar com um gestor de relação</span>
               </a>
 
               <Link
                 to="/contactos"
                 className="btn-outline w-full sm:w-auto text-xs font-bold py-3.5 px-6 flex items-center justify-center gap-2"
               >
-                <span>Enviar Pedido de Proposta Formal</span>
+                <span>Solicitar proposta formal</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
