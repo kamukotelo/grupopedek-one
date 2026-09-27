@@ -100,6 +100,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.serviceExecutive')}</Link></li>
               <li><Link to="/rotas" className="hover:text-white transition-colors">{t('footer.serviceTransfer')}</Link></li>
               <li><Link to="/clientes" className="hover:text-white transition-colors">{t('footer.serviceCorporate')}</Link></li>
+              <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.serviceFleet')}</Link></li>
               <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.serviceEvents')}</Link></li>
             </ul>
           </div>
@@ -113,6 +114,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/" className="hover:text-white transition-colors">{t('footer.navHome')}</Link></li>
               <li><Link to="/quem-somos" className="hover:text-white transition-colors">{t('footer.navAbout')}</Link></li>
               <li><Link to="/frota" className="hover:text-white transition-colors">{t('footer.navFleet')}</Link></li>
+              <li><Link to="/servicos" className="hover:text-white transition-colors">{t('footer.navServices')}</Link></li>
               <li><Link to="/clientes" className="hover:text-white transition-colors">{t('footer.navClients')}</Link></li>
               <li><Link to="/blogue" className="hover:text-white transition-colors">{t('footer.navBlog')}</Link></li>
               <li><Link to="/contactos" className="hover:text-white transition-colors">{t('footer.navContacts')}</Link></li>

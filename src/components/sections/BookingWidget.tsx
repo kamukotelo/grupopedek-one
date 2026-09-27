@@ -116,9 +116,9 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
     }
   }, [searchParams, initialVehicle]);
 
-  // Client Authentication / Accreditation State (Email or Phone)
-  const [loginMethod, setLoginMethod] = useState<'phone' | 'email'>('phone');
-  const [clientIdentifier, setClientIdentifier] = useState('');
+  // Requester contact details
+  const [clientPhone, setClientPhone] = useState('');
+  const [clientEmail, setClientEmail] = useState('');
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [notes, setNotes] = useState(() => {
@@ -166,7 +166,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   // Quick Instant Login / Accreditation
   const handleQuickAuth = (e: React.FormEvent) => {
     e.preventDefault();
-    if (clientIdentifier.trim() && clientName.trim()) {
+    if (clientPhone.trim() && clientName.trim()) {
       setIsAuthenticated(true);
     }
   };
@@ -186,8 +186,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
       vehicleCategory: selectedVehicle.name,
       withDriver,
       clientName,
-      clientPhone: loginMethod === 'phone' ? clientIdentifier : '',
-      clientEmail: loginMethod === 'email' ? clientIdentifier : '',
+      clientPhone,
+      clientEmail,
       companyName,
       notes: notes,
       status: 'pending',
@@ -219,14 +219,14 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
         endDate,
         withDriver,
         clientName,
-        clientPhone: loginMethod === 'phone' ? clientIdentifier : '',
-        clientEmail: loginMethod === 'email' ? clientIdentifier : '',
+        clientPhone,
+        clientEmail,
         companyName,
         notes: directorateDossier
           ? t('booking.whatsappNote', {
               code: directorateDossier.protocolCode,
-              method: loginMethod === 'phone' ? t('booking.byPhone') : t('booking.byEmail'),
-              identifier: clientIdentifier,
+              method: t('booking.byPhone'),
+              identifier: clientPhone,
             })
           : notes,
       });
@@ -524,47 +524,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   {t('booking.identificationIntro')}
                 </p>
 
-                {/* Login Method Toggle: Phone vs Email */}
-                <div className="flex items-center gap-2 p-1 bg-[#F5F6F6] rounded-xl mb-4 text-xs font-bold">
-                  <button
-                    type="button"
-                    onClick={() => setLoginMethod('phone')}
-                    className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                      loginMethod === 'phone' ? 'bg-[#09172C] text-[#FEC228] shadow-sm' : 'text-[#555B64] hover:text-[#09172C]'
-                    }`}
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>{t('booking.byPhone')}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setLoginMethod('email')}
-                    className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                      loginMethod === 'email' ? 'bg-[#09172C] text-[#FEC228] shadow-sm' : 'text-[#555B64] hover:text-[#09172C]'
-                    }`}
-                  >
-                    <Mail className="w-3.5 h-3.5" />
-                    <span>{t('booking.byEmail')}</span>
-                  </button>
-                </div>
-
                 {/* Accreditation & Requester Form */}
                 <form onSubmit={handleGenerateOfficialDossier} className="space-y-3.5 text-xs">
-                  <div>
-                    <label className="block font-bold text-[#09172C] mb-1">
-                      {loginMethod === 'phone' ? t('booking.phoneLabel') : t('booking.emailLabel')}
-                    </label>
-                    <input
-                      type={loginMethod === 'phone' ? 'tel' : 'email'}
-                      value={clientIdentifier}
-                      onChange={(e) => setClientIdentifier(e.target.value)}
-                      placeholder={loginMethod === 'phone' ? '+244 9XX XXX XXX' : 'direccao@entidade.ao'}
-                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
-                      required
-                    />
-                  </div>
-
                   <div>
                     <label className="block font-bold text-[#09172C] mb-1">
                       {t('booking.responsibleName')}
@@ -576,6 +537,33 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       placeholder={t('booking.namePlaceholder')}
                       className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                       required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-[#09172C] mb-1">
+                      {t('booking.phoneLabel')}
+                    </label>
+                    <input
+                      type="tel"
+                      value={clientPhone}
+                      onChange={(e) => setClientPhone(e.target.value)}
+                      placeholder="+244 9XX XXX XXX"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-[#09172C] mb-1">
+                      {t('booking.emailLabel')}
+                    </label>
+                    <input
+                      type="email"
+                      value={clientEmail}
+                      onChange={(e) => setClientEmail(e.target.value)}
+                      placeholder="direccao@entidade.ao"
+                      className="w-full p-3 bg-[#F5F6F6] border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
                     />
                   </div>
 
@@ -680,7 +668,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 </h5>
                 <div>{t('booking.nameResponsible')}: <strong className="text-[#09172C]">{clientName}</strong></div>
                 {companyName && <div>{t('booking.entityEmbassy')}: <strong className="text-[#09172C]">{companyName}</strong></div>}
-                <div>{t('booking.credential')} ({loginMethod === 'phone' ? t('booking.byPhone') : t('booking.byEmail')}): <strong className="text-[#09172C]">{clientIdentifier}</strong></div>
+                <div>{t('booking.phoneLabel')}: <strong className="text-[#09172C]">{clientPhone}</strong></div>
+                {clientEmail && <div>{t('booking.emailLabel')}: <strong className="text-[#09172C]">{clientEmail}</strong></div>}
               </div>
 
               <div className="space-y-2">
