@@ -241,7 +241,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
             <span>{t('booking.systemLabel')}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#09172C] tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#09172C] tracking-tight mb-4">
             {t('booking.flowTitle')}
           </h2>
 

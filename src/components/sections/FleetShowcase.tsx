@@ -54,7 +54,7 @@ export const FleetShowcase: React.FC = () => {
         <div className="mb-8 flex items-end justify-between gap-6 sm:mb-10">
           <div>
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#FEC228]">{t('fleet.showcaseTag')}</p>
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{t('fleet.showcaseTitle')}</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">{t('fleet.showcaseTitle')}</h2>
           </div>
           <Link to="/frota" className="hidden items-center gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#FEC228] transition hover:text-white sm:flex">
             {t('fleet.showcaseAll')} <ArrowRight className="h-5 w-5" />

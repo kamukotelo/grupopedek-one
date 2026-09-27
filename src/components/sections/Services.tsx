@@ -23,7 +23,7 @@ export const Services: React.FC<{ withLinks?: boolean }> = ({ withLinks = true }
       <div className="container-pepek relative z-10">
         <div className="mb-12 max-w-4xl text-left">
           <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#236199]">{t('servicesCarousel.eyebrow')}</span>
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-[#09172C] sm:text-5xl">{t('servicesCarousel.title')}</h2>
+          <h2 className="mt-3 text-2xl sm:text-3xl font-extrabold tracking-tight text-[#09172C]">{t('servicesCarousel.title')}</h2>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#555B64] sm:text-base">{t('servicesCarousel.description')}</p>
         </div>
 

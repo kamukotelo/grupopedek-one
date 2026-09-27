@@ -43,7 +43,7 @@ export const CorporatePortal: React.FC = () => {
               <span>Contratos Corporativos & Protocolo Diplomático</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-inter">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-inter">
               Soluções Estratégicas para Grandes Organizações
             </h2>
 

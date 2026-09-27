@@ -44,7 +44,7 @@ export const PageHero: React.FC<PageHeroProps> = ({ eyebrow, title, description,
           <Icon className="h-4 w-4" /> {eyebrow}
         </span>
 
-        <h1 style={{ color: '#fff' }} className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl">
+        <h1 style={{ color: '#fff' }} className="mt-6 max-w-4xl text-2xl sm:text-3xl font-extrabold leading-tight tracking-tight">
           {title}
         </h1>
 

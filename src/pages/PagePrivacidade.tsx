@@ -20,7 +20,7 @@ export const PagePrivacidade: React.FC = () => (
     <section className="bg-[#F5F6F6] py-28 sm:py-32">
       <div className="container-pepek max-w-5xl">
         <span className="inline-flex items-center gap-2 rounded-full bg-[#236199]/10 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#09172C]"><ShieldCheck className="h-4 w-4 text-[#E4AD28]" /> Confiança e privacidade</span>
-        <h1 className="mt-6 max-w-3xl text-4xl font-extrabold tracking-tight text-[#09172C] sm:text-5xl">Proteção de dados em cada pedido.</h1>
+        <h1 className="mt-6 max-w-3xl text-2xl sm:text-3xl font-extrabold tracking-tight text-[#09172C]">Proteção de dados em cada pedido.</h1>
         <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600">A PEPEK GRUPO trata os seus dados para responder a pedidos, organizar a mobilidade, emitir documentos de faturação e prestar apoio. Nunca envie NIF, passaporte, carta de condução, cartão ou PIN por WhatsApp.</p>
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">

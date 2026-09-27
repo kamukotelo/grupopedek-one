@@ -55,7 +55,7 @@ export const About: React.FC = () => {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#FEC228]/40 bg-[#FEC228]/10 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">
               <Sparkles className="h-4 w-4" /> {t('about.tag')}
             </div>
-            <h1 style={{ color: '#fff' }} className="max-w-5xl text-4xl font-extrabold leading-[1.04] sm:text-6xl lg:text-6xl">
+            <h1 style={{ color: '#fff' }} className="max-w-5xl text-2xl sm:text-3xl font-extrabold leading-tight">
               {t('about.heroTitle')}
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
@@ -79,7 +79,7 @@ export const About: React.FC = () => {
         <div className="grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
           <div>
             <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.storyTag')}</span>
-            <h2 className="mt-4 max-w-2xl text-3xl font-extrabold leading-tight text-[#09172C] sm:text-5xl">{t('about.title')}</h2>
+            <h2 className="mt-4 max-w-2xl text-2xl sm:text-3xl font-extrabold leading-tight text-[#09172C]">{t('about.title')}</h2>
           </div>
           <div className="space-y-5 text-base leading-8 text-slate-600">
             <p>{t('about.p1')}</p>
@@ -112,7 +112,7 @@ export const About: React.FC = () => {
       <div className="bg-slate-50 py-16 sm:py-24">
         <div className="container-pepek">
           <div className="max-w-3xl">
-            <h2 className="text-3xl font-extrabold text-[#09172C] sm:text-5xl">{t('about.principlesTitle')}</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#09172C]">{t('about.principlesTitle')}</h2>
             <p className="mt-5 text-base leading-8 text-slate-600">{t('about.principlesIntro')}</p>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -131,7 +131,7 @@ export const About: React.FC = () => {
         <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
           <div>
             <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.supportTag')}</span>
-            <h2 className="mt-4 text-3xl font-extrabold text-[#09172C] sm:text-5xl">{t('about.supportTitle')}</h2>
+            <h2 className="mt-4 text-2xl sm:text-3xl font-extrabold text-[#09172C]">{t('about.supportTitle')}</h2>
             <p className="mt-5 text-base leading-8 text-slate-600">{t('about.supportIntro')}</p>
           </div>
           <div className="grid gap-4">
@@ -148,7 +148,7 @@ export const About: React.FC = () => {
       <div className="bg-[#001E4A] py-16 text-white sm:py-24">
         <div className="container-pepek">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <div><span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">{t('about.teamTag')}</span><h2 style={{ color: '#fff' }} className="mt-4 text-3xl font-extrabold sm:text-5xl">{t('about.teamTitle')}</h2></div>
+            <div><span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#FEC228]">{t('about.teamTag')}</span><h2 style={{ color: '#fff' }} className="mt-4 text-2xl sm:text-3xl font-extrabold">{t('about.teamTitle')}</h2></div>
             <p className="max-w-xl text-sm leading-7 text-white/65">{t('about.teamIntro')}</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-[.72fr_1.28fr]">

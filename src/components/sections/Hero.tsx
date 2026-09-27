@@ -268,7 +268,7 @@ export const Hero: React.FC = () => {
           <div>
         {/* Main Headline */}
         <div className="max-w-4xl mb-6">
-          <h1 className="text-[2rem] sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.12] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-[1.12] tracking-tight">
             {t('hero.title')}
             {t('hero.titleAccent') ? (
               <span className="mt-1 block text-[#FEC228]">{t('hero.titleAccent')}</span>

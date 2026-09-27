@@ -25,6 +25,8 @@ const officialVehicleImages = new Map(
   }])
 );
 
+const publicFleetById = new Map(PUBLIC_FLEET.map((vehicle) => [vehicle.id, vehicle]));
+
 // Transfer mais barato da frota pública — acompanha a tabela de preços sem valor fixo no código.
 const lowestTransferAOA = Math.min(
   ...PUBLIC_FLEET.map((vehicle) => vehicle.transferPriceAOA ?? Infinity)
@@ -102,6 +104,11 @@ export const RouteEstimator: React.FC = () => {
 
   const currentRoute = routes.find(r => r.id === selectedRouteId) || routes[0];
   const currentVehicleImage = officialVehicleImages.get(currentRoute.vehicleId);
+  const currentVehicle = publicFleetById.get(currentRoute.vehicleId);
+  // Transfers de aeroporto usam a tarifa de transfer; os restantes percursos, a diária da viatura.
+  const currentVehicleMinPrice = currentVehicle
+    ? (currentRoute.showTransferFrom ? currentVehicle.transferPriceAOA : currentVehicle.pricePerDayAOA)
+    : undefined;
 
   return (
     <section id="rotas" className="section-padding bg-gradient-to-b from-[#001E4A] to-[#174B86] text-white relative overflow-hidden">
@@ -116,7 +123,7 @@ export const RouteEstimator: React.FC = () => {
               <Compass className="w-4 h-4 text-[#FEC228]" />
               <span>Rotas & Destinos</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Mobilidade que acompanha o seu percurso.
             </h2>
             <p className="text-base text-gray-300 mt-3">
@@ -227,6 +234,20 @@ export const RouteEstimator: React.FC = () => {
                         className="h-full w-full object-contain p-4 sm:p-5"
                       />
                     </div>
+                    {currentVehicle && currentVehicleMinPrice !== undefined && (
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E2E8F0] bg-white px-5 py-4">
+                        <div>
+                          <span className="block text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#555B64]">Preço mínimo desta viatura</span>
+                          <span className="block text-sm font-bold text-[#09172C]">{currentVehicle.name}</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="block text-[10px] font-bold uppercase tracking-[0.12em] text-[#555B64]">
+                            {currentRoute.showTransferFrom ? 'Transfer desde' : 'Diária desde'}
+                          </span>
+                          <strong className="block text-xl font-extrabold text-[#236199]">{formatKz(currentVehicleMinPrice)}</strong>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 

@@ -14,7 +14,7 @@ export const PageNotFound: React.FC = () => {
     </Helmet>
     <div className="mx-auto max-w-2xl text-center">
       <span className="text-sm font-extrabold uppercase tracking-[0.3em] text-[#FEC228]">{t('notFound.error')}</span>
-      <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-6xl">{t('notFound.title')}</h1>
+      <h1 className="mt-5 text-2xl sm:text-3xl font-extrabold text-white">{t('notFound.title')}</h1>
       <p className="mx-auto mt-5 max-w-xl text-slate-300">{t('notFound.description')}</p>
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <Link to="/" className="btn-primary justify-center"><Home className="h-4 w-4" /> {t('notFound.home')}</Link>

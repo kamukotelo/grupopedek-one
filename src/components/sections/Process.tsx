@@ -34,7 +34,7 @@ export const Process: React.FC = () => {
             <span>{t('process.tag')}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 font-inter">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4 font-inter">
             {t('process.title')}
           </h2>
         </div>

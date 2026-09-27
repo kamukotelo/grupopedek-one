@@ -11,7 +11,7 @@ export const BrandCTA: React.FC = () => {
       <div className="container-pepek flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>
           <span className="text-[11px] font-bold uppercase tracking-[.14em] text-[#FEC228]">{t('hero.tag')}</span>
-          <h2 className="mt-3 max-w-3xl text-2xl font-extrabold uppercase leading-tight text-white sm:text-4xl">{t('brandCta.title')}</h2>
+          <h2 className="mt-3 max-w-3xl text-2xl sm:text-3xl font-extrabold uppercase leading-tight text-white">{t('brandCta.title')}</h2>
           <p className="mt-3 text-sm text-white/65">{t('brandCta.subtitle')}</p>
         </div>
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">

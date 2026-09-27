@@ -315,8 +315,8 @@
   "about": {
     "tag": "Une Décennie d'Excellence",
     "title": "Notre Histoire Depuis 2014",
-    "p1": "Fondée en 2014 à Luanda, PEPEK GRUPO RENT-A-CAR s'est imposée comme la référence du transport haut de gamme en Angola.",
-    "p2": "Aujourd'hui implantée à Luanda, Huambo et Bengo, notre entreprise accompagne particuliers, entreprises et institutions dans des missions à forte exigence opérationnelle.",
+    "p1": "Fondée en 2014 à Huambo, PEPEK GRUPO RENT A CAR est née d'une ambition claire : élever le niveau de la mobilité et du transport exécutif en Angola.",
+    "p2": "Depuis, nous avons bâti un parcours marqué par l'excellence, la confiance et l'engagement envers chaque client.",
     "val1Title": "Sécurité Absolue",
     "val1Desc": "Flotte suivie par GPS en temps réel et chauffeurs formés à la conduite préventive.",
     "val2Title": "Ponctualité Rigoureuse",
@@ -422,7 +422,7 @@
   },
   "footer": {
     "tagline": "Une expérience premium à chaque kilomètre",
-    "about1": "PEPEK Rent a Car est une entreprise angolaise de mobilité premium et de transport exécutif, fondée en 2014 à Luanda.",
+    "about1": "PEPEK Rent a Car est une entreprise angolaise de mobilité premium et de transport exécutif, fondée en 2014 à Huambo.",
     "about2": "Nous proposons des solutions de mobilité alliant confort, sécurité, discrétion et excellence, pour les entreprises, les institutions, les cadres dirigeants et les particuliers.",
     "badge": "Facturation par le système en AOA et en devises",
     "socialAria": "{{network}} de PEPEK GRUPO",

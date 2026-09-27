@@ -21,7 +21,7 @@ export const AboutTeaser: React.FC = () => {
       <div className="container-pepek grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-16">
         <div>
           <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#236199]">{t('about.storyTag')}</span>
-          <h2 className="mt-4 max-w-xl text-3xl font-extrabold leading-tight text-[#09172C] sm:text-4xl">{t('about.title')}</h2>
+          <h2 className="mt-4 max-w-xl text-2xl sm:text-3xl font-extrabold leading-tight text-[#09172C]">{t('about.title')}</h2>
           <p className="mt-6 text-base leading-8 text-slate-600">{t('footer.about1')}</p>
           <p className="mt-4 text-base leading-8 text-slate-600">{t('footer.about2')}</p>
 
