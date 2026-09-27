@@ -24,12 +24,6 @@ export const Footer: React.FC = () => {
             <p className="text-base font-bold text-white">
               {t('footer.tagline')}
             </p>
-            <p className="text-xs text-white/65 leading-relaxed max-w-md">
-              {t('footer.about1')}
-            </p>
-            <p className="text-xs text-white/65 leading-relaxed max-w-md">
-              {t('footer.about2')}
-            </p>
 
             {/* Social Links with crisp vector SVGs */}
             <div className="flex items-center gap-3 pt-2">
