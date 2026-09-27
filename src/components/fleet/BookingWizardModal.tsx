@@ -135,8 +135,6 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   const extrasTotal = driverSubtotal + fuelCleanSubtotal + babySeatSubtotal + wifiSubtotal;
   const grandTotalAOA = baseRentalSubtotal + extrasTotal;
 
-  if (!isOpen) return null;
-
   const copyProtocol = async (code: string) => {
     try {
       await navigator.clipboard.writeText(code);
@@ -161,37 +159,37 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   };
 
   const buildWhatsAppUrl = (code?: string) => {
-    const formattedTotal = grandTotalAOA.toLocaleString('pt-AO') + ' Kz';
-    const formattedDaily = selectedVehicle.pricePerDayFormatted;
+    // Resumo no mesmo formato do e-mail "Nova Reserva Recebida". Sem emojis:
+    // alguns telemóveis mostravam-nos como "�" na mensagem pré-preenchida.
+    // Formato AOA 35.000,00 (ponto nos milhares, vírgula nos cêntimos).
+    const kz = (value: number) => `AOA ${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const optionalExtras = [
+      withBabySeat ? `Cadeira de Criança (+${kz(babySeatSubtotal)})` : '',
+      withWifi ? `Wi-Fi 5G (+${kz(wifiSubtotal)})` : '',
+    ].filter(Boolean);
+    const divider = '------------------------------\n';
 
-    let msg = `*NOVA SOLICITAÇÃO DE RESERVA — PEPEK RENT A CAR*\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    let msg = `*NOVA RESERVA — PEPEK RENT A CAR*\n` + divider;
     if (code) {
-      msg += `📋 *PROTOCOLO OFICIAL:* ${code}\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `*Reserva:* ${code}\n` + divider;
     }
-    msg += `🚗 *Viatura:* ${selectedVehicle.name} (${selectedVehicle.categoryLabel})\n` +
-      `💰 *Tarifa diária:* ${formattedDaily}\n` +
-      `📅 *Período:* ${pickupDate} às ${pickupTime} até ${dropoffDate} às ${dropoffTime} (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})\n` +
-      `📍 *Levantamento:* ${pickupLocation}\n` +
-      `📍 *Devolução:* ${differentDropoff ? dropoffLocation : pickupLocation}\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `✨ *Extras Selecionados:*\n` +
-      `${withDriver ? `• Motorista Executivo: +${(DRIVER_RATE * rentalDays).toLocaleString('pt-AO')} Kz\n` : ''}` +
-      `${withFuelClean ? `• Higienização e Combustível: +${(FUEL_CLEAN_RATE * rentalDays).toLocaleString('pt-AO')} Kz\n` : ''}` +
-      `${withBabySeat ? `• Cadeira de Criança: +${(BABY_SEAT_RATE * rentalDays).toLocaleString('pt-AO')} Kz\n` : ''}` +
-      `${withWifi ? `• Wi-Fi 5G Ilimitado: +${(WIFI_RATE * rentalDays).toLocaleString('pt-AO')} Kz\n` : ''}` +
-      `${!withDriver && !withFuelClean && !withBabySeat && !withWifi ? '• Nenhum extra adicionado\n' : ''}` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `👤 *Dados do Cliente:*\n` +
-      `• *Nome:* ${fullName.trim() || 'Não informado'}\n` +
-      `• *Tipo:* ${clientType === 'empresa' ? 'Empresa / Institucional' : 'Particular'}\n` +
-      `• *Telefone/WhatsApp:* ${phone.trim() || 'Não informado'}\n` +
-      `• *Email:* ${email.trim() || 'Não informado'}\n` +
-      `${notes ? `• *Observações:* ${notes.trim()}\n` : ''}` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `💎 *VALOR TOTAL ESTIMADO:* ${formattedTotal}\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+    msg += `*Nome:* ${fullName.trim() || 'Não informado'}\n` +
+      `*Tipo de Cliente:* ${clientType === 'empresa' ? 'Empresa / Institucional' : 'Particular'}\n` +
+      `*Telefone/WhatsApp:* ${phone.trim() || 'Não informado'}\n` +
+      `*E-mail:* ${email.trim() || 'Não informado'}\n` +
+      divider +
+      `*Tipo de Carro:* ${selectedVehicle.name} (${kz(selectedVehicle.pricePerDayAOA)}/dia)\n` +
+      `*Motorista:* ${withDriver ? `Sim (+${kz(driverSubtotal)})` : 'Não'}\n` +
+      `*Higienização e Combustível:* ${withFuelClean ? `Sim (+${kz(fuelCleanSubtotal)})` : 'Não'}\n` +
+      `${optionalExtras.length ? `*Outros Extras:* ${optionalExtras.join(', ')}\n` : ''}` +
+      `*Check-in:* ${pickupDate} às ${pickupTime}\n` +
+      `*Check-out:* ${dropoffDate} às ${dropoffTime} (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})\n` +
+      `*Levantamento:* ${pickupLocation}\n` +
+      `*Devolução:* ${differentDropoff ? dropoffLocation : pickupLocation}\n` +
+      `*Mensagem:* ${notes.trim() || '—'}\n` +
+      divider +
+      `*Valor Total Estimado:* ${kz(grandTotalAOA)}\n` +
+      divider +
       `_Por favor confirmar a disponibilidade e enviar a fatura proforma._`;
 
     return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
@@ -263,6 +261,9 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
     setIsCountdownPaused(false);
     onClose();
   };
+
+  // Depois de todos os hooks: sair mais cedo antes do useEffect acima quebrava o React (#310).
+  if (!isOpen) return null;
 
   return (
     <div
@@ -378,7 +379,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
           <div className="bg-[#09172C] px-6 py-3 border-b border-white/10 shrink-0 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs text-white">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span className="font-bold">Dossiê e Protocolo Emitidos com Sucesso</span>
+              <span className="font-bold">Reserva Registada com Sucesso</span>
             </div>
             {protocolCode && (
               <span className="font-mono text-xs text-[#FEC228] font-bold">{protocolCode}</span>
@@ -554,54 +555,74 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 </p>
               </div>
 
-              {/* Extra 1: Motorista */}
-              <div
-                onClick={() => setWithDriver(!withDriver)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
-                  withDriver ? 'bg-[#FEC228]/80 border-[#FEC228] shadow-sm' : 'bg-white border-[#E2E8F0] hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-start gap-3.5">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                    withDriver ? 'bg-[#09172C] text-[#FEC228]' : 'bg-[#F5F6F6] text-[#09172C]'
-                  }`}>
-                    <UserCheck className="w-5 h-5" />
+              {/* Opções obrigatórias: com ou sem motorista / com ou sem combustível e higienização */}
+              {([
+                {
+                  key: 'driver',
+                  icon: UserCheck,
+                  title: 'Motorista',
+                  desc: 'Motorista profissional bilingue, treinado em protocolo e condução defensiva. Dispensa carta de condução do cliente.',
+                  withLabel: 'Com motorista',
+                  withoutLabel: 'Sem motorista',
+                  value: withDriver,
+                  set: setWithDriver,
+                  rate: DRIVER_RATE,
+                },
+                {
+                  key: 'fuel-clean',
+                  icon: Fuel,
+                  title: 'Combustível e Higienização',
+                  desc: 'Viatura entregue atestada e devolvida sem necessidade de reabastecimento ou lavagem.',
+                  withLabel: 'Com combustível e higienização',
+                  withoutLabel: 'Sem combustível e higienização',
+                  value: withFuelClean,
+                  set: setWithFuelClean,
+                  rate: FUEL_CLEAN_RATE,
+                },
+              ] as const).map(({ key, icon: Icon, title, desc, withLabel, withoutLabel, value, set, rate }) => (
+                <fieldset key={key} className="p-5 rounded-2xl border border-[#E2E8F0] bg-white">
+                  <legend className="sr-only">{title}</legend>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#F5F6F6] text-[#09172C]">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#09172C] text-sm">{title}</h4>
+                        <p className="text-xs text-[#555B64] mt-0.5">{desc}</p>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span className="text-sm font-extrabold text-[#09172C] block">AOA {rate.toLocaleString('de-DE', { minimumFractionDigits: 2 })}</span>
+                      <span className="text-[10px] text-[#555B64]">por dia</span>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-[#09172C] text-sm">Chauffeur / Motorista Profissional</h4>
-                    <p className="text-xs text-[#555B64] mt-0.5">Motorista bilingue treinado em protocolo diplomático e condução defensiva.</p>
-                    <span className="inline-block mt-1 text-[11px] font-bold text-[#236199]">Isenta a necessidade de carta de condução do cliente</span>
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { label: withoutLabel, active: !value, onSelect: () => set(false), extra: 'Sem custo adicional' },
+                      { label: withLabel, active: value, onSelect: () => set(true), extra: `+${(rate * rentalDays).toLocaleString('pt-AO')} Kz (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})` },
+                    ].map((option) => (
+                      <button
+                        key={option.label}
+                        type="button"
+                        aria-pressed={option.active}
+                        onClick={option.onSelect}
+                        className={`px-4 py-3 rounded-xl border text-left transition-all cursor-pointer ${
+                          option.active ? 'bg-[#FEC228]/80 border-[#FEC228] shadow-sm' : 'bg-white border-[#E2E8F0] hover:border-gray-300'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2 text-xs font-extrabold text-[#09172C]">
+                          <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${option.active ? 'border-[#09172C]' : 'border-gray-300'}`}>
+                            {option.active && <span className="w-2 h-2 rounded-full bg-[#09172C]" />}
+                          </span>
+                          {option.label}
+                        </span>
+                        <span className="block mt-1 pl-6 text-[10px] text-[#555B64]">{option.extra}</span>
+                      </button>
+                    ))}
                   </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <span className="text-sm font-extrabold text-[#09172C] block">35.000 Kz/dia</span>
-                  <span className="text-[10px] text-[#555B64]">{(DRIVER_RATE * rentalDays).toLocaleString('pt-AO')} Kz total</span>
-                </div>
-              </div>
-
-              {/* Extra 2: Higienização & Combustível */}
-              <div
-                onClick={() => setWithFuelClean(!withFuelClean)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
-                  withFuelClean ? 'bg-[#FEC228]/80 border-[#FEC228] shadow-sm' : 'bg-white border-[#E2E8F0] hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-start gap-3.5">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                    withFuelClean ? 'bg-[#09172C] text-[#FEC228]' : 'bg-[#F5F6F6] text-[#09172C]'
-                  }`}>
-                    <Fuel className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-[#09172C] text-sm">Higienização e Combustível Garantido</h4>
-                    <p className="text-xs text-[#555B64] mt-0.5">Viatura entregue atestada e devolução sem necessidade de reabastecimento ou lavagem.</p>
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <span className="text-sm font-extrabold text-[#09172C] block">35.000 Kz/dia</span>
-                  <span className="text-[10px] text-[#555B64]">{(FUEL_CLEAN_RATE * rentalDays).toLocaleString('pt-AO')} Kz total</span>
-                </div>
-              </div>
+                </fieldset>
+              ))}
 
               {/* Extra 3: Cadeira de Criança */}
               <div
@@ -803,19 +824,15 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     <span className="font-bold">{baseRentalSubtotal.toLocaleString('pt-AO')} Kz</span>
                   </div>
 
-                  {withDriver && (
-                    <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
-                      <span className="text-[#555B64]">Chauffeur / Motorista ({rentalDays} dias):</span>
-                      <span className="font-semibold">+{driverSubtotal.toLocaleString('pt-AO')} Kz</span>
-                    </div>
-                  )}
+                  <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
+                    <span className="text-[#555B64]">Motorista:</span>
+                    <span className="font-semibold">{withDriver ? `Sim · +${driverSubtotal.toLocaleString('pt-AO')} Kz (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})` : 'Não'}</span>
+                  </div>
 
-                  {withFuelClean && (
-                    <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
-                      <span className="text-[#555B64]">Higienização & Combustível ({rentalDays} dias):</span>
-                      <span className="font-semibold">+{fuelCleanSubtotal.toLocaleString('pt-AO')} Kz</span>
-                    </div>
-                  )}
+                  <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
+                    <span className="text-[#555B64]">Higienização e Combustível:</span>
+                    <span className="font-semibold">{withFuelClean ? `Sim · +${fuelCleanSubtotal.toLocaleString('pt-AO')} Kz (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})` : 'Não'}</span>
+                  </div>
 
                   {withBabySeat && (
                     <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
@@ -858,10 +875,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <div>
                   <h4 className="font-bold text-sm text-[#FEC228] flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    Envio Imediato com Registo de Protocolo
+                    Envio Imediato com Registo da Reserva
                   </h4>
                   <p className="text-xs text-gray-300 mt-1">
-                    Ao confirmar, a reserva é guardada no sistema oficial, é gerado o protocolo executivo e o pedido é encaminhado via WhatsApp para confirmação imediata.
+                    Ao confirmar, a reserva é guardada no sistema oficial, é gerado o número da reserva e o pedido é encaminhado via WhatsApp para confirmação imediata.
                   </p>
                 </div>
 
@@ -911,7 +928,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               {/* Protocol Card */}
               <div className="max-w-lg mx-auto p-5 rounded-2xl bg-white border-2 border-[#236199] shadow-md text-left space-y-4">
                 <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-                  <span className="text-[11px] font-bold uppercase text-gray-500">Protocolo Oficial da Operação</span>
+                  <span className="text-[11px] font-bold uppercase text-gray-500">Reserva</span>
                   <button
                     type="button"
                     onClick={() => copyProtocol(protocolCode || '')}

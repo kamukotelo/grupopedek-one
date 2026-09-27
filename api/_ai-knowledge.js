@@ -37,8 +37,8 @@ DADOS FACTUAIS OFICIAIS E REGRAS OPERACIONAIS (BASE EXATA DOS PDFs E TABELAS 202
 - SUVs Executivos / Luxo / Pick-ups 4x4 / Blindados: 1.500.000 Kz
 
 3. TAXAS ADICIONAIS E SERVIÇOS FACULTATIVOS:
-- Chauffeur / Motorista Executivo: 35.000 Kz/dia (dentro ou fora das localidades — motoristas bilingues PT/EN/FR, fardados, condução defensiva e sigilo).
-- Higienização e Combustível: Mínimo 25.000 Kz, Máximo 100.000 Kz.
+- Chauffeur / Motorista Executivo: 35.000 Kz/dia, opção "com" ou "sem motorista" no formulário de reserva (dentro ou fora das localidades — motoristas bilingues PT/EN/FR, fardados, condução defensiva e sigilo).
+- Higienização e Combustível: 35.000 Kz/dia (opção "com" ou "sem" no formulário de reserva).
 - Entrega e Recolha de Viaturas (Pick-up/Drop-off em hotel, residência ou empresa): Mínimo 15.000 Kz, Máximo 30.000 Kz.
 - Deslocação Interprovincial Geral: Mínimo 100.000 Kz, Máximo 700.000 Kz (ver tabela por província).
 - Nota Fiscal: Os custos tabelados não incluem IVA (14%) ou outras taxas legais aplicáveis. Faturação pelo sistema em Kwanzas (AOA) e moeda estrangeira (USD/EUR) para entidades diplomáticas e multinacionais.
