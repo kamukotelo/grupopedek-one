@@ -1,5 +1,5 @@
 import React from 'react';
-import { type LucideIcon } from 'lucide-react';
+import { CheckCircle2, type LucideIcon } from 'lucide-react';
 
 type Crumb = { label: string; to?: string };
 
@@ -10,13 +10,15 @@ interface PageHeroProps {
   icon: LucideIcon;
   /** Trilho de navegação; "Início" é sempre adicionado à cabeça. */
   breadcrumb: Crumb[];
+  /** Pontos-chave opcionais apresentados em lista abaixo da descrição. */
+  highlights?: string[];
 }
 
 /**
  * Cabeçalho institucional partilhado pelas páginas internas.
  * Garante um único <h1> por página e um breadcrumb indexável (schema.org).
  */
-export const PageHero: React.FC<PageHeroProps> = ({ eyebrow, title, description, icon: Icon, breadcrumb }) => {
+export const PageHero: React.FC<PageHeroProps> = ({ eyebrow, title, description, icon: Icon, breadcrumb, highlights }) => {
   const trail: Crumb[] = [{ label: 'Início', to: '/' }, ...breadcrumb];
 
   const schema = {
@@ -47,6 +49,17 @@ export const PageHero: React.FC<PageHeroProps> = ({ eyebrow, title, description,
         </h1>
 
         <p className="mt-6 max-w-2xl text-base leading-8 text-white/75">{description}</p>
+
+        {highlights && highlights.length > 0 && (
+          <ul className="mt-6 grid max-w-2xl gap-3">
+            {highlights.map((item) => (
+              <li key={item} className="flex items-start gap-3 text-base leading-7 text-white/85">
+                <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-[#FEC228]" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <script type="application/ld+json">{JSON.stringify(schema)}</script>

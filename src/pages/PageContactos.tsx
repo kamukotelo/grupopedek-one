@@ -35,8 +35,13 @@ export const PageContactos: React.FC = () => (
     <PageHero
       icon={Phone}
       eyebrow="Central de operações"
-      title="Falamos consigo a qualquer hora."
-      description="Talatona, Luanda. Linha directa, WhatsApp e e-mail disponíveis 24 horas por dia, todos os dias, para pedidos urgentes, propostas corporativas e apoio durante o serviço."
+      title="Atendimento 24/7 · Talatona, Luanda"
+      description="Linha direta, WhatsApp e e-mail disponíveis 24 horas por dia, 7 dias por semana."
+      highlights={[
+        'Pedidos urgentes e assistência operacional',
+        'Propostas e solicitações corporativas',
+        'Acompanhamento e apoio durante o serviço',
+      ]}
       breadcrumb={[{ label: 'Contactos' }]}
     />
 
