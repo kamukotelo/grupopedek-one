@@ -402,10 +402,16 @@
   }
 
   .section-title {
-    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
-    font-weight: 600 !important;
+    font-size: 1.5rem;
+    font-weight: 800 !important;
     color: var(--navy);
     line-height: 1.12;
+  }
+
+  @media (min-width: 640px) {
+    .section-title {
+      font-size: 1.875rem;
+    }
   }
 
   .section-subtitle {

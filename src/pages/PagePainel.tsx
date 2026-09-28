@@ -23,7 +23,7 @@ export const PagePainel: React.FC = () => {
       <div className="min-h-screen bg-[#001E4A] flex items-center justify-center pt-28">
         {!currentUser && (
           <div className="text-center text-white space-y-4 p-8">
-            <h1 className="text-2xl font-bold">{t('pages.painel.title')}</h1>
+            <h1 className="text-2xl sm:text-3xl font-extrabold">{t('pages.painel.title')}</h1>
             <p className="text-gray-400">{t('pages.painel.subtitle')}</p>
           </div>
         )}
