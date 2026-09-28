@@ -75,7 +75,8 @@ export const Hero: React.FC = () => {
     if (!video) return;
     video.muted = isStoryMuted;
     if (isStoryPlaying) {
-      // AbortError = a fonte mudou a meio (p.ex. o stream do Mux a ligar-se); não é uma pausa.
+      // AbortError = a fonte mudou a meio (o stream do Mux a ligar-se); não é uma pausa.
+      // Se o autoplay que o StreamVideo tenta a seguir for recusado, avisa via onPlayRejected.
       void video.play().catch((error: unknown) => {
         if ((error as DOMException)?.name !== 'AbortError') setIsStoryPlaying(false);
       });
@@ -203,6 +204,7 @@ export const Hero: React.FC = () => {
                         playsInline
                         preload={isActive ? 'auto' : 'metadata'}
                         onPlay={isActive ? () => setIsStoryPlaying(true) : undefined}
+                        onPlayRejected={isActive ? () => setIsStoryPlaying(false) : undefined}
                         onPause={isActive ? () => setIsStoryPlaying(false) : undefined}
                         onTimeUpdate={isActive ? (event) => {
                           if (event.currentTarget.currentTime >= 12 && !event.currentTarget.dataset.previewComplete) {
