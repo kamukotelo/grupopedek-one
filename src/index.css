@@ -638,3 +638,6 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
+
+/* Visitante que já viu a abertura nesta sessão: não mostrar a versão pré-renderizada. */
+.pepek-intro-seen .pepek-intro { display: none; }

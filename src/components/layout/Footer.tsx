@@ -4,9 +4,13 @@ import { Phone, Mail, MapPin, MessageSquare, ArrowUp, ShieldCheck } from 'lucide
 import { Logo } from '../ui/Logo';
 import { OFFICIAL_WHATSAPP_NUMBER, generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { Link } from 'react-router-dom';
+import { LANDING_LINKS } from '../../data/seoLandingLinks';
+
+const POPULAR_TITLE = { pt: 'Serviços mais procurados', en: 'Popular services', fr: 'Services les plus demandés' } as const;
 
 export const Footer: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = (['en', 'fr'].includes((i18n.resolvedLanguage ?? '').slice(0, 2)) ? (i18n.resolvedLanguage ?? '').slice(0, 2) : 'pt') as 'pt' | 'en' | 'fr';
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -148,6 +152,18 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
+
+        {/* Links internos para as páginas de destino SEO */}
+        <nav aria-label={POPULAR_TITLE[lang]} className="mb-12 border-t border-white/10 pt-8">
+          <h4 className="text-xs font-bold uppercase tracking-widest text-white">{POPULAR_TITLE[lang]}</h4>
+          <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2.5 text-xs text-white/65">
+            {LANDING_LINKS.map(({ slug, label }) => (
+              <li key={slug}>
+                <Link to={`/${slug}`} className="hover:text-[#FEC228]">{label[lang]}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* Bottom Strip */}
         <div className="pt-8 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">

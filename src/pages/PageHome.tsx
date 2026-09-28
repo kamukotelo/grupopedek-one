@@ -26,7 +26,6 @@ export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = () =
         <meta property="og:title" content={t('pages.home.ogTitle')} />
         <meta property="og:description" content={t('pages.home.ogDescription')} />
         <meta property="og:url" content="https://pepekgrupo.com/" />
-        <meta property="og:type" content="website" />
         <link rel="canonical" href="https://pepekgrupo.com/" />
       </Helmet>
 

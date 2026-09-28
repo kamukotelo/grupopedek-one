@@ -19,12 +19,14 @@ const excludeInternalReviewPages = (): Plugin => ({
   }
 })
 
-export default defineConfig({
+// O build SSR (`vite build --ssr src/entry-server.tsx`) só serve para pré-renderizar
+// as páginas; não copia public/ nem gera service worker.
+export default defineConfig(({ isSsrBuild }) => ({
+  build: { copyPublicDir: !isSsrBuild },
   plugins: [
     react(),
-    excludeInternalReviewPages(),
     tailwindcss(),
-    VitePWA({
+    ...(isSsrBuild ? [] : [excludeInternalReviewPages(), VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon-pepek.png', 'robots.txt'],
       manifest: {
@@ -89,7 +91,7 @@ export default defineConfig({
           }
         ]
       }
-    })
+    })])
   ],
   resolve: { alias: { '@': '/src' } }
-})
+}))

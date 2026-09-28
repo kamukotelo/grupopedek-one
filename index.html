@@ -10,43 +10,154 @@
     <meta data-static-seo name="description" content="PEPEK GRUPO RENT-A-CAR — Mobilidade premium em Angola desde 2014. Rent-a-car, mobilidade executiva, transfers aeroporto e soluções corporativas em Luanda, Huambo e Bengo. Escolha de embaixadas, governo e empresas líderes." />
     <meta name="robots" content="index, follow" />
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta data-static-seo property="og:type" content="website" />
     <meta data-static-seo property="og:url" content="https://pepekgrupo.com/" />
     <meta data-static-seo property="og:title" content="PEPEK GRUPO RENT-A-CAR | Mobilidade Premium em Angola" />
     <meta data-static-seo property="og:description" content="Movemos quem move Angola. Rent-a-car, mobilidade executiva e soluções corporativas desde 2014." />
-    <meta property="og:image" content="https://pepekgrupo.com/logo-pepek-dark.png" />
+    <meta data-static-seo property="og:image" content="https://pepekgrupo.com/og-pepek.jpg" />
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="PEPEK GRUPO RENT-A-CAR" />
-    <meta name="twitter:description" content="Mobilidade premium em Angola. Movemos quem move Angola." />
-    <meta name="twitter:image" content="https://pepekgrupo.com/logo-pepek-dark.png" />
-    <!-- Schema.org -->
+    <meta data-static-seo name="twitter:card" content="summary_large_image" />
+    <meta data-static-seo name="twitter:title" content="PEPEK GRUPO RENT-A-CAR" />
+    <meta data-static-seo name="twitter:description" content="Mobilidade premium em Angola. Movemos quem move Angola." />
+    <meta data-static-seo name="twitter:image" content="https://pepekgrupo.com/og-pepek.jpg" />
+    <!-- Schema.org: empresa (AutoRental/LocalBusiness) e site. As páginas acrescentam Service, FAQPage e BreadcrumbList. -->
     <script type="application/ld+json">
-    {
+{
       "@context": "https://schema.org",
-      "@type": "CarRental",
-      "name": "PEPEK GRUPO RENT-A-CAR",
-      "description": "Mobilidade premium em Angola desde 2014. Rent-a-car, mobilidade executiva, transfers e soluções corporativas.",
-      "url": "https://pepekgrupo.com/",
-      "telephone": "+244923719090",
-      "email": "geral@pepekgrupo.com",
-      "foundingDate": "2014",
-      "areaServed": ["Luanda", "Huambo", "Bengo", "Angola"],
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Rua Reino do Bailundo",
-        "addressLocality": "Talatona, Luanda",
-        "addressCountry": "AO"
-      },
-      "priceRange": "$$$$",
-      "image": "https://pepekgrupo.com/logo-pepek-dark.png",
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-        "opens": "00:00",
-        "closes": "23:59"
-      },
-      "sameAs": ["https://wa.me/244923719090"]
+      "@graph": [
+        {
+          "@type": [
+            "AutoRental",
+            "Organization"
+          ],
+          "@id": "https://pepekgrupo.com/#organization",
+          "name": "PEPEK GRUPO RENT-A-CAR",
+          "alternateName": [
+            "PEPEK GRUPO",
+            "PEPEK Rent a Car",
+            "Pepek Rent-a-Car Angola"
+          ],
+          "description": "Rent-a-car e mobilidade executiva em Angola desde 2014: aluguer de viaturas com ou sem motorista, transfers de aeroporto em Luanda, viaturas de luxo e blindadas, vans e contratos corporativos.",
+          "url": "https://pepekgrupo.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://pepekgrupo.com/logo-pepek-dark.png",
+            "width": 1800,
+            "height": 599
+          },
+          "image": [
+            "https://pepekgrupo.com/og-pepek.jpg",
+            "https://pepekgrupo.com/logo-pepek-dark.png"
+          ],
+          "telephone": "+244923719090",
+          "email": "geral@pepekgrupo.com",
+          "foundingDate": "2014",
+          "foundingLocation": {
+            "@type": "Place",
+            "name": "Huambo, Angola"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rua Reino do Bailundo",
+            "addressLocality": "Talatona",
+            "addressRegion": "Luanda",
+            "addressCountry": "AO"
+          },
+          "areaServed": [
+            {
+              "@type": "Country",
+              "name": "Angola"
+            },
+            {
+              "@type": "City",
+              "name": "Luanda"
+            },
+            {
+              "@type": "City",
+              "name": "Huambo"
+            },
+            {
+              "@type": "AdministrativeArea",
+              "name": "Bengo"
+            },
+            {
+              "@type": "AdministrativeArea",
+              "name": "Benguela"
+            }
+          ],
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "00:00",
+            "closes": "23:59"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer service",
+              "telephone": "+244923719090",
+              "email": "geral@pepekgrupo.com",
+              "areaServed": "AO",
+              "availableLanguage": [
+                "Portuguese",
+                "English",
+                "French"
+              ],
+              "hoursAvailable": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday"
+                ],
+                "opens": "00:00",
+                "closes": "23:59"
+              }
+            }
+          ],
+          "currenciesAccepted": "AOA, USD, EUR",
+          "paymentAccepted": "Multicaixa Express, Cartão, Transferência bancária, MB WAY",
+          "priceRange": "$$ - $$$$",
+          "knowsLanguage": [
+            "pt",
+            "en",
+            "fr"
+          ],
+          "sameAs": [
+            "https://www.instagram.com/pepekgruporentacar/",
+            "https://www.facebook.com/ppkrentacarangola/",
+            "https://www.linkedin.com/company/pepek-grupo-rent-a-car/",
+            "https://www.tiktok.com/@pepek_rentacar",
+            "https://wa.me/244923719090"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://pepekgrupo.com/#website",
+          "url": "https://pepekgrupo.com/",
+          "name": "PEPEK GRUPO RENT-A-CAR",
+          "inLanguage": [
+            "pt",
+            "en",
+            "fr"
+          ],
+          "publisher": {
+            "@id": "https://pepekgrupo.com/#organization"
+          }
+        }
+      ]
     }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,6 +166,11 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;450;500;600;700&display=swap" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;450;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;450;500;600;700&display=swap" rel="stylesheet" /></noscript>
+    <script>
+      // A animação de abertura mostra-se uma vez por sessão (ver SplashScreen.tsx);
+      // esconde já a versão pré-renderizada para quem a viu nesta sessão.
+      try { if (sessionStorage.getItem('pepek_intro_seen') === '1') document.documentElement.classList.add('pepek-intro-seen'); } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

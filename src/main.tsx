@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { i18nReady } from './i18n';
+import { capturePrerenderedMain } from './lib/prerenderedMain';
 import './index.css';
 
 /**
@@ -14,9 +15,12 @@ import './index.css';
  */
 document.querySelectorAll('[data-static-seo]').forEach((node) => node.remove());
 
+const rootElement = document.getElementById('root')!;
+capturePrerenderedMain(rootElement);
+
 // Em português as traduções já estão no bundle e isto resolve de imediato; em
 // inglês/francês espera-se pelo chunk do idioma para não pintar texto em PT.
-const renderApp = () => ReactDOM.createRoot(document.getElementById('root')!).render(
+const renderApp = () => ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
