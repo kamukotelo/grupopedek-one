@@ -15,7 +15,7 @@ export const BrandCTA: React.FC = () => {
           <p className="mt-3 text-sm text-white/65">{t('brandCta.subtitle')}</p>
         </div>
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-          <a href="tel:+244923000072" className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/20 px-5 text-xs font-bold"><Phone className="h-4 w-4 text-[#FEC228]" />+244 923 000 072</a>
+          <a href="tel:+244923719090" className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/20 px-5 text-xs font-bold"><Phone className="h-4 w-4 text-[#FEC228]" />+244 923 719 090</a>
           <button type="button" onClick={() => navigate('/reservar')} className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#FEC228] px-6 text-xs font-extrabold uppercase text-[#09172C]">{t('hero.ctaBooking')}<ArrowRight className="h-4 w-4" /></button>
         </div>
       </div>

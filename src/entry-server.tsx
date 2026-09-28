@@ -25,7 +25,11 @@ export async function renderRoute(url: string): Promise<string> {
       <StaticRouter location={url}>
         <App />
       </StaticRouter>
-    </React.StrictMode>
+    </React.StrictMode>,
+    // Por omissão o React separa blocos de Suspense com mais de ~12 KB (fallback
+    // visível + conteúdo num <div hidden> trocado por script). Queremos HTML
+    // final, com o conteúdo já no sítio, para motores de busca e sem JavaScript.
+    { progressiveChunkSize: Number.POSITIVE_INFINITY }
   );
   const reader = prelude.getReader();
   const decoder = new TextDecoder();

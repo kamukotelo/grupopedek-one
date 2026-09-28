@@ -53,6 +53,9 @@ for (const route of PRERENDER_ROUTES) {
   const title = head.find((tag) => tag.startsWith('<title'));
   const canonical = head.find((tag) => /rel="canonical"/.test(tag));
   if (!title || !canonical || !/<h1\b/.test(body)) failures.push(`${route}: falta title/canonical/h1`);
+  // Conteúdo tem de sair já no sítio: sem fallbacks de Suspense nem segmentos
+  // ocultos trocados por script (o Google dá menos peso a texto oculto).
+  if (/<template id="B:|hidden id="S:|\$RC\(/.test(body)) failures.push(`${route}: HTML ainda em modo streaming (Suspense por resolver)`);
 
   const page = template
     // As tags estáticas genéricas do index.html dão lugar às da página.

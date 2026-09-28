@@ -9,7 +9,7 @@ export const PageNotFound: React.FC = () => {
   return (
   <section className="flex min-h-[75vh] items-center bg-[#001E4A] px-6 pb-20 pt-40 text-white">
     <Helmet>
-      <title>{t('notFound.metaTitle')} | PEPEK GRUPO</title>
+      <title>{`${t('notFound.metaTitle')} | PEPEK GRUPO`}</title>
       <meta name="robots" content="noindex, nofollow" />
     </Helmet>
     <div className="mx-auto max-w-2xl text-center">
