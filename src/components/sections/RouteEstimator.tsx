@@ -16,8 +16,8 @@ interface RouteOption {
   description: string;
   /** Mostra no cartão o preço de transfer mais baixo da frota. */
   showTransferFrom?: boolean;
-  /** Preço mínimo fixo do percurso (ex.: deslocação interprovincial), mostrado no cartão e no painel. */
-  minPriceAOA?: number;
+  /** Taxa de deslocação do "Tarifário de Rotas Interprovinciais (2026)"; somada à diária da viatura. */
+  displacementFeeAOA?: number;
 }
 
 const officialVehicleImages = new Map(
@@ -28,6 +28,14 @@ const officialVehicleImages = new Map(
 );
 
 const publicFleetById = new Map(PUBLIC_FLEET.map((vehicle) => [vehicle.id, vehicle]));
+
+// Preço mínimo de um percurso interprovincial: 1 dia de aluguer da viatura indicada + taxa de deslocação.
+const interprovincialMinPrice = (route: RouteOption): number | undefined => {
+  const vehicle = publicFleetById.get(route.vehicleId);
+  return vehicle && route.displacementFeeAOA !== undefined
+    ? vehicle.pricePerDayAOA + route.displacementFeeAOA
+    : undefined;
+};
 
 // Transfer mais barato da frota pública — acompanha a tabela de preços sem valor fixo no código.
 const lowestTransferAOA = Math.min(
@@ -88,6 +96,7 @@ export const RouteEstimator: React.FC = () => {
       vehicle: '4x4 / Pick-up (Toyota LC HZ / Mitsubishi L200)',
       vehicleId: 'toyota-lc-hz',
       badge: 'Interprovincial Litoral',
+      displacementFeeAOA: 100000,
       description: 'Viagem técnica ou institucional com viatura robusta e suporte operacional em tempo real.'
     },
     {
@@ -100,7 +109,7 @@ export const RouteEstimator: React.FC = () => {
       vehicle: '4x4 / SUV de Longo Curso (Toyota LC V8 / Hilux 4x4)',
       vehicleId: 'toyota-lc-v8-2021',
       badge: 'Expedição Nacional',
-      minPriceAOA: 250000,
+      displacementFeeAOA: 300000,
       description: 'Pacote completo de missão interprovincial com viatura revista, equipamento de emergência e assistência técnica em todo o percurso.'
     }
   ];
@@ -109,11 +118,12 @@ export const RouteEstimator: React.FC = () => {
   const currentVehicleImage = officialVehicleImages.get(currentRoute.vehicleId);
   const currentVehicle = publicFleetById.get(currentRoute.vehicleId);
   // Transfers de aeroporto usam a tarifa de transfer; os restantes percursos, a diária da viatura.
-  const currentVehicleMinPrice = currentRoute.minPriceAOA ?? (currentVehicle
+  const currentRouteMinPrice = interprovincialMinPrice(currentRoute);
+  const currentVehicleMinPrice = currentRouteMinPrice ?? (currentVehicle
     ? (currentRoute.showTransferFrom ? currentVehicle.transferPriceAOA : currentVehicle.pricePerDayAOA)
     : undefined);
-  const currentPriceLabel = currentRoute.minPriceAOA
-    ? 'Preço mínimo do percurso'
+  const currentPriceLabel = currentRouteMinPrice !== undefined
+    ? 'Preço mínimo · a partir de 1 dia'
     : currentRoute.showTransferFrom ? 'Transfer desde' : 'Diária desde';
 
   return (
@@ -185,9 +195,9 @@ export const RouteEstimator: React.FC = () => {
                     {route.name}
                   </h3>
 
-                  {(route.showTransferFrom || route.minPriceAOA) && (
+                  {(route.showTransferFrom || route.displacementFeeAOA !== undefined) && (
                     <p className="text-xs text-gray-300 mb-2">
-                      Preços desde <strong className="text-sm font-extrabold text-[#FEC228]">{formatKz(route.minPriceAOA ?? lowestTransferAOA)}</strong>
+                      Preços desde <strong className="text-sm font-extrabold text-[#FEC228]">{formatKz(interprovincialMinPrice(route) ?? lowestTransferAOA)}</strong>
                     </p>
                   )}
 
@@ -243,7 +253,7 @@ export const RouteEstimator: React.FC = () => {
                     {currentVehicle && currentVehicleMinPrice !== undefined && (
                       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E2E8F0] bg-white px-5 py-4">
                         <div>
-                          <span className="block text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#555B64]">{currentRoute.minPriceAOA ? 'Viatura indicada' : 'Preço mínimo desta viatura'}</span>
+                          <span className="block text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#555B64]">{currentRouteMinPrice !== undefined ? 'Viatura indicada' : 'Preço mínimo desta viatura'}</span>
                           <span className="block text-sm font-bold text-[#09172C]">{currentVehicle.name}</span>
                         </div>
                         <div className="text-right">
@@ -252,6 +262,22 @@ export const RouteEstimator: React.FC = () => {
                           </span>
                           <strong className="block text-xl font-extrabold text-[#236199]">{formatKz(currentVehicleMinPrice)}</strong>
                         </div>
+                        {currentRoute.displacementFeeAOA !== undefined && (
+                          <div className="w-full space-y-1.5 border-t border-[#E2E8F0] pt-3 text-xs text-[#09172C]">
+                            <div className="flex justify-between gap-4">
+                              <span>Aluguer diário da viatura</span>
+                              <span className="font-bold">{formatKz(currentVehicle.pricePerDayAOA)}</span>
+                            </div>
+                            <div className="flex justify-between gap-4">
+                              <span>Taxa de deslocação ({currentRoute.to})</span>
+                              <span className="font-bold">{formatKz(currentRoute.displacementFeeAOA)}</span>
+                            </div>
+                            <p className="pt-1 text-[11px] leading-relaxed text-[#555B64]">
+                              Motorista, combustível, alimentação, hospedagem e demais despesas adicionais não incluídos.
+                              {currency !== 'AOA' && ` Valor em ${currency} convertido ao câmbio do dia na facturação.`}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -305,7 +331,12 @@ export const RouteEstimator: React.FC = () => {
                 </div>
 
                 <a
-                  href={generateQuickWhatsAppUrl(`Reserva de Rota: ${currentRoute.name} (${currency})`)}
+                  href={generateQuickWhatsAppUrl(
+                    `Reserva de Rota: ${currentRoute.name} (${currency})`
+                      + (currentVehicle && currentRouteMinPrice !== undefined
+                        ? ` — ${currentVehicle.name}, preço mínimo ${formatKz(currentRouteMinPrice)}`
+                        : '')
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto px-6 py-3.5 bg-[#236199] hover:bg-[#0C2E60] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
