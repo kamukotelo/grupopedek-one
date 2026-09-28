@@ -388,7 +388,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                         }`}
                       >
                         <div className="relative flex h-32 items-center justify-center overflow-hidden border-b border-white/10 bg-cover bg-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(v)}')` }}>
-                          <img src={v.primaryImage} alt={v.name} style={{ '--fleet-image-scale': getFleetCarouselScale(v.id) } as React.CSSProperties} className="fleet-vehicle-image is-carousel h-full w-full object-contain drop-shadow-[0_10px_12px_rgba(9,23,44,0.28)]" />
+                          <img src={v.primaryImage} alt={v.name} loading="lazy" decoding="async" style={{ '--fleet-image-scale': getFleetCarouselScale(v.id) } as React.CSSProperties} className="fleet-vehicle-image is-carousel h-full w-full object-contain drop-shadow-[0_10px_12px_rgba(9,23,44,0.28)]" />
                           {selectedVehicle.id === v.id && (
                             <span className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#FEC228] text-[#09172C] shadow-md">
                               <Check className="h-4 w-4" />
@@ -407,7 +407,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                 {/* Selected Vehicle Focus Spotlight Box */}
                 <div className="p-5 rounded-2xl bg-[#174B86] text-white border border-[#236199]/55 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
                   <div className="w-full sm:w-1/2 h-44 rounded-xl overflow-hidden relative shadow-lg bg-cover bg-center border border-white/10 flex items-center justify-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
-                    <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} style={{ '--fleet-image-scale': getFleetCarouselScale(selectedVehicle.id) } as React.CSSProperties} className="fleet-vehicle-image is-carousel h-full w-full object-contain drop-shadow-[0_16px_20px_rgba(9,23,44,0.3)]" />
+                    <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} loading="lazy" decoding="async" style={{ '--fleet-image-scale': getFleetCarouselScale(selectedVehicle.id) } as React.CSSProperties} className="fleet-vehicle-image is-carousel h-full w-full object-contain drop-shadow-[0_16px_20px_rgba(9,23,44,0.3)]" />
                     <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-[#09172C] text-[#FEC228] border border-[#FEC228]/40 text-[10px] font-extrabold uppercase shadow-md">
                       {ft(selectedVehicle.categoryLabel)}
                     </div>

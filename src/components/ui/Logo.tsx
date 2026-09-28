@@ -7,8 +7,8 @@ interface LogoProps {
 }
 
 const SOURCES: Record<'light' | 'dark', string> = {
-  light: '/logo-pepek-light.png',
-  dark: '/logo-pepek-dark.png',
+  light: '/logo-pepek-light.webp',
+  dark: '/logo-pepek-dark.webp',
 };
 
 export const Logo: React.FC<LogoProps> = ({ className = '', variant = 'dark', height = 62 }) => {
@@ -17,6 +17,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', variant = 'dark', he
       <img
         src={SOURCES[variant]}
         alt="PEPEK GRUPO RENT-A-CAR"
+        decoding="async"
         className="w-auto h-full object-contain transition-all duration-300 group-hover:scale-102"
         style={{ maxHeight: height }}
       />

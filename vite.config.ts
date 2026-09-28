@@ -1,15 +1,32 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { readFile, rm } from 'node:fs/promises'
+import { resolve } from 'node:path'
+
+// Páginas internas de revisão da frota (geradas por scripts/generate-fleet-*.mjs).
+// Ficam em public/ para se consultarem com `npm run dev`, mas não vão para produção.
+// As imagens em fleet-carousel/ são usadas pelo site e mantêm-se no deploy.
+const INTERNAL_REVIEW_PAGES = ['fleet-carousel/index.html', 'fleet-migration-beta']
+
+const excludeInternalReviewPages = (): Plugin => ({
+  name: 'pepek:exclude-internal-review-pages',
+  apply: 'build',
+  async writeBundle(options) {
+    const outDir = options.dir ?? resolve(process.cwd(), 'dist')
+    await Promise.all(INTERNAL_REVIEW_PAGES.map((page) => rm(resolve(outDir, page), { recursive: true, force: true })))
+  }
+})
 
 export default defineConfig({
   plugins: [
     react(),
+    excludeInternalReviewPages(),
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'favicon-pepek.png', 'robots.txt'],
+      includeAssets: ['favicon-pepek.png', 'robots.txt'],
       manifest: {
         name: 'PEPEK GRUPO RENT-A-CAR',
         short_name: 'PEPEK GRUPO',
@@ -30,9 +47,34 @@ export default defineConfig({
         // loaded when needed instead of forcing every visitor to pre-cache the
         // entire fleet catalogue.
         globPatterns: ['**/*.{js,css,html,ico,svg}'],
+        // Logótipos de clientes e páginas internas de revisão da frota não fazem
+        // parte do esqueleto da app; os logótipos entram na cache de imagens ao serem vistos.
+        globIgnores: ['clients-color/**', 'fleet-carousel/**'],
+        // Pré-cache só do esqueleto da app (os scripts que o index.html carrega).
+        // Os chunks lazy — EN/FR, portal, SDK de autenticação, páginas — entram na
+        // cache à medida que são usados, em vez de ~2 MB descarregados na instalação.
+        manifestTransforms: [
+          async (entries) => {
+            const html = await readFile(resolve(process.cwd(), 'dist/index.html'), 'utf8')
+            const manifest = entries.filter((entry) => !entry.url.startsWith('assets/')
+              || !entry.url.endsWith('.js')
+              || html.includes(entry.url))
+            return { manifest, warnings: [] }
+          }
+        ],
         runtimeCaching: [
           {
-            urlPattern: /\.(?:png|jpe?g|webp)$/i,
+            // Ficheiros com hash no nome nunca mudam: servir da cache é seguro.
+            urlPattern: /\/assets\/.*\.js$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pepek-lazy-chunks',
+              expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] }
+            }
+          },
+          {
+            urlPattern: /\.(?:png|jpe?g|webp|svg)$/i,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pepek-visual-assets',

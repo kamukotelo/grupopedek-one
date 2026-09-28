@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { neonClient } from '../../lib/neon';
+import { getAccessToken } from '../../lib/neon';
 
 type PendingTransfer = {
   id: string;
@@ -20,9 +20,9 @@ export function BankTransferBackoffice({ onReconciled }: { onReconciled: () => P
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<string | null>(null);
   const auth = useCallback(async () => {
-    const { data } = await neonClient.auth.getSession();
-    if (!data.session) throw new Error(t('backoffice.signInAgain'));
-    return { Authorization: `Bearer ${data.session.access_token}` };
+    const token = await getAccessToken();
+    if (!token) throw new Error(t('backoffice.signInAgain'));
+    return { Authorization: `Bearer ${token}` };
   }, [t]);
   const load = useCallback(async () => {
     try {

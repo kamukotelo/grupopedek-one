@@ -24,6 +24,9 @@ export const Hero: React.FC = () => {
   });
 
   const [currentLuxury, setCurrentLuxury] = useState(0);
+  // Só se montam a viatura visível e a seguinte (pré-carregada para a transição);
+  // as restantes imagens do carrossel descarregam-se à medida que ele avança.
+  const [mountedLuxury, setMountedLuxury] = useState<ReadonlySet<number>>(() => new Set([0, 1]));
   const [currentStory, setCurrentStory] = useState(0);
   const [isStoryPlaying, setIsStoryPlaying] = useState(true);
   const [isStoryMuted, setIsStoryMuted] = useState(true);
@@ -49,6 +52,13 @@ export const Hero: React.FC = () => {
   const filteredLocations = (value: string) => locationSuggestions.filter((location) =>
     !value.trim() || location.toLocaleLowerCase().includes(value.toLocaleLowerCase())
   ).slice(0, 6);
+
+  useEffect(() => {
+    const next = (currentLuxury + 1) % luxuryHeroVehicles.length;
+    setMountedLuxury((mounted) => mounted.has(currentLuxury) && mounted.has(next)
+      ? mounted
+      : new Set([...mounted, currentLuxury, next]));
+  }, [currentLuxury, luxuryHeroVehicles.length]);
 
   useEffect(() => {
     if (isLuxuryPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -134,6 +144,7 @@ export const Hero: React.FC = () => {
         <img
           src={luxuryHeroVehicles[0]?.image}
           alt={t('hero.visualVehicleAlt')}
+          fetchPriority="high"
           className="h-full w-full scale-[1.02] object-cover object-center brightness-[0.58] contrast-[1.12]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#001E4A]/95 via-[#001E4A]/76 to-[#174B86]/44" />
@@ -309,7 +320,7 @@ export const Hero: React.FC = () => {
                   <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label={t('hero.next')}><ChevronRight className="h-4 w-4" /></button>
                 </div>
               </div>
-              {luxuryHeroVehicles.map((vehicle, index) => (
+              {luxuryHeroVehicles.map((vehicle, index) => mountedLuxury.has(index) && (
                 <img
                   key={vehicle.name}
                   src={vehicle.image}

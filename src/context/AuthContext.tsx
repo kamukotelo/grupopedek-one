@@ -2,7 +2,7 @@ import i18n from '../i18n';
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
 import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
-import { neonClient } from '../lib/neon';
+import { getAccessToken, getNeonClient } from '../lib/neon';
 import { getPortalPermissions } from '../lib/portalPermissions';
 import { fetchProtectedPortalData } from '../lib/portalData';
 import { authRedirectUrl, type SocialProvider } from '../lib/auth';
@@ -58,7 +58,8 @@ const getStoredDemoUser = (): UserProfile | null => {
 
 const mapAuthUser = async (user: AuthUser): Promise<UserProfile> => {
   const metadata = user.user_metadata || {};
-  const { data: profile } = await neonClient
+  const client = await getNeonClient();
+  const { data: profile } = await client
     .from('profiles')
     .select('full_name,phone,company,nif,role,tier')
     .eq('id', user.id)
@@ -135,21 +136,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
     let mounted = true;
-    neonClient.auth.getSession().then(async ({ data }) => {
-      if (!mounted) return;
-      setCurrentUser(data.session?.user ? await mapAuthUser(data.session.user as AuthUser) : null);
-      setIsAuthReady(true);
-    });
-    const { data: listener } = neonClient.auth.onAuthStateChange(async (event, session) => {
-      if (!mounted) return;
-      setCurrentUser(session?.user ? await mapAuthUser(session.user as AuthUser) : null);
-      if (event === 'PASSWORD_RECOVERY') setIsPasswordRecovery(true);
-      if (event === 'SIGNED_IN' && session?.user) setIsPortalOpen(true);
-      setIsAuthReady(true);
-    });
+    let unsubscribe: (() => void) | undefined;
+    const startSession = async () => {
+      try {
+        const client = await getNeonClient();
+        if (!mounted) return;
+        const { data: listener } = client.auth.onAuthStateChange(async (event, session) => {
+          if (!mounted) return;
+          setCurrentUser(session?.user ? await mapAuthUser(session.user as AuthUser) : null);
+          if (event === 'PASSWORD_RECOVERY') setIsPasswordRecovery(true);
+          if (event === 'SIGNED_IN' && session?.user) setIsPortalOpen(true);
+          setIsAuthReady(true);
+        });
+        unsubscribe = () => listener.subscription.unsubscribe();
+        const { data } = await client.auth.getSession();
+        if (!mounted) return;
+        setCurrentUser(data.session?.user ? await mapAuthUser(data.session.user as AuthUser) : null);
+      } catch {
+        if (mounted) setCurrentUser(null);
+      } finally {
+        if (mounted) setIsAuthReady(true);
+      }
+    };
+    // O SDK de autenticação não é necessário para pintar as páginas públicas:
+    // carrega-se quando o browser fica ocioso. No /painel (destino dos
+    // redireccionamentos OAuth e de recuperação de palavra-passe) arranca já.
+    const needsSessionNow = window.location.pathname.startsWith('/painel');
+    const idle = window.requestIdleCallback?.bind(window);
+    let idleHandle: number | undefined;
+    let timeoutHandle: number | undefined;
+    if (needsSessionNow) void startSession();
+    else if (idle) idleHandle = idle(() => void startSession(), { timeout: 3000 });
+    else timeoutHandle = window.setTimeout(() => void startSession(), 1500);
     return () => {
       mounted = false;
-      listener.subscription.unsubscribe();
+      if (idleHandle !== undefined) window.cancelIdleCallback(idleHandle);
+      if (timeoutHandle !== undefined) window.clearTimeout(timeoutHandle);
+      unsubscribe?.();
     };
   }, []);
 
@@ -219,12 +242,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await neonClient.auth.signInWithPassword({ email: email.trim(), password });
+    const client = await getNeonClient();
+    const { error } = await client.auth.signInWithPassword({ email: email.trim(), password });
     return error ? { error: error.message } : {};
   };
 
   const signUp = async (name: string, email: string, password: string) => {
-    const { data, error } = await neonClient.auth.signUp({
+    const client = await getNeonClient();
+    const { data, error } = await client.auth.signUp({
       email: email.trim(),
       password,
       options: {
@@ -233,7 +258,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       },
     });
     if (!error && data.user) {
-      await neonClient.from('profiles').insert({
+      await client.from('profiles').insert({
         id: data.user.id,
         full_name: name.trim(),
         role: 'cliente_normal',
@@ -252,7 +277,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signInWithSocial = async (provider: SocialProvider) => {
-    const { error } = await neonClient.auth.signInWithOAuth({
+    const client = await getNeonClient();
+    const { error } = await client.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: authRedirectUrl(),
@@ -264,19 +290,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const requestPasswordReset = async (email: string) => {
     const redirectTo = authRedirectUrl();
-    const { error } = await neonClient.auth.resetPasswordForEmail(email.trim(), { redirectTo });
+    const client = await getNeonClient();
+    const { error } = await client.auth.resetPasswordForEmail(email.trim(), { redirectTo });
     return error ? { error: error.message } : {};
   };
 
   const updatePassword = async (password: string) => {
     if (password.length < 10) return { error: i18n.t('system.passwordLength') };
-    const { error } = await neonClient.auth.updateUser({ password });
+    const client = await getNeonClient();
+    const { error } = await client.auth.updateUser({ password });
     if (!error) setIsPasswordRecovery(false);
     return error ? { error: error.message } : {};
   };
 
   const logout = async () => {
-    if (!isDemoSession) await neonClient.auth.signOut();
+    if (!isDemoSession) await (await getNeonClient()).auth.signOut();
     setCurrentUser(null);
     localStorage.removeItem('pepek_demo_user');
     setInvoices(IS_DEMO_MODE ? DEMO_INVOICES : []);
@@ -300,8 +328,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     setOdooSync(prev => ({ ...prev, serverStatus: 'syncing' }));
     try {
-      const { data } = await neonClient.auth.getSession();
-      const token = data.session?.access_token;
+      const token = await getAccessToken();
       if (!token) throw new Error(i18n.t('system.sessionRequired'));
       const syncResponse = await fetch('/api/odoo-sync', {
         method: 'POST',

@@ -1,5 +1,5 @@
 import i18n from '../i18n';
-import { neonClient } from './neon';
+import { getAccessToken } from './neon';
 import type { InvoiceItem } from '../types/auth';
 
 export type PaymentProvider = 'stripe' | 'multicaixa' | 'bank_transfer' | 'mbway';
@@ -43,8 +43,7 @@ export interface PaymentStatusResult {
 }
 
 const authHeader = async (): Promise<string> => {
-  const { data } = await neonClient.auth.getSession();
-  const token = data.session?.access_token;
+  const token = await getAccessToken();
   if (!token) throw new Error(i18n.t('system.signInToPay'));
   return `Bearer ${token}`;
 };

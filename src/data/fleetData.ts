@@ -186,12 +186,12 @@ export const FLEET_DATABASE: VehicleDetail[] = [
     transferPriceFormatted: '1.124.999,99 Kz',
     depositAOA: 400000,
     description: 'A mais recente geração do ícone de luxo britânico. Design minimalista exterior e requinte artesanal no habitáculo com tração integral e capacidade de cruzeiro inigualável.',
-    primaryImage: '/fleet-flyer-2026/range-rover-novo-modelo/01-oficial.png'
+    primaryImage: '/fleet-flyer-2026/range-rover-novo-modelo/01-oficial.webp'
     ,
     secondaryImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85',
     gallery: [
       {
-        url: '/fleet-flyer-2026/range-rover-novo-modelo/01-oficial.png',
+        url: '/fleet-flyer-2026/range-rover-novo-modelo/01-oficial.webp',
         caption: 'Vista Oficial de Estúdio — Frota Real PEPEK Talatona',
         altText: 'range-rover-novo-modelo vista frontal oficial — PEPEK Rent a Car Angola'
       },

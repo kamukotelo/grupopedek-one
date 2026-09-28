@@ -75,9 +75,7 @@ export const FLYER_FLEET_2026: VehicleDetail[] = FLYER_VEHICLES.map((entry) => {
   const source = fleetById.get(entry.id) ?? kiaSeltosTemplate;
   if (!source) throw new Error(`Viatura-base não encontrada para ${entry.id}`);
 
-  const primaryImage = entry.id === 'range-rover-novo-modelo'
-    ? '/fleet-flyer-2026/range-rover-novo-modelo/01-oficial.png'
-    : `/fleet-flyer-2026/${entry.image}/01-oficial.webp`;
+  const primaryImage = `/fleet-flyer-2026/${entry.image}/01-oficial.webp`;
   const isKiaSeltos = entry.id === 'kia-seltos';
   return {
     ...source,

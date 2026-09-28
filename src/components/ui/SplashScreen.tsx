@@ -2,14 +2,31 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const SPLASH_DURATION = 1850;
+const SPLASH_SEEN_KEY = 'pepek_intro_seen';
+
+// A animação de abertura cobre o site durante ~1,9 s: mostra-se uma vez por
+// sessão e não se repete a cada recarregamento ou nova aba aberta a partir do site.
+const hasSeenSplash = () => {
+  try {
+    return sessionStorage.getItem(SPLASH_SEEN_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
 
 export const SplashScreen: React.FC = () => {
   const { t } = useTranslation();
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(() => !hasSeenSplash());
   const [isDeparting, setIsDeparting] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!isVisible) return;
+    try {
+      sessionStorage.setItem(SPLASH_SEEN_KEY, '1');
+    } catch {
+      // Sem storage (modo privado restrito): a animação volta a aparecer, sem mais efeitos.
+    }
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
       setIsVisible(false);
@@ -53,9 +70,9 @@ export const SplashScreen: React.FC = () => {
       aria-hidden="true"
     >
       <div ref={logoRef} className="pepek-intro__logo" style={{ willChange: 'transform, filter' }}>
-        <img className="pepek-intro__letters pepek-intro__letters--left" src="/logo-pepek-light.png" alt="" />
-        <img className="pepek-intro__letters pepek-intro__letters--right" src="/logo-pepek-light.png" alt="" />
-        <img className="pepek-intro__road" src="/logo-pepek-light.png" alt="" />
+        <img className="pepek-intro__letters pepek-intro__letters--left" src="/logo-pepek-light.webp" alt="" />
+        <img className="pepek-intro__letters pepek-intro__letters--right" src="/logo-pepek-light.webp" alt="" />
+        <img className="pepek-intro__road" src="/logo-pepek-light.webp" alt="" />
       </div>
 
       <p className="pepek-intro__tagline">{t('common.splashTagline')}</p>

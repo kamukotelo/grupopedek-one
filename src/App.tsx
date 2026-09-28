@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { SplashScreen } from './components/ui/SplashScreen';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -26,6 +26,13 @@ const PagePrivacidade = lazy(() => import('./pages/PagePrivacidade').then(module
 const PageNotFound = lazy(() => import('./pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
 
 import './i18n';
+
+// O portal (≈70 KB) só é descarregado quando o cliente o abre.
+const ClientPortalWhenOpen: React.FC = () => {
+  const { isPortalOpen } = useAuth();
+  if (!isPortalOpen) return null;
+  return <Suspense fallback={null}><ClientPortalModal /></Suspense>;
+};
 
 export const App: React.FC = () => {
   const { t } = useTranslation();
@@ -78,7 +85,7 @@ export const App: React.FC = () => {
           <MobileQuickBar />
 
           {/* Global portal — opens from any page via Header or ChatBot */}
-          <Suspense fallback={null}><ClientPortalModal /></Suspense>
+          <ClientPortalWhenOpen />
 
           {/* Confirms payments when the browser returns from an external checkout */}
           <PaymentReturnBanner />

@@ -248,6 +248,8 @@ export const RouteEstimator: React.FC = () => {
                     <div className="relative h-52 sm:h-64">
                       <img
                         src={currentVehicleImage.src}
+                        loading="lazy"
+                        decoding="async"
                         alt={t('routes.vehicleImageAlt', { vehicle: currentVehicleImage.name })}
                         className="h-full w-full object-contain p-4 sm:p-5"
                       />

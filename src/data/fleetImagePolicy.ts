@@ -7,4 +7,4 @@ const LOCAL_IMAGE_REVIEW_IDS = new Set<string>([]);
 export const isFleetLocalImageApproved = (vehicleId: string): boolean =>
   !LOCAL_IMAGE_REVIEW_IDS.has(vehicleId);
 
-export const FLEET_IMAGE_REVIEW_PLACEHOLDER = '/studio/fleet-showroom-background-v2.png';
+export const FLEET_IMAGE_REVIEW_PLACEHOLDER = '/studio/fleet-showroom-background-v2.webp';
