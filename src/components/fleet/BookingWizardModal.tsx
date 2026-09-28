@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   X,
   Calendar,
@@ -33,6 +34,18 @@ import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 import { submitReservation } from '../../lib/reservations';
 import { useAuth } from '../../context/AuthContext';
+import { useFleetText } from '../../i18n/fleetContent';
+
+// Valores das opções de local ficam em português (seguem para a reserva); só o rótulo é traduzido.
+const LOCATION_KEYS: Record<string, string> = {
+  'Aeroporto Internacional 4 de Fevereiro (LAD)': 'airport',
+  'Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)': 'aiaan',
+  'Hub Central Pepek Talatona': 'hub',
+  'Hotel Epic Sana Luanda': 'epicSana',
+  'Miramar / Cidade Alta (Protocolar)': 'miramarCidadeAlta',
+  'Entrega em Endereço Personalizado': 'customDelivery',
+  'Recolha em Endereço do Cliente': 'clientPickup',
+};
 
 interface BookingWizardModalProps {
   initialVehicleName?: string;
@@ -45,6 +58,9 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
   isOpen,
   onClose
 }) => {
+  const { t } = useTranslation();
+  const ft = useFleetText();
+  const locationLabel = (value: string) => (LOCATION_KEYS[value] ? t(`wizard.locations.${LOCATION_KEYS[value]}`) : value);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const { setIsPortalOpen } = useAuth();
 
@@ -147,11 +163,11 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
   const handleAdvanceFromStep3 = () => {
     if (!fullName.trim() || fullName.trim().length < 3) {
-      setStep3Error('Por favor indique o seu nome completo (mínimo 3 caracteres).');
+      setStep3Error(t('wizard.errorName'));
       return;
     }
     if (!phone.trim() && !email.trim()) {
-      setStep3Error('Por favor forneça pelo menos um contacto de retorno (WhatsApp/telefone ou e-mail).');
+      setStep3Error(t('wizard.errorContact'));
       return;
     }
     setStep3Error(null);
@@ -164,33 +180,35 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
     // Formato AOA 35.000,00 (ponto nos milhares, vírgula nos cêntimos).
     const kz = (value: number) => `AOA ${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     const optionalExtras = [
-      withBabySeat ? `Cadeira de Criança (+${kz(babySeatSubtotal)})` : '',
+      withBabySeat ? `${t('wizard.wa.babySeat')} (+${kz(babySeatSubtotal)})` : '',
       withWifi ? `Wi-Fi 5G (+${kz(wifiSubtotal)})` : '',
     ].filter(Boolean);
     const divider = '------------------------------\n';
 
-    let msg = `*NOVA RESERVA — PEPEK RENT A CAR*\n` + divider;
+    const w = (key: string) => t(`wizard.wa.${key}`);
+    const notInformed = w('notInformed');
+    let msg = `*${w('title')}*\n` + divider;
     if (code) {
-      msg += `*Reserva:* ${code}\n` + divider;
+      msg += `*${w('booking')}:* ${code}\n` + divider;
     }
-    msg += `*Nome:* ${fullName.trim() || 'Não informado'}\n` +
-      `*Tipo de Cliente:* ${clientType === 'empresa' ? 'Empresa / Institucional' : 'Particular'}\n` +
-      `*Telefone/WhatsApp:* ${phone.trim() || 'Não informado'}\n` +
-      `*E-mail:* ${email.trim() || 'Não informado'}\n` +
+    msg += `*${w('name')}:* ${fullName.trim() || notInformed}\n` +
+      `*${w('clientType')}:* ${clientType === 'empresa' ? w('company') : w('private')}\n` +
+      `*${w('phone')}:* ${phone.trim() || notInformed}\n` +
+      `*E-mail:* ${email.trim() || notInformed}\n` +
       divider +
-      `*Tipo de Carro:* ${selectedVehicle.name} (${kz(selectedVehicle.pricePerDayAOA)}/dia)\n` +
-      `*Motorista:* ${withDriver ? `Sim (+${kz(driverSubtotal)})` : 'Não'}\n` +
-      `*Higienização e Combustível:* ${withFuelClean ? `Sim (+${kz(fuelCleanSubtotal)})` : 'Não'}\n` +
-      `${optionalExtras.length ? `*Outros Extras:* ${optionalExtras.join(', ')}\n` : ''}` +
-      `*Check-in:* ${pickupDate} às ${pickupTime}\n` +
-      `*Check-out:* ${dropoffDate} às ${dropoffTime} (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})\n` +
-      `*Levantamento:* ${pickupLocation}\n` +
-      `*Devolução:* ${differentDropoff ? dropoffLocation : pickupLocation}\n` +
-      `*Mensagem:* ${notes.trim() || '—'}\n` +
+      `*${w('vehicle')}:* ${selectedVehicle.name} (${kz(selectedVehicle.pricePerDayAOA)}${t('vehicle.perDay').replace(' ', '')})\n` +
+      `*${w('driver')}:* ${withDriver ? `${w('yes')} (+${kz(driverSubtotal)})` : w('no')}\n` +
+      `*${w('fuelClean')}:* ${withFuelClean ? `${w('yes')} (+${kz(fuelCleanSubtotal)})` : w('no')}\n` +
+      `${optionalExtras.length ? `*${w('otherExtras')}:* ${optionalExtras.join(', ')}\n` : ''}` +
+      `*Check-in:* ${t('wizard.wa.dateAt', { date: pickupDate, time: pickupTime })}\n` +
+      `*Check-out:* ${t('wizard.wa.dateAt', { date: dropoffDate, time: dropoffTime })} (${t('wizard.days', { count: rentalDays })})\n` +
+      `*${w('pickup')}:* ${pickupLocation}\n` +
+      `*${w('dropoff')}:* ${differentDropoff ? dropoffLocation : pickupLocation}\n` +
+      `*${w('message')}:* ${notes.trim() || '—'}\n` +
       divider +
-      `*Valor Total Estimado:* ${kz(grandTotalAOA)}\n` +
+      `*${w('total')}:* ${kz(grandTotalAOA)}\n` +
       divider +
-      `_Por favor confirmar a disponibilidade e enviar a fatura proforma._`;
+      `_${w('closing')}_`;
 
     return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   };
@@ -227,7 +245,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       setCountdown(10);
       setIsCountdownPaused(false);
     } catch (err) {
-      setSubmissionError(err instanceof Error ? err.message : 'Não foi possível registar a reserva. Tente novamente.');
+      setSubmissionError(err instanceof Error ? err.message : t('wizard.submitError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -280,16 +298,17 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#FEC228] animate-pulse" />
               <span className="text-[11px] font-bold uppercase tracking-widest text-[#FEC228]">
-                Reserva Online Premium
+                {t('wizard.onlineBooking')}
               </span>
             </div>
             <h3 className="text-lg sm:text-xl font-extrabold text-white">
-              Assistente de Reserva de Viaturas
+              {t('wizard.title')}
             </h3>
           </div>
 
           <button
             onClick={handleModalClose}
+            aria-label={t('wizard.close')}
             className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -314,8 +333,8 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
                   step === 1 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
                 }`}>1</span>
-                <span className="hidden sm:inline">Viatura & Período</span>
-                <span className="sm:hidden">Viatura</span>
+                <span className="hidden sm:inline">{t('wizard.stepVehicle')}</span>
+                <span className="sm:hidden">{t('wizard.stepVehicleShort')}</span>
               </button>
 
               <button
@@ -332,8 +351,8 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
                   step === 2 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
                 }`}>2</span>
-                <span className="hidden sm:inline">Extras Opcionais</span>
-                <span className="sm:hidden">Extras</span>
+                <span className="hidden sm:inline">{t('wizard.stepExtras')}</span>
+                <span className="sm:hidden">{t('wizard.stepExtrasShort')}</span>
               </button>
 
               <button
@@ -352,8 +371,8 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
                   step === 3 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
                 }`}>3</span>
-                <span className="hidden sm:inline">Identificação</span>
-                <span className="sm:hidden">Cliente</span>
+                <span className="hidden sm:inline">{t('wizard.stepClient')}</span>
+                <span className="sm:hidden">{t('wizard.stepClientShort')}</span>
               </button>
 
               <button
@@ -370,8 +389,8 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
                   step === 4 ? 'bg-[#09172C] text-[#FEC228]' : 'bg-white/20 text-white'
                 }`}>4</span>
-                <span className="hidden sm:inline">Resumo & Confirmação</span>
-                <span className="sm:hidden">Resumo</span>
+                <span className="hidden sm:inline">{t('wizard.stepSummary')}</span>
+                <span className="sm:hidden">{t('wizard.stepSummaryShort')}</span>
               </button>
             </div>
           </div>
@@ -379,7 +398,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
           <div className="bg-[#09172C] px-6 py-3 border-b border-white/10 shrink-0 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs text-white">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span className="font-bold">Reserva Registada com Sucesso</span>
+              <span className="font-bold">{t('wizard.registered')}</span>
             </div>
             {protocolCode && (
               <span className="font-mono text-xs text-[#FEC228] font-bold">{protocolCode}</span>
@@ -397,7 +416,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               {/* Select Vehicle Card */}
               <div className="bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs">
                 <label className="block text-xs font-bold text-[#09172C] uppercase tracking-wider mb-2">
-                  Selecione a Viatura Desejada
+                  {t('wizard.selectVehicle')}
                 </label>
                 <select
                   value={selectedVehicleId}
@@ -406,7 +425,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 >
                   {PUBLIC_FLEET.map((v) => (
                     <option key={v.id} value={v.id}>
-                      {v.name} — {v.categoryLabel} ({v.pricePerDayFormatted}/dia)
+                      {v.name} — {ft(v.categoryLabel)} ({v.pricePerDayFormatted}{t('vehicle.perDay').replace(' ', '')})
                     </option>
                   ))}
                 </select>
@@ -418,11 +437,11 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   </div>
                   <div className="flex-1 text-center sm:text-left">
                     <h4 className="font-extrabold text-white text-base">{selectedVehicle.name}</h4>
-                    <p className="text-xs text-white/75">{selectedVehicle.specs.passengers} Passageiros · {selectedVehicle.specs.doors} Portas · {selectedVehicle.specs.transmission} · {selectedVehicle.specs.fuelType}</p>
+                    <p className="text-xs text-white/75">{t('comparator.passengers', { count: selectedVehicle.specs.passengers })} · {t('vehicle.doorsCount', { count: selectedVehicle.specs.doors })} · {ft(selectedVehicle.specs.transmission)} · {ft(selectedVehicle.specs.fuelType)}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <span className="text-lg font-extrabold text-[#FEC228] block">{selectedVehicle.pricePerDayFormatted}</span>
-                    <span className="text-[10px] text-white/65 font-semibold uppercase">por dia</span>
+                    <span className="text-[10px] text-white/65 font-semibold uppercase">{t('wizard.perDay')}</span>
                   </div>
                 </div>
               </div>
@@ -432,19 +451,19 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <div className="bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs">
                   <label className="block text-xs font-bold text-[#09172C] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <MapPin className="w-4 h-4 text-[#FEC228]" />
-                    Local de Levantamento
+                    {t('wizard.pickupLocation')}
                   </label>
                   <select
                     value={pickupLocation}
                     onChange={(e) => setPickupLocation(e.target.value)}
                     className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden"
                   >
-                    <option value="Aeroporto Internacional 4 de Fevereiro (LAD)">Aeroporto 4 de Fevereiro (LAD)</option>
-                    <option value="Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)">Novo Aeroporto AIAAN</option>
-                    <option value="Hub Central Pepek Talatona">Hub Central Pepek — Talatona</option>
-                    <option value="Hotel Epic Sana Luanda">Hotel Epic Sana Luanda</option>
-                    <option value="Miramar / Cidade Alta (Protocolar)">Miramar / Cidade Alta</option>
-                    <option value="Entrega em Endereço Personalizado">Entrega em Endereço Personalizado</option>
+                    <option value="Aeroporto Internacional 4 de Fevereiro (LAD)">{t('wizard.locations.airport')}</option>
+                    <option value="Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)">{t('wizard.locations.aiaan')}</option>
+                    <option value="Hub Central Pepek Talatona">{t('wizard.locations.hub')}</option>
+                    <option value="Hotel Epic Sana Luanda">{t('wizard.locations.epicSana')}</option>
+                    <option value="Miramar / Cidade Alta (Protocolar)">{t('wizard.locations.miramarCidadeAlta')}</option>
+                    <option value="Entrega em Endereço Personalizado">{t('wizard.locations.customDelivery')}</option>
                   </select>
                 </div>
 
@@ -452,7 +471,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-xs font-bold text-[#09172C] uppercase tracking-wider flex items-center gap-1.5">
                       <MapPin className="w-4 h-4 text-[#236199]" />
-                      Local de Devolução
+                      {t('wizard.dropoffLocation')}
                     </label>
                     <label className="text-[11px] text-[#555B64] flex items-center gap-1 cursor-pointer">
                       <input
@@ -461,7 +480,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                         onChange={(e) => setDifferentDropoff(e.target.checked)}
                         className="rounded text-[#FEC228]"
                       />
-                      <span>Noutro local</span>
+                      <span>{t('wizard.elsewhere')}</span>
                     </label>
                   </div>
 
@@ -471,15 +490,15 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                       onChange={(e) => setDropoffLocation(e.target.value)}
                       className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden"
                     >
-                      <option value="Hub Central Pepek Talatona">Hub Central Pepek — Talatona</option>
-                      <option value="Aeroporto Internacional 4 de Fevereiro (LAD)">Aeroporto 4 de Fevereiro (LAD)</option>
-                      <option value="Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)">Novo Aeroporto AIAAN</option>
-                      <option value="Hotel Epic Sana Luanda">Hotel Epic Sana Luanda</option>
-                      <option value="Recolha em Endereço do Cliente">Recolha em Endereço do Cliente</option>
+                      <option value="Hub Central Pepek Talatona">{t('wizard.locations.hub')}</option>
+                      <option value="Aeroporto Internacional 4 de Fevereiro (LAD)">{t('wizard.locations.airport')}</option>
+                      <option value="Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)">{t('wizard.locations.aiaan')}</option>
+                      <option value="Hotel Epic Sana Luanda">{t('wizard.locations.epicSana')}</option>
+                      <option value="Recolha em Endereço do Cliente">{t('wizard.locations.clientPickup')}</option>
                     </select>
                   ) : (
                     <div className="p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs text-[#555B64]">
-                      Mesmo local do levantamento ({pickupLocation.split('(')[0]})
+                      {t('wizard.sameAsPickup', { location: locationLabel(pickupLocation).split('(')[0].trim() })}
                     </div>
                   )}
                 </div>
@@ -489,7 +508,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               <div className="bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">Data Levantamento</label>
+                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">{t('wizard.pickupDate')}</label>
                     <input
                       type="date"
                       min={today}
@@ -504,7 +523,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">Hora Levantamento</label>
+                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">{t('wizard.pickupTime')}</label>
                     <input
                       type="time"
                       value={pickupTime}
@@ -513,7 +532,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">Data Devolução</label>
+                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">{t('wizard.dropoffDate')}</label>
                     <input
                       type="date"
                       min={pickupDate || today}
@@ -523,7 +542,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">Hora Devolução</label>
+                    <label className="block text-[11px] font-bold text-[#09172C] uppercase mb-1">{t('wizard.dropoffTime')}</label>
                     <input
                       type="time"
                       value={dropoffTime}
@@ -534,9 +553,9 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 </div>
 
                 <div className="mt-3 flex items-center justify-between text-xs text-[#09172C] pt-3 border-t border-gray-100">
-                  <span className="font-bold">Duração calculada do aluguer:</span>
+                  <span className="font-bold">{t('wizard.duration')}</span>
                   <span className="px-3 py-1 bg-[#FEC228]/20 text-[#09172C] font-extrabold rounded-full">
-                    {rentalDays} {rentalDays === 1 ? 'Dia' : 'Dias'}
+                    {t('wizard.daysCapital', { count: rentalDays })}
                   </span>
                 </div>
               </div>
@@ -551,7 +570,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               <div className="bg-white p-4 rounded-2xl border border-blue-100 bg-blue-50/40 flex items-start gap-3">
                 <Info className="w-5 h-5 text-[#09172C] shrink-0 mt-0.5" />
                 <p className="text-xs text-[#09172C]">
-                  Personalize a sua experiência com serviços oficiais certificados pela Pepek Rent a Car. Os valores diários são calculados automaticamente para os {rentalDays} dias.
+                  {t('wizard.extrasIntro', { count: rentalDays })}
                 </p>
               </div>
 
@@ -560,10 +579,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 {
                   key: 'driver',
                   icon: UserCheck,
-                  title: 'Motorista',
-                  desc: 'Motorista profissional bilingue, treinado em protocolo e condução defensiva. Dispensa carta de condução do cliente.',
-                  withLabel: 'Com motorista',
-                  withoutLabel: 'Sem motorista',
+                  title: t('wizard.driverTitle'),
+                  desc: t('wizard.driverDesc'),
+                  withLabel: t('wizard.withDriver'),
+                  withoutLabel: t('wizard.withoutDriver'),
                   value: withDriver,
                   set: setWithDriver,
                   rate: DRIVER_RATE,
@@ -571,10 +590,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 {
                   key: 'fuel-clean',
                   icon: Fuel,
-                  title: 'Combustível e Higienização',
-                  desc: 'Viatura entregue atestada e devolvida sem necessidade de reabastecimento ou lavagem.',
-                  withLabel: 'Com combustível e higienização',
-                  withoutLabel: 'Sem combustível e higienização',
+                  title: t('wizard.fuelTitle'),
+                  desc: t('wizard.fuelDesc'),
+                  withLabel: t('wizard.withFuel'),
+                  withoutLabel: t('wizard.withoutFuel'),
                   value: withFuelClean,
                   set: setWithFuelClean,
                   rate: FUEL_CLEAN_RATE,
@@ -594,13 +613,13 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     </div>
                     <div className="text-right shrink-0">
                       <span className="text-sm font-extrabold text-[#09172C] block">AOA {rate.toLocaleString('de-DE', { minimumFractionDigits: 2 })}</span>
-                      <span className="text-[10px] text-[#555B64]">por dia</span>
+                      <span className="text-[10px] text-[#555B64]">{t('wizard.perDay')}</span>
                     </div>
                   </div>
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {[
-                      { label: withoutLabel, active: !value, onSelect: () => set(false), extra: 'Sem custo adicional' },
-                      { label: withLabel, active: value, onSelect: () => set(true), extra: `+${(rate * rentalDays).toLocaleString('pt-AO')} Kz (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})` },
+                      { label: withoutLabel, active: !value, onSelect: () => set(false), extra: t('wizard.noExtraCost') },
+                      { label: withLabel, active: value, onSelect: () => set(true), extra: `+${(rate * rentalDays).toLocaleString('pt-AO')} Kz (${t('wizard.days', { count: rentalDays })})` },
                     ].map((option) => (
                       <button
                         key={option.label}
@@ -638,13 +657,13 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     <Baby className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-[#09172C] text-sm">Cadeira Infantil Isofix</h4>
-                    <p className="text-xs text-[#555B64] mt-0.5">Segurança infantil certificada para recém-nascidos até 12 anos.</p>
+                    <h4 className="font-bold text-[#09172C] text-sm">{t('wizard.babySeatTitle')}</h4>
+                    <p className="text-xs text-[#555B64] mt-0.5">{t('wizard.babySeatDesc')}</p>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="text-sm font-extrabold text-[#09172C] block">10.000 Kz/dia</span>
-                  <span className="text-[10px] text-[#555B64]">{(BABY_SEAT_RATE * rentalDays).toLocaleString('pt-AO')} Kz total</span>
+                  <span className="text-sm font-extrabold text-[#09172C] block">{t('wizard.babySeatRate')}</span>
+                  <span className="text-[10px] text-[#555B64]">{(BABY_SEAT_RATE * rentalDays).toLocaleString('pt-AO')} Kz {t('wizard.total')}</span>
                 </div>
               </div>
 
@@ -662,13 +681,13 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     <Wifi className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-[#09172C] text-sm">Hotspot Wi-Fi 5G Ilimitado</h4>
-                    <p className="text-xs text-[#555B64] mt-0.5">Roteador portátil com internet móvel de alta velocidade para até 10 dispositivos.</p>
+                    <h4 className="font-bold text-[#09172C] text-sm">{t('wizard.wifiTitle')}</h4>
+                    <p className="text-xs text-[#555B64] mt-0.5">{t('wizard.wifiDesc')}</p>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="text-sm font-extrabold text-[#09172C] block">15.000 Kz/dia</span>
-                  <span className="text-[10px] text-[#555B64]">{(WIFI_RATE * rentalDays).toLocaleString('pt-AO')} Kz total</span>
+                  <span className="text-sm font-extrabold text-[#09172C] block">{t('wizard.wifiRate')}</span>
+                  <span className="text-[10px] text-[#555B64]">{(WIFI_RATE * rentalDays).toLocaleString('pt-AO')} Kz {t('wizard.total')}</span>
                 </div>
               </div>
             </div>
@@ -691,7 +710,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   }`}
                 >
                   <User className="w-4 h-4" />
-                  <span>Particular / Pessoal</span>
+                  <span>{t('wizard.private')}</span>
                 </button>
 
                 <button
@@ -704,7 +723,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   }`}
                 >
                   <Building2 className="w-4 h-4" />
-                  <span>Empresa / Embaixada / Instituição</span>
+                  <span>{t('wizard.companyType')}</span>
                 </button>
               </div>
 
@@ -712,12 +731,12 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-[#09172C] uppercase mb-1">
-                    {clientType === 'empresa' ? 'Nome da Empresa / Contacto Principal *' : 'Nome Completo *'}
+                    {clientType === 'empresa' ? t('wizard.companyName') : t('wizard.fullName')}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Ex: Dra. Ana Luísa Mendes"
+                    placeholder={t('wizard.namePlaceholder')}
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
@@ -726,12 +745,12 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
                 <div>
                   <label className="block text-xs font-bold text-[#09172C] uppercase mb-1">
-                    WhatsApp / Telefone (+244) *
+                    {t('wizard.phoneLabel')}
                   </label>
                   <input
                     type="tel"
                     required
-                    placeholder="Ex: +244 923 719 090"
+                    placeholder={t('wizard.phonePlaceholder')}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
@@ -740,12 +759,12 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
                 <div>
                   <label className="block text-xs font-bold text-[#09172C] uppercase mb-1">
-                    Email para Confirmação *
+                    {t('wizard.emailLabel')}
                   </label>
                   <input
                     type="email"
                     required
-                    placeholder="Ex: contacto@empresa.co.ao"
+                    placeholder={t('wizard.emailPlaceholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
@@ -761,17 +780,17 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
               )}
 
               <p className="rounded-xl border border-[#236199]/20 bg-[#236199]/5 p-3 text-[11px] leading-relaxed text-[#09172C]">
-                Não envie NIF, passaporte ou carta de condução por WhatsApp. Caso sejam necessários, serão solicitados pela equipa depois da confirmação, através de canal autorizado.
+                {t('wizard.documentsNotice')}
               </p>
 
               {/* Notes */}
               <div>
                 <label className="block text-xs font-bold text-[#09172C] uppercase mb-1">
-                  Observações ou Requisitos Especiais (Opcional)
+                  {t('wizard.notesLabel')}
                 </label>
                 <textarea
                   rows={2}
-                  placeholder="Ex: Chegada no voo DT650 da TAAG às 14h, necessito de placa com nome no desembarque..."
+                  placeholder={t('wizard.notesPlaceholder')}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   className="w-full p-3 bg-gray-50 border border-[#E2E8F0] rounded-xl text-xs font-medium text-[#09172C] outline-hidden focus:ring-2 focus:ring-[#FEC228]"
@@ -794,7 +813,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     </div>
                     <div>
                       <span className="text-[10px] font-bold uppercase text-[#FEC228] tracking-wider block">
-                        {selectedVehicle.categoryLabel}
+                        {ft(selectedVehicle.categoryLabel)}
                       </span>
                       <h4 className="text-base font-extrabold text-[#09172C]">
                         {selectedVehicle.name}
@@ -802,7 +821,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-[#555B64] block">Diária:</span>
+                    <span className="text-xs text-[#555B64] block">{t('wizard.dailyRate')}</span>
                     <span className="text-sm font-bold text-[#09172C]">{selectedVehicle.pricePerDayFormatted}</span>
                   </div>
                 </div>
@@ -810,40 +829,40 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 {/* Breakdown List */}
                 <div className="space-y-2 text-xs text-[#09172C]">
                   <div className="flex justify-between py-1 border-b border-gray-100">
-                    <span className="text-[#555B64]">Período de Aluguer:</span>
-                    <span className="font-semibold">{pickupDate} ({pickupTime}) → {dropoffDate} ({dropoffTime}) · <strong>{rentalDays} {rentalDays === 1 ? 'Dia' : 'Dias'}</strong></span>
+                    <span className="text-[#555B64]">{t('wizard.rentalPeriod')}</span>
+                    <span className="font-semibold">{pickupDate} ({pickupTime}) → {dropoffDate} ({dropoffTime}) · <strong>{t('wizard.daysCapital', { count: rentalDays })}</strong></span>
                   </div>
 
                   <div className="flex justify-between py-1 border-b border-gray-100">
-                    <span className="text-[#555B64]">Levantamento & Devolução:</span>
+                    <span className="text-[#555B64]">{t('wizard.pickupDropoff')}</span>
                     <span className="font-semibold text-right max-w-xs truncate">{pickupLocation}</span>
                   </div>
 
                   <div className="flex justify-between py-1 border-b border-gray-100">
-                    <span className="text-[#555B64]">Subtotal de Diárias ({rentalDays}x {selectedVehicle.pricePerDayFormatted}):</span>
+                    <span className="text-[#555B64]">{t('wizard.dailySubtotal', { count: rentalDays, price: selectedVehicle.pricePerDayFormatted })}</span>
                     <span className="font-bold">{baseRentalSubtotal.toLocaleString('pt-AO')} Kz</span>
                   </div>
 
                   <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
-                    <span className="text-[#555B64]">Motorista:</span>
-                    <span className="font-semibold">{withDriver ? `Sim · +${driverSubtotal.toLocaleString('pt-AO')} Kz (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})` : 'Não'}</span>
+                    <span className="text-[#555B64]">{t('wizard.driverLabel')}</span>
+                    <span className="font-semibold">{withDriver ? `${t('wizard.wa.yes')} · +${driverSubtotal.toLocaleString('pt-AO')} Kz (${t('wizard.days', { count: rentalDays })})` : t('wizard.wa.no')}</span>
                   </div>
 
                   <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
-                    <span className="text-[#555B64]">Higienização e Combustível:</span>
-                    <span className="font-semibold">{withFuelClean ? `Sim · +${fuelCleanSubtotal.toLocaleString('pt-AO')} Kz (${rentalDays} ${rentalDays === 1 ? 'dia' : 'dias'})` : 'Não'}</span>
+                    <span className="text-[#555B64]">{t('wizard.fuelCleanLabel')}</span>
+                    <span className="font-semibold">{withFuelClean ? `${t('wizard.wa.yes')} · +${fuelCleanSubtotal.toLocaleString('pt-AO')} Kz (${t('wizard.days', { count: rentalDays })})` : t('wizard.wa.no')}</span>
                   </div>
 
                   {withBabySeat && (
                     <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
-                      <span className="text-[#555B64]">Cadeira Infantil ({rentalDays} dias):</span>
+                      <span className="text-[#555B64]">{t('wizard.babySeatSummary', { count: rentalDays })}</span>
                       <span className="font-semibold">+{babySeatSubtotal.toLocaleString('pt-AO')} Kz</span>
                     </div>
                   )}
 
                   {withWifi && (
                     <div className="flex justify-between py-1 border-b border-gray-100 text-[#09172C]">
-                      <span className="text-[#555B64]">Wi-Fi 5G Hotspot ({rentalDays} dias):</span>
+                      <span className="text-[#555B64]">{t('wizard.wifiSummary', { count: rentalDays })}</span>
                       <span className="font-semibold">+{wifiSubtotal.toLocaleString('pt-AO')} Kz</span>
                     </div>
                   )}
@@ -852,8 +871,8 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 {/* Total Highlight */}
                 <div className="pt-3 border-t-2 border-[#09172C] flex items-center justify-between">
                   <div>
-                    <span className="text-xs text-[#555B64] font-bold uppercase tracking-wider block">Total Estimado da Reserva:</span>
-                    <span className="text-[11px] text-[#236199] font-semibold">Seguro</span>
+                    <span className="text-xs text-[#555B64] font-bold uppercase tracking-wider block">{t('wizard.estimatedTotal')}</span>
+                    <span className="text-[11px] text-[#236199] font-semibold">{t('wizard.insurance')}</span>
                   </div>
                   <div className="text-right">
                     <span className="text-2xl font-extrabold text-[#09172C]">
@@ -875,10 +894,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 <div>
                   <h4 className="font-bold text-sm text-[#FEC228] flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    Envio Imediato com Registo da Reserva
+                    {t('wizard.instantSend')}
                   </h4>
                   <p className="text-xs text-gray-300 mt-1">
-                    Ao confirmar, a reserva é guardada no sistema oficial, é gerado o número da reserva e o pedido é encaminhado via WhatsApp para confirmação imediata.
+                    {t('wizard.instantSendText')}
                   </p>
                 </div>
 
@@ -891,12 +910,12 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin text-[#FEC228]" />
-                      <span>A registar protocolo...</span>
+                      <span>{t('wizard.registeringProtocol')}</span>
                     </>
                   ) : (
                     <>
                       <MessageSquareText className="w-4 h-4" />
-                      <span>Confirmar Reserva no WhatsApp</span>
+                      <span>{t('wizard.confirmWhatsapp')}</span>
                     </>
                   )}
                 </button>
@@ -915,20 +934,20 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#FEC228] block mb-1">
-                  PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES
+                  {t('wizard.operationsDirectorate')}
                 </span>
                 <h3 className="text-2xl font-extrabold text-[#09172C]">
-                  Reserva Registada com Sucesso!
+                  {t('wizard.successTitle')}
                 </h3>
                 <p className="text-xs text-[#555B64] mt-1 max-w-md mx-auto">
-                  A sua viatura foi pré-alocada na base de dados oficial. Guarde o protocolo abaixo para acompanhamento e emissão da fatura proforma.
+                  {t('wizard.successText')}
                 </p>
               </div>
 
               {/* Protocol Card */}
               <div className="max-w-lg mx-auto p-5 rounded-2xl bg-white border-2 border-[#236199] shadow-md text-left space-y-4">
                 <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-                  <span className="text-[11px] font-bold uppercase text-gray-500">Reserva</span>
+                  <span className="text-[11px] font-bold uppercase text-gray-500">{t('wizard.bookingLabel')}</span>
                   <button
                     type="button"
                     onClick={() => copyProtocol(protocolCode || '')}
@@ -937,12 +956,12 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     {copiedProtocol ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-emerald-600">Copiado</span>
+                        <span className="text-emerald-600">{t('wizard.copied')}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Copiar Código</span>
+                        <span>{t('wizard.copyCode')}</span>
                       </>
                     )}
                   </button>
@@ -953,10 +972,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-gray-100 text-xs text-gray-700">
-                  <div>Viatura: <strong className="text-gray-900 block">{selectedVehicle.name}</strong></div>
-                  <div>Período: <strong className="text-gray-900 block">{rentalDays} {rentalDays === 1 ? 'Dia' : 'Dias'} ({pickupDate} a {dropoffDate})</strong></div>
-                  <div>Levantamento: <strong className="text-gray-900 block truncate">{pickupLocation}</strong></div>
-                  <div>Total Estimado: <strong className="text-[#09172C] block font-bold">{grandTotalAOA.toLocaleString('pt-AO')} Kz</strong></div>
+                  <div>{t('wizard.vehicleLabel')} <strong className="text-gray-900 block">{selectedVehicle.name}</strong></div>
+                  <div>{t('wizard.periodLabel')} <strong className="text-gray-900 block">{t('wizard.daysCapital', { count: rentalDays })} ({t('wizard.dateRange', { start: pickupDate, end: dropoffDate })})</strong></div>
+                  <div>{t('wizard.pickupLabel')} <strong className="text-gray-900 block truncate">{pickupLocation}</strong></div>
+                  <div>{t('wizard.totalLabel')} <strong className="text-[#09172C] block font-bold">{grandTotalAOA.toLocaleString('pt-AO')} Kz</strong></div>
                 </div>
               </div>
 
@@ -968,9 +987,9 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                       <Clock className={`w-4 h-4 text-emerald-700 ${!isCountdownPaused ? 'animate-spin' : ''}`} style={{ animationDuration: '6s' }} />
                       <span className="text-xs font-bold text-emerald-950">
                         {isCountdownPaused ? (
-                          'Abertura automática em pausa — consulte os dados com calma'
+                          t('wizard.countdownPaused')
                         ) : (
-                          <>A abrir o WhatsApp da Direção em <strong className="text-sm font-extrabold text-emerald-700 font-mono">{countdown}s</strong>...</>
+                          <>{t('wizard.countdownOpening')} <strong className="text-sm font-extrabold text-emerald-700 font-mono">{countdown}s</strong>...</>
                         )}
                       </span>
                     </div>
@@ -982,12 +1001,12 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                       {isCountdownPaused ? (
                         <>
                           <Play className="w-3 h-3" />
-                          <span>Retomar</span>
+                          <span>{t('wizard.resume')}</span>
                         </>
                       ) : (
                         <>
                           <Pause className="w-3 h-3" />
-                          <span>Pausar</span>
+                          <span>{t('wizard.pause')}</span>
                         </>
                       )}
                     </button>
@@ -1011,7 +1030,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   className="flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition cursor-pointer"
                 >
                   <MessageSquareText className="w-4 h-4" />
-                  <span>Abrir WhatsApp Agora</span>
+                  <span>{t('wizard.openWhatsappNow')}</span>
                 </button>
 
                 <button
@@ -1024,7 +1043,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   className="flex-1 py-3.5 px-4 rounded-xl bg-[#09172C] hover:bg-[#236199] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition cursor-pointer"
                 >
                   <FileText className="w-4 h-4 text-[#FEC228]" />
-                  <span>Aceder à Área de Cliente</span>
+                  <span>{t('wizard.clientArea')}</span>
                 </button>
               </div>
 
@@ -1038,7 +1057,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   }}
                   className="text-xs font-bold text-gray-500 hover:text-gray-800 cursor-pointer"
                 >
-                  ← Fazer outra reserva
+                  {t('wizard.anotherBooking')}
                 </button>
               </div>
             </div>
@@ -1054,7 +1073,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 onClick={onClose}
                 className="px-5 py-2.5 rounded-xl border border-[#E2E8F0] text-[#09172C] hover:bg-gray-100 text-xs font-bold cursor-pointer"
               >
-                Concluir & Fechar
+                {t('wizard.finishClose')}
               </button>
               <button
                 type="button"
@@ -1065,7 +1084,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                 className="px-6 py-2.5 rounded-xl bg-[#09172C] hover:bg-[#236199] text-white text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer"
               >
                 <FileText className="w-4 h-4 text-[#FEC228]" />
-                <span>Portal & Faturas</span>
+                <span>{t('wizard.portalInvoices')}</span>
               </button>
             </>
           ) : (
@@ -1077,7 +1096,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   className="px-4 py-2.5 rounded-xl border border-[#E2E8F0] text-[#09172C] hover:bg-gray-100 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  <span>Voltar</span>
+                  <span>{t('wizard.back')}</span>
                 </button>
               ) : (
                 <div />
@@ -1096,7 +1115,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     }}
                     className="px-6 py-2.5 rounded-xl bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer"
                   >
-                    <span>Avançar para Etapa {step + 1}</span>
+                    <span>{t('wizard.nextStep', { step: step + 1 })}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 ) : (
@@ -1109,12 +1128,12 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin text-[#FEC228]" />
-                        <span>A registar...</span>
+                        <span>{t('wizard.registering')}</span>
                       </>
                     ) : (
                       <>
                         <Check className="w-4 h-4" />
-                        <span>Confirmar Reserva</span>
+                        <span>{t('wizard.confirmBooking')}</span>
                       </>
                     )}
                   </button>

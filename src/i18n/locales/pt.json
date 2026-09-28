@@ -34,10 +34,10 @@
     "tag": "Mobilidade Premium em Angola",
     "videoStoriesLabel": "Histórias PEPEK",
     "videoStoriesTagline": "Conectando decisões, negócios e oportunidades.",
-    "videoStoryPartnership": "PEPEK apoia Africa SEZs Summit \u2014 Mobilidade que Impulsiona o Investimento em Angola",
+    "videoStoryPartnership": "PEPEK apoia Africa SEZs Summit — Mobilidade que Impulsiona o Investimento em Angola",
     "videoStoryInternational": "Comitivas e Delegações — Transporte Coordenado ao Minuto",
     "videoStoryInternationalTagline": "Equipas, bagagem e horários sob controlo.",
-    "videoStoryOperation": "Operação PEPEK \u2014 A Excelência Começa nos Bastidores",
+    "videoStoryOperation": "Operação PEPEK — A Excelência Começa nos Bastidores",
     "videoStoryOperationTagline": "Rigor na preparação. Resultado premium em cada viagem.",
     "videoStoryFleet": "Conexões que Criam Ecossistemas. Parcerias que Movem o Futuro.",
     "videoStoryFleetTagline": "Valorizamos a liderança feminina!",
@@ -69,8 +69,8 @@
     "statAssistance": "24/7",
     "statAssistanceSub": "Assistência em viagem",
     "statCoverage": "Cobertura Nacional",
-    "statCoverageSub": "Operação em Angola"
-    ,"quickTitle": "Consultar disponibilidade",
+    "statCoverageSub": "Operação em Angola",
+    "quickTitle": "Consultar disponibilidade",
     "quickHeadline": "Escolha a viatura. Confirme em minutos.",
     "quickPickup": "Local de levantamento",
     "quickReturn": "Local de devolução",
@@ -100,7 +100,27 @@
     "featureDriversDetail": "Bilingues, treinados\ne discretos",
     "featureCoverageTitle": "Cobertura nacional",
     "featureCoverageDetail": "Luanda, Icolo e Bengo,\nLobito, Huambo e todo o país",
-    "featureMultilingualTitle": "Comunicação multilíngue"
+    "featureMultilingualTitle": "Comunicação multilíngue",
+    "locationSuggestions": [
+      "Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)",
+      "Aeroporto 4 de Fevereiro, Luanda",
+      "Sede PEPEK — Talatona",
+      "Talatona — Hotéis e Centros Empresariais",
+      "Miramar — Zona Diplomática",
+      "Ilha de Luanda",
+      "Maianga — Centro de Luanda",
+      "Viana — Pólo Industrial",
+      "Cacuaco",
+      "Caxito — Bengo",
+      "Huambo — Centro"
+    ],
+    "visualStageLabel": "Área visual preparada para o futuro vídeo institucional",
+    "visualVehicleAlt": "Viatura oficial da frota executiva PEPEK",
+    "previous": "Anterior",
+    "next": "Seguinte",
+    "availabilityUnavailable": "Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.",
+    "availabilityOnRequest": "Pedido elegível para confirmação. A equipa valida a viatura física, motorista e condições operacionais antes de confirmar.",
+    "checking": "A verificar…"
   },
   "booking": {
     "title": "Reserva & Proposta Inteligente",
@@ -219,7 +239,14 @@
     "onRequest": "Sob consulta",
     "viewCategory": "Ver categoria",
     "requestVehicle": "Solicitar esta viatura",
-    "categories": { "luxo": "Luxo & Executivo", "suvs": "SUV Executivo", "pickups": "Pick-up & Campo", "vans": "Vans & Delegações", "economicos": "Mobilidade Urbana", "eventos": "Eventos Especiais" }
+    "categories": {
+      "luxo": "Luxo & Executivo",
+      "suvs": "SUV Executivo",
+      "pickups": "Pick-up & Campo",
+      "vans": "Vans & Delegações",
+      "economicos": "Mobilidade Urbana",
+      "eventos": "Eventos Especiais"
+    }
   },
   "services": {
     "tag": "Experiência premium em cada quilómetro",
@@ -415,10 +442,314 @@
   "chat": {
     "title": "Assistente Virtual PEPEK",
     "subtitle": "Qualificação & Apoio Executivo 24/7",
-    "placeholder": "Coloque a sua dúvida sobre viaturas, transfers ou reservas...",
-    "send": "Enviar",
+    "placeholder": "Escreva a sua mensagem...",
+    "send": "Enviar mensagem",
     "handoffBtn": "Falar com Gestor no WhatsApp",
-    "welcome": "Olá! Sou o Assistente Executivo da PEPEK GRUPO. Como posso ajudar com o seu aluguer ou mobilidade em Angola hoje?"
+    "welcome": "Olá! Sou o Assistente Executivo da PEPEK GRUPO. Como posso ajudar com o seu aluguer ou mobilidade em Angola hoje?",
+    "dynamicReplies": {
+      "prices": [
+        "Económicos (49.999 Kz)",
+        "Toyota LC 300 / Prado",
+        "Toyota Hilux 4x4",
+        "Range Rover Vogue Blindado"
+      ],
+      "airport": [
+        "Aeroporto 4 de Fevereiro",
+        "Novo Aeroporto AIAAN",
+        "Com Motorista Bilingue",
+        "Fazer Reserva"
+      ],
+      "events": [
+        "Limousine VIP",
+        "Mercedes-Benz Classe S",
+        "Range Rover Autobiography",
+        "Falar com Consultor"
+      ],
+      "provinces": [
+        "Toyota Hilux 4x4",
+        "Toyota Prado",
+        "Assistência 24/7",
+        "Pedir Cotação"
+      ],
+      "default": [
+        "Recomendar Viatura",
+        "Preços das Diárias",
+        "Transfer Aeroporto VIP",
+        "Falar com um Consultor"
+      ]
+    },
+    "fallback": {
+      "emergency": {
+        "message": "Lamento imenso o sucedido e compreendo a sua preocupação! 🛡️ A sua segurança e tranquilidade são a nossa prioridade absoluta. A nossa central de piquete e reboque 24h em Talatona está pronta para intervir de imediato e providenciar assistência ou viatura de substituição. Vou transferi-lo agora para a nossa equipa operacional de emergência.",
+        "handover": "Assistência Urgente / Viatura na Estrada",
+        "replies": [
+          "Ligar para +244 923 719 090",
+          "Enviar Localização no WhatsApp"
+        ]
+      },
+      "human": {
+        "message": "Com todo o gosto! 🤝 É sempre um prazer falar consigo. Os nossos consultores executivos da central de Talatona estão disponíveis 24/7 para atendê-lo diretamente por WhatsApp ou ligação telefónica.",
+        "handover": "Solicitação de Atendimento Humano",
+        "replies": [
+          "Abrir WhatsApp da Central",
+          "Ligar 24/7 (+244 923 719 090)"
+        ]
+      },
+      "change": {
+        "message": "Compreendo perfeitamente a necessidade de ajustar a sua viagem! ✨ A nossa equipa de apoio e operações trata de qualquer remarcação ou cancelamento com rapidez e flexibilidade. Vou encaminhá-lo para a nossa central com a referência do seu pedido.",
+        "handover": "Alteração/Cancelamento de Reserva",
+        "replies": [
+          "Falar com a Central no WhatsApp",
+          "Consultar Política de Cancelamento"
+        ]
+      },
+      "wedding": {
+        "message": "Que ocasião tão especial e feliz! 💍🥂 Para momentos inesquecíveis, dispomos da nossa imponente Limousine VIP (20 lugares, 999.999 Kz/dia), além de Mercedes-Benz Classe S, Mercedes-AMG G63 e Range Rover Autobiography. Podemos personalizar o serviço com motorista de gala e decoração!",
+        "replies": [
+          "Ver Limousine (999.999 Kz)",
+          "Mercedes-Benz Classe S",
+          "Range Rover Autobiography",
+          "Falar com Consultor de Eventos"
+        ]
+      },
+      "largeEvent": {
+        "message": "Temos ampla experiência e orgulho na coordenação de grandes frotas e comboios para cimeiras de Estado e eventos internacionais em Angola! 🌟 Para dimensionarmos as viaturas homogéneas e os motoristas dedicados, vou colocá-lo em contacto com o nosso Gestor de Grandes Contas.",
+        "handover": "Comitiva de Grande Escala / Cimeira",
+        "replies": [
+          "Falar com Gestor de Contas",
+          "Ver Vans VIP e Minibus",
+          "Ver Frota Executiva"
+        ]
+      },
+      "recommend": {
+        "message": "Será um enorme prazer ajudar a encontrar a viatura ideal para si! 🚗✨ Para lhe dar a melhor recomendação: quantas pessoas vão viajar e o trajeto será em Luanda ou envolverá outras províncias de Angola?",
+        "replies": [
+          "Até 4 pessoas (Luanda)",
+          "Família/Grupo até 7 pessoas",
+          "Comitiva (12+ pessoas)",
+          "Viagem ao Interior / Províncias"
+        ]
+      },
+      "compare": {
+        "message": "Excelente questão! 💎 Para prestígio executivo e requinte máximo, o Toyota LC 300 e o Land Cruiser 250 são incomparáveis. Se a missão exige robustez todo-terreno no interior, a Toyota Hilux 4x4 é a referência. Para grupos até 15 pessoas, a Mercedes V300 Class e a Hiace Furgão oferecem conforto total. E para segurança balística máxima, dispomos do Range Rover Vogue Blindado B6/B7.",
+        "replies": [
+          "Toyota LC 300 / Prado",
+          "Toyota Hilux 4x4",
+          "Mercedes V300 Class",
+          "Range Rover Vogue Blindado"
+        ]
+      },
+      "specsArmoured": {
+        "message": "O nosso Range Rover Vogue Blindado é uma verdadeira fortaleza de luxo! 🛡️ Possui blindagem balística certificada nível B6/B7, 5 lugares em pele nobre, vidros balísticos e sistema de comunicação seguro. Disponível com condutor treinado em proteção executiva (1.999.999 Kz/dia).",
+        "replies": [
+          "Ver Ficha do Blindado",
+          "Saber Diária (1.999.999 Kz)",
+          "Reservar com Motorista VIP"
+        ]
+      },
+      "specsVan": {
+        "message": "Para comitivas e grupos com espaço generoso! 🚐 A Mercedes-Benz V300 Class VIP tem 7 lugares em poltronas reclináveis de alto luxo, a Toyota Hiace Furgão transporta até 15 passageiros e a Mercedes-Benz Sprinter acomoda até 21 pessoas com ar condicionado reforçado e amplo porta-bagagens.",
+        "replies": [
+          "Ver Mercedes V300",
+          "Ver Toyota Hiace Furgão",
+          "Ver Mercedes-Benz Sprinter"
+        ]
+      },
+      "specsHilux": {
+        "message": "A Toyota Hilux Dupla Cabine 4x4 é a rainha da resistência nas estradas angolanas! 🚜 Tem 5 lugares, caixa de carga reforçada, tração 4x4 com redutora, motor Diesel económico e ar condicionado tropicalizado (189.999 Kz/dia).",
+        "replies": [
+          "Ver Hilux 4x4 (189.999 Kz)",
+          "Reservar para Províncias",
+          "Pedir com Motorista"
+        ]
+      },
+      "specsSuv": {
+        "message": "O Toyota LC 300 e o Land Cruiser 250 oferecem 7 lugares amplos, tração integral 4WD, caixa automática suave, acabamentos em couro premium e climatização multizona independente. O auge do prestígio executivo! ✨",
+        "replies": [
+          "Ver Toyota LC 300",
+          "Ver Toyota Land Cruiser 250",
+          "Consultar Outra Viatura"
+        ]
+      },
+      "availability": {
+        "message": "Temos viaturas prontas e higienizadas na nossa base central de Talatona! 🚗✨ Desde citadinos económicos a SUVs de alto prestígio e blindados. Para que datas e que tipo de viatura tem em mente?",
+        "replies": [
+          "Para Hoje / Imediato",
+          "Para Esta Semana",
+          "SUV de Luxo / LC300",
+          "Económico / Urbano"
+        ]
+      },
+      "howToBook": {
+        "message": "O processo é simples, rápido e transparente! ✨ Escolhe a viatura no catálogo, define as datas e pode submeter o pedido pelo site ou confirmar diretamente no WhatsApp com a nossa Direção de Operações.",
+        "replies": [
+          "Sim, pedir cotação",
+          "Com Motorista Protocolar",
+          "Livre Condução (Self-Drive)"
+        ]
+      },
+      "prices": {
+        "message": "As nossas tarifas oficiais 2026 são totalmente transparentes e em Kwanzas (Kz)! 💳 Citadinos económicos a partir de 49.999 Kz (Kia Morning / Celerio), SUVs a 139.999 Kz – 169.999 Kz (Creta / Tucson / Tiggo 7), Pick-ups 4x4 a 189.999 Kz (Hilux), SUVs Executivos a 299.999 Kz – 599.999 Kz (Prado / LC300) e Blindados a 1.999.999 Kz.",
+        "replies": [
+          "Económicos (49.999 Kz)",
+          "SUVs Executivos",
+          "Vans VIP (359k – 800k)",
+          "Proposta Corporativa"
+        ]
+      },
+      "payment": {
+        "message": "Facilitamos o seu pagamento com total segurança e comodidade! 💳 Em Angola aceitamos Multicaixa, Multicaixa Express e transferências bancárias (BAI, BFA, Atlântico). Do exterior, aceitamos cartões Visa, Mastercard, MB WAY e transferências SWIFT em USD ou EUR. O comprovativo fica disponível após confirmação do pagamento.",
+        "replies": [
+          "Faturação para Empresa",
+          "Pagamento Multicaixa Express",
+          "Cartão Internacional / MB WAY"
+        ]
+      },
+      "invoicing": {
+        "message": "O sistema regista a fatura da sua empresa ou embaixada em Kwanzas (AOA) ou moeda estrangeira (USD/EUR) e disponibiliza o comprovativo depois da confirmação do pagamento. Para clientes corporativos acreditados, disponibilizamos condições de pagamento a 30 dias.",
+        "replies": [
+          "Empresa em Angola",
+          "Embaixada / Diplomático",
+          "Contrato Corporativo"
+        ]
+      },
+      "driver": {
+        "message": "Dispomos do mais distinto serviço de Chauffeur Protocolar em Angola (+35.000 Kz/dia)! 👔 Os nossos motoristas são fardados, poliglotas (Português, Inglês e Francês) e contam com formação avançada em condução defensiva, etiqueta e sigilo absoluto.",
+        "replies": [
+          "Sim, motorista em Inglês",
+          "Sim, motorista em Francês",
+          "Apenas em Português",
+          "Livre Condução (Sem motorista)"
+        ]
+      },
+      "provinces": {
+        "message": "Movemos quem move Angola de Cabinda ao Cunene! 🇦🇴 As taxas de deslocação partindo de Luanda variam entre 150.000 Kz e 500.000 Kz (conforme a tabela oficial dos catálogos). Em província, o apoio ao motorista inclui 35.000 Kz/dia, combustível 50.000 Kz e alojamento/alimentação 30.000 Kz/dia.",
+        "replies": [
+          "Pólo Huambo (250k)",
+          "Benguela (250k)",
+          "Huíla (350k)",
+          "Ver Outra Província"
+        ],
+        "rates": {
+          "bengo": "Para o Bengo a taxa oficial é de 150.000 Kz (Ida e Volta: 300.000 Kz).",
+          "icolo": "Para Ícolo e Bengo a taxa oficial é de 200.000 Kz (Ida e Volta: 400.000 Kz).",
+          "group250": "Para o Huambo, Benguela, Zaire, Malanje, Kwanza Sul/Norte e Uíge a taxa é de 250.000 Kz (Ida e Volta: 500.000 Kz).",
+          "group350": "Para a Huíla e Lunda-Norte a taxa é de 350.000 Kz (Ida e Volta: 700.000 Kz).",
+          "bie": "Para o Bié a taxa é de 400.000 Kz (Ida e Volta: 800.000 Kz).",
+          "group450": "Para o Cunene, Namibe, Cuando Cubango e Lunda-Sul a taxa é de 450.000 Kz (Ida e Volta: 900.000 Kz).",
+          "moxico": "Para o Moxico / Moxico Leste a taxa é de 500.000 Kz (Ida e Volta: 1.000.000 Kz)."
+        }
+      },
+      "deposit": {
+        "message": "A caução para Livre Condução é estritamente tabelada conforme o catálogo oficial 2026: 300.000 Kz para Citadinos Ligeiros, 500.000 Kz para Mini SUVs e 1.500.000 Kz para SUVs Executivos, 4x4 e Viaturas de Luxo. 💳 O montante é desbloqueado integralmente no fecho do contrato após vistoria.",
+        "replies": [
+          "Ligeiros (300k Kz)",
+          "Mini SUVs (500k Kz)",
+          "SUVs Executivos (1,5M Kz)",
+          "Alugar com Motorista (Sem Caução)"
+        ]
+      },
+      "penalties": {
+        "message": "A nossa política é 100% transparente: atraso na devolução até 1 hora tem penalização de 15.000 a 50.000 Kz; falta de higienização é 15.000 Kz; falta de reposição de combustível é 25.000 Kz (ligeiro) ou 50.000 Kz (SUV/Van); e saída não autorizada fora das localidades acordadas constitui infração de 500.000 Kz.",
+        "replies": [
+          "Período de Tolerância",
+          "Política de Higienização",
+          "Falar com Operações"
+        ]
+      },
+      "location": {
+        "message": "Estamos estrategicamente localizados para o servir com excelência! 📍 Sede Central em Talatona (frente ao HCTA, Condomínio Ateliê dos Sonhos, Rua Reino do Bailundo), Balcão 24/7 no Novo Aeroporto AIAAN (Corredor 4 – Piso Inferior – Chegadas) e Pólo Regional no Huambo (Aeroporto Albano Machado).",
+        "replies": [
+          "Sede Talatona",
+          "Balcão Aeroporto AIAAN",
+          "Pólo Huambo",
+          "Ligar para a Central"
+        ]
+      },
+      "airport": {
+        "message": "Seja muito bem-vindo(a) a Angola! 🛫🇦🇴 Realizamos transfers executivos no Aeroporto 4 de Fevereiro e no Novo Aeroporto Internacional AIAAN (onde temos balcão 24/7 no Corredor 4 das Chegadas). O nosso motorista aguarda com placa identificativa, apoio de bagagem e sem taxas por atrasos de voo.",
+        "replies": [
+          "Aeroporto 4 de Fevereiro",
+          "Aeroporto AIAAN (Novo)",
+          "Transfer com SUV de Luxo",
+          "Transfer com Van VIP"
+        ]
+      },
+      "insurance": {
+        "message": "A sua tranquilidade é garantida a 100%! 🛡️ Todas as viaturas contam com cobertura total de seguro e assistência técnica 24 horas. Em caso de qualquer imprevisto mecânico, enviamos uma viatura de substituição equivalente ou superior de imediato.",
+        "replies": [
+          "Ver Catálogo da Frota",
+          "Pedir Cotação com Seguro",
+          "Falar com Consultor"
+        ]
+      },
+      "diplomatic": {
+        "message": "Temos a honra de servir regularmente embaixadas, missões diplomáticas e cimeiras internacionais em Angola. 🤝 Garantimos discrição absoluta, frotas de representação impecáveis, viaturas blindadas certificadas B6/B7 e motoristas com formação protocolar.",
+        "replies": [
+          "Proposta para Embaixada",
+          "Range Rover Vogue Blindado",
+          "Falar com Gestor Diplomático"
+        ]
+      },
+      "hours": {
+        "message": "A nossa central de apoio e operações em Talatona e o balcão no Aeroporto AIAAN estão em funcionamento contínuo 24 horas por dia, 7 dias por semana, incluindo fins de semana e feriados! 🕒",
+        "replies": [
+          "Fazer Reserva Agora",
+          "Ligar para a Central",
+          "Localização em Talatona"
+        ]
+      },
+      "default": {
+        "message": "Olá! Sou o consultor executivo da PEPEK GRUPO em Talatona. 🚗✨ É um enorme gosto recebê-lo(a)! Em que posso apoiar a sua viagem ou a mobilidade da sua instituição hoje?",
+        "replies": [
+          "Recomendar Viatura",
+          "Preços das Diárias",
+          "Transfer Aeroporto VIP",
+          "Falar com um Consultor"
+        ]
+      }
+    },
+    "bubbleTitle": "Consultor Pepek Grupo",
+    "bubbleText": "Precisa de ajuda a escolher a viatura ideal para a sua comitiva ou viagem?",
+    "dismiss": "Dispensar sugestão",
+    "open": "Abrir Atendimento Executivo",
+    "headerTitle": "Consultor de Mobilidade PEPEK",
+    "headerStatus": "Central de Talatona · Disponível 24/7",
+    "close": "Fechar atendimento",
+    "whatsappConsultant": "Falar no WhatsApp com Consultor",
+    "humanTalatona": "Atendimento humano em Talatona",
+    "whatsappDirect": "WhatsApp Direto",
+    "errorFallback": "A nossa equipa em Talatona está inteiramente ao seu dispor com todo o carinho! 🤝 Dispomos de SUVs executivas, 4x4 de campo, vans de luxo e condutores de protocolo bilingues. Posso ligá-lo a um consultor de imediato.",
+    "handoverDefaultTopic": "Atendimento de Frota",
+    "handoverDefaultMessage": "Consulta de Mobilidade",
+    "handoverVehicle": "Viatura de Interesse: {{vehicle}}",
+    "handoverMessage": "*SOLICITAÇÃO DE ATENDIMENTO — PEPEK GRUPO*\nAssunto: {{topic}}\nÚltima Mensagem: \"{{lastMessage}}\"{{vehicle}}\n\n_Gostaria de falar com um consultor humano para finalizar o meu pedido._",
+    "helloName": "Olá, {{name}}",
+    "support247": "Atendimento 24/7",
+    "greeting": {
+      "demo": "Olá, {{name}}! Que satisfação tê-lo(a) connosco. 🤝✨ Em que posso apoiar a sua operação de mobilidade hoje?",
+      "member": "Olá, {{name}}! É sempre um gosto falar consigo. 🚗✨ Como posso ajudar na sua mobilidade hoje?",
+      "guest": "Olá! É um enorme prazer recebê-lo(a) na PEPEK GRUPO em Talatona. 🚗✨ Em que posso apoiar a sua viagem, transfer VIP ou a mobilidade da sua instituição hoje?"
+    },
+    "quickReplies": {
+      "demo": [
+        "Consultar Viaturas Disponíveis",
+        "Faturas e Documentos",
+        "Pedir Nova Viatura",
+        "Falar com a Central"
+      ],
+      "member": [
+        "Consultar Reservas",
+        "Pedir Viatura",
+        "Falar com Atendimento"
+      ],
+      "guest": [
+        "Recomendar Viatura",
+        "Preços das Diárias",
+        "Transfer Aeroporto VIP",
+        "Falar com um Consultor"
+      ]
+    }
   },
   "footer": {
     "tagline": "Experiência premium em cada quilómetro",
@@ -439,7 +770,7 @@
     "navFleet": "Frota Premium",
     "navServices": "Serviços",
     "navClients": "Clientes Institucionais",
-    "navBlog": "Blog & Newsletters",
+    "navBlog": "Blogue & Newsletters",
     "navContacts": "Contactos",
     "opsTitle": "Contactos PEPEK",
     "address": "Talatona, Rua Reino do Bailundo, Luanda — Angola",
@@ -447,5 +778,1123 @@
     "copyright": "© 2014 – {{year}} PEPEK GRUPO RENT-A-CAR. Todos os direitos reservados.",
     "privacy": "Privacidade",
     "backToTop": "Voltar ao topo"
+  },
+  "coverage": {
+    "eyebrow": "Presença Territorial",
+    "title": "Cobertura operacional em toda Angola.",
+    "subtitle": "Com bases estratégicas e uma rede de assistência virtual, asseguramos continuidade operacional, acompanhamento e segurança em qualquer província do país.",
+    "activeBase": "Base Activa & Certificada",
+    "readinessTitle": "Prontidão Operacional em Angola",
+    "readinessSubtitle": "Serviço de aluguer de frotas 4x4, transfers interprovinciais e assistência técnica em viagem.",
+    "roadside": "Socorro Mecânico 24/7",
+    "hubs": [
+      {
+        "name": "Luanda — Sede Central & Hub Internacional",
+        "status": "Operação 24 Horas",
+        "facilities": [
+          "Aeroporto 4 de Fevereiro & AIAAN",
+          "Centro Operacional VIP",
+          "Base de Manutenção Própria",
+          "Frota de Reserva Imediata"
+        ]
+      },
+      {
+        "name": "Huambo — Pólo Planalto Central",
+        "status": "Base Operacional Regional",
+        "facilities": [
+          "Apoio a Missões no Centro e Sul",
+          "Frotas 4x4 Todo-Terreno",
+          "Oficina de Apoio Rápido",
+          "Pilotos Locais Credenciados"
+        ]
+      },
+      {
+        "name": "Bengo — Pólo Corredor Norte",
+        "status": "Base Avançada",
+        "facilities": [
+          "Ligação a Caxito e Litoral",
+          "Apoio a Projectos Agro-Industriais",
+          "Escolta e Logística de Equipas",
+          "Assistência Mecânica Móvel"
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Dúvidas Frequentes",
+    "title": "Perguntas Frequentes sobre os Nossos Serviços",
+    "subtitle": "Respostas claras sobre processos de reserva, requisitos contratuais, segurança e operações no território angolano.",
+    "complexQuestion": "Tem uma operação de maior complexidade?",
+    "whatsappSubject": "Dúvida Específica sobre Serviço",
+    "talkToTeam": "Fale com a nossa equipa",
+    "items": [
+      {
+        "q": "Quais são os requisitos para o aluguer de viaturas (Livre Condução)?",
+        "a": "Para particulares e executivos em livre condução, é necessário apresentar Bilhete de Identidade ou Passaporte válido, Carta de Condução com mais de 2 anos de emissão, comprovativo de morada ou estadia em Angola, e caução (depósito de garantia) através de cartão ou transferência."
+      },
+      {
+        "q": "Como funciona o serviço de Mobilidade Executiva com Motorista/Chauffeur?",
+        "a": "O nosso serviço de Chauffeur é integral: disponibilizamos a viatura topo de gama com combustível (ou a combinar), conduzida por um profissional devidamente fardado, credenciado em protocolo executivo, condução defensiva e sigilo profissional. O motorista fica à disposição do cliente ou comitiva durante o período contratado."
+      },
+      {
+        "q": "As viaturas podem circular fora de Luanda (viagens interprovinciais)?",
+        "a": "Sim, absolutamente. Toda a nossa frota de 4x4 e SUVs possui autorização e cobertura para viajar para o Huambo, Bengo, Benguela e qualquer outra província do país. As viaturas são equipadas com rastreio por GPS 24/7 e contam com assistência móvel em todo o território nacional."
+      },
+      {
+        "q": "Como é feita a recepção nos Aeroportos (4 de Fevereiro / AIAAN)?",
+        "a": "O nosso motorista aguarda na área de desembarque internacional com uma placa de identificação com o nome do passageiro ou da instituição. Monitorizamos o número do voo em tempo real para ajustar a hora de chegada sem custos adicionais em caso de atraso."
+      },
+      {
+        "q": "Como funciona a faturação para embaixadas, governos e empresas?",
+        "a": "O sistema regista as faturas e disponibiliza comprovativos de pagamento após a confirmação da liquidação, em moeda nacional (AOA) ou moeda estrangeira (USD/EUR), conforme a fatura. Oferecemos contratos de conta-corrente com termos de pagamento a 30 dias mediante acreditação prévia."
+      },
+      {
+        "q": "O que acontece em caso de avaria ou incidente durante a viagem?",
+        "a": "A PEPEK GRUPO garante assistência técnica 24 horas por dia e envio imediato de uma viatura de substituição da mesma categoria ou superior, sem custos adicionais para o cliente, salvaguardando a continuidade da sua missão ou viagem."
+      }
+    ]
+  },
+  "pages": {
+    "servicos": {
+      "metaTitle": "Serviços de Mobilidade Executiva e Rent-a-Car | PEPEK GRUPO Angola",
+      "metaDescription": "Transfers de aeroporto, mobilidade executiva, contratos corporativos, eventos, motorista protocolar e apoio 24 horas em Angola. Saiba como trabalhamos.",
+      "ogTitle": "Serviços de Mobilidade Executiva | PEPEK GRUPO",
+      "ogDescription": "Conforto, segurança e acompanhamento operacional em serviços de mobilidade executiva, corporativa e protocolar em Angola.",
+      "schemaName": "Serviços PEPEK GRUPO",
+      "schemaServices": [
+        "Transfers de Aeroporto",
+        "Mobilidade Executiva",
+        "Contratos Corporativos",
+        "Eventos e Comitivas",
+        "Motorista Protocolar",
+        "Apoio e Segurança 24 Horas"
+      ],
+      "eyebrow": "O que fazemos",
+      "title": "Mobilidade executiva pensada ao detalhe.",
+      "description": "Do transfer aeroportuário ao contrato de longa duração, ajustamos viaturas, motoristas e planeamento operacional às necessidades de cada deslocação, em qualquer ponto de Angola."
+    },
+    "clientes": {
+      "metaTitle": "Clientes de Referência – Embaixadas, Governo & Multinacionais | PEPEK GRUPO",
+      "metaDescription": "Embaixadas, Governo angolano, UNDP, Bestfly, DP World, instituições e empresas confiam na PEPEK GRUPO para a sua mobilidade executiva em Angola.",
+      "ogTitle": "Clientes Institucionais | PEPEK GRUPO",
+      "ogDescription": "Corpos diplomáticos, ministérios, banca, energia e media confiam a sua mobilidade à PEPEK GRUPO.",
+      "eyebrow": "Confiança institucional",
+      "title": "A confiança de quem exige mais.",
+      "description": "Servimos corpos diplomáticos, entidades do Estado e empresas de setores estratégicos, onde segurança, discrição e pontualidade não são opcionais, são o padrão."
+    },
+    "contactos": {
+      "metaTitle": "Contactos – Central de Operações PEPEK GRUPO | +244 923 719 090",
+      "metaDescription": "Contacte a Central de Operações PEPEK GRUPO em Talatona, Luanda. Linha 24/7: +244 923 719 090 / 923 000 010. WhatsApp disponível.",
+      "ogTitle": "Contactos | PEPEK GRUPO",
+      "ogDescription": "Central de Operações em Talatona, Luanda. Linha e WhatsApp disponíveis 24 horas.",
+      "eyebrow": "Central de operações",
+      "title": "Atendimento 24/7 · Talatona, Luanda",
+      "description": "Linha direta, WhatsApp e e-mail disponíveis 24 horas por dia, 7 dias por semana.",
+      "highlights": [
+        "Pedidos urgentes e assistência operacional",
+        "Propostas e solicitações corporativas",
+        "Acompanhamento e apoio durante o serviço"
+      ]
+    },
+    "frota": {
+      "metaTitle": "Frota Executiva – Viaturas de Luxo, Blindados, SUVs e Vans | PEPEK GRUPO",
+      "metaDescription": "Conheça a frota executiva da PEPEK GRUPO em Angola: blindados, berlinas de luxo, SUVs, viaturas 4x4, Vans VIP e soluções económicas.",
+      "ogTitle": "Frota Executiva PEPEK GRUPO – Blindados, SUVs e Vans VIP",
+      "ogDescription": "Blindados, berlinas de luxo, SUVs, 4x4 e Vans VIP disponíveis com ou sem motorista em Luanda e em todo o país.",
+      "schemaName": "Frota Executiva PEPEK GRUPO RENT-A-CAR",
+      "schemaDescription": "Aluguer executivo, corporativo e diplomático de viaturas em Angola.",
+      "eyebrow": "A nossa frota",
+      "title": "Uma viatura certa para cada missão.",
+      "description": "Blindados, Executivos, SUVs, 4x4 (para operações no interior do país) e Vans. Compare categorias, lotação e condições, e escolha a solução que melhor se adapta à sua deslocação com ou sem motorista."
+    },
+    "home": {
+      "metaTitle": "PEPEK GRUPO – Rent-a-Car Executivo & Mobilidade de Luxo em Angola",
+      "metaDescription": "Aluguer de viaturas de luxo em Luanda com ou sem motorista protocolar. Blindados, berlinas executivas, SUVs, viaturas 4x4 e Vans VIP. Talatona, Luanda.",
+      "ogTitle": "PEPEK GRUPO – Rent-a-Car Executivo & Blindados Angola",
+      "ogDescription": "Mobilidade executiva, protocolo e rent-a-car premium para empresas, instituições e particulares em Angola."
+    },
+    "painel": {
+      "metaTitle": "Painel de Gestão – PEPEK GRUPO",
+      "title": "Área Reservada",
+      "subtitle": "Por favor inicie sessão para aceder ao painel de gestão."
+    },
+    "privacidade": {
+      "metaTitle": "Privacidade e Proteção de Dados | PEPEK GRUPO",
+      "metaDescription": "Como a PEPEK GRUPO trata dados pessoais em pedidos de mobilidade e rent-a-car.",
+      "title": "Proteção de dados em cada pedido.",
+      "intro": "A PEPEK GRUPO trata os seus dados para responder a pedidos, organizar a mobilidade, emitir documentos de faturação e prestar apoio. Nunca envie NIF, passaporte, carta de condução, cartão ou PIN por WhatsApp.",
+      "secureChannels": "Canais seguros",
+      "disclaimer": "Esta página descreve o funcionamento digital atual. A política jurídica final deve ser revista e aprovada pela direção e assessoria legal antes do início de operação comercial.",
+      "talkToTeam": "Falar com a equipa",
+      "eyebrow": "Confiança e privacidade",
+      "channelsText": "Após a confirmação, a equipa indicará o canal autorizado quando for necessário validar documentação contratual ou de condução. Pode pedir esclarecimentos, atualização ou eliminação de dados através de",
+      "principles": [
+        {
+          "title": "Dados necessários",
+          "text": "Pedimos apenas dados de contacto e da reserva necessários para responder, confirmar e prestar o serviço. Não solicite documentos por WhatsApp ou pelas observações do pedido."
+        },
+        {
+          "title": "Acesso protegido",
+          "text": "As reservas, faturas e informação operacional são disponibilizadas apenas a utilizadores autenticados e perfis autorizados."
+        },
+        {
+          "title": "Retenção responsável",
+          "text": "Os dados são mantidos apenas durante o tempo necessário para a operação, faturação, obrigações legais e resolução de pedidos."
+        }
+      ]
+    },
+    "quemSomos": {
+      "metaTitle": "Quem Somos – PEPEK GRUPO RENT-A-CAR | Desde 2014 em Angola",
+      "metaDescription": "A PEPEK GRUPO nasceu no Huambo em 2014. Mobilidade executiva com frota preparada, motoristas bilingues e capacidade operacional em Angola.",
+      "ogTitle": "Quem Somos | PEPEK GRUPO RENT-A-CAR",
+      "ogDescription": "Uma década de mobilidade executiva em Angola: história, princípios, equipa e capacidade operacional.",
+      "schemaName": "Quem Somos – PEPEK GRUPO"
+    },
+    "reservar": {
+      "metaTitle": "Solicitar Reserva Online – PEPEK GRUPO RENT-A-CAR Angola",
+      "metaDescription": "Reserve a sua viatura executiva online. Confirmação imediata pela Central de Operações em Talatona, Luanda. Disponível 24/7.",
+      "ogTitle": "Solicitar Reserva | PEPEK GRUPO",
+      "ogDescription": "Indique datas, localidades e necessidades da viagem. A Central de Operações confirma a disponibilidade.",
+      "schemaName": "Solicitar reserva PEPEK GRUPO",
+      "eyebrow": "Sistema oficial de reserva",
+      "title": "Planeie a sua deslocação em poucos passos.",
+      "description": "Escolha o serviço, indique datas e localidades e receba a confirmação da Central de Operações. Sem compromisso até validarmos a disponibilidade."
+    },
+    "rotas": {
+      "metaTitle": "Rotas Executivas e Transfers em Angola | PEPEK GRUPO",
+      "metaDescription": "Planeie transfers de aeroporto, deslocações empresariais e missões interprovinciais com viatura e motorista adequados ao itinerário.",
+      "ogTitle": "Rotas Executivas em Angola | PEPEK GRUPO",
+      "ogDescription": "Itinerários executivos, transfers e mobilidade protocolar com planeamento operacional em Angola.",
+      "schemaName": "Rotas Executivas e Transfers PEPEK GRUPO",
+      "eyebrow": "Mobilidade sem fronteiras",
+      "title": "O seu destino começa onde estiver",
+      "description": "Serviço de mobilidade à medida, disponível em todo o território nacional, com viaturas e motoristas selecionados para cada viagem."
+    }
+  },
+  "corporatePortal": {
+    "b1Title": "SLA Prioritário < 10 Minutos",
+    "b1Desc": "Atendimento directo com prioridade máxima 24 horas por dia, 365 dias por ano.",
+    "b2Title": "Pilotos de Protocolo Bilingues",
+    "b2Desc": "Formação rigorosa em etiqueta diplomática, sigilo profissional, primeiros socorros e condução defensiva.",
+    "b3Title": "Faturação e Condições de Pagamento",
+    "b3Desc": "Emissão de faturas com prazos de pagamento de 30 ou 60 dias para empresas credenciadas, conforme acordo.",
+    "b4Title": "Garantia de Viatura de Substituição",
+    "b4Desc": "Disponibilização imediata de viatura equivalente em qualquer província em caso de intervenção técnica.",
+    "eyebrow": "Contratos Corporativos & Protocolo Diplomático",
+    "title": "Soluções Estratégicas para Grandes Organizações",
+    "subtitle": "Desenhamos pacotes de mobilidade sob medida para embaixadas, petrolíferas, instituições financeiras e entidades governamentais que não podem prescindir de pontualidade e discrição.",
+    "ctaTitle": "Deseja abrir uma conta corporativa ou solicitar um acordo-quadro?",
+    "ctaSubtitle": "O nosso gestor de contas institucionais entrará em contacto directo com a sua direcção.",
+    "whatsappSubject": "Abertura de Conta Corporativa / Acordo Diplomático",
+    "talkToManager": "Falar com Gestor Institucional",
+    "requestProposal": "Enviar Pedido de Proposta Formal"
+  },
+  "institutionalClients": {
+    "groupsLabel": "Grupos de clientes",
+    "navLabel": "Navegação dos clientes",
+    "previousGroup": "Grupo anterior",
+    "nextGroup": "Grupo seguinte",
+    "title": "Confiança Institucional & Entidades de Referência",
+    "viewGroup": "Ver grupo {{number}}",
+    "names": {
+      "Embaixada Americana": "Embaixada Americana",
+      "Governo de Angola": "Governo de Angola",
+      "Assembleia Nacional": "Assembleia Nacional",
+      "Câmara de Comércio e Indústria Angola–Arábia Saudita": "Câmara de Comércio e Indústria Angola–Arábia Saudita",
+      "Programa das Nações Unidas para o Desenvolvimento": "Programa das Nações Unidas para o Desenvolvimento",
+      "STC — Serviço de Investigação Criminal": "STC — Serviço de Investigação Criminal",
+      "Catoca Diamantes": "Catoca Diamantes",
+      "COSMOS Viagens": "COSMOS Viagens",
+      "FAF Futebol": "FAF Futebol"
+    }
+  },
+  "paymentSecurity": {
+    "eyebrow": "Transparência & Conformidade Fiscal",
+    "title": "Métodos de Pagamento Oficiais Aceites",
+    "subtitle": "Comprovativos de pagamento disponíveis no portal após confirmação da liquidação.",
+    "emisNetwork": "Rede EMIS Angola",
+    "nationalBanks": "Banca Nacional",
+    "globalCards": "Cartões Globais",
+    "swift": "SWIFT Internacional",
+    "swiftSub": "USD & EUR Facturados"
+  },
+  "common": {
+    "loadingPage": "A carregar página",
+    "homeLinkLabel": "PEPEK Grupo — início",
+    "logoAlt": "PEPEK Grupo Rent-a-Car Angola",
+    "mainNav": "Navegação principal",
+    "mobileNav": "Navegação móvel",
+    "closeMenu": "Fechar menu",
+    "openMenu": "Abrir menu",
+    "selectLanguage": "Selecionar idioma",
+    "callAria": "Ligar para a PEPEK GRUPO 24/7",
+    "call247": "Ligar 24/7",
+    "bookAria": "Solicitar reserva de viatura",
+    "book": "Reservar",
+    "whatsappAria": "Contactar via WhatsApp",
+    "whatsappMobile": "Atendimento Mobile",
+    "splashTagline": "Experiência premium em cada quilômetro"
+  },
+  "contactForm": {
+    "centerTitle": "Central de Atendimento 24/7",
+    "centerSubtitle": "A nossa equipa operacional está sempre de serviço para responder a pedidos urgentes de frotas e transfers.",
+    "callsLabel": "Chamadas & Emergências",
+    "whatsappGeneral": "Atendimento Geral",
+    "whatsappLabel": "WhatsApp Executivo",
+    "emailLabel": "E-mail Institucional",
+    "locations": "Sede: Luanda · Pólos Operacionais: Huambo & Bengo",
+    "formTitle": "Envie-nos uma Mensagem",
+    "formSubtitle": "Preencha o formulário abaixo e será contactado de imediato pelo nosso departamento comercial.",
+    "nameLabel": "O Seu Nome",
+    "namePlaceholder": "Ex: Dr. Manuel Silva",
+    "contactLabel": "Telemóvel ou E-mail",
+    "subjectLabel": "Assunto",
+    "detailsLabel": "Detalhes da Solicitação",
+    "detailsPlaceholder": "Descreva as datas previstas, tipo de viatura ou requisitos específicos...",
+    "successTitle": "Mensagem Registada com Sucesso!",
+    "successSubtitle": "A nossa central recebeu a sua solicitação.",
+    "openWhatsapp": "Abrir no WhatsApp",
+    "submitting": "A registar mensagem…",
+    "submit": "Enviar Mensagem & Abrir WhatsApp",
+    "errorFallback": "Pode contactar-nos diretamente pelo WhatsApp ou telefone.",
+    "errorGeneric": "Não foi possível registar a mensagem.",
+    "whatsappTemplate": "*MENSAGEM DE CONTACTO — PEPEK GRUPO*\n*Nome:* {{name}}\n*Contacto:* {{contact}}\n*Assunto:* {{subject}}\n*Mensagem:* {{message}}",
+    "subjects": {
+      "general": "Pedido de Informações Gerais",
+      "corporate": "Proposta para Aluguer Corporativo",
+      "diplomatic": "Mobilidade para Corpo Diplomático",
+      "events": "Transfers de Grande Escala / Eventos",
+      "private": "Aluguer Particular de Curta Duração",
+      "other": "Outro Assunto"
+    },
+    "subjectOptions": {
+      "general": "Pedido de Informações Gerais",
+      "corporate": "Proposta para Aluguer Corporativo (Empresas)",
+      "diplomatic": "Mobilidade para Corpo Diplomático / Embaixada",
+      "events": "Transfers de Grande Escala / Eventos",
+      "private": "Aluguer Particular de Curta Duração",
+      "other": "Outro Assunto"
+    }
+  },
+  "routes": {
+    "eyebrow": "Rotas & Destinos",
+    "title": "Mobilidade que acompanha o seu percurso.",
+    "subtitle": "Ligamos Luanda às principais províncias de Angola através de um serviço de mobilidade premium, pensado para garantir conforto, segurança e excelência, em cada deslocação.",
+    "invoicingLabel": "Facturação:",
+    "selectedItinerary": "Itinerário Seleccionado",
+    "immediateAvailability": "Disponibilidade Imediata",
+    "recommendedVehicleHeader": "Viatura recomendada",
+    "officialImage": "Imagem oficial do catálogo 2026",
+    "dailyRental": "Aluguer diário da viatura",
+    "exclusions": "Motorista, combustível, alimentação, hospedagem e demais despesas adicionais não incluídos.",
+    "origin": "Ponto de Partida",
+    "destination": "Destino",
+    "recommendedVehicleLabel": "Viatura Indicada",
+    "waitTolerance": "Tolerância de espera de 60 minutos em voos atrasados sem custo adicional",
+    "onboard": "Água mineral lacrada, climatização independente e carregadores móveis a bordo",
+    "fastConfirmation": "Confirmação em menos de 15 minutos",
+    "confirmWhatsapp": "Confirmar Esta Rota no WhatsApp",
+    "minPriceFromOneDay": "Preço mínimo · a partir de 1 dia",
+    "transferFrom": "Transfer desde",
+    "dailyFrom": "Diária desde",
+    "recommendedVehicle": "Viatura indicada",
+    "vehicleMinPrice": "Preço mínimo desta viatura",
+    "displacementFee": "Taxa de deslocação ({{destination}})",
+    "fxNote": "Valor em {{currency}} convertido ao câmbio do dia na facturação.",
+    "invoicingIn": "Faturação em {{currency}} pelo sistema",
+    "whatsappBooking": "Reserva de Rota: {{route}} ({{currency}})",
+    "whatsappMinPrice": "{{vehicle}}, preço mínimo {{price}}",
+    "items": {
+      "route-airport-talatona": {
+        "name": "Transfer Aeroporto ➔ Talatona Executivo",
+        "from": "Aeroporto 4 de Fevereiro / AIAAN",
+        "to": "Talatona (Hotéis & Centros Empresariais)",
+        "estimatedTime": "35 – 45 min",
+        "vehicle": "SUV Executiva (Toyota Land Cruiser 250 / LC300)",
+        "badge": "Mais Frequente",
+        "description": "Receção à saída, assistência com a bagagem e transporte climatizado, complementados por um detalhe de cortesia para tornar a sua chegada ainda mais especial. Serviço Meet & Greet disponível mediante consulta."
+      },
+      "route-airport-miramar": {
+        "name": "Transfer Aeroporto ➔ Miramar & Zona Diplomática",
+        "from": "Aeroporto Internacional de Luanda",
+        "to": "Miramar / Alvalade / Zona das Embaixadas",
+        "estimatedTime": "20 – 30 min",
+        "vehicle": "Sedan / SUV de Luxo (Mercedes-Benz Classe S / Lexus LX 600)",
+        "badge": "Corpo Diplomático",
+        "description": "Percurso com piloto treinado em protocolo de segurança e conduta discreta para diplomatas e delegações oficiais."
+      },
+      "route-luanda-viana": {
+        "name": "Luanda Centro ➔ Pólo Industrial de Viana / Cacuaco",
+        "from": "Centro de Luanda / Maianga / Ingombota",
+        "to": "Parques Industriais de Viana & Cacuaco",
+        "estimatedTime": "40 – 50 min",
+        "vehicle": "4x4 Todo-Terreno (Toyota Hilux Dupla Cabine / Fortuner)",
+        "badge": "Empresarial & Campo",
+        "description": "Ideal para engenheiros, directores técnicos e visitas de inspecção fabril ou logística."
+      },
+      "route-luanda-bengo": {
+        "name": "Luanda ➔ Província do Bengo (Caxito / Panguila)",
+        "from": "Luanda",
+        "to": "Caxito / Bengo",
+        "estimatedTime": "1h 15 min",
+        "vehicle": "4x4 / Pick-up (Toyota LC HZ / Mitsubishi L200)",
+        "badge": "Interprovincial Litoral",
+        "description": "Viagem técnica ou institucional com viatura robusta e suporte operacional em tempo real."
+      },
+      "route-luanda-huambo": {
+        "name": "Missão Luanda ➔ Huambo (Planalto Central)",
+        "from": "Luanda (Sede PEPEK)",
+        "to": "Huambo (Pólo Regional)",
+        "estimatedTime": "Itinerário de Longa Distância",
+        "vehicle": "4x4 / SUV de Longo Curso (Toyota LC V8 / Hilux 4x4)",
+        "badge": "Expedição Nacional",
+        "description": "Pacote completo de missão interprovincial com viatura revista, equipamento de emergência e assistência técnica em todo o percurso."
+      }
+    },
+    "vehicleImageAlt": "{{vehicle}} — imagem oficial do catálogo PEPEK 2026",
+    "pricesFrom": "Preços desde"
+  },
+  "vehicle": {
+    "onConfirmation": "Sob confirmação",
+    "viewFullSpecs": "Ver Ficha Técnica Completa",
+    "passengerCapacity": "Capacidade de passageiros",
+    "doorCount": "Número de portas",
+    "transmission": "Transmissão",
+    "fuelType": "Tipo de combustível",
+    "fromPrice": "A partir de",
+    "insurance": "Seguro",
+    "viewDetails": "Ver detalhes",
+    "details": "Detalhes",
+    "whatsappTitle": "Consultar no WhatsApp oficial da Central",
+    "done": "Pronto!",
+    "bookNow": "Reservar agora",
+    "book": "Reservar",
+    "inCompareList": "Na Lista de Comparação (Remover)",
+    "compareWithOthers": "+ Comparar com outras viaturas",
+    "photoCount_one": "{{count}} Foto",
+    "photoCount_other": "{{count}} Fotos",
+    "imagesInReview": "Imagens em revisão",
+    "passengersShort": "{{count}} Pass.",
+    "doorsCount": "{{count}} Portas",
+    "tankWithValue": "Depósito: {{value}}",
+    "traction": "Tracção",
+    "perDay": "/ dia",
+    "transferPrice": "Transfer: {{price}}",
+    "secondaryImageAlt": "{{vehicle}} vista lateral/interior"
+  },
+  "whatsapp": {
+    "services": {
+      "rent-a-car": "Rent-a-Car Premium (Livre Condução / Com Motorista)",
+      "executive": "Mobilidade Executiva & Protocolar",
+      "transfer": "Transfer Aeroporto Internacional / Hotel",
+      "corporate": "Solução Corporativa / Gestão de Frotas para Empresas"
+    },
+    "bookingTitle": "SOLICITAÇÃO DE RESERVA — PEPEK GRUPO RENT-A-CAR",
+    "client": "Cliente",
+    "notSpecified": "Não especificado",
+    "company": "Empresa/Instituição",
+    "contact": "Contacto",
+    "operationDetails": "DETALHES DA OPERAÇÃO",
+    "service": "Serviço",
+    "location": "Província / Local",
+    "destination": "Destino",
+    "startDate": "Data de Início",
+    "toBeDefined": "A definir",
+    "endDate": "Data de Término",
+    "category": "Categoria Desejada",
+    "mode": "Modalidade",
+    "withDriver": "Com Motorista Executivo/Protocolar",
+    "selfDrive": "Livre Condução (Auto)",
+    "flightNumber": "Nº do Voo",
+    "passengers": "Nº de Passageiros",
+    "notes": "Observações",
+    "sentVia": "Enviado através do portal oficial pepekgrupo.com",
+    "slogan": "Movemos quem move Angola.",
+    "quickTopic": "Olá PEPEK GRUPO. Gostaria de informações sobre {{topic}}.",
+    "quickDefault": "Olá PEPEK GRUPO RENT-A-CAR. Gostaria de solicitar uma proposta de mobilidade executiva.",
+    "vehicleAvailability": "*CONSULTA DE DISPONIBILIDADE — PEPEK GRUPO*\n\nOlá! Gostaria de consultar a disponibilidade da viatura:\n*{{vehicle}}* ({{price}} AOA/dia).\n\nPoderiam informar as datas livres e opções com motorista bilingue / livre condução?"
+  },
+  "comparator": {
+    "title": "Comparador de Viaturas da Frota Pepek",
+    "subtitle": "Análise comparativa direta de especificações técnicas e valores diários.",
+    "clearAll": "Limpar Tudo",
+    "remove": "Remover viatura da comparação",
+    "bookThis": "Reservar Esta",
+    "capacityDoors": "Capacidade de Passageiros & Portas",
+    "transmissionFuel": "Transmissão & Combustível",
+    "tractionTank": "Tracção & Depósito",
+    "passengers": "{{count}} Passageiros",
+    "standardTank": "Depósito padrão",
+    "twoWheelDrive": "Tração Dianteira/Traseira"
+  },
+  "fleetQuick": {
+    "exactPickup": "Local exato de levantamento",
+    "exactDropoff": "Local exato de devolução",
+    "outsideLuanda": "Recolhas e entregas fora de Luanda ficam sujeitas à confirmação operacional e ao cálculo da deslocação.",
+    "addressInProvince": "Município, bairro ou referência em {{province}}",
+    "addressInLuanda": "Município, bairro, rua ou ponto de referência em Luanda",
+    "locations": {
+      "airport": "Aeroporto 4 de Fevereiro (LAD)",
+      "hub": "Hub Central Pepek Talatona",
+      "epicSana": "Hotel Epic Sana Luanda",
+      "miramar": "Miramar / Embaixadas",
+      "otherLuanda": "Outro Endereço em Luanda",
+      "otherProvince": "Outra Província de Angola"
+    }
+  },
+  "vehicleGallery": {
+    "inProduction": "Vista em produção e validação",
+    "noGeneric": "Sem imagem genérica",
+    "dailyRate": "Tarifa Oficial por Dia",
+    "availability": "Disponibilidade em Talatona & Luanda",
+    "capacity": "Lotação",
+    "doors": "Portas",
+    "transmission": "Transmissão",
+    "fuel": "Combustível",
+    "tankTraction": "Depósito / Tracção",
+    "equipment": "Equipamentos & Tecnologia",
+    "inclusions": "Inclusões & Garantias Pepek",
+    "invoicing": "Faturação e cotação oficial disponível para empresas e particulares",
+    "whatsappNow": "WhatsApp Imediato",
+    "imagesInReview": "Imagens desta viatura em revisão",
+    "imagesInReviewAlt": "{{vehicle}} — imagens em revisão",
+    "vehicle": "Viatura",
+    "collapse": "Reduzir",
+    "expand": "Expandir",
+    "allWheel": "Integral",
+    "bookNowWithPrice": "Reservar Agora ({{price}}/dia)"
+  },
+  "blog": {
+    "metaTitle": "Blogue & Newsletter | PEPEK GRUPO",
+    "metaDescription": "Notícias, vídeos e guias sobre mobilidade executiva, frota e operações PEPEK em Angola.",
+    "label": "Blogue PEPEK",
+    "title": "Histórias que Movem Angola",
+    "lead": "Conheça em primeira mão as novidades da frota.",
+    "tagline": "Informação que antecipa necessidades. Histórias que revelam excelência. Mobilidade que faz Angola avançar.",
+    "newsletterTitle": "Subscreva a Newsletter e acompanhe o Blogue PEPEK.",
+    "newsletterText": "Uma seleção breve de novidades, serviços e oportunidades, diretamente no seu e-mail.",
+    "subscribed": "Subscrição registada",
+    "thanks": "Obrigado por acompanhar a PEPEK.",
+    "emailLabel": "Endereço de e-mail",
+    "emailPlaceholder": "O seu endereço de e-mail",
+    "subscribe": "Subscrever",
+    "consent": "Ao subscrever, concorda em receber comunicações da PEPEK. Pode cancelar a subscrição a qualquer momento.",
+    "newsEyebrow": "Vídeos & notícias",
+    "newsTitle": "Explore as últimas notícias, vídeos e histórias da PEPEK",
+    "newsText": "Encontre rapidamente conteúdos sobre a frota, experiências, protocolo e parcerias.",
+    "searchLabel": "Pesquisar no blogue",
+    "searchPlaceholder": "Pesquisar por tema, serviço ou experiência",
+    "filterLabel": "Filtrar conteúdos por tema",
+    "videoBadge": "Vídeo PEPEK",
+    "noResults": "Nenhum conteúdo encontrado",
+    "noResultsText": "Experimente outro termo ou volte a mostrar todos os temas.",
+    "clearSearch": "Limpar pesquisa",
+    "resourcesEyebrow": "Recursos úteis",
+    "resourcesTitle": "Da inspiração ao próximo percurso",
+    "resourcesText": "Use estes atalhos para transformar a informação do blogue numa decisão de mobilidade.",
+    "guidesEyebrow": "Guias rápidos",
+    "guidesTitle": "Informação para decidir melhor",
+    "guidesText": "Respostas simples às dúvidas mais comuns antes de uma reserva.",
+    "guide1Q": "Como escolher a viatura certa?",
+    "guide1A": "Considere passageiros, bagagem, percurso e nível de representação. Para delegações, confirme também motorista e apoio de protocolo.",
+    "guide2Q": "A recolha ou entrega pode ser fora de Luanda?",
+    "guide2A": "Sim. Indique a província, município e referência no pedido. A equipa confirma disponibilidade, logística e eventual ajuste de tarifa.",
+    "guide3Q": "Existe atendimento para empresas?",
+    "guide3A": "Sim. A PEPEK apoia mobilidade corporativa, missões, eventos e delegações com planeamento dedicado.",
+    "specialistEyebrow": "Atendimento especializado",
+    "specialistTitle": "Precisa de apoio para organizar a mobilidade?",
+    "specialistText": "A nossa equipa ajuda a definir viaturas, rotas e horários.",
+    "talkToPepek": "Falar com a PEPEK",
+    "schemaDescription": "Notícias, vídeos e guias de mobilidade PEPEK em Angola.",
+    "audience": "Para: {{audience}}",
+    "linkCopied": "Ligação copiada",
+    "share": "Partilhar",
+    "videoLabel": "Vídeo: {{title}}",
+    "categories": {
+      "all": "Todos",
+      "partnerships": "Parcerias",
+      "protocol": "Protocolo",
+      "experience": "Experiência"
+    },
+    "resources": {
+      "fleet": {
+        "title": "Escolher uma viatura",
+        "text": "Compare categorias, lugares e tarifas da frota oficial.",
+        "action": "Ver frota"
+      },
+      "routes": {
+        "title": "Planear um percurso",
+        "text": "Consulte soluções de transfer em Luanda e noutras províncias.",
+        "action": "Explorar rotas"
+      },
+      "booking": {
+        "title": "Preparar uma reserva",
+        "text": "Indique datas, localidades e necessidades da sua viagem.",
+        "action": "Reservar"
+      }
+    },
+    "stories": {
+      "african-sezs-mobilidade": {
+        "title": "PEPEK apoia Africa SEZs Summit — Mobilidade que Impulsiona o Investimento em Angola",
+        "text": "Bastidores de uma parceria orientada para negócios, protocolo e deslocações executivas em Angola.",
+        "duration": "1 min",
+        "audience": "Empresas e delegações"
+      },
+      "mobilidade-internacional": {
+        "title": "Comitivas e Delegações — Transporte Coordenado ao Minuto",
+        "text": "Equipas, bagagem e horários sob controlo, do embarque à chegada ao recinto.",
+        "duration": "1 min",
+        "audience": "Comitivas e delegações"
+      },
+      "operacao-pepek": {
+        "title": "Operação PEPEK — A Excelência Começa nos Bastidores",
+        "text": "Rigor na preparação. Resultado premium em cada viagem.",
+        "duration": "27 seg",
+        "audience": "Clientes PEPEK"
+      },
+      "viaturas-preparadas": {
+        "title": "Conexões que Criam Ecossistemas. Parcerias que Movem o Futuro.",
+        "text": "A PEPEK no terreno: networking, parcerias e uma equipa onde valorizamos a liderança feminina.",
+        "duration": "1 min",
+        "audience": "Parceiros e comunidade"
+      },
+      "hyundai-staria-vip": {
+        "title": "Hyundai Staria Lounge VIP — Conforto Executivo e Espaço de Primeira Classe",
+        "text": "Elegância, espaço e acabamentos de alto padrão. Perfeita para viagens corporativas, missões diplomáticas e transfers executivos em Angola.",
+        "duration": "1 min",
+        "audience": "Executivos e delegações VIP"
+      }
+    }
+  },
+  "bookingWidget": {
+    "operationsDirectorate": "PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES",
+    "defaultPickup": "Luanda — Sede Talatona / Aeroporto 4 de Fevereiro",
+    "emailPlaceholder": "direccao@entidade.ao"
+  },
+  "fleetShowcase": {},
+  "wizard": {
+    "onlineBooking": "Reserva Online Premium",
+    "title": "Assistente de Reserva de Viaturas",
+    "stepVehicle": "Viatura & Período",
+    "stepVehicleShort": "Viatura",
+    "stepExtras": "Extras Opcionais",
+    "stepExtrasShort": "Extras",
+    "stepClient": "Identificação",
+    "stepClientShort": "Cliente",
+    "stepSummary": "Resumo & Confirmação",
+    "stepSummaryShort": "Resumo",
+    "registered": "Reserva Registada com Sucesso",
+    "selectVehicle": "Selecione a Viatura Desejada",
+    "pickupLocation": "Local de Levantamento",
+    "dropoffLocation": "Local de Devolução",
+    "elsewhere": "Noutro local",
+    "pickupDate": "Data Levantamento",
+    "pickupTime": "Hora Levantamento",
+    "dropoffDate": "Data Devolução",
+    "dropoffTime": "Hora Devolução",
+    "duration": "Duração calculada do aluguer:",
+    "babySeatTitle": "Cadeira Infantil Isofix",
+    "babySeatDesc": "Segurança infantil certificada para recém-nascidos até 12 anos.",
+    "babySeatRate": "10.000 Kz/dia",
+    "wifiTitle": "Hotspot Wi-Fi 5G Ilimitado",
+    "wifiDesc": "Roteador portátil com internet móvel de alta velocidade para até 10 dispositivos.",
+    "wifiRate": "15.000 Kz/dia",
+    "private": "Particular / Pessoal",
+    "companyType": "Empresa / Embaixada / Instituição",
+    "namePlaceholder": "Ex: Dra. Ana Luísa Mendes",
+    "phoneLabel": "WhatsApp / Telefone (+244) *",
+    "phonePlaceholder": "Ex: +244 923 719 090",
+    "emailLabel": "Email para Confirmação *",
+    "emailPlaceholder": "Ex: contacto@empresa.co.ao",
+    "documentsNotice": "Não envie NIF, passaporte ou carta de condução por WhatsApp. Caso sejam necessários, serão solicitados pela equipa depois da confirmação, através de canal autorizado.",
+    "notesLabel": "Observações ou Requisitos Especiais (Opcional)",
+    "notesPlaceholder": "Ex: Chegada no voo DT650 da TAAG às 14h, necessito de placa com nome no desembarque...",
+    "dailyRate": "Diária:",
+    "rentalPeriod": "Período de Aluguer:",
+    "pickupDropoff": "Levantamento & Devolução:",
+    "driverLabel": "Motorista:",
+    "fuelCleanLabel": "Higienização e Combustível:",
+    "estimatedTotal": "Total Estimado da Reserva:",
+    "insurance": "Seguro",
+    "instantSend": "Envio Imediato com Registo da Reserva",
+    "instantSendText": "Ao confirmar, a reserva é guardada no sistema oficial, é gerado o número da reserva e o pedido é encaminhado via WhatsApp para confirmação imediata.",
+    "registeringProtocol": "A registar protocolo...",
+    "confirmWhatsapp": "Confirmar Reserva no WhatsApp",
+    "operationsDirectorate": "PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES",
+    "successTitle": "Reserva Registada com Sucesso!",
+    "successText": "A sua viatura foi pré-alocada na base de dados oficial. Guarde o protocolo abaixo para acompanhamento e emissão da fatura proforma.",
+    "bookingLabel": "Reserva",
+    "copied": "Copiado",
+    "copyCode": "Copiar Código",
+    "resume": "Retomar",
+    "pause": "Pausar",
+    "openWhatsappNow": "Abrir WhatsApp Agora",
+    "clientArea": "Aceder à Área de Cliente",
+    "anotherBooking": "← Fazer outra reserva",
+    "finishClose": "Concluir & Fechar",
+    "portalInvoices": "Portal & Faturas",
+    "back": "Voltar",
+    "registering": "A registar...",
+    "confirmBooking": "Confirmar Reserva",
+    "close": "Fechar",
+    "errorName": "Por favor indique o seu nome completo (mínimo 3 caracteres).",
+    "errorContact": "Por favor forneça pelo menos um contacto de retorno (WhatsApp/telefone ou e-mail).",
+    "submitError": "Não foi possível registar a reserva. Tente novamente.",
+    "sameAsPickup": "Mesmo local do levantamento ({{location}})",
+    "days_one": "{{count}} dia",
+    "days_other": "{{count}} dias",
+    "daysCapital_one": "{{count}} Dia",
+    "daysCapital_other": "{{count}} Dias",
+    "extrasIntro_one": "Personalize a sua experiência com serviços oficiais certificados pela Pepek Rent a Car. Os valores diários são calculados automaticamente para {{count}} dia.",
+    "extrasIntro_other": "Personalize a sua experiência com serviços oficiais certificados pela Pepek Rent a Car. Os valores diários são calculados automaticamente para os {{count}} dias.",
+    "driverTitle": "Motorista",
+    "driverDesc": "Motorista profissional bilingue, treinado em protocolo e condução defensiva. Dispensa carta de condução do cliente.",
+    "withDriver": "Com motorista",
+    "withoutDriver": "Sem motorista",
+    "fuelTitle": "Combustível e Higienização",
+    "fuelDesc": "Viatura entregue atestada e devolvida sem necessidade de reabastecimento ou lavagem.",
+    "withFuel": "Com combustível e higienização",
+    "withoutFuel": "Sem combustível e higienização",
+    "perDay": "por dia",
+    "noExtraCost": "Sem custo adicional",
+    "total": "total",
+    "companyName": "Nome da Empresa / Contacto Principal *",
+    "fullName": "Nome Completo *",
+    "dailySubtotal": "Subtotal de Diárias ({{count}}x {{price}}):",
+    "babySeatSummary": "Cadeira Infantil ({{count}} dias):",
+    "wifiSummary": "Wi-Fi 5G Hotspot ({{count}} dias):",
+    "countdownPaused": "Abertura automática em pausa — consulte os dados com calma",
+    "countdownOpening": "A abrir o WhatsApp da Direção em",
+    "vehicleLabel": "Viatura:",
+    "periodLabel": "Período:",
+    "pickupLabel": "Levantamento:",
+    "totalLabel": "Total Estimado:",
+    "dateRange": "{{start}} a {{end}}",
+    "nextStep": "Avançar para Etapa {{step}}",
+    "locations": {
+      "airport": "Aeroporto 4 de Fevereiro (LAD)",
+      "aiaan": "Novo Aeroporto AIAAN",
+      "hub": "Hub Central Pepek — Talatona",
+      "epicSana": "Hotel Epic Sana Luanda",
+      "miramarCidadeAlta": "Miramar / Cidade Alta",
+      "customDelivery": "Entrega em Endereço Personalizado",
+      "clientPickup": "Recolha em Endereço do Cliente"
+    },
+    "wa": {
+      "title": "NOVA RESERVA — PEPEK RENT A CAR",
+      "booking": "Reserva",
+      "name": "Nome",
+      "notInformed": "Não informado",
+      "clientType": "Tipo de Cliente",
+      "company": "Empresa / Institucional",
+      "private": "Particular",
+      "phone": "Telefone/WhatsApp",
+      "vehicle": "Tipo de Carro",
+      "driver": "Motorista",
+      "fuelClean": "Higienização e Combustível",
+      "yes": "Sim",
+      "no": "Não",
+      "otherExtras": "Outros Extras",
+      "babySeat": "Cadeira de Criança",
+      "dateAt": "{{date}} às {{time}}",
+      "pickup": "Levantamento",
+      "dropoff": "Devolução",
+      "message": "Mensagem",
+      "total": "Valor Total Estimado",
+      "closing": "Por favor confirmar a disponibilidade e enviar a fatura proforma."
+    }
+  },
+  "clientArea": {
+    "closeModal": "Fechar modal",
+    "eyebrow": "Portal seguro PEPEK",
+    "title": "Área do Cliente",
+    "subtitle": "Acesso separado para contas corporativas e clientes particulares.",
+    "demoText": "Todos os dados apresentados são fictícios e servem apenas para conhecer a experiência.",
+    "accountType": "Tipo de conta",
+    "corporateAccount": "Conta Corporativa",
+    "corporateAccountText": "Empresas, embaixadas e instituições com contratos, faturas e viaturas alocadas.",
+    "privateClient": "Cliente Particular",
+    "privateClientText": "Reservas pessoais, comprovativos, pagamentos e acompanhamento do serviço.",
+    "setNewPassword": "Definir nova palavra-passe",
+    "recoveryValidated": "A ligação de recuperação foi validada. Escolha uma palavra-passe com pelo menos 10 caracteres.",
+    "newPasswordAria": "Nova palavra-passe",
+    "loginMethod": "Método de entrada",
+    "changeNumber": "Alterar número ou reenviar código",
+    "fullName": "Nome completo",
+    "namePlaceholder": "O seu nome",
+    "encrypted": "Ligação cifrada e acesso autenticado",
+    "groups": {
+      "clients": "Clientes",
+      "operations": "Operações",
+      "management": "Gestão"
+    },
+    "profiles": {
+      "cliente_vip": {
+        "title": "Cliente VIP",
+        "description": "Viaturas, faturas e pedidos prioritários."
+      },
+      "cliente_normal": {
+        "title": "Cliente Particular ou PME",
+        "description": "Reservas, pagamentos e acompanhamento."
+      },
+      "vendedor": {
+        "title": "Consultor Comercial",
+        "description": "Clientes, propostas e oportunidades."
+      },
+      "gestor_reservas": {
+        "title": "Gestão de Reservas",
+        "description": "Pedidos, alocação e confirmação."
+      },
+      "diretor_frotas": {
+        "title": "Direção de Frotas",
+        "description": "Viaturas, manutenção e disponibilidade."
+      },
+      "motorista": {
+        "title": "Motorista Protocolar",
+        "description": "Escalas, missões e estado operacional."
+      },
+      "contabilista": {
+        "title": "Contabilidade",
+        "description": "Faturas, pagamentos e reconciliação."
+      },
+      "gestor_portugal": {
+        "title": "Gestão Portugal",
+        "description": "Operação internacional e pagamentos."
+      },
+      "direcao": {
+        "title": "Direção Executiva",
+        "description": "Visão integral do negócio e Odoo."
+      }
+    },
+    "errorSignIn": "Não foi possível iniciar sessão. Confirme o e-mail e a palavra-passe.",
+    "errorResetEmail": "Introduza primeiro o e-mail registado para recuperar o acesso.",
+    "errorReset": "Não foi possível enviar a recuperação neste momento.",
+    "resetSent": "Enviámos as instruções de recuperação para o e-mail indicado.",
+    "errorPasswordLength": "Use uma palavra-passe com pelo menos 10 caracteres.",
+    "errorSignUp": "Não foi possível criar a conta. Confirme os dados ou tente outro e-mail.",
+    "accountCreated": "Conta criada. Consulte o seu e-mail para confirmar o acesso antes de iniciar sessão.",
+    "errorOtp": "Código inválido ou expirado. Solicite um novo código.",
+    "errorSms": "Não foi possível enviar o SMS. Confirme o número e tente novamente.",
+    "smsSent": "Código enviado por SMS para {{phone}}.",
+    "errorSocial": "Não foi possível continuar com {{provider}}.",
+    "errorNewPassword": "Use uma palavra-passe nova com pelo menos 10 caracteres.",
+    "passwordUpdated": "Palavra-passe atualizada com sucesso.",
+    "phoneUnavailable": "O acesso por telefone está temporariamente indisponível. Utilize o e-mail.",
+    "phoneTab": "Telefone",
+    "otpLabel": "Código SMS de 6 dígitos",
+    "phoneLabel": "Número de telefone",
+    "confirmOtp": "Confirmar código e entrar",
+    "sendSms": "Enviar código por SMS",
+    "signUpEmail": "E-mail para criar a conta",
+    "corporateEmail": "E-mail corporativo registado",
+    "personalEmail": "E-mail pessoal registado",
+    "corporateEmailPlaceholder": "nome@empresa.ao",
+    "personalEmailPlaceholder": "cliente@email.com",
+    "createPassword": "Criar palavra-passe",
+    "passwordMin": "Mínimo de 10 caracteres",
+    "createAccount": "Criar conta de cliente",
+    "haveAccount": "Já possui conta? Iniciar sessão",
+    "continueWith": "Continuar com {{provider}}",
+    "newCorporateAccount": "Pedido de Nova Conta Corporativa",
+    "updatePassword": "Atualizar palavra-passe",
+    "orContinueWith": "ou continuar com",
+    "sessionProtected": "Sessão protegida. A PEPEK nunca solicitará a sua palavra-passe por telefone, WhatsApp ou e-mail.",
+    "haveAccountEmail": "Já possui uma conta PEPEK? Entrar com e-mail",
+    "demoTitle": "Entrada imediata, sem senha"
+  },
+  "portal": {
+    "internalPanel": "Painel Administrativo Interno",
+    "closePortal": "Fechar portal",
+    "tabOverview": "Visão Geral",
+    "tabOperations": "Centro de Operações",
+    "tabOdoo": "ERP Odoo (Admin)",
+    "tabRequest": "Requisição Prioritária",
+    "logout": "Sair da Sessão",
+    "accountSummary": "Resumo da sua conta",
+    "pendingDocs": "Documentos pendentes",
+    "support247": "Apoio e assistência PEPEK",
+    "serviceLevel": "Nível de atendimento",
+    "accountIdTitle": "Identificação e organização da conta",
+    "accountIdText": "Dados visíveis apenas durante a sua sessão autenticada.",
+    "quickActions": "Ações rápidas",
+    "invoicesTitle": "Extrato de Faturas e Pagamentos",
+    "invoicesText": "Transferência bancária em AOA, cartão internacional, Multicaixa Express ou MB WAY.",
+    "currencies": "Moedas disponíveis",
+    "receiptTitle": "Ver e descarregar comprovativo de pagamento",
+    "receipt": "Recibo",
+    "opsEyebrow": "Excelência operacional PEPEK",
+    "opsTitle": "Centro Nacional de Mobilidade & Operações",
+    "opsText": "Reserva, protocolo, motorista, manutenção e contrato numa única linha de controlo.",
+    "opsBadge": "Operação 24/7 · Demo",
+    "agenda": "Agenda operacional integrada",
+    "agendaSync": "Referências sincronizáveis com Odoo",
+    "odooTitle": "Ponte Operacional Odoo Enterprise",
+    "odooText": "Sincronização bidirecional de reservas, clientes (res.partner), frotas e contabilidade.",
+    "odooVehicles": "Viaturas no Odoo Fleet:",
+    "odooOpenInvoices": "Faturas em Aberto:",
+    "odooQuotes": "Cotações Pendentes:",
+    "odooPartners": "Clientes & Entidades:",
+    "odooReservations": "Reservas Sincronizadas:",
+    "odooDrivers": "Motoristas:",
+    "odooMaintenance": "Ordens de Manutenção:",
+    "lastSync": "Última Sincronização:",
+    "instance": "Instância (Demo):",
+    "apiProtocol": "Protocolo API:",
+    "stagingNote": "⚠ Estes dados técnicos só são visíveis em modo de desenvolvimento (staging).",
+    "priorityTitle": "Solicitação Prioritária à Direcção",
+    "extraVehicle": "Pedir Viatura Adicional em 1-Clique",
+    "replacementVehicle": "Solicitar Viatura de Substituição",
+    "accredited": "Acreditado",
+    "demoSwitch": "Modo Demo (Desenvolvimento) — Trocar Perfil:",
+    "welcome": "Bem-vindo ao espaço {{role}}",
+    "portalTitle": "Portal de Mobilidade PEPEK",
+    "personalised": "Experiência personalizada",
+    "tabFleetAdmin": "Gestão da Frota Global",
+    "tabFleetClient": "Minhas Viaturas Alocadas",
+    "tabInvoicesAdmin": "Faturação & Finanças",
+    "tabInvoicesClient": "Minhas Faturas & Recibos",
+    "hello": "Olá, {{name}}",
+    "defaultUser": "utilizador PEPEK",
+    "overviewStaff": "Consulte o estado da operação, execute tarefas autorizadas e acompanhe os indicadores da sua área.",
+    "overviewClient": "Acompanhe viaturas, documentos e pedidos associados à sua conta num único espaço seguro.",
+    "authenticated": "Sessão autenticada",
+    "activeVehicles": "Viaturas ativas na operação",
+    "linkedVehicles": "Viaturas associadas",
+    "fieldUser": "Utilizador",
+    "fieldAccess": "Tipo de acesso",
+    "fieldOrganisation": "Organização",
+    "fieldPhone": "Telefone",
+    "fieldNif": "NIF / referência",
+    "notProvided": "Não indicado",
+    "client": "Cliente",
+    "privateAccount": "Conta particular",
+    "notLinked": "Não associado",
+    "qaVehicles": "Consultar viaturas",
+    "qaVehiclesSub": "Estado, motorista e localização",
+    "qaInvoices": "Faturas e recibos",
+    "qaInvoicesSub": "Documentos e pagamentos",
+    "qaRequest": "Nova requisição",
+    "qaRequestSub": "Solicitar apoio prioritário",
+    "qaOperations": "Centro de operações",
+    "qaOperationsSub": "Agenda e controlo autorizado",
+    "supportTopic": "Apoio ao portal: {{name}} ({{company}})",
+    "private": "Particular",
+    "talkToSupport": "Falar com apoio PEPEK",
+    "fleetTitleGlobal": "Controlo Operacional de Toda a Frota PEPEK",
+    "fleetTitleProfile": "Viaturas atribuídas ao seu perfil",
+    "fleetTitleClient": "Viaturas Activas em Nome de {{name}}",
+    "fleetTextGlobal": "Telemetria GPS, motoristas e estado de manutenção da operação nacional.",
+    "fleetTextProfile": "Apenas os registos operacionais atribuídos à sua conta.",
+    "fleetTextClient": "Viaturas de protocolo e rent-a-car alocadas ao seu contrato.",
+    "inCirculation": "{{count}} em circulação",
+    "fleetStatus": {
+      "em_circulacao": "Em Circulação",
+      "disponivel_talatona": "Em Talatona",
+      "em_reserva": "Em Preparação",
+      "em_manutencao": "Em Manutenção"
+    },
+    "driver": "Motorista:",
+    "fuel": "Combustível:",
+    "statusPaid": "Liquidada",
+    "statusOverdue": "Vencida",
+    "statusPending": "Pendente de Pagamento",
+    "issuedDue": "Emissão: {{issued}} · Vencimento: {{due}}",
+    "settle": "Regularizar",
+    "payNow": "Pagar Agora",
+    "kpiBookings": "Reservas activas",
+    "kpiInProgress": "Em execução",
+    "kpiDrivers": "Motoristas escalados",
+    "kpiMaintenance": "Manutenções abertas",
+    "kpiSla": "SLA no prazo",
+    "recordStatus": {
+      "concluido": "concluído",
+      "atencao": "atenção",
+      "em_execucao": "em execução",
+      "agendado": "agendado",
+      "confirmado": "confirmado",
+      "pendente": "pendente"
+    },
+    "syncing": "A Sincronizar...",
+    "forceSync": "Forçar Sincronização",
+    "vehiclesCount": "{{count}} Veículos",
+    "loading": "A carregar...",
+    "documentsCount": "{{count}} Documentos",
+    "synced": "Sincronizado",
+    "quotesCount": "{{count}} Cotações",
+    "noPending": "Sem pendentes",
+    "demoQueue": "Fila de integração demonstrativa",
+    "latency": "Latência {{ms}} ms",
+    "priorityText": "Como cliente acreditado ({{name}}), o seu pedido tem prioridade máxima na central de operações em Talatona.",
+    "vipRequestTopic": "Requisição Prioritária VIP: {{name}} ({{company}})",
+    "replacementTopic": "Viatura de Substituição Urgente: {{name}}",
+    "roles": {
+      "cliente_vip": "Cliente VIP Diplomático",
+      "cliente_normal": "Cliente Particular / PME",
+      "vendedor": "Consultor Comercial",
+      "gestor_reservas": "Gestor de Reservas",
+      "diretor_frotas": "Director de Frotas",
+      "motorista": "Motorista Protocolar",
+      "contabilista": "Contabilista",
+      "gestor_portugal": "Gestor Portugal",
+      "direcao": "Direcção Executiva"
+    },
+    "tiers": {
+      "Diplomático": "Diplomático",
+      "Corporativo Gold": "Corporativo Gold",
+      "Standard": "Standard",
+      "Administrativo": "Administrativo"
+    },
+    "module": "Módulo",
+    "recordType": {
+      "contrato": "contrato",
+      "entrega": "entrega",
+      "manutencao": "manutenção",
+      "motorista": "motorista",
+      "reserva": "reserva"
+    },
+    "eventStatus": {
+      "success": "sucesso",
+      "warning": "aviso"
+    }
+  },
+  "backoffice": {
+    "title": "Transferências por conferir",
+    "subtitle": "Confirme a entrada no extrato do banco, o valor e a referência antes da baixa.",
+    "refresh": "Atualizar",
+    "none": "Nenhuma transferência pendente.",
+    "bankRefAria": "Referência do movimento bancário",
+    "bankRefPlaceholder": "Referência no extrato",
+    "amountAria": "Valor creditado em AOA",
+    "amountPlaceholder": "Valor creditado (AOA)",
+    "confirmButton": "Confirmar entrada e dar baixa",
+    "signInAgain": "Inicie sessão novamente.",
+    "loadError": "Não foi possível carregar as transferências.",
+    "queryError": "Erro ao consultar transferências.",
+    "missingData": "Indique a referência do movimento bancário e o valor creditado em AOA.",
+    "amountMismatch": "O valor creditado não corresponde ao valor da fatura. Não é possível dar baixa.",
+    "confirmPrompt": "Confirmou no extrato bancário a entrada de {{amount}} AOA para {{reference}}?",
+    "reconcileError": "Não foi possível dar baixa.",
+    "reconcileFail": "Erro ao dar baixa.",
+    "clientReference": "Referência do cliente:",
+    "destination": "Destino:"
+  },
+  "paymentReturn": {
+    "closeNotice": "Fechar aviso",
+    "unidentified": "Não foi possível identificar o pagamento. Verifique o extrato de faturas.",
+    "notCompleted": "O pagamento não foi concluído. Nenhum valor foi cobrado.",
+    "cannotConfirm": "Não conseguimos confirmar o pagamento agora. A equipa financeira concilia a fatura assim que o provedor confirmar.",
+    "checkingTitle": "A confirmar o seu pagamento…",
+    "checkingBody": "Aguarde enquanto validamos a confirmação do provedor. Não feche esta janela.",
+    "paidTitle": "Pagamento confirmado",
+    "paidBody": "Fatura liquidada. Referência {{reference}}. O comprovativo de pagamento fica disponível no extrato.",
+    "pendingTitle": "Pagamento em processamento",
+    "pendingBody": "Recebemos a instrução (ref. {{reference}}). A fatura é marcada como paga assim que o provedor confirmar — normalmente em minutos.",
+    "failedTitle": "Pagamento não concluído",
+    "cancelledTitle": "Pagamento cancelado",
+    "cancelledBody": "Nenhum valor foi cobrado. Pode retomar a partir do extrato de faturas quando quiser.",
+    "errorTitle": "Confirmação pendente"
+  },
+  "payment": {
+    "transferProofTitle": "Conta Bancária em Angola (AOA)",
+    "pendingUntil": "A ordem fica pendente até a entrada do dinheiro ser confirmada no banco. Esta página não confirma a execução da transferência.",
+    "sendProof": "Enviar Comprovativo via WhatsApp",
+    "viewReceipt": "Ver Recibo Emitido",
+    "closeButton": "Fechar",
+    "uniqueReference": "Referência única da transação",
+    "paymentCurrency": "Moeda de pagamento:",
+    "chooseBank": "Escolha o banco destinatário",
+    "accountDetails": "Dados da Conta em Angola",
+    "confirmDetails": "Confirme os dados da conta no seu banco antes de autorizar. Valor e referência são fixados pela fatura.",
+    "paidAfterCheck": "A transferência só é dada como paga depois da conferência bancária pela equipa financeira.",
+    "errorStart": "Não foi possível iniciar o pagamento.",
+    "closePayment": "Fechar pagamento",
+    "close": "Fechar",
+    "demoEnv": "Ambiente de demonstração",
+    "securePayment": "Pagamento seguro PEPEK",
+    "settleInvoice": "Liquidar {{number}}",
+    "amountDue": "Valor a liquidar ({{currency}})",
+    "simulationDone": "Simulação concluída",
+    "orderRegistered": "Ordem de pagamento registada",
+    "noCharge": "Nenhuma cobrança foi efetuada.",
+    "transferInstructions": "Transfira exatamente o valor indicado em AOA, inclua a referência na descrição e aguarde a confirmação da equipa financeira após conferência do extrato bancário.",
+    "autoSettle": "A fatura será liquidada automaticamente após confirmação assinada do provedor.",
+    "copied": "Copiado",
+    "copy": "Copiar",
+    "bank": "Banco:",
+    "account": "Conta:",
+    "copyIban": "Copiar IBAN",
+    "proofMessage": "*COMPROVATIVO DE TRANSFERÊNCIA — PEPEK GRUPO*\n-----------------------------------------\n*Fatura:* {{invoice}}\n*Referência:* {{reference}}\n*Montante:* {{amount}} AOA\n*Banco Destino:* {{bank}}\n-----------------------------------------\nSegue em anexo o comprovativo bancário para conferência e emissão do recibo de quitação.",
+    "serverValidated": "O valor é validado diretamente no servidor. A PEPEK não recolhe nem armazena o número do seu cartão ou PIN bancário.",
+    "currencyAria": "Moeda do pagamento",
+    "eurOption": "EUR (€) - Europa",
+    "usdOption": "USD ($) - Internacional",
+    "creatingOrder": "A criar ordem segura…",
+    "simulate": "Simular {{provider}}",
+    "goToCheckout": "Ir para Checkout Seguro {{provider}}",
+    "generateReference": "Gerar referência para {{provider}}",
+    "registerWith": "Registar Pagamento com {{provider}}",
+    "today": "Hoje",
+    "methods": {
+      "bank_transfer": {
+        "label": "Transferência bancária",
+        "detail": "Quatro bancos em Angola · AOA"
+      },
+      "stripe": {
+        "label": "Cartão internacional",
+        "detail": "Visa / Mastercard · EUR ou USD (Stripe)"
+      }
+    },
+    "providers": {
+      "stripe": "Cartão / Stripe",
+      "multicaixa": "Multicaixa Express",
+      "bank_transfer": "Transferência Bancária",
+      "mbway": "MB WAY"
+    },
+    "gatewayLabels": {
+      "Cartão / Stripe": "Cartão / Stripe",
+      "Transferência Bancária": "Transferência Bancária",
+      "Transferência SWIFT": "Transferência SWIFT"
+    }
+  },
+  "receipt": {
+    "title": "Comprovativo de Pagamento",
+    "settledBadge": "Liquidado",
+    "print": "Imprimir / PDF",
+    "close": "Fechar",
+    "closeReceipt": "Fechar recibo",
+    "confirmed": "LIQUIDAÇÃO COMPROVADA",
+    "customer": "Exmo.(a) Sr.(a) / Cliente",
+    "method": "Modalidade de Liquidação",
+    "status": "Estado: Pagamento confirmado",
+    "breakdown": "Discriminação do Serviço",
+    "description": "Descrição / Detalhe Operacional",
+    "value": "Valor",
+    "serviceLine": "Mobilidade Executiva e Protocolar PEPEK · Luanda / Angola",
+    "systemReceipt": "Comprovativo do sistema",
+    "recorded": "Pagamento registado e confirmado no sistema.",
+    "totalPaid": "Total Liquidado:",
+    "address": "Complexo Talatona Park, Luanda · Angola",
+    "registry": "NIF: 5417088491 · Conservatória de Luanda n.º 14.892",
+    "dateAt": "{{date}} às {{time}}",
+    "defaultCustomer": "Cliente Institucional PEPEK",
+    "defaultCompany": "Entidade Titular",
+    "invoice": "Fatura:",
+    "issueDate": "Data de Emissão: {{date}}",
+    "transactionRef": "Ref. Transação:"
+  },
+  "system": {
+    "awaitingConnection": "Aguardando ligação autorizada",
+    "smsUnavailable": "O acesso por SMS está temporariamente indisponível. Utilize o e-mail.",
+    "passwordLength": "A palavra-passe deve ter pelo menos 10 caracteres.",
+    "demoUpdated": "Demo actualizado ({{time}})",
+    "sessionRequired": "Sessão necessária",
+    "syncRefused": "Sincronização recusada",
+    "odooUnavailable": "Odoo indisponível",
+    "odooNotConfigured": "Integração Odoo não configurada",
+    "signInToPay": "Inicie sessão novamente para continuar o pagamento.",
+    "paymentQueryError": "Não foi possível consultar o pagamento.",
+    "reservationError": "Não foi possível registar a reserva.",
+    "reservationsUnavailable": "O serviço de reservas está temporariamente indisponível. Tente novamente ou contacte o apoio 24/7.",
+    "protectedDataUnavailable": "Dados protegidos indisponíveis"
   }
 }

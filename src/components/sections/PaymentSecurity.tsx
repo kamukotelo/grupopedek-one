@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ShieldCheck, CreditCard, Landmark, CheckCircle2, Lock } from 'lucide-react';
 
 export const PaymentSecurity: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-12 bg-white border-y border-gray-200">
       <div className="container-pepek">
@@ -10,13 +12,13 @@ export const PaymentSecurity: React.FC = () => {
           <div className="max-w-md">
             <div className="flex items-center gap-2 text-xs font-bold text-[#236199] uppercase tracking-wider mb-1">
               <ShieldCheck className="w-4 h-4" />
-              <span>Transparência & Conformidade Fiscal</span>
+              <span>{t('paymentSecurity.eyebrow')}</span>
             </div>
             <h3 className="text-xl font-bold text-[#09172C]">
-              Métodos de Pagamento Oficiais Aceites
+              {t('paymentSecurity.title')}
             </h3>
             <p className="text-xs text-gray-500 mt-1">
-              Comprovativos de pagamento disponíveis no portal após confirmação da liquidação.
+              {t('paymentSecurity.subtitle')}
             </p>
           </div>
 
@@ -26,14 +28,14 @@ export const PaymentSecurity: React.FC = () => {
               <CreditCard className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
                 <span className="text-xs font-bold text-gray-900 block">Multicaixa & Express</span>
-                <span className="text-[10px] text-gray-500">Rede EMIS Angola</span>
+                <span className="text-[10px] text-gray-500">{t('paymentSecurity.emisNetwork')}</span>
               </div>
             </div>
 
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
               <Landmark className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
-                <span className="text-xs font-bold text-gray-900 block">Banca Nacional</span>
+                <span className="text-xs font-bold text-gray-900 block">{t('paymentSecurity.nationalBanks')}</span>
                 <span className="text-[10px] text-gray-500">BFA · BAI · Atlântico</span>
               </div>
             </div>
@@ -41,7 +43,7 @@ export const PaymentSecurity: React.FC = () => {
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
               <CreditCard className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
-                <span className="text-xs font-bold text-gray-900 block">Cartões Globais</span>
+                <span className="text-xs font-bold text-gray-900 block">{t('paymentSecurity.globalCards')}</span>
                 <span className="text-[10px] text-gray-500">Visa · Mastercard</span>
               </div>
             </div>
@@ -49,8 +51,8 @@ export const PaymentSecurity: React.FC = () => {
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
               <Lock className="w-5 h-5 text-[#236199] shrink-0" />
               <div>
-                <span className="text-xs font-bold text-gray-900 block">SWIFT Internacional</span>
-                <span className="text-[10px] text-gray-500">USD & EUR Facturados</span>
+                <span className="text-xs font-bold text-gray-900 block">{t('paymentSecurity.swift')}</span>
+                <span className="text-[10px] text-gray-500">{t('paymentSecurity.swiftSub')}</span>
               </div>
             </div>
           </div>

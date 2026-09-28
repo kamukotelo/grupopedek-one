@@ -3,6 +3,7 @@ import { Armchair, ArrowRight, ChevronLeft, ChevronRight, Gauge } from 'lucide-r
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
+import { useFleetText } from '../../i18n/fleetContent';
 import { getFleetCarouselScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 const FEATURED_IDS = ['range-rover', 'toyota-fortuner-2023', 'hyundai-staria-atual', 'toyota-hilux'];
@@ -19,6 +20,7 @@ const formatPrice = (value: number) => new Intl.NumberFormat('pt-PT', {
 
 export const FleetShowcase: React.FC = () => {
   const { t } = useTranslation();
+  const ft = useFleetText();
   const [offset, setOffset] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -80,7 +82,7 @@ export const FleetShowcase: React.FC = () => {
                 </div>
                 <div className="mt-4 flex items-center gap-4 text-xs font-semibold text-white/85">
                   <span className="flex items-center gap-2"><Armchair className="h-4 w-4 text-[#FEC228]" />{vehicle.specs.passengers} {t('fleet.seats')}</span>
-                  <span className="flex items-center gap-2"><Gauge className="h-4 w-4 text-[#FEC228]" />{vehicle.specs.fuelType}</span>
+                  <span className="flex items-center gap-2"><Gauge className="h-4 w-4 text-[#FEC228]" />{ft(vehicle.specs.fuelType)}</span>
                 </div>
                 <div className="mt-auto border-t border-white/45 pt-4">
                   <span className="block text-[11px] text-white/75">{t('fleet.from')}</span>

@@ -32,7 +32,12 @@ export default async function handler(req, res) {
     ? `(Viatura em foco na conversa: ${focus})\n${userPrompt}`
     : userPrompt;
 
-  const contents = [...historyTurns, { role: 'user', parts: [{ text: userText }] }];
+  // Idioma escolhido no site: o cliente pode ainda escrever noutra língua, e o modelo segue-a.
+  const LANGUAGE_NAMES = { pt: 'português europeu/angolano', en: 'inglês', fr: 'francês' };
+  const siteLanguage = LANGUAGE_NAMES[req.body?.language] ? req.body.language : 'pt';
+  const languageNote = `(Idioma do site: ${LANGUAGE_NAMES[siteLanguage]}. Responda nesse idioma, salvo se o cliente escrever claramente noutro.)`;
+
+  const contents = [...historyTurns, { role: 'user', parts: [{ text: `${languageNote}\n${userText}` }] }];
 
   try {
     const response = await fetch(

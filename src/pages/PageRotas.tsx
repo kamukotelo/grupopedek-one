@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { Compass } from 'lucide-react';
 import { PageHero } from '../components/layout/PageHero';
@@ -6,35 +7,39 @@ import { RouteEstimator } from '../components/sections/RouteEstimator';
 import { CoverageMap } from '../components/sections/CoverageMap';
 import { BrandCTA } from '../components/sections/BrandCTA';
 
-export const PageRotas: React.FC = () => (
-  <>
-    <Helmet>
-      <title>Rotas Executivas e Transfers em Angola | PEPEK GRUPO</title>
-      <meta name="description" content="Planeie transfers de aeroporto, deslocações empresariais e missões interprovinciais com viatura e motorista adequados ao itinerário." />
-      <meta property="og:title" content="Rotas Executivas em Angola | PEPEK GRUPO" />
-      <meta property="og:description" content="Itinerários executivos, transfers e mobilidade protocolar com planeamento operacional em Angola." />
-      <meta property="og:url" content="https://pepekgrupo.com/rotas" />
-      <link rel="canonical" href="https://pepekgrupo.com/rotas" />
-      <script type="application/ld+json">{JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Service',
-        name: 'Rotas Executivas e Transfers PEPEK GRUPO',
-        provider: { '@type': 'LocalBusiness', name: 'PEPEK GRUPO RENT-A-CAR' },
-        areaServed: { '@type': 'Country', name: 'Angola' },
-        url: 'https://pepekgrupo.com/rotas',
-      })}</script>
-    </Helmet>
+export const PageRotas: React.FC = () => {
+  const { t } = useTranslation();
 
-    <PageHero
-      icon={Compass}
-      eyebrow="Mobilidade sem fronteiras"
-      title="O seu destino começa onde estiver"
-      description="Serviço de mobilidade à medida, disponível em todo o território nacional, com viaturas e motoristas selecionados para cada viagem."
-      breadcrumb={[{ label: 'Rotas' }]}
-    />
+  return (
+    <>
+      <Helmet>
+        <title>{t('pages.rotas.metaTitle')}</title>
+        <meta name="description" content={t('pages.rotas.metaDescription')} />
+        <meta property="og:title" content={t('pages.rotas.ogTitle')} />
+        <meta property="og:description" content={t('pages.rotas.ogDescription')} />
+        <meta property="og:url" content="https://pepekgrupo.com/rotas" />
+        <link rel="canonical" href="https://pepekgrupo.com/rotas" />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: t('pages.rotas.schemaName'),
+          provider: { '@type': 'LocalBusiness', name: 'PEPEK GRUPO RENT-A-CAR' },
+          areaServed: { '@type': 'Country', name: 'Angola' },
+          url: 'https://pepekgrupo.com/rotas',
+        })}</script>
+      </Helmet>
 
-    <RouteEstimator />
-    <CoverageMap />
-    <BrandCTA />
-  </>
-);
+      <PageHero
+        icon={Compass}
+        eyebrow={t('pages.rotas.eyebrow')}
+        title={t('pages.rotas.title')}
+        description={t('pages.rotas.description')}
+        breadcrumb={[{ label: t('nav.routes') }]}
+      />
+
+      <RouteEstimator />
+      <CoverageMap />
+      <BrandCTA />
+    </>
+  );
+};

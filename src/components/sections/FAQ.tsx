@@ -3,37 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDown, HelpCircle, Phone, ArrowRight } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 
-/** Exportado para que as páginas possam gerar o schema.org FAQPage a partir da mesma fonte. */
-export const faqItems = [
-    {
-      q: 'Quais são os requisitos para o aluguer de viaturas (Livre Condução)?',
-      a: 'Para particulares e executivos em livre condução, é necessário apresentar Bilhete de Identidade ou Passaporte válido, Carta de Condução com mais de 2 anos de emissão, comprovativo de morada ou estadia em Angola, e caução (depósito de garantia) através de cartão ou transferência.'
-    },
-    {
-      q: 'Como funciona o serviço de Mobilidade Executiva com Motorista/Chauffeur?',
-      a: 'O nosso serviço de Chauffeur é integral: disponibilizamos a viatura topo de gama com combustível (ou a combinar), conduzida por um profissional devidamente fardado, credenciado em protocolo executivo, condução defensiva e sigilo profissional. O motorista fica à disposição do cliente ou comitiva durante o período contratado.'
-    },
-    {
-      q: 'As viaturas podem circular fora de Luanda (viagens interprovinciais)?',
-      a: 'Sim, absolutamente. Toda a nossa frota de 4x4 e SUVs possui autorização e cobertura para viajar para o Huambo, Bengo, Benguela e qualquer outra província do país. As viaturas são equipadas com rastreio por GPS 24/7 e contam com assistência móvel em todo o território nacional.'
-    },
-    {
-      q: 'Como é feita a recepção nos Aeroportos (4 de Fevereiro / AIAAN)?',
-      a: 'O nosso motorista aguarda na área de desembarque internacional com uma placa de identificação com o nome do passageiro ou da instituição. Monitorizamos o número do voo em tempo real para ajustar a hora de chegada sem custos adicionais em caso de atraso.'
-    },
-    {
-      q: 'Como funciona a faturação para embaixadas, governos e empresas?',
-      a: 'O sistema regista as faturas e disponibiliza comprovativos de pagamento após a confirmação da liquidação, em moeda nacional (AOA) ou moeda estrangeira (USD/EUR), conforme a fatura. Oferecemos contratos de conta-corrente com termos de pagamento a 30 dias mediante acreditação prévia.'
-    },
-    {
-      q: 'O que acontece em caso de avaria ou incidente durante a viagem?',
-      a: 'A PEPEK GRUPO garante assistência técnica 24 horas por dia e envio imediato de uma viatura de substituição da mesma categoria ou superior, sem custos adicionais para o cliente, salvaguardando a continuidade da sua missão ou viagem.'
-    }
-] as const;
+export type FaqItem = { q: string; a: string };
 
 export const FAQ: React.FC = () => {
   const { t } = useTranslation();
   const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const faqItems = t('faq.items', { returnObjects: true }) as FaqItem[];
 
   const toggleFaq = (idx: number) => {
     setOpenIdx(openIdx === idx ? null : idx);
@@ -45,15 +20,15 @@ export const FAQ: React.FC = () => {
         <div className="max-w-3xl mb-14">
           <div className="tag-label mb-4">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Dúvidas Frequentes</span>
+            <span>{t('faq.eyebrow')}</span>
           </div>
 
           <h2 className="section-title mb-4">
-            Perguntas Frequentes sobre os Nossos Serviços
+            {t('faq.title')}
           </h2>
 
           <p className="section-subtitle">
-            Respostas claras sobre processos de reserva, requisitos contratuais, segurança e operações no território angolano.
+            {t('faq.subtitle')}
           </p>
         </div>
 
@@ -94,17 +69,17 @@ export const FAQ: React.FC = () => {
           <div className="flex items-center gap-3">
             <Phone className="w-5 h-5 text-[#236199]" />
             <span className="text-sm font-semibold text-gray-800">
-              Tem uma operação de maior complexidade?
+              {t('faq.complexQuestion')}
             </span>
           </div>
 
           <a
-            href={generateQuickWhatsAppUrl('Dúvida Específica sobre Serviço')}
+            href={generateQuickWhatsAppUrl(t('faq.whatsappSubject'))}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-xs font-bold py-2.5 px-5 flex items-center gap-2 shrink-0"
           >
-            <span>Fale com a nossa equipa</span>
+            <span>{t('faq.talkToTeam')}</span>
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

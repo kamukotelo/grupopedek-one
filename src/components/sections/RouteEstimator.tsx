@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Compass, Clock, MapPin, ArrowRight, ShieldCheck, Phone, CheckCircle2 } from 'lucide-react';
 import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
@@ -23,7 +24,7 @@ interface RouteOption {
 const officialVehicleImages = new Map(
   PUBLIC_FLEET.map((vehicle) => [vehicle.id, {
     src: vehicle.primaryImage,
-    alt: `${vehicle.name} — imagem oficial do catálogo PEPEK 2026`,
+    name: vehicle.name,
   }])
 );
 
@@ -44,73 +45,74 @@ const lowestTransferAOA = Math.min(
 const formatKz = (value: number) => `${new Intl.NumberFormat('pt-PT', { maximumFractionDigits: 0 }).format(value)} Kz`;
 
 export const RouteEstimator: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedRouteId, setSelectedRouteId] = useState<string>('route-airport-talatona');
   const [currency, setCurrency] = useState<'AOA' | 'USD' | 'EUR'>('AOA');
 
   const routes: RouteOption[] = [
     {
       id: 'route-airport-talatona',
-      name: 'Transfer Aeroporto ➔ Talatona Executivo',
-      from: 'Aeroporto 4 de Fevereiro / AIAAN',
-      to: 'Talatona (Hotéis & Centros Empresariais)',
+      name: t('routes.items.route-airport-talatona.name'),
+      from: t('routes.items.route-airport-talatona.from'),
+      to: t('routes.items.route-airport-talatona.to'),
       distance: '32 km',
-      estimatedTime: '35 – 45 min',
-      vehicle: 'SUV Executiva (Toyota Land Cruiser 250 / LC300)',
+      estimatedTime: t('routes.items.route-airport-talatona.estimatedTime'),
+      vehicle: t('routes.items.route-airport-talatona.vehicle'),
       vehicleId: 'new-toyota-prado',
-      badge: 'Mais Frequente',
-      description: 'Receção à saída, assistência com a bagagem e transporte climatizado, complementados por um detalhe de cortesia para tornar a sua chegada ainda mais especial. Serviço Meet & Greet disponível mediante consulta.',
+      badge: t('routes.items.route-airport-talatona.badge'),
+      description: t('routes.items.route-airport-talatona.description'),
       showTransferFrom: true
     },
     {
       id: 'route-airport-miramar',
-      name: 'Transfer Aeroporto ➔ Miramar & Zona Diplomática',
-      from: 'Aeroporto Internacional de Luanda',
-      to: 'Miramar / Alvalade / Zona das Embaixadas',
+      name: t('routes.items.route-airport-miramar.name'),
+      from: t('routes.items.route-airport-miramar.from'),
+      to: t('routes.items.route-airport-miramar.to'),
       distance: '14 km',
-      estimatedTime: '20 – 30 min',
-      vehicle: 'Sedan / SUV de Luxo (Mercedes-Benz Classe S / Lexus LX 600)',
+      estimatedTime: t('routes.items.route-airport-miramar.estimatedTime'),
+      vehicle: t('routes.items.route-airport-miramar.vehicle'),
       vehicleId: 'mercedes-class-s-2025',
-      badge: 'Corpo Diplomático',
-      description: 'Percurso com piloto treinado em protocolo de segurança e conduta discreta para diplomatas e delegações oficiais.',
+      badge: t('routes.items.route-airport-miramar.badge'),
+      description: t('routes.items.route-airport-miramar.description'),
       showTransferFrom: true
     },
     {
       id: 'route-luanda-viana',
-      name: 'Luanda Centro ➔ Pólo Industrial de Viana / Cacuaco',
-      from: 'Centro de Luanda / Maianga / Ingombota',
-      to: 'Parques Industriais de Viana & Cacuaco',
+      name: t('routes.items.route-luanda-viana.name'),
+      from: t('routes.items.route-luanda-viana.from'),
+      to: t('routes.items.route-luanda-viana.to'),
       distance: '28 km',
-      estimatedTime: '40 – 50 min',
-      vehicle: '4x4 Todo-Terreno (Toyota Hilux Dupla Cabine / Fortuner)',
+      estimatedTime: t('routes.items.route-luanda-viana.estimatedTime'),
+      vehicle: t('routes.items.route-luanda-viana.vehicle'),
       vehicleId: 'toyota-hilux',
-      badge: 'Empresarial & Campo',
-      description: 'Ideal para engenheiros, directores técnicos e visitas de inspecção fabril ou logística.'
+      badge: t('routes.items.route-luanda-viana.badge'),
+      description: t('routes.items.route-luanda-viana.description')
     },
     {
       id: 'route-luanda-bengo',
-      name: 'Luanda ➔ Província do Bengo (Caxito / Panguila)',
-      from: 'Luanda',
-      to: 'Caxito / Bengo',
+      name: t('routes.items.route-luanda-bengo.name'),
+      from: t('routes.items.route-luanda-bengo.from'),
+      to: t('routes.items.route-luanda-bengo.to'),
       distance: '68 km',
-      estimatedTime: '1h 15 min',
-      vehicle: '4x4 / Pick-up (Toyota LC HZ / Mitsubishi L200)',
+      estimatedTime: t('routes.items.route-luanda-bengo.estimatedTime'),
+      vehicle: t('routes.items.route-luanda-bengo.vehicle'),
       vehicleId: 'toyota-lc-hz',
-      badge: 'Interprovincial Litoral',
+      badge: t('routes.items.route-luanda-bengo.badge'),
       displacementFeeAOA: 100000,
-      description: 'Viagem técnica ou institucional com viatura robusta e suporte operacional em tempo real.'
+      description: t('routes.items.route-luanda-bengo.description')
     },
     {
       id: 'route-luanda-huambo',
-      name: 'Missão Luanda ➔ Huambo (Planalto Central)',
-      from: 'Luanda (Sede PEPEK)',
-      to: 'Huambo (Pólo Regional)',
+      name: t('routes.items.route-luanda-huambo.name'),
+      from: t('routes.items.route-luanda-huambo.from'),
+      to: t('routes.items.route-luanda-huambo.to'),
       distance: '580 km',
-      estimatedTime: 'Itinerário de Longa Distância',
-      vehicle: '4x4 / SUV de Longo Curso (Toyota LC V8 / Hilux 4x4)',
+      estimatedTime: t('routes.items.route-luanda-huambo.estimatedTime'),
+      vehicle: t('routes.items.route-luanda-huambo.vehicle'),
       vehicleId: 'toyota-lc-v8-2021',
-      badge: 'Expedição Nacional',
+      badge: t('routes.items.route-luanda-huambo.badge'),
       displacementFeeAOA: 300000,
-      description: 'Pacote completo de missão interprovincial com viatura revista, equipamento de emergência e assistência técnica em todo o percurso.'
+      description: t('routes.items.route-luanda-huambo.description')
     }
   ];
 
@@ -123,8 +125,8 @@ export const RouteEstimator: React.FC = () => {
     ? (currentRoute.showTransferFrom ? currentVehicle.transferPriceAOA : currentVehicle.pricePerDayAOA)
     : undefined);
   const currentPriceLabel = currentRouteMinPrice !== undefined
-    ? 'Preço mínimo · a partir de 1 dia'
-    : currentRoute.showTransferFrom ? 'Transfer desde' : 'Diária desde';
+    ? t('routes.minPriceFromOneDay')
+    : currentRoute.showTransferFrom ? t('routes.transferFrom') : t('routes.dailyFrom');
 
   return (
     <section id="rotas" className="section-padding bg-gradient-to-b from-[#001E4A] to-[#174B86] text-white relative overflow-hidden">
@@ -137,19 +139,19 @@ export const RouteEstimator: React.FC = () => {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FEC228]/30 backdrop-blur-md text-xs font-bold text-[#FEC228] uppercase tracking-widest mb-4">
               <Compass className="w-4 h-4 text-[#FEC228]" />
-              <span>Rotas & Destinos</span>
+              <span>{t('routes.eyebrow')}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Mobilidade que acompanha o seu percurso.
+              {t('routes.title')}
             </h2>
             <p className="text-base text-gray-300 mt-3">
-              Ligamos Luanda às principais províncias de Angola através de um serviço de mobilidade premium, pensado para garantir conforto, segurança e excelência, em cada deslocação.
+              {t('routes.subtitle')}
             </p>
           </div>
 
           {/* Currency Toggle */}
           <div className="flex items-center gap-2 bg-white/10 p-1.5 rounded-xl border border-white/15">
-            <span className="text-xs text-gray-300 font-semibold px-2">Facturação:</span>
+            <span className="text-xs text-gray-300 font-semibold px-2">{t('routes.invoicingLabel')}</span>
             {(['AOA', 'USD', 'EUR'] as const).map((curr) => (
               <button
                 key={curr}
@@ -197,7 +199,7 @@ export const RouteEstimator: React.FC = () => {
 
                   {(route.showTransferFrom || route.displacementFeeAOA !== undefined) && (
                     <p className="text-xs text-gray-300 mb-2">
-                      Preços desde <strong className="text-sm font-extrabold text-[#FEC228]">{formatKz(interprovincialMinPrice(route) ?? lowestTransferAOA)}</strong>
+                      {t('routes.pricesFrom')} <strong className="text-sm font-extrabold text-[#FEC228]">{formatKz(interprovincialMinPrice(route) ?? lowestTransferAOA)}</strong>
                     </p>
                   )}
 
@@ -224,7 +226,7 @@ export const RouteEstimator: React.FC = () => {
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-6 border-b border-[#E2E8F0]">
                   <div>
                     <span className="text-xs font-bold text-[#FEC228] uppercase tracking-wider block mb-1">
-                      Itinerário Seleccionado
+                      {t('routes.selectedItinerary')}
                     </span>
                     <h3 className="text-2xl font-extrabold text-[#09172C]">
                       {currentRoute.name}
@@ -233,27 +235,27 @@ export const RouteEstimator: React.FC = () => {
 
                   <div className="px-3.5 py-1.5 rounded-full bg-[#236199] text-white text-xs font-bold border border-[#236199] flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-[#236199] animate-pulse"></span>
-                    <span>Disponibilidade Imediata</span>
+                    <span>{t('routes.immediateAvailability')}</span>
                   </div>
                 </div>
 
                 {currentVehicleImage && (
                   <div className="mb-7 overflow-hidden rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F5F6F6] to-white">
                     <div className="flex items-center justify-between gap-3 border-b border-[#E2E8F0] px-5 py-3">
-                      <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#001E4A]">Viatura recomendada</span>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#E4AD28]">Imagem oficial do catálogo 2026</span>
+                      <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#001E4A]">{t('routes.recommendedVehicleHeader')}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#E4AD28]">{t('routes.officialImage')}</span>
                     </div>
                     <div className="relative h-52 sm:h-64">
                       <img
                         src={currentVehicleImage.src}
-                        alt={currentVehicleImage.alt}
+                        alt={t('routes.vehicleImageAlt', { vehicle: currentVehicleImage.name })}
                         className="h-full w-full object-contain p-4 sm:p-5"
                       />
                     </div>
                     {currentVehicle && currentVehicleMinPrice !== undefined && (
                       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E2E8F0] bg-white px-5 py-4">
                         <div>
-                          <span className="block text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#555B64]">{currentRouteMinPrice !== undefined ? 'Viatura indicada' : 'Preço mínimo desta viatura'}</span>
+                          <span className="block text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#555B64]">{currentRouteMinPrice !== undefined ? t('routes.recommendedVehicle') : t('routes.vehicleMinPrice')}</span>
                           <span className="block text-sm font-bold text-[#09172C]">{currentVehicle.name}</span>
                         </div>
                         <div className="text-right">
@@ -265,16 +267,16 @@ export const RouteEstimator: React.FC = () => {
                         {currentRoute.displacementFeeAOA !== undefined && (
                           <div className="w-full space-y-1.5 border-t border-[#E2E8F0] pt-3 text-xs text-[#09172C]">
                             <div className="flex justify-between gap-4">
-                              <span>Aluguer diário da viatura</span>
+                              <span>{t('routes.dailyRental')}</span>
                               <span className="font-bold">{formatKz(currentVehicle.pricePerDayAOA)}</span>
                             </div>
                             <div className="flex justify-between gap-4">
-                              <span>Taxa de deslocação ({currentRoute.to})</span>
+                              <span>{t('routes.displacementFee', { destination: currentRoute.to })}</span>
                               <span className="font-bold">{formatKz(currentRoute.displacementFeeAOA)}</span>
                             </div>
                             <p className="pt-1 text-[11px] leading-relaxed text-[#555B64]">
-                              Motorista, combustível, alimentação, hospedagem e demais despesas adicionais não incluídos.
-                              {currency !== 'AOA' && ` Valor em ${currency} convertido ao câmbio do dia na facturação.`}
+                              {t('routes.exclusions')}
+                              {currency !== 'AOA' && ` ${t('routes.fxNote', { currency })}`}
                             </p>
                           </div>
                         )}
@@ -291,17 +293,17 @@ export const RouteEstimator: React.FC = () => {
                 {/* Key Metrics */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                   <div className="p-4 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0]">
-                    <span className="text-xs text-[#555B64] block mb-1 font-semibold uppercase">Ponto de Partida</span>
+                    <span className="text-xs text-[#555B64] block mb-1 font-semibold uppercase">{t('routes.origin')}</span>
                     <span className="text-sm font-bold text-[#09172C] block">{currentRoute.from}</span>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0]">
-                    <span className="text-xs text-[#555B64] block mb-1 font-semibold uppercase">Destino</span>
+                    <span className="text-xs text-[#555B64] block mb-1 font-semibold uppercase">{t('routes.destination')}</span>
                     <span className="text-sm font-bold text-[#09172C] block">{currentRoute.to}</span>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0]">
-                    <span className="text-xs text-[#555B64] block mb-1 font-semibold uppercase">Viatura Indicada</span>
+                    <span className="text-xs text-[#555B64] block mb-1 font-semibold uppercase">{t('routes.recommendedVehicleLabel')}</span>
                     <span className="text-sm font-bold text-[#FEC228] block">{currentRoute.vehicle}</span>
                   </div>
                 </div>
@@ -310,15 +312,15 @@ export const RouteEstimator: React.FC = () => {
                 <div className="space-y-2.5 mb-8">
                   <div className="flex items-center gap-2.5 text-xs font-semibold text-[#09172C]">
                     <CheckCircle2 className="w-4 h-4 text-[#236199] shrink-0" />
-                    <span>Faturação em {currency} pelo sistema</span>
+                    <span>{t('routes.invoicingIn', { currency })}</span>
                   </div>
                   <div className="flex items-center gap-2.5 text-xs font-semibold text-[#09172C]">
                     <CheckCircle2 className="w-4 h-4 text-[#236199] shrink-0" />
-                    <span>Tolerância de espera de 60 minutos em voos atrasados sem custo adicional</span>
+                    <span>{t('routes.waitTolerance')}</span>
                   </div>
                   <div className="flex items-center gap-2.5 text-xs font-semibold text-[#09172C]">
                     <CheckCircle2 className="w-4 h-4 text-[#236199] shrink-0" />
-                    <span>Água mineral lacrada, climatização independente e carregadores móveis a bordo</span>
+                    <span>{t('routes.onboard')}</span>
                   </div>
                 </div>
               </div>
@@ -327,14 +329,14 @@ export const RouteEstimator: React.FC = () => {
               <div className="pt-6 border-t border-[#E2E8F0] flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-xs text-[#555B64] flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#FEC228]" />
-                  <span>Confirmação em menos de 15 minutos</span>
+                  <span>{t('routes.fastConfirmation')}</span>
                 </div>
 
                 <a
                   href={generateQuickWhatsAppUrl(
-                    `Reserva de Rota: ${currentRoute.name} (${currency})`
+                    t('routes.whatsappBooking', { route: currentRoute.name, currency })
                       + (currentVehicle && currentRouteMinPrice !== undefined
-                        ? ` — ${currentVehicle.name}, preço mínimo ${formatKz(currentRouteMinPrice)}`
+                        ? ` — ${t('routes.whatsappMinPrice', { vehicle: currentVehicle.name, price: formatKz(currentRouteMinPrice) })}`
                         : '')
                   )}
                   target="_blank"
@@ -342,7 +344,7 @@ export const RouteEstimator: React.FC = () => {
                   className="w-full sm:w-auto px-6 py-3.5 bg-[#236199] hover:bg-[#0C2E60] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md"
                 >
                   <Phone className="w-4 h-4" />
-                  <span>Confirmar Esta Rota no WhatsApp</span>
+                  <span>{t('routes.confirmWhatsapp')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

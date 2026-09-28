@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle2, type LucideIcon } from 'lucide-react';
 
 type Crumb = { label: string; to?: string };
@@ -19,7 +20,8 @@ interface PageHeroProps {
  * Garante um único <h1> por página e um breadcrumb indexável (schema.org).
  */
 export const PageHero: React.FC<PageHeroProps> = ({ eyebrow, title, description, icon: Icon, breadcrumb, highlights }) => {
-  const trail: Crumb[] = [{ label: 'Início', to: '/' }, ...breadcrumb];
+  const { t } = useTranslation();
+  const trail: Crumb[] = [{ label: t('nav.home'), to: '/' }, ...breadcrumb];
 
   const schema = {
     '@context': 'https://schema.org',

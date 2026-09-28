@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   X,
   Scale,
@@ -10,6 +11,7 @@ import {
   Fuel,
   Trash2
 } from 'lucide-react';
+import { useFleetText } from '../../i18n/fleetContent';
 import { VehicleDetail } from '../../data/fleetData';
 import { getVehicleStudioBackground } from '../../data/fleetPresentation';
 
@@ -30,6 +32,8 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
   onClose,
   onSelectBooking
 }) => {
+  const { t } = useTranslation();
+  const ft = useFleetText();
   if (!isOpen || comparedVehicles.length === 0) return null;
 
   return (
@@ -49,10 +53,10 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-bold text-white">
-                Comparador de Viaturas da Frota Pepek
+                {t('comparator.title')}
               </h3>
               <p className="text-xs text-gray-400">
-                Análise comparativa direta de especificações técnicas e valores diários.
+                {t('comparator.subtitle')}
               </p>
             </div>
           </div>
@@ -64,7 +68,7 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
               className="text-xs text-[#E4AD28] hover:text-[#E4AD28] font-bold flex items-center gap-1 cursor-pointer px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              <span>Limpar Tudo</span>
+              <span>{t('comparator.clearAll')}</span>
             </button>
 
             <button
@@ -88,7 +92,7 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
                   type="button"
                   onClick={() => onRemoveVehicle(vehicle.id)}
                   className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white hover:bg-[#FEC228] transition-colors cursor-pointer z-10"
-                  title="Remover viatura da comparação"
+                  title={t('comparator.remove')}
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -106,10 +110,10 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
 
                 <div className="space-y-1">
                   <div className="text-base font-extrabold text-[#FEC228]">
-                    {vehicle.pricePerDayFormatted} <span className="text-[10px] text-white/65 font-normal">/ dia</span>
+                    {vehicle.pricePerDayFormatted} <span className="text-[10px] text-white/65 font-normal">{t('vehicle.perDay')}</span>
                   </div>
                   <div className="text-[11px] font-bold text-white/80">
-                    {vehicle.categoryLabel}
+                    {ft(vehicle.categoryLabel)}
                   </div>
                 </div>
 
@@ -122,7 +126,7 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
                   className="w-full py-2.5 px-3 bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] text-xs font-extrabold rounded-xl justify-center flex items-center gap-1.5 shadow-md cursor-pointer"
                 >
                   <Calendar className="w-3.5 h-3.5" />
-                  <span>Reservar Esta</span>
+                  <span>{t('comparator.bookThis')}</span>
                 </button>
               </div>
             ))}
@@ -132,18 +136,18 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
           <div className="mt-6 bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden divide-y divide-gray-100">
             {/* Lotação */}
             <div className="p-3.5 bg-gray-50 font-bold text-[#09172C] text-[11px] uppercase tracking-wider">
-              Capacidade de Passageiros & Portas
+              {t('comparator.capacityDoors')}
             </div>
             <div className={`grid grid-cols-${comparedVehicles.length} divide-x divide-gray-100 p-3.5`}>
               {comparedVehicles.map((v) => (
                 <div key={v.id} className="p-2 space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-[#09172C]">
                     <Users className="w-4 h-4 text-[#FEC228]" />
-                    <span>{v.specs.passengers} Passageiros</span>
+                    <span>{t('comparator.passengers', { count: v.specs.passengers })}</span>
                   </div>
                   <div className="flex items-center gap-1.5 text-[#555B64]">
                     <DoorClosed className="w-4 h-4 text-gray-400" />
-                    <span>{v.specs.doors} Portas</span>
+                    <span>{t('vehicle.doorsCount', { count: v.specs.doors })}</span>
                   </div>
                 </div>
               ))}
@@ -151,18 +155,18 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
 
             {/* Mecânica & Transmissão */}
             <div className="p-3.5 bg-gray-50 font-bold text-[#09172C] text-[11px] uppercase tracking-wider">
-              Transmissão & Combustível
+              {t('comparator.transmissionFuel')}
             </div>
             <div className={`grid grid-cols-${comparedVehicles.length} divide-x divide-gray-100 p-3.5`}>
               {comparedVehicles.map((v) => (
                 <div key={v.id} className="p-2 space-y-1">
                   <div className="flex items-center gap-1.5 font-semibold text-[#09172C]">
                     <Settings2 className="w-4 h-4 text-[#FEC228]" />
-                    <span>{v.specs.transmission}</span>
+                    <span>{ft(v.specs.transmission)}</span>
                   </div>
                   <div className="flex items-center gap-1.5 text-[#555B64]">
                     <Fuel className="w-4 h-4 text-gray-400" />
-                    <span>{v.specs.fuelType}</span>
+                    <span>{ft(v.specs.fuelType)}</span>
                   </div>
                 </div>
               ))}
@@ -170,17 +174,17 @@ export const VehicleComparatorModal: React.FC<VehicleComparatorProps> = ({
 
             {/* Tracção & Depósito */}
             <div className="p-3.5 bg-gray-50 font-bold text-[#09172C] text-[11px] uppercase tracking-wider">
-              Tracção & Depósito
+              {t('comparator.tractionTank')}
             </div>
             <div className={`grid grid-cols-${comparedVehicles.length} divide-x divide-gray-100 p-3.5`}>
               {comparedVehicles.map((v) => (
                 <div key={v.id} className="p-2 space-y-1">
                   <div className="flex items-center gap-1.5 font-semibold text-[#09172C]">
                     <Gauge className="w-4 h-4 text-[#FEC228]" />
-                    <span>{v.specs.tankCapacity || 'Depósito padrão'}</span>
+                    <span>{v.specs.tankCapacity || t('comparator.standardTank')}</span>
                   </div>
                   <div className="text-[11px] text-[#555B64]">
-                    <span>{v.specs.traction || 'Tração Dianteira/Traseira'}</span>
+                    <span>{v.specs.traction ? ft(v.specs.traction) : t('comparator.twoWheelDrive')}</span>
                   </div>
                 </div>
               ))}

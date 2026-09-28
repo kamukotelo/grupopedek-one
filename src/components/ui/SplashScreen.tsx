@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const SPLASH_DURATION = 1850;
 
 export const SplashScreen: React.FC = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
   const [isDeparting, setIsDeparting] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -56,7 +58,7 @@ export const SplashScreen: React.FC = () => {
         <img className="pepek-intro__road" src="/logo-pepek-light.png" alt="" />
       </div>
 
-      <p className="pepek-intro__tagline">Experiência premium em cada quilômetro</p>
+      <p className="pepek-intro__tagline">{t('common.splashTagline')}</p>
     </div>
   );
 };

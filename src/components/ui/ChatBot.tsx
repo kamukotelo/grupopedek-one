@@ -17,7 +17,7 @@ import { OFFICIAL_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 import { useAuth } from '../../context/AuthContext';
 
 export const ChatBot: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const { currentUser, isDemoMode, setIsPortalOpen } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -34,57 +34,21 @@ export const ChatBot: React.FC = () => {
   const [sessionContext, setSessionContext] = useState<SessionContext>({
     step: 'idle'
   });
-  const [quickReplies, setQuickReplies] = useState<string[]>([
-    'Recomendar Viatura',
-    'Preços das Diárias',
-    'Transfer Aeroporto VIP',
-    'Falar com um Consultor'
-  ]);
+  const [quickReplies, setQuickReplies] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [proactiveBubbleVisible, setProactiveBubbleVisible] = useState(false);
   const isFormRoute = ['/reservar', '/contactos'].includes(location.pathname);
 
   // Saudação contextual personalizada apenas para utilizadores autenticados.
   // Visitantes anónimos recebem uma saudação humana, calorosa, elegante e sem jargão.
+  // Ao mudar de idioma a saudação acompanha, desde que a conversa ainda não tenha começado.
   useEffect(() => {
-    if (currentUser && isDemoMode) {
-      const greeting = `Olá, ${currentUser.name}! Que satisfação tê-lo(a) connosco. 🤝✨ Em que posso apoiar a sua operação de mobilidade hoje?`;
-      setMessages([{ role: 'assistant', content: greeting }]);
-      setQuickReplies([
-        'Consultar Viaturas Disponíveis',
-        'Faturas e Documentos',
-        'Pedir Nova Viatura',
-        'Falar com a Central'
-      ]);
-    } else if (currentUser && !isDemoMode) {
-      const firstName = currentUser.name.split(' ')[0];
-      setMessages([
-        {
-          role: 'assistant',
-          content: `Olá, ${firstName}! É sempre um gosto falar consigo. 🚗✨ Como posso ajudar na sua mobilidade hoje?`
-        }
-      ]);
-      setQuickReplies([
-        'Consultar Reservas',
-        'Pedir Viatura',
-        'Falar com Atendimento'
-      ]);
-    } else {
-      setMessages([
-        {
-          role: 'assistant',
-          content:
-            'Olá! É um enorme prazer recebê-lo(a) na PEPEK GRUPO em Talatona. 🚗✨ Em que posso apoiar a sua viagem, transfer VIP ou a mobilidade da sua instituição hoje?'
-        }
-      ]);
-      setQuickReplies([
-        'Recomendar Viatura',
-        'Preços das Diárias',
-        'Transfer Aeroporto VIP',
-        'Falar com um Consultor'
-      ]);
-    }
-  }, [currentUser, isDemoMode]);
+    const audience = currentUser ? (isDemoMode ? 'demo' : 'member') : 'guest';
+    const name = currentUser ? (isDemoMode ? currentUser.name : currentUser.name.split(' ')[0]) : '';
+    const greeting = t(`chat.greeting.${audience}`, { name });
+    setMessages((previous) => (previous.length > 1 ? previous : [{ role: 'assistant', content: greeting }]));
+    setQuickReplies(t(`chat.quickReplies.${audience}`, { returnObjects: true }) as string[]);
+  }, [currentUser, isDemoMode, t, i18n.language]);
 
   // Proactive non-intrusive assistant nudge after 12s on page
   useEffect(() => {
@@ -151,8 +115,7 @@ export const ChatBot: React.FC = () => {
         ...newMessages,
         {
           role: 'assistant',
-          content:
-            'A nossa equipa em Talatona está inteiramente ao seu dispor com todo o carinho! 🤝 Dispomos de SUVs executivas, 4x4 de campo, vans de luxo e condutores de protocolo bilingues. Posso ligá-lo a um consultor de imediato.'
+          content: t('chat.errorFallback')
         }
       ]);
     } finally {
@@ -161,11 +124,11 @@ export const ChatBot: React.FC = () => {
   };
 
   const generateWhatsAppHandoverLink = (handoverTopic?: string) => {
-    const topic = handoverTopic || 'Atendimento de Frota';
+    const topic = handoverTopic || t('chat.handoverDefaultTopic');
     const lastUserMsg =
-      messages.filter((m) => m.role === 'user').slice(-1)[0]?.content || 'Consulta de Mobilidade';
-    const vehicle = sessionContext.lastMentionedVehicle ? `\nViatura de Interesse: ${sessionContext.lastMentionedVehicle}` : '';
-    const text = `*SOLICITAÇÃO DE ATENDIMENTO — PEPEK GRUPO*\nAssunto: ${topic}\nÚltima Mensagem: "${lastUserMsg}"${vehicle}\n\n_Gostaria de falar com um consultor humano para finalizar o meu pedido._`;
+      messages.filter((m) => m.role === 'user').slice(-1)[0]?.content || t('chat.handoverDefaultMessage');
+    const vehicle = sessionContext.lastMentionedVehicle ? `\n${t('chat.handoverVehicle', { vehicle: sessionContext.lastMentionedVehicle })}` : '';
+    const text = t('chat.handoverMessage', { topic, lastMessage: lastUserMsg, vehicle });
     return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
@@ -193,15 +156,15 @@ export const ChatBot: React.FC = () => {
                 setProactiveBubbleVisible(false);
               }}
             >
-              <strong className="block text-[#09172C] font-bold">Consultor Pepek Grupo</strong>
+              <strong className="block text-[#09172C] font-bold">{t('chat.bubbleTitle')}</strong>
               <p className="text-gray-600 text-[11px] leading-relaxed mt-0.5">
-                Precisa de ajuda a escolher a viatura ideal para a sua comitiva ou viagem?
+                {t('chat.bubbleText')}
               </p>
             </div>
             <button
               onClick={() => setProactiveBubbleVisible(false)}
               className="p-1 text-gray-400 hover:text-gray-700 cursor-pointer"
-              aria-label="Dispensar sugestão"
+              aria-label={t('chat.dismiss')}
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -215,13 +178,13 @@ export const ChatBot: React.FC = () => {
               setProactiveBubbleVisible(false);
             }}
             className="group flex items-center gap-3 p-3.5 sm:px-5 sm:py-3.5 rounded-full bg-[#09172C] hover:bg-[#236199] text-white shadow-2xl border border-white/20 transition-all duration-300 hover:scale-105 cursor-pointer"
-            aria-label="Abrir Atendimento Executivo"
+            aria-label={t('chat.open')}
           >
             <div className="relative">
               <span className="w-2.5 h-2.5 rounded-full bg-[#236199] block animate-pulse"></span>
             </div>
             <span className="hidden sm:inline font-bold text-xs">
-              {currentUser ? `Olá, ${currentUser.name.split(' ')[0]}` : 'Atendimento 24/7'}
+              {currentUser ? t('chat.helloName', { name: currentUser.name.split(' ')[0] }) : t('chat.support247')}
             </span>
             <MessageSquare className="w-5 h-5 text-[#236199] group-hover:text-white transition-colors" />
           </button>
@@ -245,10 +208,10 @@ export const ChatBot: React.FC = () => {
                 <Headphones className="w-4 h-4 text-[#236199]" />
               </div>
               <div>
-                <h4 className="font-bold text-xs text-white">Consultor de Mobilidade PEPEK</h4>
+                <h4 className="font-bold text-xs text-white">{t('chat.headerTitle')}</h4>
                 <p className="text-[10px] text-[#236199] flex items-center gap-1 font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#236199] animate-pulse"></span>
-                  <span>Central de Talatona · Disponível 24/7</span>
+                  <span>{t('chat.headerStatus')}</span>
                 </p>
               </div>
             </div>
@@ -256,7 +219,7 @@ export const ChatBot: React.FC = () => {
             <button
               onClick={() => setIsOpen(false)}
               className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-              aria-label="Fechar atendimento"
+              aria-label={t('chat.close')}
             >
               <X className="w-4 h-4" />
             </button>
@@ -289,7 +252,7 @@ export const ChatBot: React.FC = () => {
                       className="btn-whatsapp w-full justify-center text-xs py-2.5 font-bold shadow-md flex items-center gap-2"
                     >
                       <Phone className="w-3.5 h-3.5" />
-                      <span>Falar no WhatsApp com Consultor</span>
+                      <span>{t('chat.whatsappConsultant')}</span>
                     </a>
                   </div>
                 )}
@@ -337,7 +300,7 @@ export const ChatBot: React.FC = () => {
                 inputMode="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Escreva a sua mensagem..."
+                placeholder={t('chat.placeholder')}
                 style={{ fontSize: '16px' }}
                 className="flex-1 py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:border-[#236199]"
               />
@@ -345,7 +308,7 @@ export const ChatBot: React.FC = () => {
                 type="submit"
                 disabled={!inputMessage.trim() || isTyping}
                 className="p-2.5 rounded-xl bg-[#236199] text-white disabled:opacity-50 transition-colors cursor-pointer"
-                aria-label="Enviar mensagem"
+                aria-label={t('chat.send')}
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -353,14 +316,14 @@ export const ChatBot: React.FC = () => {
 
             {/* Direct WhatsApp link */}
             <div className="flex items-center justify-between text-[10px] text-gray-500 pt-1">
-              <span>Atendimento humano em Talatona</span>
+              <span>{t('chat.humanTalatona')}</span>
               <a
                 href={generateWhatsAppHandoverLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#236199] hover:underline font-bold flex items-center gap-1"
               >
-                <span>WhatsApp Direto</span>
+                <span>{t('chat.whatsappDirect')}</span>
                 <ArrowUpRight className="w-3 h-3" />
               </a>
             </div>

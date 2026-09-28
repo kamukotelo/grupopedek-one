@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -27,6 +28,7 @@ const PageNotFound = lazy(() => import('./pages/PageNotFound').then(module => ({
 import './i18n';
 
 export const App: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedVehicle, setSelectedVehicle] = useState<string>('SUV Executiva — Land Cruiser Prado / LC300');
 
   return (
@@ -41,7 +43,7 @@ export const App: React.FC = () => {
 
           {/* Page router — real URLs, each with individual SEO metadata */}
           <main className="flex-1">
-            <Suspense fallback={<div className="min-h-screen bg-[#001E4A]" aria-label="A carregar página" />}>
+            <Suspense fallback={<div className="min-h-screen bg-[#001E4A]" aria-label={t('common.loadingPage')} />}>
             <Routes>
               {/* Home — Hero + all sections + primary CTA */}
               <Route path="/" element={<PageHome onSelectVehicle={setSelectedVehicle} />} />

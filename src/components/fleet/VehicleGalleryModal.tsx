@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   X,
   ChevronLeft,
@@ -21,6 +22,7 @@ import {
   Snowflake,
   MessageSquareText
 } from 'lucide-react';
+import { useFleetText } from '../../i18n/fleetContent';
 import { VehicleDetail } from '../../data/fleetData';
 import { getFleetPeopleFreeInteriors } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
@@ -38,6 +40,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   onClose,
   onSelectForBooking
 }) => {
+  const { t } = useTranslation();
+  const ft = useFleetText();
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAutoPaused, setIsAutoPaused] = useState(false);
@@ -59,11 +63,13 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
   const publicGallery = [...originalLocalGallery, ...peopleFreeInteriors];
   const verifiedGallery = (publicGallery.length ? publicGallery : [{
     url: FLEET_IMAGE_REVIEW_PLACEHOLDER,
-    caption: 'Imagens desta viatura em revisão',
-    altText: `${vehicle?.name ?? 'Viatura'} — imagens em revisão`,
+    caption: t('vehicleGallery.imagesInReview'),
+    altText: t('vehicleGallery.imagesInReviewAlt', { vehicle: vehicle?.name ?? t('vehicleGallery.vehicle') }),
     type: 'context' as const
   }]).map((image) => ({
     ...image,
+    caption: ft(image.caption),
+    altText: vehicle ? `${vehicle.name} — ${ft(image.caption)}` : image.altText,
     url: image.url.startsWith('/rent_car/')
       ? image.url.replace('/rent_car/', '/rent_car_hd/')
       : image.url
@@ -153,7 +159,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
         <div className="bg-[#09172C] text-white px-5 sm:px-7 py-4 flex items-center justify-between border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3">
             <span className="px-3 py-1 rounded-full bg-[#FEC228] text-[10px] font-extrabold uppercase tracking-wider text-[#09172C]">
-              {vehicle.categoryLabel}
+              {ft(vehicle.categoryLabel)}
             </span>
             <h3 className="text-base sm:text-lg font-bold text-white truncate max-w-[280px] sm:max-w-md">
               {vehicle.name}
@@ -166,7 +172,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer hidden sm:flex items-center gap-1.5 text-xs font-bold"
             >
               {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-              <span>{isFullscreen ? 'Reduzir' : 'Expandir'}</span>
+              <span>{isFullscreen ? t('vehicleGallery.collapse') : t('vehicleGallery.expand')}</span>
             </button>
 
             <button
@@ -204,7 +210,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               ))}
               {Array.from({ length: Math.max(0, 5 - verifiedGallery.length) }).map((_, index) => (
                 <div key={`pending-${index}`} className="flex h-36 items-center justify-center bg-[#174B86]/90 p-4 text-center sm:h-52">
-                  <div><Camera className="mx-auto mb-2 h-6 w-6 text-[#FEC228]" /><p className="text-xs font-bold text-white">Vista em produção e validação</p><p className="mt-1 text-[10px] text-white/65">Sem imagem genérica</p></div>
+                  <div><Camera className="mx-auto mb-2 h-6 w-6 text-[#FEC228]" /><p className="text-xs font-bold text-white">{t('vehicleGallery.inProduction')}</p><p className="mt-1 text-[10px] text-white/65">{t('vehicleGallery.noGeneric')}</p></div>
                 </div>
               ))}
             </div>
@@ -228,7 +234,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               </>
             )}
 
-            <div className="pointer-events-none absolute right-5 top-5 z-20 rounded-full border border-white/15 bg-[#09172C]/90 px-3 py-1.5 text-xs font-bold text-[#FEC228] backdrop-blur"><Camera className="mr-1 inline h-3.5 w-3.5" />{verifiedGallery.length} {verifiedGallery.length === 1 ? 'Foto' : 'Fotos'}</div>
+            <div className="pointer-events-none absolute right-5 top-5 z-20 rounded-full border border-white/15 bg-[#09172C]/90 px-3 py-1.5 text-xs font-bold text-[#FEC228] backdrop-blur"><Camera className="mr-1 inline h-3.5 w-3.5" />{t('vehicle.photoCount', { count: verifiedGallery.length })}</div>
           </div>
 
           {/* Thumbnails Bar */}
@@ -271,17 +277,17 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               </div>
 
               <div className="text-left sm:text-right bg-[#F5F6F6] p-4 px-6 rounded-2xl border border-[#E2E8F0] shrink-0">
-                <span className="text-[10px] text-[#555B64] font-bold uppercase block">Tarifa Oficial por Dia</span>
+                <span className="text-[10px] text-[#555B64] font-bold uppercase block">{t('vehicleGallery.dailyRate')}</span>
                 <div className="text-xl sm:text-2xl font-extrabold text-[#09172C]">
                   {vehicle.pricePerDayFormatted}
                 </div>
-                <span className="text-xs font-bold text-[#236199]">Disponibilidade em Talatona & Luanda</span>
+                <span className="text-xs font-bold text-[#236199]">{t('vehicleGallery.availability')}</span>
               </div>
             </div>
 
             {/* Description */}
             <p className="text-sm sm:text-base text-[#555B64] leading-relaxed">
-              {vehicle.description}
+              {ft(vehicle.description)}
             </p>
 
             {/* 5 Core Specs Grid with Gold Icons inside Navy Circles */}
@@ -291,8 +297,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                   <Users className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Lotação</span>
-                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.passengers} Passageiros</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">{t('vehicleGallery.capacity')}</span>
+                  <span className="font-extrabold text-[#09172C]">{t('comparator.passengers', { count: vehicle.specs.passengers })}</span>
                 </div>
               </div>
 
@@ -301,8 +307,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                   <DoorClosed className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Portas</span>
-                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.doors} Portas</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">{t('vehicleGallery.doors')}</span>
+                  <span className="font-extrabold text-[#09172C]">{t('vehicle.doorsCount', { count: vehicle.specs.doors })}</span>
                 </div>
               </div>
 
@@ -311,8 +317,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                   <Settings2 className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Transmissão</span>
-                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.transmission}</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">{t('vehicleGallery.transmission')}</span>
+                  <span className="font-extrabold text-[#09172C]">{ft(vehicle.specs.transmission)}</span>
                 </div>
               </div>
 
@@ -321,8 +327,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                   <Fuel className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Combustível</span>
-                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.fuelType}</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">{t('vehicleGallery.fuel')}</span>
+                  <span className="font-extrabold text-[#09172C]">{ft(vehicle.specs.fuelType)}</span>
                 </div>
               </div>
 
@@ -331,8 +337,8 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
                   <Gauge className="w-5 h-5 text-[#FEC228]" />
                 </div>
                 <div>
-                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">Depósito / Tracção</span>
-                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.tankCapacity || vehicle.specs.traction || 'Integral'}</span>
+                  <span className="text-[#555B64] block text-[10px] uppercase font-bold">{t('vehicleGallery.tankTraction')}</span>
+                  <span className="font-extrabold text-[#09172C]">{vehicle.specs.tankCapacity || ft(vehicle.specs.traction) || t('vehicleGallery.allWheel')}</span>
                 </div>
               </div>
             </div>
@@ -342,13 +348,13 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               <div className="p-5 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0] space-y-2.5">
                 <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                   <Sparkles className="w-4 h-4 text-[#FEC228]" />
-                  Equipamentos & Tecnologia
+                  {t('vehicleGallery.equipment')}
                 </h5>
                 <ul className="space-y-1.5 text-[#555B64]">
                   {vehicle.features.map((f, i) => (
                     <li key={i} className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FEC228]" />
-                      <span>{f}</span>
+                      <span>{ft(f)}</span>
                     </li>
                   ))}
                 </ul>
@@ -357,13 +363,13 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               <div className="p-5 rounded-2xl bg-[#F5F6F6] border border-[#E2E8F0] space-y-2.5">
                 <h5 className="font-bold text-[#09172C] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-[#236199]" />
-                  Inclusões & Garantias Pepek
+                  {t('vehicleGallery.inclusions')}
                 </h5>
                 <ul className="space-y-1.5 text-[#555B64]">
                   {vehicle.inclusions.map((inc, i) => (
                     <li key={i} className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-[#236199] shrink-0" />
-                      <span>{inc}</span>
+                      <span>{ft(inc)}</span>
                     </li>
                   ))}
                 </ul>
@@ -375,7 +381,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
         {/* Footer CTAs */}
         <div className="p-4 sm:p-5 bg-white border-t border-[#E2E8F0] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           <div className="text-xs text-[#555B64] hidden sm:block">
-            <span>Faturação e cotação oficial disponível para empresas e particulares</span>
+            <span>{t('vehicleGallery.invoicing')}</span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
@@ -388,7 +394,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               className="w-full sm:w-auto px-7 py-3.5 bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C] text-xs font-extrabold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
-              <span>Reservar Agora ({vehicle.pricePerDayFormatted}/dia)</span>
+              <span>{t('vehicleGallery.bookNowWithPrice', { price: vehicle.pricePerDayFormatted })}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -398,7 +404,7 @@ export const VehicleGalleryModal: React.FC<VehicleGalleryModalProps> = ({
               className="w-full sm:w-auto px-6 py-3.5 bg-[#236199] hover:bg-[#0C2E60] text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               <MessageSquareText className="w-4 h-4" />
-              <span>WhatsApp Imediato</span>
+              <span>{t('vehicleGallery.whatsappNow')}</span>
             </button>
           </div>
         </div>

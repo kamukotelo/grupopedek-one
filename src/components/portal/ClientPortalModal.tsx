@@ -38,6 +38,7 @@ import { generateQuickWhatsAppUrl } from '../../lib/whatsapp';
 import { ClientAreaModal } from '../ui/ClientAreaModal';
 import { DEMO_OPERATIONAL_RECORDS, DEMO_ODOO_EVENTS } from '../../data/demoUsers';
 import { getPortalPermissions } from '../../lib/portalPermissions';
+import { useTranslation } from 'react-i18next';
 
 export const ClientPortalModal: React.FC = () => {
   const {
@@ -56,6 +57,9 @@ export const ClientPortalModal: React.FC = () => {
     payInvoice,
     refreshInvoices
   } = useAuth();
+  const { t } = useTranslation();
+  const roleLabel = currentUser ? t(`portal.roles.${currentUser.role}`, { defaultValue: currentUser.roleLabel }) : '';
+  const tierLabel = currentUser?.tier ? t(`portal.tiers.${currentUser.tier}`, { defaultValue: currentUser.tier }) : t('portal.accredited');
 
   const [activeTab, setActiveTab] = useState<'overview' | 'fleet' | 'invoices' | 'operations' | 'odoo' | 'request'>('overview');
   const [selectedReceiptInvoice, setSelectedReceiptInvoice] = useState<InvoiceItem | null>(null);
@@ -83,16 +87,16 @@ export const ClientPortalModal: React.FC = () => {
   const pendingInvoices = invoices.filter((invoice) => invoice.status === 'pending' || invoice.status === 'overdue');
   const activeVehicles = fleetTelemetry.filter((vehicle) => ['em_circulacao', 'em_reserva'].includes(vehicle.status));
 
-  const demoRoles: Array<{ role: UserRole; label: string; icon: string; category: 'Cliente' | 'Administrativo' }> = [
-    { role: 'cliente_vip', label: 'Cliente VIP Diplomático', icon: '👑', category: 'Cliente' },
-    { role: 'cliente_normal', label: 'Cliente PME / Normal', icon: '👤', category: 'Cliente' },
-    { role: 'vendedor', label: 'Vendedor CRM', icon: '💼', category: 'Administrativo' },
-    { role: 'gestor_reservas', label: 'Gestor de Reservas', icon: '🎫', category: 'Administrativo' },
-    { role: 'diretor_frotas', label: 'Director de Frotas', icon: '🚚', category: 'Administrativo' },
-    { role: 'motorista', label: 'Motorista Protocolar', icon: '🧑🏾‍✈️', category: 'Administrativo' },
-    { role: 'contabilista', label: 'Contabilista', icon: '📊', category: 'Administrativo' },
-    { role: 'gestor_portugal', label: 'Gestor Portugal', icon: '🇵🇹', category: 'Administrativo' },
-    { role: 'direcao', label: 'Direcção Executiva', icon: '🏛️', category: 'Administrativo' }
+  const demoRoles: Array<{ role: UserRole; icon: string }> = [
+    { role: 'cliente_vip', icon: '👑' },
+    { role: 'cliente_normal', icon: '👤' },
+    { role: 'vendedor', icon: '💼' },
+    { role: 'gestor_reservas', icon: '🎫' },
+    { role: 'diretor_frotas', icon: '🚚' },
+    { role: 'motorista', icon: '🧑🏾‍✈️' },
+    { role: 'contabilista', icon: '📊' },
+    { role: 'gestor_portugal', icon: '🇵🇹' },
+    { role: 'direcao', icon: '🏛️' }
   ];
 
   return (
@@ -104,7 +108,7 @@ export const ClientPortalModal: React.FC = () => {
             <div className="bg-[#09172C] text-white px-4 py-2.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-[11px] text-[#E4AD28] font-bold">
                 <Sliders className="w-3.5 h-3.5" />
-                <span>🛠 Modo Demo (Desenvolvimento) — Trocar Perfil:</span>
+                <span>🛠 {t('portal.demoSwitch')}</span>
               </div>
               <div className="flex flex-wrap items-center gap-1.5">
                 {demoRoles.map((d) => (
@@ -119,7 +123,7 @@ export const ClientPortalModal: React.FC = () => {
                     }`}
                   >
                     <span>{d.icon}</span>
-                    <span>{d.label}</span>
+                    <span>{t(`portal.roles.${d.role}`)}</span>
                   </button>
                 ))}
               </div>
@@ -136,16 +140,16 @@ export const ClientPortalModal: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-xl sm:text-2xl font-bold text-white font-inter">
-                    {currentUser ? `Bem-vindo ao espaço ${currentUser.roleLabel}` : 'Portal de Mobilidade PEPEK'}
+                    {currentUser ? t('portal.welcome', { role: roleLabel }) : t('portal.portalTitle')}
                   </h3>
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
                     isAdminOrStaff ? 'bg-[#FEC228] text-white' : 'bg-[#236199] text-white'
                   }`}>
-                    {currentUser?.tier || 'Acreditado'}
+                    {tierLabel}
                   </span>
                 </div>
                 <p className="text-xs text-gray-300">
-                  {currentUser?.company} · Experiência personalizada {currentUser?.nif ? `· NIF: ${currentUser.nif}` : ''}
+                  {currentUser?.company} · {t('portal.personalised')} {currentUser?.nif ? `· NIF: ${currentUser.nif}` : ''}
                 </p>
               </div>
             </div>
@@ -155,14 +159,14 @@ export const ClientPortalModal: React.FC = () => {
               {isAdminOrStaff && (
                 <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#FEC228]/20 border border-[#E4AD28]/30 text-xs text-[#E4AD28] font-bold">
                   <Server className="w-3.5 h-3.5" />
-                  <span>Painel Administrativo Interno</span>
+                  <span>{t('portal.internalPanel')}</span>
                 </div>
               )}
 
               {permissions.fleet && <button
                 onClick={() => setIsPortalOpen(false)}
                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-                aria-label="Fechar portal"
+                aria-label={t('portal.closePortal')}
               >
                 <X className="w-5 h-5" />
               </button>}
@@ -182,7 +186,7 @@ export const ClientPortalModal: React.FC = () => {
                 }`}
               >
                 <LayoutDashboard className="w-4 h-4" />
-                <span>Visão Geral</span>
+                <span>{t('portal.tabOverview')}</span>
               </button>
               {canViewFinances && <button
                 type="button"
@@ -194,7 +198,7 @@ export const ClientPortalModal: React.FC = () => {
                 }`}
               >
                 <Car className="w-4 h-4" />
-                <span>{isAdminOrStaff ? 'Gestão da Frota Global' : 'Minhas Viaturas Alocadas'}</span>
+                <span>{isAdminOrStaff ? t('portal.tabFleetAdmin') : t('portal.tabFleetClient')}</span>
               </button>}
 
               <button
@@ -207,7 +211,7 @@ export const ClientPortalModal: React.FC = () => {
                 }`}
               >
                 <FileText className="w-4 h-4" />
-                <span>{isAdminOrStaff ? 'Faturação & Finanças' : 'Minhas Faturas & Recibos'}</span>
+                <span>{isAdminOrStaff ? t('portal.tabInvoicesAdmin') : t('portal.tabInvoicesClient')}</span>
                 {invoices.some(i => i.status === 'pending' || i.status === 'overdue') && (
                   <span className="w-2 h-2 rounded-full bg-[#FEC228]"></span>
                 )}
@@ -224,7 +228,7 @@ export const ClientPortalModal: React.FC = () => {
                   }`}
                 >
                   <Activity className="w-4 h-4 text-[#236199]" />
-                  <span>Centro de Operações</span>
+                  <span>{t('portal.tabOperations')}</span>
                 </button>
               )}
 
@@ -240,7 +244,7 @@ export const ClientPortalModal: React.FC = () => {
                   }`}
                 >
                   <RefreshCw className="w-4 h-4 text-[#E4AD28]" />
-                  <span>ERP Odoo (Admin)</span>
+                  <span>{t('portal.tabOdoo')}</span>
                 </button>
               )}
 
@@ -256,7 +260,7 @@ export const ClientPortalModal: React.FC = () => {
                   }`}
                 >
                   <Sparkles className="w-4 h-4 text-[#236199]" />
-                  <span>Requisição Prioritária</span>
+                  <span>{t('portal.tabRequest')}</span>
                 </button>
               )}
             </div>
@@ -267,7 +271,7 @@ export const ClientPortalModal: React.FC = () => {
               className="text-xs font-bold text-[#E4AD28] hover:text-[#E4AD28] flex items-center gap-1 cursor-pointer py-2"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>Sair da Sessão</span>
+              <span>{t('portal.logout')}</span>
             </button>
           </div>
 
@@ -277,16 +281,14 @@ export const ClientPortalModal: React.FC = () => {
               <div className="space-y-6">
                 <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
                   <div>
-                    <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#E4AD28]">Resumo da sua conta</span>
-                    <h4 className="mt-1 text-xl font-extrabold text-[#09172C]">Olá, {currentUser?.name || 'utilizador PEPEK'}</h4>
+                    <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#E4AD28]">{t('portal.accountSummary')}</span>
+                    <h4 className="mt-1 text-xl font-extrabold text-[#09172C]">{t('portal.hello', { name: currentUser?.name || t('portal.defaultUser') })}</h4>
                     <p className="mt-1 max-w-2xl text-xs leading-5 text-gray-500">
-                      {isAdminOrStaff
-                        ? 'Consulte o estado da operação, execute tarefas autorizadas e acompanhe os indicadores da sua área.'
-                        : 'Acompanhe viaturas, documentos e pedidos associados à sua conta num único espaço seguro.'}
+                      {isAdminOrStaff ? t('portal.overviewStaff') : t('portal.overviewClient')}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 rounded-xl border border-[#236199] bg-[#236199] px-3 py-2 text-[10px] font-bold text-white">
-                    <ShieldCheck className="h-4 w-4" /> Sessão autenticada
+                    <ShieldCheck className="h-4 w-4" /> {t('portal.authenticated')}
                   </div>
                 </div>
 
@@ -294,39 +296,39 @@ export const ClientPortalModal: React.FC = () => {
                   <button type="button" disabled={!permissions.fleet} onClick={() => permissions.fleet && setActiveTab('fleet')} className="rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition enabled:hover:-translate-y-0.5 enabled:hover:border-[#236199]/40 disabled:opacity-60">
                     <Car className="h-5 w-5 text-[#236199]" />
                     <strong className="mt-3 block text-2xl text-[#09172C]">{permissions.fleet ? (permissions.globalFleet ? activeVehicles.length : Math.min(activeVehicles.length, 2)) : '—'}</strong>
-                    <span className="text-[10px] font-bold text-gray-500">{permissions.globalFleet ? 'Viaturas ativas na operação' : 'Viaturas associadas'}</span>
+                    <span className="text-[10px] font-bold text-gray-500">{permissions.globalFleet ? t('portal.activeVehicles') : t('portal.linkedVehicles')}</span>
                   </button>
                   <button type="button" disabled={!canViewFinances} onClick={() => canViewFinances && setActiveTab('invoices')} className="rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition enabled:hover:-translate-y-0.5 enabled:hover:border-[#236199]/40 disabled:opacity-60">
                     <FileText className="h-5 w-5 text-[#E4AD28]" />
                     <strong className="mt-3 block text-2xl text-[#09172C]">{canViewFinances ? pendingInvoices.length : '—'}</strong>
-                    <span className="text-[10px] font-bold text-gray-500">Documentos pendentes</span>
+                    <span className="text-[10px] font-bold text-gray-500">{t('portal.pendingDocs')}</span>
                   </button>
                   <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                     <Clock className="h-5 w-5 text-[#236199]" />
                     <strong className="mt-3 block text-2xl text-[#09172C]">24/7</strong>
-                    <span className="text-[10px] font-bold text-gray-500">Apoio e assistência PEPEK</span>
+                    <span className="text-[10px] font-bold text-gray-500">{t('portal.support247')}</span>
                   </div>
                   <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                     <BadgeCheck className="h-5 w-5 text-[#236199]" />
-                    <strong className="mt-3 block truncate text-sm text-[#09172C]">{currentUser?.tier || 'Acreditado'}</strong>
-                    <span className="text-[10px] font-bold text-gray-500">Nível de atendimento</span>
+                    <strong className="mt-3 block truncate text-sm text-[#09172C]">{tierLabel}</strong>
+                    <span className="text-[10px] font-bold text-gray-500">{t('portal.serviceLevel')}</span>
                   </div>
                 </div>
 
                 <div className="grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
                   <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                     <div className="border-b border-gray-100 px-5 py-4">
-                      <h5 className="font-extrabold text-[#09172C]">Identificação e organização da conta</h5>
-                      <p className="mt-1 text-[10px] text-gray-500">Dados visíveis apenas durante a sua sessão autenticada.</p>
+                      <h5 className="font-extrabold text-[#09172C]">{t('portal.accountIdTitle')}</h5>
+                      <p className="mt-1 text-[10px] text-gray-500">{t('portal.accountIdText')}</p>
                     </div>
                     <dl className="grid gap-px bg-gray-100 sm:grid-cols-2">
                       {[
-                        ['Utilizador', currentUser?.name || 'Não indicado', User],
-                        ['Tipo de acesso', currentUser?.roleLabel || 'Cliente', ShieldCheck],
-                        ['Organização', currentUser?.company || 'Conta particular', Building2],
-                        ['E-mail', currentUser?.email || 'Não indicado', Mail],
-                        ['Telefone', currentUser?.phone || 'Não indicado', Phone],
-                        ['NIF / referência', currentUser?.nif || 'Não associado', FileText],
+                        [t('portal.fieldUser'), currentUser?.name || t('portal.notProvided'), User],
+                        [t('portal.fieldAccess'), roleLabel || t('portal.client'), ShieldCheck],
+                        [t('portal.fieldOrganisation'), currentUser?.company || t('portal.privateAccount'), Building2],
+                        ['E-mail', currentUser?.email || t('portal.notProvided'), Mail],
+                        [t('portal.fieldPhone'), currentUser?.phone || t('portal.notProvided'), Phone],
+                        [t('portal.fieldNif'), currentUser?.nif || t('portal.notLinked'), FileText],
                       ].map(([label, value, Icon]) => (
                         <div key={label as string} className="bg-white p-4">
                           <dt className="flex items-center gap-1.5 text-[9px] font-extrabold uppercase tracking-wider text-gray-400"><Icon className="h-3.5 w-3.5 text-[#236199]" />{label as string}</dt>
@@ -337,14 +339,14 @@ export const ClientPortalModal: React.FC = () => {
                   </section>
 
                   <section className="rounded-2xl border border-gray-200 bg-[#09172C] p-5 text-white">
-                    <span className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[#FEC228]">Ações rápidas</span>
+                    <span className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[#FEC228]">{t('portal.quickActions')}</span>
                     <div className="mt-4 space-y-2">
-                      {permissions.fleet && <button type="button" onClick={() => setActiveTab('fleet')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">Consultar viaturas</strong><small className="text-[9px] text-white/55">Estado, motorista e localização</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
-                      {canViewFinances && <button type="button" onClick={() => setActiveTab('invoices')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">Faturas e recibos</strong><small className="text-[9px] text-white/55">Documentos e pagamentos</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
-                      {permissions.priorityRequest && <button type="button" onClick={() => setActiveTab('request')} className="flex w-full items-center justify-between rounded-xl border border-[#FEC228]/30 bg-[#FEC228]/10 p-3 text-left hover:bg-[#FEC228]/15"><span><strong className="block text-xs text-white">Nova requisição</strong><small className="text-[9px] text-white/55">Solicitar apoio prioritário</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
-                      {permissions.operations && <button type="button" onClick={() => setActiveTab('operations')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">Centro de operações</strong><small className="text-[9px] text-white/55">Agenda e controlo autorizado</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
+                      {permissions.fleet && <button type="button" onClick={() => setActiveTab('fleet')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">{t('portal.qaVehicles')}</strong><small className="text-[9px] text-white/55">{t('portal.qaVehiclesSub')}</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
+                      {canViewFinances && <button type="button" onClick={() => setActiveTab('invoices')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">{t('portal.qaInvoices')}</strong><small className="text-[9px] text-white/55">{t('portal.qaInvoicesSub')}</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
+                      {permissions.priorityRequest && <button type="button" onClick={() => setActiveTab('request')} className="flex w-full items-center justify-between rounded-xl border border-[#FEC228]/30 bg-[#FEC228]/10 p-3 text-left hover:bg-[#FEC228]/15"><span><strong className="block text-xs text-white">{t('portal.qaRequest')}</strong><small className="text-[9px] text-white/55">{t('portal.qaRequestSub')}</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
+                      {permissions.operations && <button type="button" onClick={() => setActiveTab('operations')} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10"><span><strong className="block text-xs text-white">{t('portal.qaOperations')}</strong><small className="text-[9px] text-white/55">{t('portal.qaOperationsSub')}</small></span><ArrowUpRight className="h-4 w-4 text-[#FEC228]" /></button>}
                     </div>
-                    <a href={generateQuickWhatsAppUrl(`Apoio ao portal: ${currentUser?.name} (${currentUser?.company || 'Particular'})`)} target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#236199] px-4 py-3 text-[10px] font-extrabold text-white hover:bg-[#236199]"><Phone className="h-4 w-4" />Falar com apoio PEPEK</a>
+                    <a href={generateQuickWhatsAppUrl(t('portal.supportTopic', { name: currentUser?.name, company: currentUser?.company || t('portal.private') }))} target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#236199] px-4 py-3 text-[10px] font-extrabold text-white hover:bg-[#236199]"><Phone className="h-4 w-4" />{t('portal.talkToSupport')}</a>
                   </section>
                 </div>
               </div>
@@ -357,18 +359,18 @@ export const ClientPortalModal: React.FC = () => {
                   <div>
                     <h4 className="text-base font-extrabold text-[#09172C]">
                       {isAdminOrStaff
-                        ? permissions.globalFleet ? 'Controlo Operacional de Toda a Frota PEPEK' : 'Viaturas atribuídas ao seu perfil'
-                        : `Viaturas Activas em Nome de ${currentUser?.company || currentUser?.name}`}
+                        ? permissions.globalFleet ? t('portal.fleetTitleGlobal') : t('portal.fleetTitleProfile')
+                        : t('portal.fleetTitleClient', { name: currentUser?.company || currentUser?.name })}
                     </h4>
                     <p className="text-gray-500 text-xs">
                       {isAdminOrStaff
-                        ? permissions.globalFleet ? 'Telemetria GPS, motoristas e estado de manutenção da operação nacional.' : 'Apenas os registos operacionais atribuídos à sua conta.'
-                        : 'Viaturas de protocolo e rent-a-car alocadas ao seu contrato.'}
+                        ? permissions.globalFleet ? t('portal.fleetTextGlobal') : t('portal.fleetTextProfile')
+                        : t('portal.fleetTextClient')}
                     </p>
                   </div>
 
                   <span className="px-3 py-1 rounded-full bg-blue-100 text-[#236199] font-bold text-xs">
-                    {fleetTelemetry.filter(f => f.status === 'em_circulacao').length} em circulação
+                    {t('portal.inCirculation', { count: fleetTelemetry.filter(f => f.status === 'em_circulacao').length })}
                   </span>
                 </div>
 
@@ -391,9 +393,7 @@ export const ClientPortalModal: React.FC = () => {
                           flt.status === 'disponivel_talatona' ? 'bg-blue-100 text-blue-800' :
                           flt.status === 'em_reserva' ? 'bg-[#236199] text-white' : 'bg-[#FEC228] text-[#09172C]'
                         }`}>
-                          {flt.status === 'em_circulacao' ? 'Em Circulação' :
-                           flt.status === 'disponivel_talatona' ? 'Em Talatona' :
-                           flt.status === 'em_reserva' ? 'Em Preparação' : 'Em Manutenção'}
+                          {t(`portal.fleetStatus.${flt.status}`, { defaultValue: t('portal.fleetStatus.em_manutencao') })}
                         </span>
                       </div>
 
@@ -405,7 +405,7 @@ export const ClientPortalModal: React.FC = () => {
                         {flt.driverName && (
                           <div className="flex items-center gap-1.5">
                             <User className="w-3.5 h-3.5 text-gray-400" />
-                            <span>Motorista: <strong className="text-gray-900">{flt.driverName}</strong> ({flt.driverPhone})</span>
+                            <span>{t('portal.driver')} <strong className="text-gray-900">{flt.driverName}</strong> ({flt.driverPhone})</span>
                           </div>
                         )}
                       </div>
@@ -413,7 +413,7 @@ export const ClientPortalModal: React.FC = () => {
                       {/* Fuel & Km */}
                       <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px]">
                         <div className="flex items-center gap-2">
-                          <span>Combustível:</span>
+                          <span>{t('portal.fuel')}</span>
                           <div className="w-20 h-2 rounded-full bg-gray-200 overflow-hidden">
                             <div className="h-full bg-[#236199]" style={{ width: `${flt.fuelLevel}%` }} />
                           </div>
@@ -435,13 +435,13 @@ export const ClientPortalModal: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-base font-extrabold text-[#09172C]">
-                      Extrato de Faturas e Pagamentos
+                      {t('portal.invoicesTitle')}
                     </h4>
                     <p className="text-gray-500 text-xs">
-                      Transferência bancária em AOA, cartão internacional, Multicaixa Express ou MB WAY.
+                      {t('portal.invoicesText')}
                     </p>
                   </div>
-                  <div className="hidden items-center gap-2 sm:flex" aria-label="Moedas disponíveis">
+                  <div className="hidden items-center gap-2 sm:flex" aria-label={t('portal.currencies')}>
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-[#09172C] text-[11px] font-extrabold text-[#FEC228]">Kz</span>
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-[#236199] text-sm font-extrabold text-white">$</span>
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-blue-50 text-sm font-extrabold text-blue-700">€</span>
@@ -458,14 +458,14 @@ export const ClientPortalModal: React.FC = () => {
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                               inv.status === 'paid' ? 'bg-[#236199] text-white' : inv.status === 'overdue' ? 'bg-[#FEC228] text-[#09172C]' : 'bg-[#FEC228] text-[#09172C]'
                             }`}>
-                              {inv.status === 'paid' ? 'Liquidada' : inv.status === 'overdue' ? 'Vencida' : 'Pendente de Pagamento'}
+                              {inv.status === 'paid' ? t('portal.statusPaid') : inv.status === 'overdue' ? t('portal.statusOverdue') : t('portal.statusPending')}
                             </span>
                             {inv.odooInvoiceId && (
                               <span className="text-[10px] text-gray-400 font-mono">Odoo: {inv.odooInvoiceId}</span>
                             )}
                           </div>
                           <p className="text-gray-600">{inv.description}</p>
-                          <div className="text-gray-400 text-[11px]">Emissão: {inv.date} · Vencimento: {inv.dueDate}</div>
+                          <div className="text-gray-400 text-[11px]">{t('portal.issuedDue', { issued: inv.date, due: inv.dueDate })}</div>
                         </div>
 
                         <div className="flex items-center gap-4 justify-between sm:justify-end">
@@ -486,22 +486,22 @@ export const ClientPortalModal: React.FC = () => {
                               className="btn-primary py-2 px-4 text-xs font-bold cursor-pointer"
                             >
                               <CreditCard className="w-3.5 h-3.5" />
-                              <span>{inv.status === 'overdue' ? 'Regularizar' : 'Pagar Agora'}</span>
+                              <span>{inv.status === 'overdue' ? t('portal.settle') : t('portal.payNow')}</span>
                             </button>
                           ) : (
                             <div className="flex items-center gap-2">
                               <span className="px-3 py-1 rounded-xl bg-[#236199] text-white font-bold flex items-center gap-1 text-xs">
                                 <CheckCircle2 className="w-3.5 h-3.5" />
-                                <span>{inv.paymentGateway}</span>
+                                <span>{inv.paymentGateway ? t(`payment.gatewayLabels.${inv.paymentGateway}`, { defaultValue: inv.paymentGateway }) : ''}</span>
                               </span>
                               <button
                                 type="button"
                                 onClick={() => setSelectedReceiptInvoice(inv)}
                                 className="flex items-center gap-1 rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-xs font-bold text-[#09172C] hover:border-[#236199] hover:bg-blue-50/50 transition cursor-pointer shadow-sm"
-                                title="Ver e descarregar comprovativo de pagamento"
+                                title={t('portal.receiptTitle')}
                               >
                                 <FileText className="w-3.5 h-3.5 text-[#236199]" />
-                                <span>Recibo</span>
+                                <span>{t('portal.receipt')}</span>
                               </button>
                             </div>
                           )}
@@ -517,20 +517,20 @@ export const ClientPortalModal: React.FC = () => {
               <div className="space-y-5">
                 <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                   <div>
-                    <span className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#E4AD28]">Excelência operacional PEPEK</span>
-                    <h4 className="mt-1 text-lg font-extrabold text-[#09172C]">Centro Nacional de Mobilidade & Operações</h4>
-                    <p className="text-xs text-gray-500">Reserva, protocolo, motorista, manutenção e contrato numa única linha de controlo.</p>
+                    <span className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#E4AD28]">{t('portal.opsEyebrow')}</span>
+                    <h4 className="mt-1 text-lg font-extrabold text-[#09172C]">{t('portal.opsTitle')}</h4>
+                    <p className="text-xs text-gray-500">{t('portal.opsText')}</p>
                   </div>
-                  <span className="rounded-full bg-[#236199] px-3 py-1 text-[10px] font-extrabold text-white">Operação 24/7 · Demo</span>
+                  <span className="rounded-full bg-[#236199] px-3 py-1 text-[10px] font-extrabold text-white">{t('portal.opsBadge')}</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
                   {[
-                    ['Reservas activas', '34', CalendarCheck, 'text-blue-700 bg-blue-50'],
-                    ['Em execução', '6', Activity, 'text-white bg-[#236199]'],
-                    ['Motoristas escalados', '28', User, 'text-white bg-[#236199]'],
-                    ['Manutenções abertas', '3', Wrench, 'text-[#E4AD28] bg-[#FEC228]'],
-                    ['SLA no prazo', '96,8%', ShieldCheck, 'text-[#09172C] bg-[#FFF7D6]'],
+                    [t('portal.kpiBookings'), '34', CalendarCheck, 'text-blue-700 bg-blue-50'],
+                    [t('portal.kpiInProgress'), '6', Activity, 'text-white bg-[#236199]'],
+                    [t('portal.kpiDrivers'), '28', User, 'text-white bg-[#236199]'],
+                    [t('portal.kpiMaintenance'), '3', Wrench, 'text-[#E4AD28] bg-[#FEC228]'],
+                    [t('portal.kpiSla'), '96,8%', ShieldCheck, 'text-[#09172C] bg-[#FFF7D6]'],
                   ].map(([label, value, Icon, tone]) => (
                     <div key={label as string} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                       <div className={`mb-3 grid h-9 w-9 place-items-center rounded-xl ${tone}`}><Icon className="h-4 w-4" /></div>
@@ -542,16 +542,16 @@ export const ClientPortalModal: React.FC = () => {
 
                 <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                   <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-                    <strong className="text-xs text-[#09172C]">Agenda operacional integrada</strong>
-                    <span className="text-[10px] text-gray-400">Referências sincronizáveis com Odoo</span>
+                    <strong className="text-xs text-[#09172C]">{t('portal.agenda')}</strong>
+                    <span className="text-[10px] text-gray-400">{t('portal.agendaSync')}</span>
                   </div>
                   <div className="divide-y divide-gray-100">
                     {DEMO_OPERATIONAL_RECORDS.map((record) => (
                       <div key={record.id} className="grid gap-3 px-4 py-3 hover:bg-gray-50 sm:grid-cols-[150px_1fr_150px_130px] sm:items-center">
-                        <div><span className="font-mono text-[10px] font-extrabold text-[#236199]">{record.reference}</span><span className="block text-[9px] uppercase text-gray-400">{record.type}</span></div>
+                        <div><span className="font-mono text-[10px] font-extrabold text-[#236199]">{record.reference}</span><span className="block text-[9px] uppercase text-gray-400">{t(`portal.recordType.${record.type}`, { defaultValue: record.type })}</span></div>
                         <div><strong className="block text-xs text-[#09172C]">{record.title}</strong><span className="text-[10px] text-gray-500">{record.owner} · {record.location}</span></div>
                         <div><Clock className="mr-1 inline h-3 w-3 text-gray-400" /><span className="text-[10px] text-gray-600">{record.scheduledAt}</span></div>
-                        <div className="text-right"><span className={`rounded-full px-2 py-1 text-[9px] font-extrabold ${record.status === 'concluido' ? 'bg-[#236199] text-white' : record.status === 'atencao' ? 'bg-[#FEC228] text-[#09172C]' : record.status === 'em_execucao' ? 'bg-[#F5F6F6] text-[#236199]' : 'bg-[#FEC228] text-[#09172C]'}`}>{record.status.replace('_', ' ')}</span><span className="mt-1 block font-mono text-[8px] text-gray-400">{record.odooId}</span></div>
+                        <div className="text-right"><span className={`rounded-full px-2 py-1 text-[9px] font-extrabold ${record.status === 'concluido' ? 'bg-[#236199] text-white' : record.status === 'atencao' ? 'bg-[#FEC228] text-[#09172C]' : record.status === 'em_execucao' ? 'bg-[#F5F6F6] text-[#236199]' : 'bg-[#FEC228] text-[#09172C]'}`}>{t(`portal.recordStatus.${record.status}`, { defaultValue: record.status.replace('_', ' ') })}</span><span className="mt-1 block font-mono text-[8px] text-gray-400">{record.odooId}</span></div>
                       </div>
                     ))}
                   </div>
@@ -565,10 +565,10 @@ export const ClientPortalModal: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-base font-extrabold text-[#09172C]">
-                      Ponte Operacional Odoo Enterprise
+                      {t('portal.odooTitle')}
                     </h4>
                     <p className="text-gray-500 text-xs">
-                      Sincronização bidirecional de reservas, clientes (res.partner), frotas e contabilidade.
+                      {t('portal.odooText')}
                     </p>
                   </div>
 
@@ -579,55 +579,55 @@ export const ClientPortalModal: React.FC = () => {
                     className="btn-outline text-[#09172C] border-gray-300 hover:bg-gray-200 py-2 px-4 text-xs font-bold flex items-center gap-2 cursor-pointer"
                   >
                     <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-[#236199]' : ''}`} />
-                    <span>{isSyncing ? 'A Sincronizar...' : 'Forçar Sincronização'}</span>
+                    <span>{isSyncing ? t('portal.syncing') : t('portal.forceSync')}</span>
                   </button>
                 </div>
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
-                    <span className="text-gray-400 text-[11px] block">Viaturas no Odoo Fleet:</span>
+                    <span className="text-gray-400 text-[11px] block">{t('portal.odooVehicles')}</span>
                     <strong className="text-xl font-bold text-[#09172C]">
-                      {odooSync.totalVehiclesSynced > 0 ? `${odooSync.totalVehiclesSynced} Veículos` : 'A carregar...'}
+                      {odooSync.totalVehiclesSynced > 0 ? t('portal.vehiclesCount', { count: odooSync.totalVehiclesSynced }) : t('portal.loading')}
                     </strong>
-                    <span className="text-[10px] text-[#236199] block">Módulo fleet.vehicle</span>
+                    <span className="text-[10px] text-[#236199] block">{t('portal.module')} fleet.vehicle</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
-                    <span className="text-gray-400 text-[11px] block">Faturas em Aberto:</span>
+                    <span className="text-gray-400 text-[11px] block">{t('portal.odooOpenInvoices')}</span>
                     <strong className="text-xl font-bold text-[#09172C]">
-                      {odooSync.openInvoicesCount > 0 ? `${odooSync.openInvoicesCount} Documentos` : 'Sincronizado'}
+                      {odooSync.openInvoicesCount > 0 ? t('portal.documentsCount', { count: odooSync.openInvoicesCount }) : t('portal.synced')}
                     </strong>
-                    <span className="text-[10px] text-blue-600 block">Módulo account.move</span>
+                    <span className="text-[10px] text-blue-600 block">{t('portal.module')} account.move</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
-                    <span className="text-gray-400 text-[11px] block">Cotações Pendentes:</span>
+                    <span className="text-gray-400 text-[11px] block">{t('portal.odooQuotes')}</span>
                     <strong className="text-xl font-bold text-[#09172C]">
-                      {odooSync.pendingQuotesCount > 0 ? `${odooSync.pendingQuotesCount} Cotações` : 'Sem pendentes'}
+                      {odooSync.pendingQuotesCount > 0 ? t('portal.quotesCount', { count: odooSync.pendingQuotesCount }) : t('portal.noPending')}
                     </strong>
-                    <span className="text-[10px] text-[#E4AD28] block">Módulo sale.order</span>
+                    <span className="text-[10px] text-[#E4AD28] block">{t('portal.module')} sale.order</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
-                    <span className="text-gray-400 text-[11px] block">Clientes & Entidades:</span>
+                    <span className="text-gray-400 text-[11px] block">{t('portal.odooPartners')}</span>
                     <strong className="text-xl font-bold text-[#09172C]">{odooSync.partnersSynced ?? 0}</strong>
-                    <span className="text-[10px] text-[#236199] block">Módulo res.partner</span>
+                    <span className="text-[10px] text-[#236199] block">{t('portal.module')} res.partner</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
-                    <span className="text-gray-400 text-[11px] block">Reservas Sincronizadas:</span>
+                    <span className="text-gray-400 text-[11px] block">{t('portal.odooReservations')}</span>
                     <strong className="text-xl font-bold text-[#09172C]">{odooSync.reservationsSynced ?? 0}</strong>
                     <span className="text-[10px] text-[#236199] block">sale.order / calendar.event</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
-                    <span className="text-gray-400 text-[11px] block">Motoristas:</span>
+                    <span className="text-gray-400 text-[11px] block">{t('portal.odooDrivers')}</span>
                     <strong className="text-xl font-bold text-[#09172C]">{odooSync.driversSynced ?? 0}</strong>
-                    <span className="text-[10px] text-[#236199] block">Módulo hr.employee</span>
+                    <span className="text-[10px] text-[#236199] block">{t('portal.module')} hr.employee</span>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 space-y-1">
-                    <span className="text-gray-400 text-[11px] block">Ordens de Manutenção:</span>
+                    <span className="text-gray-400 text-[11px] block">{t('portal.odooMaintenance')}</span>
                     <strong className="text-xl font-bold text-[#09172C]">{odooSync.maintenanceOrdersOpen ?? 0}</strong>
                     <span className="text-[10px] text-[#E4AD28] block">fleet.vehicle.log.services</span>
                   </div>
@@ -636,8 +636,8 @@ export const ClientPortalModal: React.FC = () => {
                 {isDemoSession && (
                   <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                     <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-                      <span className="flex items-center gap-2 text-xs font-extrabold text-[#09172C]"><Database className="h-4 w-4 text-[#236199]" />Fila de integração demonstrativa</span>
-                      <span className="text-[10px] font-bold text-[#236199]">Latência {odooSync.latencyMs ?? 0} ms</span>
+                      <span className="flex items-center gap-2 text-xs font-extrabold text-[#09172C]"><Database className="h-4 w-4 text-[#236199]" />{t('portal.demoQueue')}</span>
+                      <span className="text-[10px] font-bold text-[#236199]">{t('portal.latency', { ms: odooSync.latencyMs ?? 0 })}</span>
                     </div>
                     <div className="divide-y divide-gray-100">
                       {DEMO_ODOO_EVENTS.map((event) => (
@@ -645,7 +645,7 @@ export const ClientPortalModal: React.FC = () => {
                           <span className="font-mono font-bold text-[#236199]">{event.model}</span>
                           <span className="hidden text-gray-500 sm:block">{event.direction}</span>
                           <span className="truncate text-gray-700">{event.reference}</span>
-                          <span className={`text-right font-bold ${event.status === 'success' ? 'text-[#236199]' : 'text-[#E4AD28]'}`}>{event.timestamp} · {event.status}</span>
+                          <span className={`text-right font-bold ${event.status === 'success' ? 'text-[#236199]' : 'text-[#E4AD28]'}`}>{event.timestamp} · {t(`portal.eventStatus.${event.status}`, { defaultValue: event.status })}</span>
                         </div>
                       ))}
                     </div>
@@ -656,19 +656,19 @@ export const ClientPortalModal: React.FC = () => {
                 {(isDemoMode || isDemoSession) && (
                   <div className="p-4 bg-white rounded-2xl border border-gray-200 text-[11px] space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Última Sincronização:</span>
+                      <span className="text-gray-500">{t('portal.lastSync')}</span>
                       <strong className="text-gray-900">{odooSync.lastSync}</strong>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Instância (Demo):</span>
+                      <span className="text-gray-500">{t('portal.instance')}</span>
                       <strong className="text-gray-900 font-mono">{odooSync.odooDb}</strong>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Protocolo API:</span>
+                      <span className="text-gray-500">{t('portal.apiProtocol')}</span>
                       <strong className="text-[#236199] font-mono">XML-RPC / REST JSON v2</strong>
                     </div>
                     <div className="px-3 py-2 rounded-lg bg-[#FEC228] border border-[#E4AD28] text-[#09172C] text-[10px]">
-                      ⚠ Estes dados técnicos só são visíveis em modo de desenvolvimento (staging).
+                      {t('portal.stagingNote')}
                     </div>
                   </div>
                 )}
@@ -679,30 +679,30 @@ export const ClientPortalModal: React.FC = () => {
             {activeTab === 'request' && permissions.priorityRequest && (
               <div className="p-6 bg-white rounded-2xl border border-gray-200 space-y-4 max-w-lg mx-auto">
                 <h4 className="text-base font-bold text-[#09172C] text-center">
-                  Solicitação Prioritária à Direcção
+                  {t('portal.priorityTitle')}
                 </h4>
                 <p className="text-xs text-gray-500 text-center leading-relaxed">
-                  Como cliente acreditado ({currentUser?.name}), o seu pedido tem prioridade máxima na central de operações em Talatona.
+                  {t('portal.priorityText', { name: currentUser?.name })}
                 </p>
 
                 <div className="space-y-2 pt-2">
                   <a
-                    href={generateQuickWhatsAppUrl(`Requisição Prioritária VIP: ${currentUser?.name} (${currentUser?.company})`)}
+                    href={generateQuickWhatsAppUrl(t('portal.vipRequestTopic', { name: currentUser?.name, company: currentUser?.company }))}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-whatsapp w-full justify-center text-xs py-3 font-bold"
                   >
                     <Phone className="w-4 h-4" />
-                    <span>Pedir Viatura Adicional em 1-Clique</span>
+                    <span>{t('portal.extraVehicle')}</span>
                   </a>
 
                   <a
-                    href={generateQuickWhatsAppUrl(`Viatura de Substituição Urgente: ${currentUser?.name}`)}
+                    href={generateQuickWhatsAppUrl(t('portal.replacementTopic', { name: currentUser?.name }))}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-3 px-4 rounded-xl border border-gray-300 hover:bg-gray-100 font-bold text-xs text-gray-800 transition-colors flex items-center justify-center gap-2"
                   >
-                    <span>Solicitar Viatura de Substituição</span>
+                    <span>{t('portal.replacementVehicle')}</span>
                   </a>
                 </div>
               </div>

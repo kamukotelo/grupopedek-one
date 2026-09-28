@@ -1,3 +1,4 @@
+import i18n from '../i18n';
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { UserProfile, UserRole, InvoiceItem, FleetTelemetryItem, OdooSyncStatus } from '../types/auth';
 import { DEMO_USERS, DEMO_INVOICES, DEMO_FLEET_TELEMETRY, DEMO_ODOO_SYNC } from '../data/demoUsers';
@@ -117,7 +118,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [invoices, setInvoices] = useState<InvoiceItem[]>(IS_DEMO_MODE ? DEMO_INVOICES : []);
   const [fleetTelemetry, setFleetTelemetry] = useState<FleetTelemetryItem[]>(IS_DEMO_MODE ? DEMO_FLEET_TELEMETRY : []);
   const [odooSync, setOdooSync] = useState<OdooSyncStatus>(IS_DEMO_MODE ? DEMO_ODOO_SYNC : {
-    lastSync: 'Aguardando ligação autorizada',
+    lastSync: i18n.t('system.awaitingConnection'),
     odooDb: '[PROTEGIDO]',
     serverStatus: 'offline',
     totalVehiclesSynced: 0,
@@ -243,11 +244,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const requestPhoneOtp = async (_input: string) => {
-    return { error: 'O acesso por SMS está temporariamente indisponível. Utilize o e-mail.' };
+    return { error: i18n.t('system.smsUnavailable') };
   };
 
   const verifyPhoneOtp = async (_input: string, _token: string) => {
-    return { error: 'O acesso por SMS está temporariamente indisponível. Utilize o e-mail.' };
+    return { error: i18n.t('system.smsUnavailable') };
   };
 
   const signInWithSocial = async (provider: SocialProvider) => {
@@ -268,7 +269,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updatePassword = async (password: string) => {
-    if (password.length < 10) return { error: 'A palavra-passe deve ter pelo menos 10 caracteres.' };
+    if (password.length < 10) return { error: i18n.t('system.passwordLength') };
     const { error } = await neonClient.auth.updateUser({ password });
     if (!error) setIsPasswordRecovery(false);
     return error ? { error: error.message } : {};
@@ -294,24 +295,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (isDemoSession) {
       setOdooSync(prev => ({ ...prev, serverStatus: 'syncing' }));
       await new Promise(resolve => setTimeout(resolve, 800));
-      setOdooSync({ ...DEMO_ODOO_SYNC, lastSync: `Demo actualizado (${new Date().toLocaleTimeString('pt-AO')})` });
+      setOdooSync({ ...DEMO_ODOO_SYNC, lastSync: i18n.t('system.demoUpdated', { time: new Date().toLocaleTimeString(i18n.language) }) });
       return;
     }
     setOdooSync(prev => ({ ...prev, serverStatus: 'syncing' }));
     try {
       const { data } = await neonClient.auth.getSession();
       const token = data.session?.access_token;
-      if (!token) throw new Error('Sessão necessária');
+      if (!token) throw new Error(i18n.t('system.sessionRequired'));
       const syncResponse = await fetch('/api/odoo-sync', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       });
-      if (!syncResponse.ok && syncResponse.status !== 202) throw new Error('Sincronização recusada');
+      if (!syncResponse.ok && syncResponse.status !== 202) throw new Error(i18n.t('system.syncRefused'));
       const response = await fetch('/api/odoo-status', { headers: { Authorization: `Bearer ${token}` } });
-      if (!response.ok) throw new Error('Odoo indisponível');
+      if (!response.ok) throw new Error(i18n.t('system.odooUnavailable'));
       setOdooSync(await response.json());
     } catch {
-      setOdooSync(prev => ({ ...prev, serverStatus: 'offline', lastSync: 'Integração Odoo não configurada' }));
+      setOdooSync(prev => ({ ...prev, serverStatus: 'offline', lastSync: i18n.t('system.odooNotConfigured') }));
     }
   };
 

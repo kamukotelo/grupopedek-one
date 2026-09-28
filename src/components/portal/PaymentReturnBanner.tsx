@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Clock3, XCircle, Loader2, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -22,6 +23,7 @@ const UUID_RE = /^[0-9a-f-]{36}$/i;
  */
 export const PaymentReturnBanner: React.FC = () => {
   const { isDemoMode, refreshInvoices } = useAuth();
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const [state, setState] = useState<ReturnState | null>(null);
@@ -46,7 +48,7 @@ export const PaymentReturnBanner: React.FC = () => {
     }
     if (outcome !== 'success') return;
     if (!UUID_RE.test(orderId)) {
-      setState({ kind: 'error', message: 'Não foi possível identificar o pagamento. Verifique o extrato de faturas.' });
+      setState({ kind: 'error', message: t('paymentReturn.unidentified') });
       return;
     }
 
@@ -59,17 +61,17 @@ export const PaymentReturnBanner: React.FC = () => {
         if (result.status === 'paid') {
           setState({ kind: 'paid', reference: result.clientReference });
         } else if (result.status === 'failed') {
-          setState({ kind: 'failed', message: result.failureMessage || 'O pagamento não foi concluído. Nenhum valor foi cobrado.' });
+          setState({ kind: 'failed', message: result.failureMessage || t('paymentReturn.notCompleted') });
         } else {
           setState({ kind: 'pending', reference: result.clientReference });
         }
       })
       .catch(() => {
-        if (active) setState({ kind: 'error', message: 'Não conseguimos confirmar o pagamento agora. A equipa financeira concilia a fatura assim que o provedor confirmar.' });
+        if (active) setState({ kind: 'error', message: t('paymentReturn.cannotConfirm') });
       });
 
     return () => { active = false; };
-  }, [location, isDemoMode, navigate, refreshInvoices]);
+  }, [location, isDemoMode, navigate, refreshInvoices, t]);
 
   useEffect(() => {
     if (state && (state.kind === 'paid' || state.kind === 'cancelled')) {
@@ -92,17 +94,17 @@ export const PaymentReturnBanner: React.FC = () => {
   const copy = ((s: ReturnState): { title: string; body: string } => {
     switch (s.kind) {
       case 'checking':
-        return { title: 'A confirmar o seu pagamento…', body: 'Aguarde enquanto validamos a confirmação do provedor. Não feche esta janela.' };
+        return { title: t('paymentReturn.checkingTitle'), body: t('paymentReturn.checkingBody') };
       case 'paid':
-        return { title: 'Pagamento confirmado', body: `Fatura liquidada. Referência ${s.reference}. O comprovativo de pagamento fica disponível no extrato.` };
+        return { title: t('paymentReturn.paidTitle'), body: t('paymentReturn.paidBody', { reference: s.reference }) };
       case 'pending':
-        return { title: 'Pagamento em processamento', body: `Recebemos a instrução (ref. ${s.reference}). A fatura é marcada como paga assim que o provedor confirmar — normalmente em minutos.` };
+        return { title: t('paymentReturn.pendingTitle'), body: t('paymentReturn.pendingBody', { reference: s.reference }) };
       case 'failed':
-        return { title: 'Pagamento não concluído', body: s.message };
+        return { title: t('paymentReturn.failedTitle'), body: s.message };
       case 'cancelled':
-        return { title: 'Pagamento cancelado', body: 'Nenhum valor foi cobrado. Pode retomar a partir do extrato de faturas quando quiser.' };
+        return { title: t('paymentReturn.cancelledTitle'), body: t('paymentReturn.cancelledBody') };
       case 'error':
-        return { title: 'Confirmação pendente', body: s.message };
+        return { title: t('paymentReturn.errorTitle'), body: s.message };
     }
   })(state);
 
@@ -119,7 +121,7 @@ export const PaymentReturnBanner: React.FC = () => {
             type="button"
             onClick={() => setState(null)}
             className="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-            aria-label="Fechar aviso"
+            aria-label={t('paymentReturn.closeNotice')}
           >
             <X className="h-4 w-4" />
           </button>

@@ -69,8 +69,8 @@ export const Header: React.FC = () => {
     <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-[0_7px_25px_rgba(9,23,44,0.14)]">
       <div className="border-b border-slate-200 bg-white">
         <div className="container-pepek flex h-[76px] items-center justify-between gap-2 sm:gap-4 lg:h-[92px]">
-          <Link to="/" className="flex h-14 w-[clamp(120px,42vw,190px)] shrink-0 items-center justify-center overflow-hidden px-1 py-1 sm:w-[215px] lg:h-[72px] lg:w-[250px]" aria-label="PEPEK Grupo — início" data-header-logo>
-            <img src="/Logos/Negativo%20.png" alt="PEPEK Grupo Rent-a-Car Angola" className="block h-auto max-h-full w-full object-contain object-center" />
+          <Link to="/" className="flex h-14 w-[clamp(120px,42vw,190px)] shrink-0 items-center justify-center overflow-hidden px-1 py-1 sm:w-[215px] lg:h-[72px] lg:w-[250px]" aria-label={t('common.homeLinkLabel')} data-header-logo>
+            <img src="/Logos/Negativo%20.png" alt={t('common.logoAlt')} className="block h-auto max-h-full w-full object-contain object-center" />
           </Link>
 
           <div className="hidden items-stretch lg:flex">
@@ -96,7 +96,7 @@ export const Header: React.FC = () => {
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
               className="grid h-10 w-10 place-items-center rounded-lg bg-[#001E4A] text-white"
-              aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-label={mobileMenuOpen ? t('common.closeMenu') : t('common.openMenu')}
               aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="h-5 w-5 animate-scaleUp" /> : <Menu className="h-5 w-5 animate-scaleUp" />}
@@ -106,7 +106,7 @@ export const Header: React.FC = () => {
       </div>
 
       <div className="hidden bg-[#001E4A] text-white lg:block">
-        <nav className="container-pepek flex h-12 items-stretch justify-center" aria-label="Navegação principal">
+        <nav className="container-pepek flex h-12 items-stretch justify-center" aria-label={t('common.mainNav')}>
           {navLinks.map(({ to, label, icon: Icon }, index) => {
             const active = location.pathname === to;
             const classes = `pepek-nav-item group relative flex flex-1 items-center justify-center gap-2 overflow-hidden border-l border-white/10 px-3 text-[11px] font-extrabold uppercase tracking-[0.08em] transition-[color,background-color,transform] duration-300 last:border-r ${active ? 'is-active bg-[#FEC228] text-[#001E4A]' : 'text-white/90 hover:bg-white/10 hover:text-[#FEC228]'}`;
@@ -136,7 +136,7 @@ export const Header: React.FC = () => {
               </button>
             ))}
           </div>
-          <nav className="space-y-1" aria-label="Navegação móvel">
+          <nav className="space-y-1" aria-label={t('common.mobileNav')}>
             {navLinks.map(({ to, label, icon: Icon }, index) => {
               const content = (
                 <>

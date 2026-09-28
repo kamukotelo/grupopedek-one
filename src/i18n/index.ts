@@ -16,13 +16,23 @@ i18n
       fr: { translation: fr }
     },
     fallbackLng: 'pt',
+    supportedLngs: ['pt', 'en', 'fr'],
+    nonExplicitSupportedLngs: true,
+    load: 'languageOnly',
     interpolation: {
       escapeValue: false
     },
     detection: {
-      order: ['queryString', 'cookie', 'localStorage', 'navigator'],
+      order: ['querystring', 'cookie', 'localStorage', 'navigator'],
       caches: ['localStorage', 'cookie']
     }
   });
+
+// Mantém <html lang> alinhado com o idioma activo (leitores de ecrã, tradução automática, SEO).
+const syncDocumentLanguage = (lng: string) => {
+  if (typeof document !== 'undefined') document.documentElement.lang = lng.slice(0, 2);
+};
+syncDocumentLanguage(i18n.resolvedLanguage ?? i18n.language ?? 'pt');
+i18n.on('languageChanged', syncDocumentLanguage);
 
 export default i18n;

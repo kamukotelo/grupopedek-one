@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { Hero } from '../components/sections/Hero';
 import { Services } from '../components/sections/Services';
@@ -14,38 +15,42 @@ import { BrandCTA } from '../components/sections/BrandCTA';
  * página onde o assunto vive por inteiro (frota, serviços, quem somos,
  * clientes, reserva, rotas, contactos). Nada de conteúdo duplicado.
  */
-export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = () => (
-  <>
-    <Helmet>
-      <title>PEPEK GRUPO – Rent-a-Car Executivo & Mobilidade de Luxo em Angola</title>
-      <meta name="description" content="Aluguer de viaturas de luxo em Luanda com ou sem motorista protocolar. Blindados, berlinas executivas, SUVs, viaturas 4x4 e Vans VIP. Talatona, Luanda." />
-      <meta property="og:title" content="PEPEK GRUPO – Rent-a-Car Executivo & Blindados Angola" />
-      <meta property="og:description" content="Mobilidade executiva, protocolo e rent-a-car premium para empresas, instituições e particulares em Angola." />
-      <meta property="og:url" content="https://pepekgrupo.com/" />
-      <meta property="og:type" content="website" />
-      <link rel="canonical" href="https://pepekgrupo.com/" />
-    </Helmet>
+export const PageHome: React.FC<{ onSelectVehicle: (v: string) => void }> = () => {
+  const { t } = useTranslation();
 
-    {/* Identidade + pedido rápido */}
-    <Hero />
+  return (
+    <>
+      <Helmet>
+        <title>{t('pages.home.metaTitle')}</title>
+        <meta name="description" content={t('pages.home.metaDescription')} />
+        <meta property="og:title" content={t('pages.home.ogTitle')} />
+        <meta property="og:description" content={t('pages.home.ogDescription')} />
+        <meta property="og:url" content="https://pepekgrupo.com/" />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://pepekgrupo.com/" />
+      </Helmet>
 
-    {/* Faixa de clientes logo abaixo do hero */}
-    <InstitutionalClients />
+      {/* Identidade + pedido rápido */}
+      <Hero />
 
-    {/* Resumo da oferta → /servicos */}
-    <Services />
+      {/* Faixa de clientes logo abaixo do hero */}
+      <InstitutionalClients />
 
-    {/* Montra de viaturas → /frota */}
-    <FleetShowcase />
+      {/* Resumo da oferta → /servicos */}
+      <Services />
 
-    {/* Prova institucional */}
-    <TrustStats />
-    <AboutTeaser />
+      {/* Montra de viaturas → /frota */}
+      <FleetShowcase />
 
-    {/* Garantias de pagamento e faturação */}
-    <PaymentSecurity />
+      {/* Prova institucional */}
+      <TrustStats />
+      <AboutTeaser />
 
-    {/* Chamada final → /reservar */}
-    <BrandCTA />
-  </>
-);
+      {/* Garantias de pagamento e faturação */}
+      <PaymentSecurity />
+
+      {/* Chamada final → /reservar */}
+      <BrandCTA />
+    </>
+  );
+};

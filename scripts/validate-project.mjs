@@ -10,6 +10,20 @@ for (const language of ['pt', 'en', 'fr']) {
   catch { failures.push(`${path} não contém JSON válido`); }
 }
 
+// Todas as chaves de tradução têm de existir nos três idiomas.
+const flattenKeys = (node, prefix = '') => Object.entries(node).flatMap(([key, value]) =>
+  value && typeof value === 'object' && !Array.isArray(value) ? flattenKeys(value, `${prefix}${key}.`) : [`${prefix}${key}`]);
+const localeKeys = Object.fromEntries(['pt', 'en', 'fr'].map((language) => {
+  try { return [language, new Set(flattenKeys(JSON.parse(fs.readFileSync(`src/i18n/locales/${language}.json`, 'utf8'))))]; }
+  catch { return [language, new Set()]; }
+}));
+for (const language of ['en', 'fr']) {
+  const missing = [...localeKeys.pt].filter((key) => !localeKeys[language].has(key));
+  const extra = [...localeKeys[language]].filter((key) => !localeKeys.pt.has(key));
+  expect(missing.length === 0, `Chaves em falta em ${language}.json: ${missing.slice(0, 5).join(', ')}`);
+  expect(extra.length === 0, `Chaves sem correspondência em pt.json (${language}): ${extra.slice(0, 5).join(', ')}`);
+}
+
 const fleetSource = fs.readFileSync('src/data/fleetData.ts', 'utf8');
 const ids = [...fleetSource.matchAll(/\bid:\s*'([^']+)'/g)].map(match => match[1]);
 const slugs = [...fleetSource.matchAll(/\bslug:\s*'([^']+)'/g)].map(match => match[1]);
@@ -94,10 +108,12 @@ for (const flag of ['🇦🇴', '🇬🇧', '🇫🇷']) {
 }
 
 const paymentSource = fs.readFileSync('src/components/portal/PaymentSimulatorModal.tsx', 'utf8');
-expect(paymentSource.includes('Ambiente de demonstração'), 'Pagamento demo não está identificado como simulação');
+// Os textos visíveis vivem nos ficheiros de tradução: o componente usa a chave e o locale PT tem o texto.
+const ptLocale = JSON.parse(fs.readFileSync('src/i18n/locales/pt.json', 'utf8'));
+expect(paymentSource.includes("t('payment.demoEnv')") && ptLocale.payment?.demoEnv === 'Ambiente de demonstração', 'Pagamento demo não está identificado como simulação');
 expect(paymentSource.includes('Multicaixa Express'), 'Canal Angola Multicaixa ausente');
 expect(paymentSource.includes('MB WAY') && paymentSource.includes('Portugal'), 'Canal Portugal MB WAY ausente');
-expect(paymentSource.includes('não recolhe nem armazena o número do seu cartão'), 'O fluxo não informa a política de dados de cartão');
+expect(paymentSource.includes("t('payment.serverValidated')") && ptLocale.payment?.serverValidated?.includes('não recolhe nem armazena o número do seu cartão'), 'O fluxo não informa a política de dados de cartão');
 expect(!paymentSource.includes('cardNumber') && !paymentSource.includes('phoneNumber'), 'O frontend ainda recolhe dados bancários sensíveis');
 const paymentApiSource = fs.readFileSync('api/payments-create.js', 'utf8');
 expect(paymentApiSource.includes('idempotencyKey') && paymentApiSource.includes('invoice.amount_aoa'), 'A API de pagamentos não valida idempotência e valor no servidor');
@@ -116,7 +132,7 @@ expect(!demoUsersSource.includes('DEMO_LOGIN_ROLES'), 'Existem credenciais de de
 const clientAreaSource = fs.readFileSync('src/components/ui/ClientAreaModal.tsx', 'utf8');
 expect(clientAreaSource.includes('loginAs(profile.role)'), 'Os perfis demo não possuem acesso direto sem senha');
 expect(clientAreaSource.includes('isDemoMode &&'), 'Os perfis demo não estão isolados por ambiente');
-expect(clientAreaSource.includes('Conta Corporativa') && clientAreaSource.includes('Cliente Particular'), 'Os acessos corporativo e particular não estão separados');
+expect(clientAreaSource.includes("t('clientArea.corporateAccount')") && clientAreaSource.includes("t('clientArea.privateClient')") && ptLocale.clientArea?.corporateAccount === 'Conta Corporativa' && ptLocale.clientArea?.privateClient === 'Cliente Particular', 'Os acessos corporativo e particular não estão separados');
 const authSource = fs.readFileSync('src/context/AuthContext.tsx', 'utf8');
 expect(authSource.includes('if (!IS_DEMO_MODE) return;'), 'loginAs não está bloqueado fora do modo demo');
 expect(demoUsersSource.includes('DEMO_OPERATIONAL_RECORDS'), 'Agenda operacional demonstrativa ausente');

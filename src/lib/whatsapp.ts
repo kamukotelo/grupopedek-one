@@ -1,66 +1,60 @@
+import i18n from '../i18n';
 import { BookingData } from '../types';
 
 export const OFFICIAL_WHATSAPP_NUMBER = '244923719090';
 
-const serviceLabels: Record<string, string> = {
-  'rent-a-car': 'Rent-a-Car Premium (Livre Condução / Com Motorista)',
-  'executive': 'Mobilidade Executiva & Protocolar',
-  'transfer': 'Transfer Aeroporto Internacional / Hotel',
-  'corporate': 'Solução Corporativa / Gestão de Frotas para Empresas',
-};
+// As mensagens seguem o idioma activo do site para que o cliente reveja o texto na sua língua.
+const t = (key: string, options?: Record<string, unknown>) => i18n.t(`whatsapp.${key}`, options);
 
 export function generateWhatsAppBookingUrl(booking: BookingData): string {
-  const serviceText = serviceLabels[booking.service] || booking.service;
-  
-  let msg = `*SOLICITAÇÃO DE RESERVA — PEPEK GRUPO RENT-A-CAR*\n`;
+  const serviceText = i18n.exists(`whatsapp.services.${booking.service}`) ? t(`services.${booking.service}`) : booking.service;
+
+  let msg = `*${t('bookingTitle')}*\n`;
   msg += `-----------------------------------------\n`;
-  msg += `*Cliente:* ${booking.clientName || 'Não especificado'}\n`;
+  msg += `*${t('client')}:* ${booking.clientName || t('notSpecified')}\n`;
   if (booking.companyName) {
-    msg += `*Empresa/Instituição:* ${booking.companyName}\n`;
+    msg += `*${t('company')}:* ${booking.companyName}\n`;
   }
-  msg += `*Contacto:* ${booking.clientPhone || 'N/A'}\n`;
+  msg += `*${t('contact')}:* ${booking.clientPhone || 'N/A'}\n`;
   if (booking.clientEmail) {
     msg += `*E-mail:* ${booking.clientEmail}\n`;
   }
-  msg += `\n*DETALHES DA OPERAÇÃO:*\n`;
-  msg += `*Serviço:* ${serviceText}\n`;
-  msg += `*Província / Local:* ${booking.location}${booking.destination ? ` ➔ Destino: ${booking.destination}` : ''}\n`;
-  msg += `*Data de Início:* ${booking.startDate || 'A definir'}\n`;
+  msg += `\n*${t('operationDetails')}:*\n`;
+  msg += `*${t('service')}:* ${serviceText}\n`;
+  msg += `*${t('location')}:* ${booking.location}${booking.destination ? ` ➔ ${t('destination')}: ${booking.destination}` : ''}\n`;
+  msg += `*${t('startDate')}:* ${booking.startDate || t('toBeDefined')}\n`;
   if (booking.endDate) {
-    msg += `*Data de Término:* ${booking.endDate}\n`;
+    msg += `*${t('endDate')}:* ${booking.endDate}\n`;
   }
   if (booking.vehicleCategory) {
-    msg += `*Categoria Desejada:* ${booking.vehicleCategory}\n`;
+    msg += `*${t('category')}:* ${booking.vehicleCategory}\n`;
   }
-  msg += `*Modalidade:* ${booking.withDriver ? 'Com Motorista Executivo/Protocolar' : 'Livre Condução (Auto)'}\n`;
-  
+  msg += `*${t('mode')}:* ${booking.withDriver ? t('withDriver') : t('selfDrive')}\n`;
+
   if (booking.flightNumber) {
-    msg += `*Nº do Voo:* ${booking.flightNumber}\n`;
+    msg += `*${t('flightNumber')}:* ${booking.flightNumber}\n`;
   }
   if (booking.passengersCount) {
-    msg += `*Nº de Passageiros:* ${booking.passengersCount}\n`;
+    msg += `*${t('passengers')}:* ${booking.passengersCount}\n`;
   }
   if (booking.notes) {
-    msg += `*Observações:* ${booking.notes}\n`;
+    msg += `*${t('notes')}:* ${booking.notes}\n`;
   }
 
   msg += `\n-----------------------------------------\n`;
-  msg += `_Enviado através do portal oficial pepekgrupo.com_\n`;
-  msg += `"Movemos quem move Angola."`;
+  msg += `_${t('sentVia')}_\n`;
+  msg += `"${t('slogan')}"`;
 
   const encodedMsg = encodeURIComponent(msg);
   return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodedMsg}`;
 }
 
 export function generateQuickWhatsAppUrl(topic?: string): string {
-  const defaultText = topic
-    ? `Olá PEPEK GRUPO. Gostaria de informações sobre ${topic}.`
-    : `Olá PEPEK GRUPO RENT-A-CAR. Gostaria de solicitar uma proposta de mobilidade executiva.`;
+  const defaultText = topic ? t('quickTopic', { topic }) : t('quickDefault');
   return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(defaultText)}`;
 }
 
 export function generateVehicleWhatsAppUrl(vehicleName: string, priceAOA: number): string {
-  const text = `*CONSULTA DE DISPONIBILIDADE — PEPEK GRUPO*\n\nOlá! Gostaria de consultar a disponibilidade da viatura:\n*${vehicleName}* (${priceAOA.toLocaleString('pt-AO')} AOA/dia).\n\nPoderiam informar as datas livres e opções com motorista bilingue / livre condução?`;
+  const text = t('vehicleAvailability', { vehicle: vehicleName, price: priceAOA.toLocaleString('pt-AO') });
   return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
-

@@ -44,22 +44,10 @@ export const Hero: React.FC = () => {
     { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet'), tagline: t('hero.videoStoryFleetTagline') },
     { id: 'hyundai-staria-vip', video: '/videos/img-8510-web.mp4', title: t('hero.videoStoryStaria'), tagline: t('hero.videoStoryStariaTagline') },
   ];
-  const locationSuggestions = [
-    'Aeroporto Internacional Dr. António Agostinho Neto (AIAAN)',
-    'Aeroporto 4 de Fevereiro, Luanda',
-    'Sede PEPEK — Talatona',
-    'Talatona — Hotéis e Centros Empresariais',
-    'Miramar — Zona Diplomática',
-    'Ilha de Luanda',
-    'Maianga — Centro de Luanda',
-    'Viana — Pólo Industrial',
-    'Cacuaco',
-    'Caxito — Bengo',
-    'Huambo — Centro',
-  ];
+  const locationSuggestions = t('hero.locationSuggestions', { returnObjects: true }) as string[];
 
   const filteredLocations = (value: string) => locationSuggestions.filter((location) =>
-    !value.trim() || location.toLocaleLowerCase('pt').includes(value.toLocaleLowerCase('pt'))
+    !value.trim() || location.toLocaleLowerCase().includes(value.toLocaleLowerCase())
   ).slice(0, 6);
 
   useEffect(() => {
@@ -142,10 +130,10 @@ export const Hero: React.FC = () => {
   return (
     <section id="inicio" className="relative bg-[#001E4A] text-white pt-24 lg:pt-40 pb-16 overflow-hidden min-h-[92vh] flex flex-col justify-between select-none">
       {/* Cinematic Background Image with Dark Vignette */}
-      <div className="absolute inset-0 z-0" data-future-video-stage aria-label="Área visual preparada para o futuro vídeo institucional">
+      <div className="absolute inset-0 z-0" data-future-video-stage aria-label={t('hero.visualStageLabel')}>
         <img
           src={luxuryHeroVehicles[0]?.image}
-          alt="Viatura oficial da frota executiva PEPEK"
+          alt={t('hero.visualVehicleAlt')}
           className="h-full w-full scale-[1.02] object-cover object-center brightness-[0.58] contrast-[1.12]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#001E4A]/95 via-[#001E4A]/76 to-[#174B86]/44" />
@@ -317,8 +305,8 @@ export const Hero: React.FC = () => {
                   <p className="mt-1 text-sm font-extrabold text-[#FEC228]">{luxuryHeroVehicles[currentLuxury].price}<span className="ml-1 text-[10px] font-bold text-white/70">/ {t('fleet.perDay', { defaultValue: 'dia' })}</span></p>
                 </div>
                 <div className="flex gap-1">
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryHeroVehicles.length) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Anterior"><ChevronLeft className="h-4 w-4" /></button>
-                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label="Seguinte"><ChevronRight className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current - 1 + luxuryHeroVehicles.length) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label={t('hero.previous')}><ChevronLeft className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setCurrentLuxury((current) => (current + 1) % luxuryHeroVehicles.length)} className="grid h-8 w-8 place-items-center rounded-full border border-slate-300 bg-white text-[#09172C] hover:border-[#FEC228]" aria-label={t('hero.next')}><ChevronRight className="h-4 w-4" /></button>
                 </div>
               </div>
               {luxuryHeroVehicles.map((vehicle, index) => (
@@ -365,10 +353,10 @@ export const Hero: React.FC = () => {
                 <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickPickupDate')}</span><span className="relative block"><input required min={today} type="date" value={startDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => { setStartDate(event.target.value); if (endDate && endDate < event.target.value) setEndDate(''); }} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#FEC228]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E4AD28]" /></span></label>
                 <label className="block text-xs font-extrabold text-slate-700"><span className="mb-1.5 block">{t('hero.quickReturnDate')}</span><span className="relative block"><input required min={startDate || today} type="date" value={endDate} onFocus={() => setIsLuxuryPaused(true)} onChange={(event) => setEndDate(event.target.value)} className="h-11 w-full rounded-lg border border-slate-300 px-2 pr-8 text-xs outline-none focus:border-[#FEC228]" /><CalendarDays className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E4AD28]" /></span></label>
               </div>
-              {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-[#FEC228] p-2 text-[11px] font-bold text-[#09172C]">Esta viatura já tem uma operação sobreposta nas datas indicadas. Escolha outro modelo ou fale com a equipa.</p>}
-              {availabilityStatus === 'on_request' && <p role="status" className="mt-3 rounded-lg border border-[#236199]/20 bg-[#236199]/5 p-2 text-[11px] font-semibold text-[#09172C]">Pedido elegível para confirmação. A equipa valida a viatura física, motorista e condições operacionais antes de confirmar.</p>}
+              {availabilityStatus === 'unavailable' && <p role="alert" className="mt-3 rounded-lg bg-[#FEC228] p-2 text-[11px] font-bold text-[#09172C]">{t('hero.availabilityUnavailable')}</p>}
+              {availabilityStatus === 'on_request' && <p role="status" className="mt-3 rounded-lg border border-[#236199]/20 bg-[#236199]/5 p-2 text-[11px] font-semibold text-[#09172C]">{t('hero.availabilityOnRequest')}</p>}
               <button type="submit" disabled={availabilityStatus === 'checking'} className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#FEC228] px-4 text-xs font-extrabold uppercase tracking-[0.08em] text-[#09172C] transition hover:bg-[#FFD45F] disabled:opacity-60">
-                {availabilityStatus === 'checking' ? 'A verificar…' : t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
+                {availabilityStatus === 'checking' ? t('hero.checking') : t('hero.quickSubmit')} <ChevronRight className="h-4 w-4" />
               </button>
             </form>
           </aside>

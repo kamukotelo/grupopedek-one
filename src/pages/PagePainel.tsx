@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../context/AuthContext';
 
 // Painel de Gestão — apenas para utilizadores autenticados
 // Esta página não aparece no menu de navegação público
 export const PagePainel: React.FC = () => {
+  const { t } = useTranslation();
   const { currentUser, setIsPortalOpen } = useAuth();
 
   useEffect(() => {
@@ -15,14 +17,14 @@ export const PagePainel: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Painel de Gestão – PEPEK GRUPO</title>
+        <title>{t('pages.painel.metaTitle')}</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="min-h-screen bg-[#001E4A] flex items-center justify-center pt-28">
         {!currentUser && (
           <div className="text-center text-white space-y-4 p-8">
-            <h1 className="text-2xl font-bold">Área Reservada</h1>
-            <p className="text-gray-400">Por favor inicie sessão para aceder ao painel de gestão.</p>
+            <h1 className="text-2xl font-bold">{t('pages.painel.title')}</h1>
+            <p className="text-gray-400">{t('pages.painel.subtitle')}</p>
           </div>
         )}
       </div>

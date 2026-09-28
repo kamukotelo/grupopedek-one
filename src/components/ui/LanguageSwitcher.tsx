@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Check, ChevronDown, Languages } from 'lucide-react';
 
 export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ variant = 'light' }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentLang = i18n.language?.slice(0, 2).toLowerCase() || 'pt';
   const [isOpen, setIsOpen] = useState(false);
   const switcherRef = useRef<HTMLDivElement>(null);
@@ -47,7 +47,7 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
             ? 'border-slate-200 bg-slate-50 text-[#09172C] hover:border-[#E4AD28] hover:bg-white'
             : 'border-white/15 bg-white/10 text-white hover:border-[#FEC228]/70 hover:bg-white/15'
         } ${isOpen ? 'border-[#E4AD28] ring-2 ring-[#FEC228]/15' : ''}`}
-        aria-label="Selecionar idioma"
+        aria-label={t('common.selectLanguage')}
         aria-haspopup="menu"
         aria-expanded={isOpen}
       >
@@ -68,7 +68,7 @@ export const LanguageSwitcher: React.FC<{ variant?: 'light' | 'dark' }> = ({ var
         >
           <div className={`mb-1 flex items-center gap-2 border-b px-3 py-2.5 ${isDark ? 'border-slate-100 text-slate-500' : 'border-white/10 text-slate-400'}`}>
             <Languages className="h-4 w-4 text-[#E4AD28]" />
-            <span className="text-[10px] font-extrabold uppercase tracking-[0.14em]">Selecionar idioma</span>
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.14em]">{t('common.selectLanguage')}</span>
           </div>
           {languages.map((lang) => {
             const isActive = currentLang === lang.code;

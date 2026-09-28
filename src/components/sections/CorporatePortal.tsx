@@ -10,23 +10,23 @@ export const CorporatePortal: React.FC = () => {
   const benefits = [
     {
       icon: <Clock className="w-6 h-6 text-[#236199]" />,
-      title: 'SLA Prioritário < 10 Minutos',
-      desc: 'Atendimento directo com prioridade máxima 24 horas por dia, 365 dias por ano.'
+      title: t('corporatePortal.b1Title'),
+      desc: t('corporatePortal.b1Desc')
     },
     {
       icon: <UserCheck className="w-6 h-6 text-[#236199]" />,
-      title: 'Pilotos de Protocolo Bilingues',
-      desc: 'Formação rigorosa em etiqueta diplomática, sigilo profissional, primeiros socorros e condução defensiva.'
+      title: t('corporatePortal.b2Title'),
+      desc: t('corporatePortal.b2Desc')
     },
     {
       icon: <FileText className="w-6 h-6 text-[#236199]" />,
-      title: 'Faturação e Condições de Pagamento',
-      desc: 'Emissão de faturas com prazos de pagamento de 30 ou 60 dias para empresas credenciadas, conforme acordo.'
+      title: t('corporatePortal.b3Title'),
+      desc: t('corporatePortal.b3Desc')
     },
     {
       icon: <ShieldCheck className="w-6 h-6 text-[#236199]" />,
-      title: 'Garantia de Viatura de Substituição',
-      desc: 'Disponibilização imediata de viatura equivalente em qualquer província em caso de intervenção técnica.'
+      title: t('corporatePortal.b4Title'),
+      desc: t('corporatePortal.b4Desc')
     },
   ];
 
@@ -40,15 +40,15 @@ export const CorporatePortal: React.FC = () => {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-semibold text-[#8899BB] uppercase tracking-widest mb-4">
               <Building className="w-4 h-4 text-[#236199]" />
-              <span>Contratos Corporativos & Protocolo Diplomático</span>
+              <span>{t('corporatePortal.eyebrow')}</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-inter">
-              Soluções Estratégicas para Grandes Organizações
+              {t('corporatePortal.title')}
             </h2>
 
             <p className="text-base text-gray-300 mt-4 leading-relaxed">
-              Desenhamos pacotes de mobilidade sob medida para embaixadas, petrolíferas, instituições financeiras e entidades governamentais que não podem prescindir de pontualidade e discrição.
+              {t('corporatePortal.subtitle')}
             </p>
           </div>
 
@@ -78,29 +78,29 @@ export const CorporatePortal: React.FC = () => {
           <div className="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
               <h4 className="text-base font-bold text-white">
-                Deseja abrir uma conta corporativa ou solicitar um acordo-quadro?
+                {t('corporatePortal.ctaTitle')}
               </h4>
               <p className="text-xs text-gray-400 mt-0.5">
-                O nosso gestor de contas institucionais entrará em contacto directo com a sua direcção.
+                {t('corporatePortal.ctaSubtitle')}
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <a
-                href={generateQuickWhatsAppUrl('Abertura de Conta Corporativa / Acordo Diplomático')}
+                href={generateQuickWhatsAppUrl(t('corporatePortal.whatsappSubject'))}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-whatsapp w-full sm:w-auto text-xs font-bold py-3.5 px-6 flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4" />
-                <span>Falar com Gestor Institucional</span>
+                <span>{t('corporatePortal.talkToManager')}</span>
               </a>
 
               <Link
                 to="/contactos"
                 className="btn-outline w-full sm:w-auto text-xs font-bold py-3.5 px-6 flex items-center justify-center gap-2"
               >
-                <span>Enviar Pedido de Proposta Formal</span>
+                <span>{t('corporatePortal.requestProposal')}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

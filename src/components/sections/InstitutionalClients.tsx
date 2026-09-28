@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 /** `withLink` desliga a hiperligação quando a faixa já está dentro de /clientes. */
 export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLink = true }) => {
+  const { t } = useTranslation();
   const [logosPerSlide, setLogosPerSlide] = useState(6);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -63,22 +65,22 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
         <div className="mb-4 flex items-center justify-between gap-4">
           {withLink ? (
             <Link to="/clientes" className="group inline-flex max-w-[300px] items-center gap-2 text-[10px] font-bold uppercase leading-5 tracking-[0.14em] text-[#A9BAD5] transition-colors hover:text-[#FEC228] sm:max-w-none sm:text-[11px] sm:tracking-[0.2em]">
-              Confiança Institucional &amp; Entidades de Referência
+              {t('institutionalClients.title')}
               <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-1" />
             </Link>
           ) : (
             <p className="max-w-[300px] text-[10px] font-bold uppercase leading-5 tracking-[0.14em] text-[#A9BAD5] sm:max-w-none sm:text-[11px] sm:tracking-[0.2em]">
-              Confiança Institucional &amp; Entidades de Referência
+              {t('institutionalClients.title')}
             </p>
           )}
-          <div className="hidden items-center gap-1.5 sm:flex" aria-label="Grupos de clientes">
+          <div className="hidden items-center gap-1.5 sm:flex" aria-label={t('institutionalClients.groupsLabel')}>
             {slides.map((_, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => setCurrentSlide(index)}
                 className={`h-1.5 rounded-full transition-all ${currentSlide === index ? 'w-6 bg-[#FEC228]' : 'w-1.5 bg-white/30 hover:bg-white/50'}`}
-                aria-label={`Ver grupo ${index + 1}`}
+                aria-label={t('institutionalClients.viewGroup', { number: index + 1 })}
                 aria-current={currentSlide === index ? 'true' : undefined}
               />
             ))}
@@ -94,19 +96,19 @@ export const InstitutionalClients: React.FC<{ withLink?: boolean }> = ({ withLin
             >
               <img
                 src={client.src}
-                alt={client.name}
+                alt={t(`institutionalClients.names.${client.name}`, { defaultValue: client.name })}
                 className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                 loading="eager"
               />
             </div>
           ))}
         </div>
-        <div className="mt-5 flex items-center justify-center gap-5 sm:hidden" aria-label="Navegação dos clientes">
-          <button type="button" onClick={() => setCurrentSlide((slide) => (slide - 1 + slides.length) % slides.length)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white" aria-label="Grupo anterior">
+        <div className="mt-5 flex items-center justify-center gap-5 sm:hidden" aria-label={t('institutionalClients.navLabel')}>
+          <button type="button" onClick={() => setCurrentSlide((slide) => (slide - 1 + slides.length) % slides.length)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white" aria-label={t('institutionalClients.previousGroup')}>
             <ChevronLeft className="h-5 w-5" />
           </button>
           <span className="min-w-12 text-center text-xs font-semibold tabular-nums text-[#A9BAD5]">{currentSlide + 1} / {slides.length}</span>
-          <button type="button" onClick={() => setCurrentSlide((slide) => (slide + 1) % slides.length)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white" aria-label="Grupo seguinte">
+          <button type="button" onClick={() => setCurrentSlide((slide) => (slide + 1) % slides.length)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white" aria-label={t('institutionalClients.nextGroup')}>
             <ChevronRight className="h-5 w-5" />
           </button>
         </div>

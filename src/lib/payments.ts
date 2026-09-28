@@ -1,3 +1,4 @@
+import i18n from '../i18n';
 import { neonClient } from './neon';
 import type { InvoiceItem } from '../types/auth';
 
@@ -44,7 +45,7 @@ export interface PaymentStatusResult {
 const authHeader = async (): Promise<string> => {
   const { data } = await neonClient.auth.getSession();
   const token = data.session?.access_token;
-  if (!token) throw new Error('Inicie sessão novamente para continuar o pagamento.');
+  if (!token) throw new Error(i18n.t('system.signInToPay'));
   return `Bearer ${token}`;
 };
 
@@ -62,7 +63,7 @@ export async function createPaymentOrder(input: {
     body: JSON.stringify({ category: 'invoice', currency: 'AOA', ...input }),
   });
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error || 'Não foi possível iniciar o pagamento.');
+  if (!response.ok) throw new Error(result.error || i18n.t('payment.errorStart'));
   return result as PaymentOrderResult;
 }
 
@@ -71,7 +72,7 @@ export async function getPaymentStatus(orderId: string): Promise<PaymentStatusRe
     headers: { Authorization: await authHeader() },
   });
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error || 'Não foi possível consultar o pagamento.');
+  if (!response.ok) throw new Error(result.error || i18n.t('system.paymentQueryError'));
   return {
     id: result.id,
     status: result.status,

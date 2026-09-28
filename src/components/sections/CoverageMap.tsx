@@ -5,29 +5,8 @@ import { MapPin, Navigation, Shield, Wrench, CheckCircle } from 'lucide-react';
 export const CoverageMap: React.FC = () => {
   const { t } = useTranslation();
 
-  const operationalHubs = [
-    {
-      name: 'Luanda — Sede Central & Hub Internacional',
-      status: 'Operação 24 Horas',
-      type: 'Sede Principal',
-      facilities: ['Aeroporto 4 de Fevereiro & AIAAN', 'Centro Operacional VIP', 'Base de Manutenção Própria', 'Frota de Reserva Imediata'],
-      isPrimary: true
-    },
-    {
-      name: 'Huambo — Pólo Planalto Central',
-      status: 'Base Operacional Regional',
-      type: 'Hub Regional',
-      facilities: ['Apoio a Missões no Centro e Sul', 'Frotas 4x4 Todo-Terreno', 'Oficina de Apoio Rápido', 'Pilotos Locais Credenciados'],
-      isPrimary: false
-    },
-    {
-      name: 'Bengo — Pólo Corredor Norte',
-      status: 'Base Avançada',
-      type: 'Hub Norte',
-      facilities: ['Ligação a Caxito e Litoral', 'Apoio a Projectos Agro-Industriais', 'Escolta e Logística de Equipas', 'Assistência Mecânica Móvel'],
-      isPrimary: false
-    }
-  ];
+  const operationalHubs = (t('coverage.hubs', { returnObjects: true }) as { name: string; status: string; facilities: string[] }[])
+    .map((hub, index) => ({ ...hub, isPrimary: index === 0 }));
 
   const provinces = [
     'Luanda', 'Huambo', 'Bengo', 'Benguela', 'Cabinda', 'Cuanza Sul',
@@ -40,15 +19,15 @@ export const CoverageMap: React.FC = () => {
       <div className="container-pepek">
         <div className="max-w-3xl mb-14">
           <div className="tag-label mb-4">
-            <span>Presença Territorial</span>
+            <span>{t('coverage.eyebrow')}</span>
           </div>
 
           <h2 className="section-title mb-4">
-            Cobertura operacional em toda Angola.
+            {t('coverage.title')}
           </h2>
 
           <p className="section-subtitle">
-            Com bases estratégicas e uma rede de assistência virtual, asseguramos continuidade operacional, acompanhamento e segurança em qualquer província do país.
+            {t('coverage.subtitle')}
           </p>
         </div>
 
@@ -93,7 +72,7 @@ export const CoverageMap: React.FC = () => {
                 hub.isPrimary ? 'border-white/10 text-gray-300' : 'border-gray-100 text-[#236199]'
               }`}>
                 <Navigation className="w-4 h-4" />
-                <span>Base Activa & Certificada</span>
+                <span>{t('coverage.activeBase')}</span>
               </div>
             </div>
           ))}
@@ -105,16 +84,16 @@ export const CoverageMap: React.FC = () => {
             <div>
               <h3 className="text-lg font-bold text-[#09172C] flex items-center gap-2">
                 <Shield className="w-5 h-5 text-[#236199]" />
-                <span>Prontidão Operacional em Angola</span>
+                <span>{t('coverage.readinessTitle')}</span>
               </h3>
               <p className="text-xs text-gray-500 mt-1">
-                Serviço de aluguer de frotas 4x4, transfers interprovinciais e assistência técnica em viagem.
+                {t('coverage.readinessSubtitle')}
               </p>
             </div>
 
             <div className="flex items-center gap-2 text-xs font-bold text-gray-700 bg-gray-50 px-3.5 py-2 rounded-xl border border-gray-200 shrink-0">
               <Wrench className="w-4 h-4 text-[#236199]" />
-              <span>Socorro Mecânico 24/7</span>
+              <span>{t('coverage.roadside')}</span>
             </div>
           </div>
 

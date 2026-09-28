@@ -11,16 +11,17 @@ interface ClientAreaModalProps {
   onClose: () => void;
 }
 
-const PROFILE_CHOICES: Array<{ role: UserRole; group: 'Clientes' | 'Operações' | 'Gestão'; icon: string; title: string; description: string }> = [
-  { role: 'cliente_vip', group: 'Clientes', icon: '👑', title: 'Cliente VIP', description: 'Viaturas, faturas e pedidos prioritários.' },
-  { role: 'cliente_normal', group: 'Clientes', icon: '👤', title: 'Cliente Particular ou PME', description: 'Reservas, pagamentos e acompanhamento.' },
-  { role: 'vendedor', group: 'Operações', icon: '💼', title: 'Consultor Comercial', description: 'Clientes, propostas e oportunidades.' },
-  { role: 'gestor_reservas', group: 'Operações', icon: '🎫', title: 'Gestão de Reservas', description: 'Pedidos, alocação e confirmação.' },
-  { role: 'diretor_frotas', group: 'Operações', icon: '🚙', title: 'Direção de Frotas', description: 'Viaturas, manutenção e disponibilidade.' },
-  { role: 'motorista', group: 'Operações', icon: '🧑🏾‍✈️', title: 'Motorista Protocolar', description: 'Escalas, missões e estado operacional.' },
-  { role: 'contabilista', group: 'Gestão', icon: '📊', title: 'Contabilidade', description: 'Faturas, pagamentos e reconciliação.' },
-  { role: 'gestor_portugal', group: 'Gestão', icon: '🇵🇹', title: 'Gestão Portugal', description: 'Operação internacional e pagamentos.' },
-  { role: 'direcao', group: 'Gestão', icon: '🏛️', title: 'Direção Executiva', description: 'Visão integral do negócio e Odoo.' },
+// Título e descrição de cada perfil vivem em clientArea.profiles.<role>.
+const PROFILE_CHOICES: Array<{ role: UserRole; group: 'clients' | 'operations' | 'management'; icon: string }> = [
+  { role: 'cliente_vip', group: 'clients', icon: '👑' },
+  { role: 'cliente_normal', group: 'clients', icon: '👤' },
+  { role: 'vendedor', group: 'operations', icon: '💼' },
+  { role: 'gestor_reservas', group: 'operations', icon: '🎫' },
+  { role: 'diretor_frotas', group: 'operations', icon: '🚙' },
+  { role: 'motorista', group: 'operations', icon: '🧑🏾‍✈️' },
+  { role: 'contabilista', group: 'management', icon: '📊' },
+  { role: 'gestor_portugal', group: 'management', icon: '🇵🇹' },
+  { role: 'direcao', group: 'management', icon: '🏛️' },
 ];
 
 export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClose }) => {
@@ -53,18 +54,18 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
     setIsSubmitting(true);
     const result = await signIn(emailOrNif, password);
     setIsSubmitting(false);
-    if (result.error) setErrorMessage('Não foi possível iniciar sessão. Confirme o e-mail e a palavra-passe.');
+    if (result.error) setErrorMessage(t('clientArea.errorSignIn'));
   };
 
   const handlePasswordReset = async () => {
     setErrorMessage('');
     if (!emailOrNif.includes('@')) {
-      setErrorMessage('Introduza primeiro o e-mail registado para recuperar o acesso.');
+      setErrorMessage(t('clientArea.errorResetEmail'));
       return;
     }
     const result = await requestPasswordReset(emailOrNif);
-    if (result.error) setErrorMessage('Não foi possível enviar a recuperação neste momento.');
-    else setResetMessage('Enviámos as instruções de recuperação para o e-mail indicado.');
+    if (result.error) setErrorMessage(t('clientArea.errorReset'));
+    else setResetMessage(t('clientArea.resetSent'));
   };
 
   const handleRegistration = async (event: React.FormEvent) => {
@@ -72,14 +73,14 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
     setErrorMessage('');
     setResetMessage('');
     if (password.length < 10) {
-      setErrorMessage('Use uma palavra-passe com pelo menos 10 caracteres.');
+      setErrorMessage(t('clientArea.errorPasswordLength'));
       return;
     }
     setIsSubmitting(true);
     const result = await signUp(registrationName, emailOrNif, password);
     setIsSubmitting(false);
-    if (result.error) setErrorMessage('Não foi possível criar a conta. Confirme os dados ou tente outro e-mail.');
-    else setResetMessage('Conta criada. Consulte o seu e-mail para confirmar o acesso antes de iniciar sessão.');
+    if (result.error) setErrorMessage(t('clientArea.errorSignUp'));
+    else setResetMessage(t('clientArea.accountCreated'));
   };
 
   const handlePhoneSubmit = async (event: React.FormEvent) => {
@@ -92,12 +93,12 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
       : await requestPhoneOtp(phone);
     setIsSubmitting(false);
     if (result.error) {
-      setErrorMessage(normalizedPhone ? 'Código inválido ou expirado. Solicite um novo código.' : 'Não foi possível enviar o SMS. Confirme o número e tente novamente.');
+      setErrorMessage(normalizedPhone ? t('clientArea.errorOtp') : t('clientArea.errorSms'));
       return;
     }
     if (result.phone) {
       setNormalizedPhone(result.phone);
-      setResetMessage(`Código enviado por SMS para ${result.phone}.`);
+      setResetMessage(t('clientArea.smsSent', { phone: result.phone }));
     }
   };
 
@@ -107,7 +108,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
     const result = await signInWithSocial(provider);
     if (result.error) {
       setIsSubmitting(false);
-      setErrorMessage(`Não foi possível continuar com ${SOCIAL_PROVIDER_LABELS[provider]}.`);
+      setErrorMessage(t('clientArea.errorSocial', { provider: SOCIAL_PROVIDER_LABELS[provider] }));
     }
   };
 
@@ -117,8 +118,8 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
     setIsSubmitting(true);
     const result = await updatePassword(password);
     setIsSubmitting(false);
-    if (result.error) setErrorMessage('Use uma palavra-passe nova com pelo menos 10 caracteres.');
-    else setResetMessage('Palavra-passe atualizada com sucesso.');
+    if (result.error) setErrorMessage(t('clientArea.errorNewPassword'));
+    else setResetMessage(t('clientArea.passwordUpdated'));
   };
 
   return (
@@ -133,19 +134,19 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-            aria-label="Fechar modal"
+            aria-label={t('clientArea.closeModal')}
           >
             <X className="w-5 h-5" />
           </button>
 
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#FEC228] block mb-1">
-            Portal seguro PEPEK
+            {t('clientArea.eyebrow')}
           </span>
           <h3 className="text-2xl font-extrabold text-white font-inter">
-            Área do Cliente
+            {t('clientArea.title')}
           </h3>
           <p className="text-xs text-gray-300 mt-1">
-            Acesso separado para contas corporativas e clientes particulares.
+            {t('clientArea.subtitle')}
           </p>
         </div>
 
@@ -153,16 +154,16 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
         <div className="overflow-y-auto p-5 sm:p-7">
           {isDemoMode && <>
             <div className="mb-5 rounded-2xl border border-[#E4AD28]/30 bg-[#FEC228]/10 px-4 py-3 text-[11px] text-[#09172C]">
-              <span className="flex items-center gap-2 font-extrabold"><Sparkles className="h-4 w-4 text-[#E4AD28]" />Entrada imediata, sem senha</span>
-              <span className="mt-1 block text-[10px] text-slate-600">Todos os dados apresentados são fictícios e servem apenas para conhecer a experiência.</span>
+              <span className="flex items-center gap-2 font-extrabold"><Sparkles className="h-4 w-4 text-[#E4AD28]" />{t('clientArea.demoTitle')}</span>
+              <span className="mt-1 block text-[10px] text-slate-600">{t('clientArea.demoText')}</span>
             </div>
 
             <div className="grid gap-5 lg:grid-cols-3">
-              {(['Clientes', 'Operações', 'Gestão'] as const).map((group) => (
+              {(['clients', 'operations', 'management'] as const).map((group) => (
                 <section key={group} aria-labelledby={`grupo-${group}`}>
                   <div className="mb-2 flex items-center gap-2 px-1">
-                    <span className="grid h-6 w-6 place-items-center rounded-lg bg-[#09172C] text-[10px] font-extrabold text-[#FEC228]">{group === 'Clientes' ? '01' : group === 'Operações' ? '02' : '03'}</span>
-                    <h4 id={`grupo-${group}`} className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#09172C]">{group}</h4>
+                    <span className="grid h-6 w-6 place-items-center rounded-lg bg-[#09172C] text-[10px] font-extrabold text-[#FEC228]">{group === 'clients' ? '01' : group === 'operations' ? '02' : '03'}</span>
+                    <h4 id={`grupo-${group}`} className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#09172C]">{t(`clientArea.groups.${group}`)}</h4>
                   </div>
                   <div className="space-y-2">
                     {PROFILE_CHOICES.filter((profile) => profile.group === group).map((profile) => (
@@ -174,8 +175,8 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                       >
                         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#F5F6F6] text-xl transition group-hover:bg-[#FFF4C7]" aria-hidden="true">{profile.icon}</span>
                         <span className="min-w-0 flex-1">
-                          <strong className="block text-xs text-[#09172C]">{profile.title}</strong>
-                          <span className="mt-1 block text-[10px] leading-snug text-slate-500">{profile.description}</span>
+                          <strong className="block text-xs text-[#09172C]">{t(`clientArea.profiles.${profile.role}.title`)}</strong>
+                          <span className="mt-1 block text-[10px] leading-snug text-slate-500">{t(`clientArea.profiles.${profile.role}.description`)}</span>
                         </span>
                         <ArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#E4AD28]" />
                       </button>
@@ -186,51 +187,51 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
             </div>
 
             <button type="button" onClick={() => setShowRealLogin((visible) => !visible)} className="mt-6 flex w-full items-center justify-center gap-2 border-t border-slate-200 pt-5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 hover:text-[#09172C]" aria-expanded={showRealLogin}>
-              Já possui uma conta PEPEK? Entrar com e-mail
+              {t('clientArea.haveAccountEmail')}
               <ChevronDown className={`h-4 w-4 transition-transform ${showRealLogin ? 'rotate-180' : ''}`} />
             </button>
           </>}
 
             {(showRealLogin || !isDemoMode) && <div className={`mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-slate-50 p-5 ${isDemoMode ? 'mt-5' : ''}`}>
-            <div className="mb-5 grid gap-3 sm:grid-cols-2" role="tablist" aria-label="Tipo de conta">
+            <div className="mb-5 grid gap-3 sm:grid-cols-2" role="tablist" aria-label={t('clientArea.accountType')}>
               <button type="button" role="tab" aria-selected={activeTab === 'corporate'} onClick={() => { setActiveTab('corporate'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'corporate' ? 'border-[#FEC228] bg-[#09172C] text-white shadow-lg' : 'border-slate-200 bg-white text-[#09172C]'}`}>
                 <Building2 className={`h-5 w-5 ${activeTab === 'corporate' ? 'text-[#FEC228]' : 'text-[#236199]'}`} />
-                <strong className="mt-3 block text-sm">Conta Corporativa</strong>
-                <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'corporate' ? 'text-white/65' : 'text-slate-500'}`}>Empresas, embaixadas e instituições com contratos, faturas e viaturas alocadas.</span>
+                <strong className="mt-3 block text-sm">{t('clientArea.corporateAccount')}</strong>
+                <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'corporate' ? 'text-white/65' : 'text-slate-500'}`}>{t('clientArea.corporateAccountText')}</span>
               </button>
               <button type="button" role="tab" aria-selected={activeTab === 'private'} onClick={() => { setActiveTab('private'); setErrorMessage(''); }} className={`rounded-2xl border p-4 text-left transition ${activeTab === 'private' ? 'border-[#FEC228] bg-[#09172C] text-white shadow-lg' : 'border-slate-200 bg-white text-[#09172C]'}`}>
                 <User className={`h-5 w-5 ${activeTab === 'private' ? 'text-[#FEC228]' : 'text-[#236199]'}`} />
-                <strong className="mt-3 block text-sm">Cliente Particular</strong>
-                <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'private' ? 'text-white/65' : 'text-slate-500'}`}>Reservas pessoais, comprovativos, pagamentos e acompanhamento do serviço.</span>
+                <strong className="mt-3 block text-sm">{t('clientArea.privateClient')}</strong>
+                <span className={`mt-1 block text-[10px] leading-4 ${activeTab === 'private' ? 'text-white/65' : 'text-slate-500'}`}>{t('clientArea.privateClientText')}</span>
               </button>
             </div>
             <div className="mb-4 rounded-xl border border-[#236199] bg-[#236199] p-3 text-[10px] leading-4 text-white">
               <ShieldCheck className="mr-1.5 inline h-4 w-4" />
-              Sessão protegida. A PEPEK nunca solicitará a sua palavra-passe por telefone, WhatsApp ou e-mail.
+              {t('clientArea.sessionProtected')}
             </div>
             {isPasswordRecovery ? (
               <form onSubmit={handlePasswordUpdate} className="space-y-4">
                 <div className="rounded-xl border border-[#236199] bg-white p-4">
                   <KeyRound className="mb-2 h-5 w-5 text-[#236199]" />
-                  <strong className="block text-sm text-[#09172C]">Definir nova palavra-passe</strong>
-                  <p className="mt-1 text-[10px] text-slate-500">A ligação de recuperação foi validada. Escolha uma palavra-passe com pelo menos 10 caracteres.</p>
+                  <strong className="block text-sm text-[#09172C]">{t('clientArea.setNewPassword')}</strong>
+                  <p className="mt-1 text-[10px] text-slate-500">{t('clientArea.recoveryValidated')}</p>
                 </div>
-                <input type="password" autoComplete="new-password" minLength={10} value={password} onChange={(e) => setPassword(e.target.value)} className="form-input" required aria-label="Nova palavra-passe" />
+                <input type="password" autoComplete="new-password" minLength={10} value={password} onChange={(e) => setPassword(e.target.value)} className="form-input" required aria-label={t('clientArea.newPasswordAria')} />
                 {errorMessage && <p role="alert" className="rounded-xl bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">{errorMessage}</p>}
                 {resetMessage && <p role="status" className="rounded-xl bg-[#236199] p-3 text-xs font-semibold text-white">{resetMessage}</p>}
                 <button type="submit" disabled={isSubmitting} className="btn-primary w-full justify-center py-3.5 text-xs font-bold">
-                  {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <KeyRound className="h-4 w-4" />} Atualizar palavra-passe
+                  {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <KeyRound className="h-4 w-4" />} {t('clientArea.updatePassword')}
                 </button>
               </form>
             ) : <>
-            <div className="mb-4 grid grid-cols-2 rounded-xl bg-white p-1 shadow-sm" role="tablist" aria-label="Método de entrada">
+            <div className="mb-4 grid grid-cols-2 rounded-xl bg-white p-1 shadow-sm" role="tablist" aria-label={t('clientArea.loginMethod')}>
               <button type="button" role="tab" aria-selected={loginMethod === 'email'} onClick={() => { setLoginMethod('email'); setErrorMessage(''); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'email' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Mail className="h-4 w-4" />E-mail</button>
-              <button type="button" role="tab" aria-selected={loginMethod === 'phone'} onClick={() => { setLoginMethod('phone'); setErrorMessage('O acesso por telefone está temporariamente indisponível. Utilize o e-mail.'); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'phone' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Smartphone className="h-4 w-4" />Telefone</button>
+              <button type="button" role="tab" aria-selected={loginMethod === 'phone'} onClick={() => { setLoginMethod('phone'); setErrorMessage(t('clientArea.phoneUnavailable')); }} className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-bold ${loginMethod === 'phone' ? 'bg-[#09172C] text-white' : 'text-slate-500'}`}><Smartphone className="h-4 w-4" />{t('clientArea.phoneTab')}</button>
             </div>
 
             {loginMethod === 'phone' ? <form onSubmit={handlePhoneSubmit} className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-600">{normalizedPhone ? 'Código SMS de 6 dígitos' : 'Número de telefone'}</label>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-600">{normalizedPhone ? t('clientArea.otpLabel') : t('clientArea.phoneLabel')}</label>
                 <input
                   type={normalizedPhone ? 'text' : 'tel'} inputMode={normalizedPhone ? 'numeric' : 'tel'}
                   autoComplete={normalizedPhone ? 'one-time-code' : 'tel'}
@@ -243,20 +244,20 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
               {errorMessage && <p role="alert" className="rounded-xl bg-[#FEC228] p-3 text-xs font-semibold text-[#09172C]">{errorMessage}</p>}
               {resetMessage && <p role="status" className="rounded-xl bg-[#236199] p-3 text-xs font-semibold text-white">{resetMessage}</p>}
               <button type="submit" disabled={isSubmitting || !isAuthReady} className="btn-primary w-full justify-center py-3.5 text-xs font-bold">
-                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Smartphone className="h-4 w-4" />}{normalizedPhone ? 'Confirmar código e entrar' : 'Enviar código por SMS'}
+                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Smartphone className="h-4 w-4" />}{normalizedPhone ? t('clientArea.confirmOtp') : t('clientArea.sendSms')}
               </button>
-              {normalizedPhone && <button type="button" onClick={() => { setNormalizedPhone(''); setOtp(''); setResetMessage(''); }} className="w-full text-xs font-bold text-[#236199] hover:underline">Alterar número ou reenviar código</button>}
+              {normalizedPhone && <button type="button" onClick={() => { setNormalizedPhone(''); setOtp(''); setResetMessage(''); }} className="w-full text-xs font-bold text-[#236199] hover:underline">{t('clientArea.changeNumber')}</button>}
             </form> : <form onSubmit={showRegistration ? handleRegistration : handleSubmit} className="space-y-4">
               {showRegistration && <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Nome completo</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">{t('clientArea.fullName')}</label>
                 <div className="relative">
                   <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
-                  <input type="text" autoComplete="name" value={registrationName} onChange={(e) => setRegistrationName(e.target.value)} placeholder="O seu nome" className="form-input pl-10" required />
+                  <input type="text" autoComplete="name" value={registrationName} onChange={(e) => setRegistrationName(e.target.value)} placeholder={t('clientArea.namePlaceholder')} className="form-input pl-10" required />
                 </div>
               </div>}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
-                  {showRegistration ? 'E-mail para criar a conta' : activeTab === 'corporate' ? 'E-mail corporativo registado' : 'E-mail pessoal registado'}
+                  {showRegistration ? t('clientArea.signUpEmail') : activeTab === 'corporate' ? t('clientArea.corporateEmail') : t('clientArea.personalEmail')}
                 </label>
                 <div className="relative">
                   <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
@@ -266,7 +267,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                     autoComplete="email"
                     value={emailOrNif}
                     onChange={(e) => setEmailOrNif(e.target.value)}
-                    placeholder={activeTab === 'corporate' ? 'nome@empresa.ao' : 'cliente@email.com'}
+                    placeholder={activeTab === 'corporate' ? t('clientArea.corporateEmailPlaceholder') : t('clientArea.personalEmailPlaceholder')}
                     className="form-input pl-10"
                     required
                   />
@@ -275,7 +276,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
-                  {showRegistration ? 'Criar palavra-passe' : t('auth.password')}
+                  {showRegistration ? t('clientArea.createPassword') : t('auth.password')}
                 </label>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
@@ -284,7 +285,7 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                     autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                  placeholder={showRegistration ? 'Mínimo de 10 caracteres' : '••••••••••••'}
+                  placeholder={showRegistration ? t('clientArea.passwordMin') : '••••••••••••'}
                     className="form-input pl-10"
                     required
                   />
@@ -315,18 +316,18 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
                 className="btn-primary w-full justify-center text-xs font-bold py-3.5 mt-2 cursor-pointer"
               >
                 {isSubmitting || !isAuthReady ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
-                <span>{isSubmitting ? t('auth.submitting') : showRegistration ? 'Criar conta de cliente' : t('auth.submit')}</span>
+                <span>{isSubmitting ? t('auth.submitting') : showRegistration ? t('clientArea.createAccount') : t('auth.submit')}</span>
               </button>
               <button type="button" onClick={() => { setShowRegistration((open) => !open); setErrorMessage(''); setResetMessage(''); }} className="w-full pt-1 text-xs font-bold text-[#236199] hover:underline">
-                {showRegistration ? 'Já possui conta? Iniciar sessão' : 'Criar conta de cliente'}
+                {showRegistration ? t('clientArea.haveAccount') : t('clientArea.createAccount')}
               </button>
             </form>}
 
             {!showRegistration && <div className="mt-5">
-              <div className="mb-3 flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-slate-400"><span className="h-px flex-1 bg-slate-200" />ou continuar com<span className="h-px flex-1 bg-slate-200" /></div>
+              <div className="mb-3 flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-slate-400"><span className="h-px flex-1 bg-slate-200" />{t('clientArea.orContinueWith')}<span className="h-px flex-1 bg-slate-200" /></div>
               <div className="grid gap-2 sm:grid-cols-3">
                 {(Object.keys(SOCIAL_PROVIDER_LABELS) as SocialProvider[]).map((provider) => (
-                  <button key={provider} type="button" disabled={isSubmitting} onClick={() => void handleSocial(provider)} className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-xs font-bold text-[#09172C] transition hover:border-[#236199] disabled:opacity-50" aria-label={`Continuar com ${SOCIAL_PROVIDER_LABELS[provider]}`}>
+                  <button key={provider} type="button" disabled={isSubmitting} onClick={() => void handleSocial(provider)} className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-xs font-bold text-[#09172C] transition hover:border-[#236199] disabled:opacity-50" aria-label={t('clientArea.continueWith', { provider: SOCIAL_PROVIDER_LABELS[provider] })}>
                     {SOCIAL_PROVIDER_LABELS[provider]}
                   </button>
                 ))}
@@ -338,11 +339,11 @@ export const ClientAreaModal: React.FC<ClientAreaModalProps> = ({ isOpen, onClos
           <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-[#236199]" />
-              <span>Ligação cifrada e acesso autenticado</span>
+              <span>{t('clientArea.encrypted')}</span>
             </div>
 
             <a
-              href={generateQuickWhatsAppUrl('Pedido de Nova Conta Corporativa')}
+              href={generateQuickWhatsAppUrl(t('clientArea.newCorporateAccount'))}
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold text-[#09172C] hover:text-[#236199]"

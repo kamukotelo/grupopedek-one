@@ -1,3 +1,4 @@
+import i18n from '../i18n';
 import { BookingData } from '../types';
 import { neonClient } from './neon';
 
@@ -37,7 +38,7 @@ export async function submitReservation(booking: BookingData): Promise<Reservati
     if (response.ok) return await response.json();
     if (response.status !== 404 && response.status !== 503) {
       const body = await response.json().catch(() => ({}));
-      throw new Error(body.error || 'Não foi possível registar a reserva.');
+      throw new Error(body.error || i18n.t('system.reservationError'));
     }
   } catch (error) {
     if (error instanceof Error && !/fetch|404|503|Failed/i.test(error.message)) throw error;
@@ -46,7 +47,7 @@ export async function submitReservation(booking: BookingData): Promise<Reservati
   // Preserve the direct workflow in development or demo mode fallback.
   // Production with active server functions will have succeeded via /api/reservations above.
   if (!import.meta.env.DEV && import.meta.env.VITE_DEMO_MODE === 'false') {
-    throw new Error('O serviço de reservas está temporariamente indisponível. Tente novamente ou contacte o apoio 24/7.');
+    throw new Error(i18n.t('system.reservationsUnavailable'));
   }
 
   const protocolCode = `PK-DIR-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;

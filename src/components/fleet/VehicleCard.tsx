@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   DoorClosed,
@@ -13,6 +14,7 @@ import {
   Fuel
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
+import { useFleetText } from '../../i18n/fleetContent';
 import { getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
@@ -33,6 +35,8 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   onInspect,
   onSelectBooking
 }) => {
+  const { t } = useTranslation();
+  const ft = useFleetText();
   const [isHovered, setIsHovered] = useState(false);
   const [justBookedFeedback, setJustBookedFeedback] = useState(false);
   const isFlyerCollection = vehicle.visualCollection === 'flyer';
@@ -94,7 +98,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
         {verifiedSecondaryImage && (
           <img
             src={verifiedSecondaryImage}
-            alt={`${vehicle.name} vista lateral/interior`}
+            alt={t('vehicle.secondaryImageAlt', { vehicle: vehicle.name })}
             className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 ease-out ${
               isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
@@ -107,18 +111,18 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           <div className="flex flex-wrap items-center gap-1.5">
             {vehicle.badge && (
               <span className="px-3 py-1 rounded-full bg-[#09172C] text-[#FEC228] border border-[#FEC228]/30 text-[10.5px] font-extrabold uppercase tracking-wider shadow-sm">
-                {vehicle.badge}
+                {ft(vehicle.badge)}
               </span>
             )}
             <span className="px-2.5 py-1 rounded-full bg-[#236199] text-white text-[10px] font-bold shadow-xs">
-              Sob confirmação
+              {t('vehicle.onConfirmation')}
             </span>
           </div>
 
           {/* Photo Count Chip */}
           <span className="px-2.5 py-1 rounded-full bg-[#09172C]/80 text-[#FEC228] text-[10px] font-bold backdrop-blur-md border border-white/10 flex items-center gap-1 shadow-sm">
             <Camera className="w-3 h-3 text-[#FEC228]" />
-            <span>{verifiedPhotoCount ? `${verifiedPhotoCount} ${verifiedPhotoCount === 1 ? 'Foto' : 'Fotos'}` : 'Imagens em revisão'}</span>
+            <span>{verifiedPhotoCount ? t('vehicle.photoCount', { count: verifiedPhotoCount }) : t('vehicle.imagesInReview')}</span>
           </span>
         </div>
 
@@ -126,7 +130,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/15">
           <span className="px-4 py-2 rounded-full bg-[#09172C] text-[#FEC228] font-extrabold text-xs border border-[#FEC228] shadow-xl flex items-center gap-1.5 tracking-wide">
             <Eye className="w-4 h-4 text-[#FEC228]" />
-            <span>Ver Ficha Técnica Completa</span>
+            <span>{t('vehicle.viewFullSpecs')}</span>
           </span>
         </div>
       </div>
@@ -140,10 +144,10 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 
           <div className="mb-5 flex flex-wrap gap-2">
             <span className="rounded-lg bg-[#FEC228] px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-[#09172C]">
-              {vehicle.categoryLabel}
+              {ft(vehicle.categoryLabel)}
             </span>
             <span className="rounded-lg border-2 border-white px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-white">
-              {vehicle.specs.transmission}
+              {ft(vehicle.specs.transmission)}
             </span>
           </div>
 
@@ -152,59 +156,59 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
              ═══════════════════════════════════════════════════════ */}
           <div className="mb-5 grid grid-cols-5 gap-1.5 border-b border-white/45 pb-4 text-center">
             {/* 1. Passageiros */}
-            <div className="flex flex-col items-center gap-1" title="Capacidade de passageiros">
+            <div className="flex flex-col items-center gap-1" title={t('vehicle.passengerCapacity')}>
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Users className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-white">{vehicle.specs.passengers} Pass.</span>
+              <span className="text-[10px] font-bold text-white">{t('vehicle.passengersShort', { count: vehicle.specs.passengers })}</span>
             </div>
 
             {/* 2. Portas */}
-            <div className="flex flex-col items-center gap-1" title="Número de portas">
+            <div className="flex flex-col items-center gap-1" title={t('vehicle.doorCount')}>
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <DoorClosed className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-white">{vehicle.specs.doors} Portas</span>
+              <span className="text-[10px] font-bold text-white">{t('vehicle.doorsCount', { count: vehicle.specs.doors })}</span>
             </div>
 
             {/* 3. Transmissão */}
-            <div className="flex flex-col items-center gap-1" title="Transmissão">
+            <div className="flex flex-col items-center gap-1" title={t('vehicle.transmission')}>
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Settings2 className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{vehicle.specs.transmission.split(' ')[0]}</span>
+              <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{ft(vehicle.specs.transmission).split(' ')[0]}</span>
             </div>
 
             {/* 4. Combustível */}
-            <div className="flex flex-col items-center gap-1" title="Tipo de combustível">
+            <div className="flex flex-col items-center gap-1" title={t('vehicle.fuelType')}>
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Fuel className="w-4 h-4 text-[#FEC228]" />
               </div>
-              <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{vehicle.specs.fuelType.split(' ')[0]}</span>
+              <span className="text-[10px] font-bold text-white truncate max-w-[50px]">{ft(vehicle.specs.fuelType).split(' ')[0]}</span>
             </div>
 
             {/* 5. Depósito / Tracção */}
-            <div className="flex flex-col items-center gap-1" title={vehicle.specs.tankCapacity ? `Depósito: ${vehicle.specs.tankCapacity}` : 'Tracção'}>
+            <div className="flex flex-col items-center gap-1" title={vehicle.specs.tankCapacity ? t('vehicle.tankWithValue', { value: vehicle.specs.tankCapacity }) : t('vehicle.traction')}>
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#174B86] text-[#FEC228] shadow-xs">
                 <Gauge className="w-4 h-4 text-[#FEC228]" />
               </div>
               <span className="text-[10px] font-bold text-white truncate max-w-[50px]">
-                {vehicle.specs.tankCapacity || vehicle.specs.traction?.split(' ')[0] || '4x4'}
+                {vehicle.specs.tankCapacity || ft(vehicle.specs.traction).split(' ')[0] || '4x4'}
               </span>
             </div>
           </div>
 
           <div className="mb-5">
-            <span className="block text-sm font-medium text-white/75">A partir de</span>
+            <span className="block text-sm font-medium text-white/75">{t('vehicle.fromPrice')}</span>
             <strong className="mt-1 block text-[1.8rem] font-extrabold leading-tight text-[#FEC228]">
-              {vehicle.pricePerDayFormatted} <span className="whitespace-nowrap text-xl">/ dia</span>
+              {vehicle.pricePerDayFormatted} <span className="whitespace-nowrap text-xl">{t('vehicle.perDay')}</span>
             </strong>
-            {vehicle.transferPriceFormatted && <span className="mt-1 block text-xs font-semibold text-white/80">Transfer: {vehicle.transferPriceFormatted}</span>}
+            {vehicle.transferPriceFormatted && <span className="mt-1 block text-xs font-semibold text-white/80">{t('vehicle.transferPrice', { price: vehicle.transferPriceFormatted })}</span>}
           </div>
 
           <div className="mb-4 flex items-center gap-2 rounded-xl border border-[#FEC228]/40 bg-[#174B86]/55 px-3 py-2 text-[11px] text-white">
             <ShieldCheck className="w-4 h-4 shrink-0 text-[#FEC228]" />
-            <span className="font-medium">Seguro</span>
+            <span className="font-medium">{t('vehicle.insurance')}</span>
           </div>
         </div>
 
@@ -220,8 +224,8 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               className="py-2.5 px-2 rounded-xl border border-white/40 hover:border-[#FEC228] text-white hover:bg-white/10 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-transparent"
             >
               <Eye className="w-3.5 h-3.5 text-[#FEC228]" />
-              <span className="hidden sm:inline">Ver detalhes</span>
-              <span className="sm:hidden">Detalhes</span>
+              <span className="hidden sm:inline">{t('vehicle.viewDetails')}</span>
+              <span className="sm:hidden">{t('vehicle.details')}</span>
             </button>
 
             {/* 2. Direct WhatsApp Fast Inquiry */}
@@ -229,7 +233,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               type="button"
               onClick={handleWhatsAppInquiry}
               className="py-2.5 px-2 rounded-xl bg-[#236199] hover:bg-[#0C2E60] text-white text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs"
-              title="Consultar no WhatsApp oficial da Central"
+              title={t('vehicle.whatsappTitle')}
             >
               <MessageSquareText className="w-3.5 h-3.5" />
               <span>WhatsApp</span>
@@ -248,13 +252,13 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
               {justBookedFeedback ? (
                 <>
                   <Check className="w-3.5 h-3.5" />
-                  <span>Pronto!</span>
+                  <span>{t('vehicle.done')}</span>
                 </>
               ) : (
                 <>
                   <Calendar className="w-3.5 h-3.5 text-[#09172C]" />
-                  <span className="hidden sm:inline">Reservar agora</span>
-                  <span className="sm:hidden">Reservar</span>
+                  <span className="hidden sm:inline">{t('vehicle.bookNow')}</span>
+                  <span className="sm:hidden">{t('vehicle.book')}</span>
                 </>
               )}
             </button>
@@ -273,10 +277,10 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             {isCompared ? (
               <>
                 <Check className="w-3 h-3 text-[#FEC228]" />
-                <span>Na Lista de Comparação (Remover)</span>
+                <span>{t('vehicle.inCompareList')}</span>
               </>
             ) : (
-              <span>+ Comparar com outras viaturas</span>
+              <span>{t('vehicle.compareWithOthers')}</span>
             )}
           </button>
         </div>

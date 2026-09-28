@@ -31,6 +31,7 @@ import { askPepekExecutiveAI } from '../../lib/ai';
 import { BookingData } from '../../types';
 import type { VehicleDetail } from '../../data/fleetData';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
+import { useFleetText } from '../../i18n/fleetContent';
 import { getFleetCarouselScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
 import { useAuth } from '../../context/AuthContext';
 
@@ -40,6 +41,7 @@ interface BookingWidgetProps {
 
 export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) => {
   const { t, i18n } = useTranslation();
+  const ft = useFleetText();
   const { isDemoMode, setIsPortalOpen } = useAuth();
   const [searchParams] = useSearchParams();
 
@@ -86,7 +88,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
   // State Management
   const [selectedService, setSelectedService] = useState('rent-a-car');
   const [selectedVehicle, setSelectedVehicle] = useState<VehicleDetail>(vehicleCatalog[0] || PUBLIC_FLEET[0]);
-  const [pickupLocation, setPickupLocation] = useState(() => searchParams.get('pickup') || 'Luanda — Sede Talatona / Aeroporto 4 de Fevereiro');
+  const [pickupLocation, setPickupLocation] = useState(() => searchParams.get('pickup') || t('bookingWidget.defaultPickup'));
   const [startDate, setStartDate] = useState(() => searchParams.get('startDate') || '');
   const [endDate, setEndDate] = useState(() => searchParams.get('endDate') || '');
   const [withDriver, setWithDriver] = useState(true);
@@ -407,7 +409,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                   <div className="w-full sm:w-1/2 h-44 rounded-xl overflow-hidden relative shadow-lg bg-cover bg-center border border-white/10 flex items-center justify-center p-4" style={{ backgroundImage: `url('${getVehicleStudioBackground(selectedVehicle)}')` }}>
                     <img src={selectedVehicle.primaryImage} alt={selectedVehicle.name} style={{ '--fleet-image-scale': getFleetCarouselScale(selectedVehicle.id) } as React.CSSProperties} className="fleet-vehicle-image is-carousel h-full w-full object-contain drop-shadow-[0_16px_20px_rgba(9,23,44,0.3)]" />
                     <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-[#09172C] text-[#FEC228] border border-[#FEC228]/40 text-[10px] font-extrabold uppercase shadow-md">
-                      {selectedVehicle.categoryLabel}
+                      {ft(selectedVehicle.categoryLabel)}
                     </div>
                   </div>
 
@@ -416,13 +418,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
                       {t('booking.focusTag')}
                     </span>
                     <h4 className="text-lg font-bold text-white">{selectedVehicle.name}</h4>
-                    <p className="text-gray-300 leading-relaxed line-clamp-2">{selectedVehicle.description}</p>
+                    <p className="text-gray-300 leading-relaxed line-clamp-2">{ft(selectedVehicle.description)}</p>
 
                     <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-[11px] text-gray-300">
                       <div>{t('booking.capacity')}: <strong className="text-white">{selectedVehicle.specs.passengers} {t('fleet.seats')}</strong></div>
                       <div>{t('booking.doors')}: <strong className="text-white">{selectedVehicle.specs.doors}</strong></div>
-                      <div>{t('booking.transmission')}: <strong className="text-white">{selectedVehicle.specs.transmission}</strong></div>
-                      <div>{t('booking.fuel')}: <strong className="text-white">{selectedVehicle.specs.fuelType}</strong></div>
+                      <div>{t('booking.transmission')}: <strong className="text-white">{ft(selectedVehicle.specs.transmission)}</strong></div>
+                      <div>{t('booking.fuel')}: <strong className="text-white">{ft(selectedVehicle.specs.fuelType)}</strong></div>
                     </div>
 
                     <div className="pt-2 border-t border-white/10">
@@ -639,7 +641,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ initialVehicle }) 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#E2E8F0] gap-4">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#FEC228] block mb-1">
-                  PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES
+                  {t('bookingWidget.operationsDirectorate')}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-[#09172C]">
                   {t('booking.dossierTitle', { code: directorateDossier.protocolCode })}
