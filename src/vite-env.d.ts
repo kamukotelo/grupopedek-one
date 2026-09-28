@@ -10,3 +10,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// O build "light" do hls.js (sem legendas/DRM) não traz tipos próprios; a API é a mesma.
+declare module 'hls.js/light' {
+  export { default } from 'hls.js';
+}

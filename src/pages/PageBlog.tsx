@@ -2,18 +2,20 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { SITE_VIDEOS, type SiteVideo, type SiteVideoId } from '../data/siteVideos';
+import { StreamVideo } from '../components/ui/StreamVideo';
 import { ArrowRight, Building2, CalendarCheck, Car, Check, Clock3, MapPinned, PlayCircle, Search, Share2 } from 'lucide-react';
 
 type StoryTag = 'partnerships' | 'protocol' | 'experience';
-type Story = { id: string; video: string; tag: StoryTag; title: string; text: string; duration: string; audience: string };
+type Story = { id: SiteVideoId; video: SiteVideo; tag: StoryTag; title: string; text: string; duration: string; audience: string };
 
 // Os textos de cada história vivem em blog.stories.<id> nos ficheiros de tradução.
-const STORY_SOURCES: { id: string; video: string; tag: StoryTag }[] = [
-  { id: 'african-sezs-mobilidade', video: '/videos/pepek-african-sezs-2-web.mp4', tag: 'partnerships' },
-  { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', tag: 'protocol' },
-  { id: 'operacao-pepek', video: '/videos/operacao-pepek-web.m4v', tag: 'experience' },
-  { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', tag: 'partnerships' },
-  { id: 'hyundai-staria-vip', video: '/videos/img-8510-web.mp4', tag: 'experience' },
+const STORY_SOURCES: { id: SiteVideoId; video: SiteVideo; tag: StoryTag }[] = [
+  { id: 'african-sezs-mobilidade', video: SITE_VIDEOS['african-sezs-mobilidade'], tag: 'partnerships' },
+  { id: 'mobilidade-internacional', video: SITE_VIDEOS['mobilidade-internacional'], tag: 'protocol' },
+  { id: 'operacao-pepek', video: SITE_VIDEOS['operacao-pepek'], tag: 'experience' },
+  { id: 'viaturas-preparadas', video: SITE_VIDEOS['viaturas-preparadas'], tag: 'partnerships' },
+  { id: 'hyundai-staria-vip', video: SITE_VIDEOS['hyundai-staria-vip'], tag: 'experience' },
 ];
 
 const categories = ['all', 'partnerships', 'protocol', 'experience'] as const;
@@ -96,8 +98,8 @@ export const PageBlog: React.FC = () => {
           <div className="relative"><Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" /><label htmlFor="blog-search" className="sr-only">{t('blog.searchLabel')}</label><input id="blog-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t('blog.searchPlaceholder')} className="min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pl-12 pr-4 text-sm outline-none focus:border-[#236199] focus:ring-2 focus:ring-[#236199]/20" /></div>
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1" aria-label={t('blog.filterLabel')}>{categories.map((category) => <button key={category} type="button" onClick={() => setActiveCategory(category)} aria-pressed={activeCategory === category} className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-extrabold transition focus:ring-2 focus:ring-[#236199] ${activeCategory === category ? 'bg-[#001E4A] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>{t(`blog.categories.${category}`)}</button>)}</div>
         </div>
-        {filteredStories.length ? <div className="grid gap-7 md:grid-cols-2">{filteredStories.map((story, index) => <article id={story.id} key={story.video} className="scroll-mt-32 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(9,23,44,.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(9,23,44,.16)]">
-          <div className="relative aspect-video bg-[#09172C]"><video className="h-full w-full object-cover" controls preload={index === 0 ? 'metadata' : 'none'} playsInline aria-label={t('blog.videoLabel', { title: story.title })}><source src={story.video} type="video/mp4" /></video><span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#001E4A]/90 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#FEC228]"><PlayCircle className="h-3.5 w-3.5" /> {t('blog.videoBadge')}</span></div>
+        {filteredStories.length ? <div className="grid gap-7 md:grid-cols-2">{filteredStories.map((story, index) => <article id={story.id} key={story.id} className="scroll-mt-32 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(9,23,44,.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(9,23,44,.16)]">
+          <div className="relative aspect-video bg-[#09172C]"><StreamVideo className="h-full w-full object-cover" video={story.video} controls preload={index === 0 ? 'metadata' : 'none'} playsInline aria-label={t('blog.videoLabel', { title: story.title })} /><span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#001E4A]/90 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#FEC228]"><PlayCircle className="h-3.5 w-3.5" /> {t('blog.videoBadge')}</span></div>
           <div className="p-6 sm:p-7"><div className="flex flex-wrap items-center justify-between gap-3 text-xs font-bold text-[#236199]"><span>{t(`blog.categories.${story.tag}`)}</span><span className="flex items-center gap-1 text-slate-500"><Clock3 className="h-3.5 w-3.5" /> {story.duration}</span></div><h3 className="mt-3 text-2xl font-extrabold leading-tight">{story.title}</h3><p className="mt-3 text-sm leading-7 text-slate-600">{story.text}</p><div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-5"><span className="text-xs font-semibold text-slate-500">{t('blog.audience', { audience: story.audience })}</span><button type="button" onClick={() => void shareStory(story)} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-extrabold text-[#174B86] hover:bg-blue-50"><Share2 className="h-4 w-4" /> {copiedStory === story.id ? t('blog.linkCopied') : t('blog.share')}</button></div></div>
         </article>)}</div> : <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center" role="status"><Search className="mx-auto h-9 w-9 text-slate-400" /><h3 className="mt-4 text-xl font-extrabold">{t('blog.noResults')}</h3><p className="mt-2 text-sm text-slate-600">{t('blog.noResultsText')}</p><button type="button" onClick={() => { setQuery(''); setActiveCategory('all'); }} className="mt-5 rounded-xl bg-[#001E4A] px-5 py-3 text-sm font-extrabold text-white">{t('blog.clearSearch')}</button></div>}
       </section>

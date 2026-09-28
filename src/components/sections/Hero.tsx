@@ -5,6 +5,8 @@ import { ChevronRight, ChevronLeft, Car, CalendarDays, MapPin, Pause, Play, Volu
 import { checkVehicleAvailability } from '../../lib/reservations';
 import { PUBLIC_FLEET } from '../../data/fleetFlyer2026';
 import { FLEET_STUDIO_BACKGROUNDS } from '../../data/fleetPresentation';
+import { SITE_VIDEOS, type SiteVideo } from '../../data/siteVideos';
+import { StreamVideo } from '../ui/StreamVideo';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
@@ -40,12 +42,12 @@ export const Hero: React.FC = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const today = new Date().toISOString().split('T')[0];
-  const homepageStories: { id: string; video: string; title: string; tagline?: string }[] = [
-    { id: 'african-sezs-mobilidade', video: '/videos/pepek-african-sezs-2-web.mp4', title: t('hero.videoStoryPartnership') },
-    { id: 'mobilidade-internacional', video: '/videos/pepek-argentina-4-web.mp4', title: t('hero.videoStoryInternational'), tagline: t('hero.videoStoryInternationalTagline') },
-    { id: 'operacao-pepek', video: '/videos/operacao-pepek-web.m4v', title: t('hero.videoStoryOperation'), tagline: t('hero.videoStoryOperationTagline') },
-    { id: 'viaturas-preparadas', video: '/videos/img-1872-web.mp4', title: t('hero.videoStoryFleet'), tagline: t('hero.videoStoryFleetTagline') },
-    { id: 'hyundai-staria-vip', video: '/videos/img-8510-web.mp4', title: t('hero.videoStoryStaria'), tagline: t('hero.videoStoryStariaTagline') },
+  const homepageStories: { id: string; video: SiteVideo; title: string; tagline?: string }[] = [
+    { id: 'african-sezs-mobilidade', video: SITE_VIDEOS['african-sezs-mobilidade'], title: t('hero.videoStoryPartnership') },
+    { id: 'mobilidade-internacional', video: SITE_VIDEOS['mobilidade-internacional'], title: t('hero.videoStoryInternational'), tagline: t('hero.videoStoryInternationalTagline') },
+    { id: 'operacao-pepek', video: SITE_VIDEOS['operacao-pepek'], title: t('hero.videoStoryOperation'), tagline: t('hero.videoStoryOperationTagline') },
+    { id: 'viaturas-preparadas', video: SITE_VIDEOS['viaturas-preparadas'], title: t('hero.videoStoryFleet'), tagline: t('hero.videoStoryFleetTagline') },
+    { id: 'hyundai-staria-vip', video: SITE_VIDEOS['hyundai-staria-vip'], title: t('hero.videoStoryStaria'), tagline: t('hero.videoStoryStariaTagline') },
   ];
   const locationSuggestions = t('hero.locationSuggestions', { returnObjects: true }) as string[];
 
@@ -73,7 +75,10 @@ export const Hero: React.FC = () => {
     if (!video) return;
     video.muted = isStoryMuted;
     if (isStoryPlaying) {
-      void video.play().catch(() => setIsStoryPlaying(false));
+      // AbortError = a fonte mudou a meio (p.ex. o stream do Mux a ligar-se); não é uma pausa.
+      void video.play().catch((error: unknown) => {
+        if ((error as DOMException)?.name !== 'AbortError') setIsStoryPlaying(false);
+      });
     } else {
       video.pause();
     }
@@ -188,11 +193,11 @@ export const Hero: React.FC = () => {
                       aria-label={isActive ? (isStoryPlaying ? t('hero.videoPause') : t('hero.videoPlay')) : `${t('hero.videoSelect')} ${index + 1}: ${story.title}`}
                       aria-current={isActive ? 'true' : undefined}
                     >
-                      <video
-                        key={story.video}
+                      <StreamVideo
+                        key={story.id}
                         ref={isActive ? storyVideoRef : undefined}
                         className={`absolute inset-0 h-full w-full object-center ${isActive ? 'object-cover' : 'object-contain'}`}
-                        src={story.video}
+                        video={story.video}
                         autoPlay={isActive}
                         muted={isActive ? isStoryMuted : true}
                         playsInline

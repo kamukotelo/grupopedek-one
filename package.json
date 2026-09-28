@@ -8,6 +8,7 @@
     "build": "tsc && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "gen:ai": "node scripts/gen-ai-knowledge.mjs",
+    "videos:mux": "node --env-file-if-exists=.env scripts/upload-videos-mux.mjs",
     "test": "node scripts/validate-project.mjs && vitest run",
     "test:auth": "vitest run src/lib/auth.test.ts",
     "test:sales": "node scripts/test-sales-payments.mjs",
@@ -29,6 +30,7 @@
   "dependencies": {
     "@neondatabase/neon-js": "^0.7.0-beta",
     "@neondatabase/serverless": "^1.1.0",
+    "hls.js": "^1.7.3",
     "i18next": "^26.4.0",
     "i18next-browser-languagedetector": "^8.2.1",
     "jose": "^6.2.12",
