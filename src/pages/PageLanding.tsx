@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, Car, CheckCircle2, Crown, MapPin, MessageCircle, Plane, UserRound, Bus, type LucideIcon } from 'lucide-react';
+import { ArrowRight, Building2, Car, CheckCircle2, Crown, Heart, MapPin, MessageCircle, Mountain, Plane, UserRound, Bus, type LucideIcon } from 'lucide-react';
 import { PageHero } from '../components/layout/PageHero';
 import { BrandCTA } from '../components/sections/BrandCTA';
 import { PUBLIC_FLEET } from '../data/fleetFlyer2026';
@@ -11,6 +11,7 @@ import { LANDING_LABELS, LANDING_PAGES, findLandingPage, toLandingLang, type Lan
 import { landingLinkLabel } from '../data/seoLandingLinks';
 import { generateQuickWhatsAppUrl } from '../lib/whatsapp';
 import { SITE_URL, ORGANIZATION_ID } from '../lib/seo';
+import { vehiclePagePath } from '../lib/vehicleSlug';
 
 const ICONS: Record<LandingIcon, LucideIcon> = {
   car: Car,
@@ -20,6 +21,8 @@ const ICONS: Record<LandingIcon, LucideIcon> = {
   van: Bus,
   map: MapPin,
   building: Building2,
+  mountain: Mountain,
+  heart: Heart,
 };
 
 // Mesmo formato do catálogo ("119.999 Kz"), independente do motor Intl do browser/Node.
@@ -77,6 +80,7 @@ export const PageLanding: React.FC<{ slug: string }> = ({ slug }) => {
         itemOffered: {
           '@type': 'Car',
           name: vehicle.name,
+          url: `${SITE_URL}${vehiclePagePath(vehicle)}`,
           brand: vehicle.brand ? { '@type': 'Brand', name: vehicle.brand } : undefined,
           image: `${SITE_URL}${vehicle.primaryImage}`,
         },
@@ -116,7 +120,7 @@ export const PageLanding: React.FC<{ slug: string }> = ({ slug }) => {
         title={copy.h1}
         description={fill(copy.lead)}
         breadcrumb={[{ label: linkLabel }]}
-        highlights={copy.highlights}
+        highlights={copy.highlights.map(fill)}
       />
 
       <section className="container-pepek py-14 sm:py-16">
@@ -161,7 +165,9 @@ export const PageLanding: React.FC<{ slug: string }> = ({ slug }) => {
                   />
                 </div>
                 <div className="p-4">
-                  <h3 className="text-base font-extrabold text-[#001E4A]">{vehicle.name}</h3>
+                  <h3 className="text-base font-extrabold text-[#001E4A]">
+                    <Link to={vehiclePagePath(vehicle)} className="hover:text-[#174B86] hover:underline">{vehicle.name}</Link>
+                  </h3>
                   <p className="mt-1 text-sm text-slate-600">
                     {labels.from} <strong className="text-[#001E4A]">{formatKz(priceOf(page, vehicle) ?? 0)}</strong>{priceSuffix}
                   </p>

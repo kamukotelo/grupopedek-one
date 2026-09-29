@@ -27,6 +27,7 @@ const PageBlog = lazy(() => import('./pages/PageBlog').then(module => ({ default
 const PagePainel = lazy(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
 const PagePrivacidade = lazy(() => import('./pages/PagePrivacidade').then(module => ({ default: module.PagePrivacidade })));
 const PageLanding = lazy(() => import('./pages/PageLanding').then(module => ({ default: module.PageLanding })));
+const PageVehicle = lazy(() => import('./pages/PageVehicle').then(module => ({ default: module.PageVehicle })));
 const PageNotFound = lazy(() => import('./pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
 
 import './i18n';
@@ -100,6 +101,9 @@ export const App: React.FC = () => {
               {LANDING_LINKS.map(({ slug }) => (
                 <Route key={slug} path={`/${slug}`} element={<PageLanding slug={slug} />} />
               ))}
+
+              {/* Uma página por viatura do catálogo (/aluguer/toyota-prado, …) */}
+              <Route path="/aluguer/:slug" element={<PageVehicle />} />
 
               {/* 404 fallback */}
               <Route path="*" element={<PageNotFound />} />

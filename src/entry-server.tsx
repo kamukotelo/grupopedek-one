@@ -4,11 +4,13 @@ import { StaticRouter } from 'react-router';
 import { App } from './App';
 import i18n, { i18nReady } from './i18n';
 import { LANDING_LINKS } from './data/seoLandingLinks';
+import { VEHICLE_PAGES } from './data/seoVehiclePages';
 
 /** Rotas públicas indexáveis, pré-renderizadas e incluídas no sitemap. */
 export const PRERENDER_ROUTES = [
   '/', '/servicos', '/frota', '/reservar', '/quem-somos', '/clientes', '/rotas', '/contactos', '/blogue', '/privacidade',
   ...LANDING_LINKS.map(({ slug }) => `/${slug}`),
+  ...VEHICLE_PAGES.map(({ path }) => path),
 ];
 
 /**

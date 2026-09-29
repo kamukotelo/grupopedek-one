@@ -18,6 +18,8 @@ import { useFleetText } from '../../i18n/fleetContent';
 import { getFleetUpgradePhotoCount } from '../../data/fleetUpgradeGallery';
 import { FLEET_IMAGE_REVIEW_PLACEHOLDER, isFleetLocalImageApproved } from '../../data/fleetImagePolicy';
 import { generateVehicleWhatsAppUrl } from '../../lib/whatsapp';
+import { Link } from 'react-router-dom';
+import { vehiclePagePath } from '../../lib/vehicleSlug';
 import { getFleetImageOffsetY, getFleetImageScale, getVehicleStudioBackground } from '../../data/fleetPresentation';
 
 interface VehicleCardProps {
@@ -140,7 +142,9 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
          ═══════════════════════════════════════════════════════ */}
       <div className="flex flex-1 flex-col justify-between bg-[#20558D] p-5 text-white sm:p-6">
         <div>
-          <h3 className="mb-4 text-2xl font-extrabold leading-tight text-white sm:text-[1.7rem]">{vehicle.name}</h3>
+          <h3 className="mb-4 text-2xl font-extrabold leading-tight text-white sm:text-[1.7rem]">
+            <Link to={vehiclePagePath(vehicle)} className="hover:text-[#FEC228]">{vehicle.name}</Link>
+          </h3>
 
           <div className="mb-5 flex flex-wrap gap-2">
             <span className="rounded-lg bg-[#FEC228] px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-[#09172C]">

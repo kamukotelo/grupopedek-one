@@ -10,8 +10,8 @@
  * Também gera dist/spa.html (casca sem conteúdo, usada para rotas desconhecidas)
  * e dist/sitemap.xml com as versões por idioma.
  */
-import { readFile, writeFile, rm } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const root = process.cwd();
@@ -19,7 +19,20 @@ const dist = resolve(root, 'dist');
 const SITE = 'https://pepekgrupo.com';
 
 const { renderRoute, PRERENDER_ROUTES } = await import(pathToFileURL(resolve(root, 'dist-ssr/entry-server.js')).href);
-const template = await readFile(resolve(dist, 'index.html'), 'utf8');
+const baseTemplate = await readFile(resolve(dist, 'index.html'), 'utf8');
+
+// Verificação de propriedade no Google Search Console e no Bing Webmaster Tools.
+// Definir as variáveis no Vercel (Settings → Environment Variables) com o código
+// do método "etiqueta HTML" de cada ferramenta; sem elas nada é acrescentado.
+const verification = [
+  ['google-site-verification', process.env.GOOGLE_SITE_VERIFICATION],
+  ['msvalidate.01', process.env.BING_SITE_VERIFICATION],
+  ['yandex-verification', process.env.YANDEX_SITE_VERIFICATION],
+].filter(([, value]) => value && /^[\w.-]+$/.test(value));
+const template = verification.length
+  ? baseTemplate.replace('</head>', `${verification.map(([name, value]) => `    <meta name="${name}" content="${value}" />`).join('\n')}\n  </head>`)
+  : baseTemplate;
+if (verification.length) console.log(`  verificação: ${verification.map(([name]) => name).join(', ')}`);
 
 // Casca original para rotas não pré-renderizadas (404, /painel, …).
 await writeFile(resolve(dist, 'spa.html'), template);
@@ -64,6 +77,7 @@ for (const route of PRERENDER_ROUTES) {
     .replace('<div id="root"></div>', `<div id="root" data-prerendered-route="${route}">${body}</div>`);
 
   const file = route === '/' ? 'index.html' : `${route.slice(1)}.html`;
+  await mkdir(dirname(resolve(dist, file)), { recursive: true });
   await writeFile(resolve(dist, file), page);
   console.log(`  prerender ${route.padEnd(40)} → dist/${file} (${Math.round(page.length / 1024)} KB)`);
 }
@@ -76,7 +90,13 @@ if (failures.length) {
 // Sitemap com alternativas por idioma (o idioma escolhe-se por ?lng=).
 const today = new Date().toISOString().slice(0, 10);
 const loc = (route) => `${SITE}${route === '/' ? '/' : route}`;
-const priority = (route) => (route === '/' ? '1.0' : ['/frota', '/servicos', '/reservar', '/contactos'].includes(route) ? '0.9' : route === '/privacidade' ? '0.3' : '0.8');
+const priority = (route) => {
+  if (route === '/') return '1.0';
+  if (['/frota', '/servicos', '/reservar', '/contactos'].includes(route)) return '0.9';
+  if (route === '/privacidade') return '0.3';
+  if (route.startsWith('/aluguer/')) return '0.7';
+  return '0.8';
+};
 const alternates = (route) => ['pt', 'en', 'fr']
   .map((lang) => `    <xhtml:link rel="alternate" hreflang="${lang}" href="${lang === 'pt' ? loc(route) : `${loc(route)}?lng=${lang}`}"/>`)
   .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${loc(route)}"/>`)

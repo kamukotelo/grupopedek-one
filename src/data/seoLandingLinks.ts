@@ -11,6 +11,11 @@ export const LANDING_LINKS: { slug: string; label: Record<'pt' | 'en' | 'fr', st
   { slug: 'aluguer-de-carrinhas-e-vans-angola', label: { pt: 'Aluguer de vans e carrinhas', en: 'Van & minibus rental', fr: 'Location de vans et minibus' } },
   { slug: 'aluguer-de-carros-huambo', label: { pt: 'Aluguer de carros no Huambo', en: 'Car rental in Huambo', fr: 'Location de voiture à Huambo' } },
   { slug: 'rent-a-car-empresas-angola', label: { pt: 'Rent-a-car para empresas', en: 'Corporate car rental', fr: 'Location pour entreprises' } },
+  { slug: 'aluguer-de-carros-angola', label: { pt: 'Rent-a-car em Angola', en: 'Car rental in Angola', fr: 'Location de voiture en Angola' } },
+  { slug: 'aluguer-de-carros-baratos-luanda', label: { pt: 'Carros baratos em Luanda', en: 'Cheap car rental Luanda', fr: 'Voiture pas chère à Luanda' } },
+  { slug: 'aluguer-de-4x4-angola', label: { pt: 'Aluguer de 4x4 e pick-ups', en: '4x4 & pick-up rental', fr: 'Location de 4x4 et pick-up' } },
+  { slug: 'aluguer-de-carros-benguela-lobito', label: { pt: 'Carros em Benguela e Lobito', en: 'Car rental Benguela & Lobito', fr: 'Voiture à Benguela et Lobito' } },
+  { slug: 'aluguer-de-carros-para-casamentos-luanda', label: { pt: 'Carros para casamentos', en: 'Wedding car hire', fr: 'Voitures de mariage' } },
 ];
 
 export const landingLinkLabel = (slug: string, lang: 'pt' | 'en' | 'fr') =>
