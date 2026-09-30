@@ -77,7 +77,7 @@ for (const component of [
   expect(fs.readFileSync(component, 'utf8').includes('/rent_car_hd/'), `Componente sem imagens HD: ${component}`);
 }
 
-for (const component of ['src/components/sections/Hero.tsx', 'src/components/sections/BookingWidget.tsx', 'src/components/fleet/BookingWizardModal.tsx']) {
+for (const component of ['src/components/sections/Hero.tsx', 'src/components/sections/BookingWidget.tsx']) {
   expect(fs.readFileSync(component, 'utf8').includes('PUBLIC_FLEET'), `Componente não usa a frota pública dos flyers: ${component}`);
 }
 

@@ -21,6 +21,10 @@ export interface BookingData {
   status?: 'pending' | 'contacted' | 'confirmed' | 'cancelled';
   source?: string;
   estimatedPrice?: string;
+  /** Extra "Higienização e combustível". */
+  cleaning?: boolean;
+  /** Mensagem escrita pelo cliente (sem os extras nem a estimativa). */
+  message?: string;
   currency?: 'AOA' | 'USD' | 'EUR';
   createdAt?: string;
 }

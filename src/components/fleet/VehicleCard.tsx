@@ -40,7 +40,6 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   const { t } = useTranslation();
   const ft = useFleetText();
   const [isHovered, setIsHovered] = useState(false);
-  const [justBookedFeedback, setJustBookedFeedback] = useState(false);
   const isFlyerCollection = vehicle.visualCollection === 'flyer';
   const upgradePhotoCount = getFleetUpgradePhotoCount(vehicle.id);
   const localImageApproved = isFlyerCollection || isFleetLocalImageApproved(vehicle.id);
@@ -60,9 +59,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 
   const handleBookingClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setJustBookedFeedback(true);
     onSelectBooking(vehicle.name);
-    setTimeout(() => setJustBookedFeedback(false), 2000);
   };
 
   const handleWhatsAppInquiry = (e: React.MouseEvent) => {
@@ -220,51 +217,33 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             INTERACTIVE ACTIONS & CTAs
            ═══════════════════════════════════════════════════════ */}
         <div className="space-y-2 pt-1">
-          <div className="grid grid-cols-3 gap-2">
-            {/* 1. Ver Detalhes */}
+          {/* Reservar: botão principal, leva ao formulário com esta viatura escolhida */}
+          <button
+            type="button"
+            onClick={handleBookingClick}
+            className="flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#FEC228] px-4 text-sm font-extrabold text-[#09172C] shadow-md transition-all hover:bg-[#FFD45F]"
+          >
+            <Calendar className="h-4 w-4" />
+            <span>{t('vehicle.bookNow')}</span>
+          </button>
+
+          <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => onInspect(vehicle)}
-              className="py-2.5 px-2 rounded-xl border border-white/40 hover:border-[#FEC228] text-white hover:bg-white/10 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-transparent"
+              className="flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-white/40 bg-transparent px-2 py-2.5 text-xs font-bold text-white transition-all hover:border-[#FEC228] hover:bg-white/10"
             >
-              <Eye className="w-3.5 h-3.5 text-[#FEC228]" />
-              <span className="hidden sm:inline">{t('vehicle.viewDetails')}</span>
-              <span className="sm:hidden">{t('vehicle.details')}</span>
+              <Eye className="h-3.5 w-3.5 text-[#FEC228]" />
+              <span>{t('vehicle.viewDetails')}</span>
             </button>
-
-            {/* 2. Direct WhatsApp Fast Inquiry */}
             <button
               type="button"
               onClick={handleWhatsAppInquiry}
-              className="py-2.5 px-2 rounded-xl bg-[#236199] hover:bg-[#0C2E60] text-white text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs"
+              className="flex cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-[#236199] px-2 py-2.5 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#0C2E60]"
               title={t('vehicle.whatsappTitle')}
             >
-              <MessageSquareText className="w-3.5 h-3.5" />
+              <MessageSquareText className="h-3.5 w-3.5" />
               <span>WhatsApp</span>
-            </button>
-
-            {/* 3. Reservar Agora */}
-            <button
-              type="button"
-              onClick={handleBookingClick}
-              className={`text-xs font-extrabold py-2.5 px-2 rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-all shadow-md ${
-                justBookedFeedback
-                  ? 'bg-[#236199] text-white'
-                  : 'bg-[#FEC228] hover:bg-[#FFD45F] text-[#09172C]'
-              }`}
-            >
-              {justBookedFeedback ? (
-                <>
-                  <Check className="w-3.5 h-3.5" />
-                  <span>{t('vehicle.done')}</span>
-                </>
-              ) : (
-                <>
-                  <Calendar className="w-3.5 h-3.5 text-[#09172C]" />
-                  <span className="hidden sm:inline">{t('vehicle.bookNow')}</span>
-                  <span className="sm:hidden">{t('vehicle.book')}</span>
-                </>
-              )}
             </button>
           </div>
 

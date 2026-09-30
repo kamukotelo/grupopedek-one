@@ -1,8 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { CalendarCheck } from 'lucide-react';
-import { PageHero } from '../components/layout/PageHero';
 import { BookingWidget } from '../components/sections/BookingWidget';
 import { PaymentSecurity } from '../components/sections/PaymentSecurity';
 
@@ -26,15 +24,15 @@ export const PageReservar: React.FC = () => {
         })}</script>
       </Helmet>
 
-      <PageHero
-        icon={CalendarCheck}
-        eyebrow={t('pages.reservar.eyebrow')}
-        title={t('pages.reservar.title')}
-        description={t('pages.reservar.description')}
-        breadcrumb={[{ label: t('common.book') }]}
-      />
+      {/* Cabeçalho curto: no telemóvel o formulário tem de aparecer logo. */}
+      <section className="bg-[#001E4A] px-4 pb-6 pt-28 text-white sm:pb-8 lg:pt-44">
+        <div className="mx-auto max-w-3xl">
+          <h1 style={{ color: '#fff' }} className="text-2xl font-extrabold leading-tight sm:text-3xl">{t('bookingForm.title')}</h1>
+          <p className="mt-2 text-sm leading-6 text-white/75 sm:text-base">{t('bookingForm.subtitle')}</p>
+        </div>
+      </section>
 
-      <BookingWidget initialVehicle="Toyota Land Cruiser 250" />
+      <BookingWidget />
       <PaymentSecurity />
     </>
   );

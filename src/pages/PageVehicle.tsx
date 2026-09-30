@@ -145,7 +145,7 @@ export const PageVehicle: React.FC = () => {
             <p className="mt-3 text-xs leading-6 text-slate-500">{copy.transferNote}</p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link to="/reservar" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#FEC228] px-6 text-sm font-extrabold uppercase text-[#09172C] hover:bg-[#FFD45F]">
+              <Link to={`/reservar?viatura=${vehicle.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#FEC228] px-6 text-sm font-extrabold uppercase text-[#09172C] hover:bg-[#FFD45F]">
                 {labels.book} <ArrowRight className="h-4 w-4" />
               </Link>
               <a href={generateVehicleWhatsAppUrl(vehicle.name, vehicle.pricePerDayAOA)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#001E4A]/15 bg-white px-6 text-sm font-extrabold text-[#001E4A] hover:border-[#25D366]">

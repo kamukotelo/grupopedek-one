@@ -6,47 +6,28 @@ export const OFFICIAL_WHATSAPP_NUMBER = '244923719090';
 // As mensagens seguem o idioma activo do site para que o cliente reveja o texto na sua língua.
 const t = (key: string, options?: Record<string, unknown>) => i18n.t(`whatsapp.${key}`, options);
 
-export function generateWhatsAppBookingUrl(booking: BookingData): string {
-  const serviceText = i18n.exists(`whatsapp.services.${booking.service}`) ? t(`services.${booking.service}`) : booking.service;
-
-  let msg = `*${t('bookingTitle')}*\n`;
-  msg += `-----------------------------------------\n`;
-  msg += `*${t('client')}:* ${booking.clientName || t('notSpecified')}\n`;
-  if (booking.companyName) {
-    msg += `*${t('company')}:* ${booking.companyName}\n`;
-  }
-  msg += `*${t('contact')}:* ${booking.clientPhone || 'N/A'}\n`;
-  if (booking.clientEmail) {
-    msg += `*E-mail:* ${booking.clientEmail}\n`;
-  }
-  msg += `\n*${t('operationDetails')}:*\n`;
-  msg += `*${t('service')}:* ${serviceText}\n`;
-  msg += `*${t('location')}:* ${booking.location}${booking.destination ? ` ➔ ${t('destination')}: ${booking.destination}` : ''}\n`;
-  msg += `*${t('startDate')}:* ${booking.startDate || t('toBeDefined')}\n`;
-  if (booking.endDate) {
-    msg += `*${t('endDate')}:* ${booking.endDate}\n`;
-  }
-  if (booking.vehicleCategory) {
-    msg += `*${t('category')}:* ${booking.vehicleCategory}\n`;
-  }
-  msg += `*${t('mode')}:* ${booking.withDriver ? t('withDriver') : t('selfDrive')}\n`;
-
-  if (booking.flightNumber) {
-    msg += `*${t('flightNumber')}:* ${booking.flightNumber}\n`;
-  }
-  if (booking.passengersCount) {
-    msg += `*${t('passengers')}:* ${booking.passengersCount}\n`;
-  }
-  if (booking.notes) {
-    msg += `*${t('notes')}:* ${booking.notes}\n`;
-  }
-
-  msg += `\n-----------------------------------------\n`;
-  msg += `_${t('sentVia')}_\n`;
-  msg += `"${t('slogan')}"`;
-
-  const encodedMsg = encodeURIComponent(msg);
-  return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodedMsg}`;
+/**
+ * Pedido de reserva enviado pelo cliente para o WhatsApp da central. Tem os mesmos
+ * campos e a mesma ordem do e-mail "Nova Reserva Recebida" (api/_reservation-email.js),
+ * em português, para a equipa ler sempre a mesma ficha.
+ */
+export function generateWhatsAppBookingUrl(booking: BookingData & { protocolCode?: string }): string {
+  const lines = [
+    '*Nova Reserva — PEPEK GRUPO*',
+    '',
+    `*Nome:* ${booking.clientName || ''}`,
+    `*Telefone/Whatsapp:* ${booking.clientPhone || ''}`,
+    `*E-mail:* ${booking.clientEmail || ''}`,
+    `*Tipo de Carro:* ${booking.vehicleCategory || ''}`,
+    `*Motorista:* ${booking.withDriver ? 'Sim + 35.000 AOA/dia' : 'Não'}`,
+    `*Higienização e Combustível:* ${booking.cleaning ? 'Sim + 35.000 AOA' : 'Não'}`,
+    `*Check-in:* ${booking.startDate || ''}`,
+    `*Check-out:* ${booking.endDate || ''}`,
+    `*Total estimado:* ${booking.estimatedPrice || ''}`,
+    `*Mensagem:* ${booking.message || ''}`,
+  ];
+  if (booking.protocolCode) lines.push(`*Protocolo:* ${booking.protocolCode}`);
+  return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 export function generateQuickWhatsAppUrl(topic?: string): string {

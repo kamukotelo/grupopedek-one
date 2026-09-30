@@ -1,51 +1,29 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Car,
   Scale,
-  Sparkles,
-  Check,
   X,
-  ArrowRight,
   Filter,
   Search,
   SlidersHorizontal,
-  MapPin,
-  Calendar,
-  Clock,
-  ShieldCheck,
-  Building2,
-  CreditCard,
-  Truck
 } from 'lucide-react';
 import { VehicleDetail } from '../../data/fleetData';
 import { FLYER_FLEET_2026 } from '../../data/fleetFlyer2026';
 import { VehicleCard } from '../fleet/VehicleCard';
 import { VehicleGalleryModal } from '../fleet/VehicleGalleryModal';
 import { VehicleComparatorModal } from '../fleet/VehicleComparatorModal';
-import { BookingWizardModal } from '../fleet/BookingWizardModal';
 import { useFleetText } from '../../i18n/fleetContent';
 
 interface FleetProps {
   onSelectVehicle?: (vehicleName: string) => void;
 }
 
-// Os valores das opções mantêm-se em português (seguem para a reserva); só o rótulo é traduzido.
-const LOCATION_KEYS: Record<string, string> = {
-  'Aeroporto Internacional 4 de Fevereiro (LAD)': 'airport',
-  'Hub Central Pepek Talatona': 'hub',
-  'Hotel Epic Sana Luanda': 'epicSana',
-  'Miramar / Embaixadas': 'miramar',
-  'Outro Endereço em Luanda': 'otherLuanda',
-  'Outra Província de Angola': 'otherProvince',
-};
-
-const ANGOLA_PROVINCES = ['Bengo', 'Benguela', 'Bié', 'Cabinda', 'Cuando', 'Cuanza Norte', 'Cuanza Sul', 'Cunene', 'Cubango', 'Huambo', 'Huíla', 'Icolo e Bengo', 'Luanda', 'Lunda Norte', 'Lunda Sul', 'Malanje', 'Moxico', 'Moxico Leste', 'Namibe', 'Uíge', 'Zaire'];
-
 export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   const { t } = useTranslation();
   const ft = useFleetText();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Category URL Param Sync
@@ -54,27 +32,11 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'popular' | 'price_asc' | 'price_desc' | 'name'>('popular');
 
-  // Quick Search Bar Inputs
-  const [heroPickupLocation, setHeroPickupLocation] = useState('Aeroporto Internacional 4 de Fevereiro (LAD)');
-  const [heroDropoffLocation, setHeroDropoffLocation] = useState('Hub Central Pepek Talatona');
-  const [heroDifferentDropoff, setHeroDifferentDropoff] = useState(false);
-  const [heroPickupAddress, setHeroPickupAddress] = useState('');
-  const [heroDropoffAddress, setHeroDropoffAddress] = useState('');
-  const [heroPickupProvince, setHeroPickupProvince] = useState('Luanda');
-  const [heroDropoffProvince, setHeroDropoffProvince] = useState('Luanda');
-  const [heroPickupDate, setHeroPickupDate] = useState(() => {
-    return new Date(Date.now() + 86400000).toISOString().split('T')[0];
-  });
-  const [heroDropoffDate, setHeroDropoffDate] = useState(() => {
-    return new Date(Date.now() + 4 * 86400000).toISOString().split('T')[0];
-  });
 
   // Modals state
   const [selectedVehicleForModal, setSelectedVehicleForModal] = useState<VehicleDetail | null>(null);
   const [comparedVehicles, setComparedVehicles] = useState<VehicleDetail[]>([]);
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
-  const [isWizardOpen, setIsWizardOpen] = useState(false);
-  const [wizardVehicleName, setWizardVehicleName] = useState<string>('');
 
   // Keep state in sync with URL
   useEffect(() => {
@@ -147,12 +109,11 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
     });
   };
 
+  // Todos os botões "Reservar" levam ao formulário único com a viatura já escolhida.
   const handleBookingTrigger = (vehicleName: string) => {
-    if (onSelectVehicle) {
-      onSelectVehicle(vehicleName);
-    }
-    setWizardVehicleName(vehicleName);
-    setIsWizardOpen(true);
+    onSelectVehicle?.(vehicleName);
+    const vehicle = versionedFleet.find((v) => v.name === vehicleName);
+    navigate(`/reservar${vehicle ? `?viatura=${vehicle.id}` : ''}`);
   };
 
   return (
@@ -160,117 +121,6 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
       <div className="pointer-events-none absolute -left-48 top-24 h-96 w-96 rounded-full bg-[#236199]/25 blur-[120px]" />
       <div className="pointer-events-none absolute -right-40 top-1/3 h-[460px] w-[460px] rounded-full bg-[#09172C]/30 blur-[140px]" />
       <div className="container-pepek relative z-10">
-        {/* ═══════════════════════════════════════════════════════
-            QUICK SEARCH HERO BAR
-           ═══════════════════════════════════════════════════════ */}
-        <div className="mb-10 rounded-2xl border border-[#3A73A8]/70 bg-gradient-to-br from-[#09172C] via-[#0C2E60] to-[#001E4A] p-5 text-white shadow-[0_22px_55px_rgba(4,16,38,.3)] sm:p-7">
-          <div className="mb-4 flex items-center justify-between border-b border-[#FEC228]/20 pb-3">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#FEC228]">
-              <Sparkles className="w-4 h-4" />
-              <span>{t('fleet.quickAvailability')}</span>
-            </div>
-            <label className="flex cursor-pointer items-center gap-1.5 text-xs text-white/75">
-              <input
-                type="checkbox"
-                checked={heroDifferentDropoff}
-                onChange={(e) => setHeroDifferentDropoff(e.target.checked)}
-                className="rounded text-[#FEC228]"
-              />
-              <span>{t('fleet.differentDropoff')}</span>
-            </label>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {/* Levantamento */}
-            <div>
-              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
-                <MapPin className="w-3 h-3 text-[#FEC228]" />
-                {t('fleet.pickup')}
-              </label>
-              <select
-                value={heroPickupLocation}
-                onChange={(e) => setHeroPickupLocation(e.target.value)}
-                className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-3 text-xs font-semibold text-white outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
-              >
-                <option value="Aeroporto Internacional 4 de Fevereiro (LAD)" className="text-gray-900">{t('fleetQuick.locations.airport')}</option>
-                <option value="Hub Central Pepek Talatona" className="text-gray-900">{t('fleetQuick.locations.hub')}</option>
-                <option value="Hotel Epic Sana Luanda" className="text-gray-900">{t('fleetQuick.locations.epicSana')}</option>
-                <option value="Miramar / Embaixadas" className="text-gray-900">{t('fleetQuick.locations.miramar')}</option>
-                <option value="Outro Endereço em Luanda" className="text-gray-900">{t('fleet.otherLuandaAddress')}</option>
-                <option value="Outra Província de Angola" className="text-gray-900">{t('fleetQuick.locations.otherProvince')}</option>
-              </select>
-            </div>
-
-            {/* Devolução */}
-            <div>
-              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
-                <MapPin className="w-3 h-3 text-[#236199]" />
-                {t('fleet.dropoff')}
-              </label>
-              {heroDifferentDropoff ? (
-                <select
-                  value={heroDropoffLocation}
-                  onChange={(e) => setHeroDropoffLocation(e.target.value)}
-                  className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-3 text-xs font-semibold text-white outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
-                >
-                  <option value="Hub Central Pepek Talatona" className="text-gray-900">{t('fleetQuick.locations.hub')}</option>
-                  <option value="Aeroporto Internacional 4 de Fevereiro (LAD)" className="text-gray-900">{t('fleetQuick.locations.airport')}</option>
-                  <option value="Hotel Epic Sana Luanda" className="text-gray-900">{t('fleetQuick.locations.epicSana')}</option>
-                  <option value="Outro Endereço em Luanda" className="text-gray-900">{t('fleet.otherLuandaAddress')}</option>
-                  <option value="Outra Província de Angola" className="text-gray-900">{t('fleetQuick.locations.otherProvince')}</option>
-                </select>
-              ) : (
-                <div className="truncate rounded-xl border border-[#236199]/70 bg-[#0C2E60]/75 p-3 text-xs text-white/70">
-                  {t(`fleetQuick.locations.${LOCATION_KEYS[heroPickupLocation] ?? 'hub'}`).split('(')[0]}
-                </div>
-              )}
-            </div>
-
-            {/* Data Levantamento */}
-            <div>
-              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
-                <Calendar className="w-3 h-3 text-[#FEC228]" />
-                {t('fleet.pickupDate')}
-              </label>
-              <input
-                type="date"
-                value={heroPickupDate}
-                onChange={(e) => setHeroPickupDate(e.target.value)}
-                className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-2.5 text-xs font-semibold text-white [color-scheme:dark] outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
-              />
-            </div>
-
-            {/* Data Devolução */}
-            <div>
-              <label className="mb-1 flex items-center gap-1 text-[11px] font-bold uppercase text-white/75">
-                <Calendar className="w-3 h-3 text-[#FEC228]" />
-                {t('fleet.returnDate')}
-              </label>
-              <input
-                type="date"
-                value={heroDropoffDate}
-                onChange={(e) => setHeroDropoffDate(e.target.value)}
-                className="w-full rounded-xl border border-[#3A73A8] bg-[#174B86]/65 p-2.5 text-xs font-semibold text-white [color-scheme:dark] outline-hidden transition focus:border-[#FEC228] focus:ring-2 focus:ring-[#FEC228]/35"
-              />
-            </div>
-          </div>
-          {(heroPickupLocation === 'Outro Endereço em Luanda' || heroPickupLocation === 'Outra Província de Angola' || (heroDifferentDropoff && (heroDropoffLocation === 'Outro Endereço em Luanda' || heroDropoffLocation === 'Outra Província de Angola'))) && (
-            <div className="mt-4 grid gap-4 rounded-2xl border border-[#FEC228]/30 bg-[#001E4A]/55 p-4 sm:grid-cols-2">
-              {(heroPickupLocation === 'Outro Endereço em Luanda' || heroPickupLocation === 'Outra Província de Angola') && <div>
-                <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-[#FEC228]">{t('fleetQuick.exactPickup')}</p>
-                {heroPickupLocation === 'Outra Província de Angola' && <select value={heroPickupProvince} onChange={(e) => setHeroPickupProvince(e.target.value)} className="mb-2 w-full rounded-xl border border-[#3A73A8] bg-[#174B86] p-3 text-xs font-semibold text-white outline-none">{ANGOLA_PROVINCES.map((province) => <option key={province} value={province}>{province}</option>)}</select>}
-                <input value={heroPickupAddress} onChange={(e) => setHeroPickupAddress(e.target.value)} placeholder={heroPickupLocation === 'Outra Província de Angola' ? t('fleetQuick.addressInProvince', { province: heroPickupProvince }) : t('fleetQuick.addressInLuanda')} className="w-full rounded-xl border border-[#3A73A8] bg-white p-3 text-xs font-semibold text-[#09172C] outline-none focus:ring-2 focus:ring-[#FEC228]" />
-              </div>}
-              {heroDifferentDropoff && (heroDropoffLocation === 'Outro Endereço em Luanda' || heroDropoffLocation === 'Outra Província de Angola') && <div>
-                <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-[#FEC228]">{t('fleetQuick.exactDropoff')}</p>
-                {heroDropoffLocation === 'Outra Província de Angola' && <select value={heroDropoffProvince} onChange={(e) => setHeroDropoffProvince(e.target.value)} className="mb-2 w-full rounded-xl border border-[#3A73A8] bg-[#174B86] p-3 text-xs font-semibold text-white outline-none">{ANGOLA_PROVINCES.map((province) => <option key={province} value={province}>{province}</option>)}</select>}
-                <input value={heroDropoffAddress} onChange={(e) => setHeroDropoffAddress(e.target.value)} placeholder={heroDropoffLocation === 'Outra Província de Angola' ? t('fleetQuick.addressInProvince', { province: heroDropoffProvince }) : t('fleetQuick.addressInLuanda')} className="w-full rounded-xl border border-[#3A73A8] bg-white p-3 text-xs font-semibold text-[#09172C] outline-none focus:ring-2 focus:ring-[#FEC228]" />
-              </div>}
-              <p className="text-[11px] leading-5 text-white/65 sm:col-span-2">{t('fleetQuick.outsideLuanda')}</p>
-            </div>
-          )}
-        </div>
-
         {/* ═══════════════════════════════════════════════════════
             CATEGORY TABS (Gold Active, Navy Baseline)
            ═══════════════════════════════════════════════════════ */}
@@ -441,12 +291,6 @@ export const Fleet: React.FC<FleetProps> = ({ onSelectVehicle }) => {
         onSelectBooking={handleBookingTrigger}
       />
 
-      {/* 4-Step Booking Wizard Modal */}
-      <BookingWizardModal
-        initialVehicleName={wizardVehicleName}
-        isOpen={isWizardOpen}
-        onClose={() => setIsWizardOpen(false)}
-      />
     </section>
   );
 };

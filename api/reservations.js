@@ -1,5 +1,6 @@
 import { applyApiSecurity, cleanText, isIsoDate, takeRateLimit } from './_security.js';
 import { getDatabase } from './_neon.js';
+import { sendReservationEmail } from './_reservation-email.js';
 
 export default async function handler(req, res) {
   if (!applyApiSecurity(req, res, { methods: ['POST'] })) return;
@@ -65,6 +66,17 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: 'A reserva não pôde ser guardada.' });
   }
 
+  let emailSent = false;
+  try {
+    emailSent = await sendReservationEmail(row, {
+      cleaning: body.cleaning === true,
+      estimatedPrice: cleanText(body.estimatedPrice, 50),
+      message: cleanText(body.message, 3000),
+    });
+  } catch (error) {
+    console.error('[reservation] email failed', error);
+  }
+
   let crmQueued = false;
   if (process.env.CRM_WEBHOOK_URL) {
     try {
@@ -79,5 +91,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(201).json({ protocolCode, persisted: true, crmQueued });
+  return res.status(201).json({ protocolCode, persisted: true, crmQueued, emailSent });
 }
