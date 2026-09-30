@@ -5,6 +5,16 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/webmail",
+      "destination": "https://webmail.pepekgrupo.com",
+      "permanent": false
+    },
+    {
+      "source": "/cpanel",
+      "destination": "https://cpanel.pepekgrupo.com",
+      "permanent": false
+    },
+    {
       "source": "/inicio",
       "destination": "/",
       "permanent": true
