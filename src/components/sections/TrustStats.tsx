@@ -2,20 +2,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Award, BriefcaseBusiness, Car, Clock3 } from 'lucide-react';
 
+/** Ano de fundação — usado para calcular os anos de experiência. */
+const FOUNDED_YEAR = 2014;
+
+// O HTML (SSR/prerender) sai já com o número final, para o Google e as
+// pré-visualizações nas redes sociais; a contagem é só um efeito no cliente.
 const AnimatedNumber: React.FC<{ value: number; suffix?: string }> = ({ value, suffix = '' }) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState(value);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
+    // Só anima se o número ainda estiver fora do ecrã (o reset para 0 não se vê).
+    if (element.getBoundingClientRect().top < window.innerHeight) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setDisplay(0);
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
       observer.disconnect();
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        setDisplay(value);
-        return;
-      }
       const startedAt = performance.now();
       const duration = 1500;
       const tick = (now: number) => {
@@ -33,7 +38,7 @@ const AnimatedNumber: React.FC<{ value: number; suffix?: string }> = ({ value, s
 };
 
 const stats = [
-  [10, '', 'about.statExperience', Award],
+  [new Date().getFullYear() - FOUNDED_YEAR, '', 'about.statExperience', Award],
   [500, '', 'about.statClients', BriefcaseBusiness],
   [25, '', 'about.statBrands', Car],
   [24, '/7', 'about.statSupport', Clock3],

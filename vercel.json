@@ -5,6 +5,17 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.pepekgrupo.com"
+        }
+      ],
+      "destination": "https://pepekgrupo.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/webmail",
       "destination": "https://webmail.pepekgrupo.com",
       "permanent": false
