@@ -1,13 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { SITE_VIDEOS, type SiteVideo, type SiteVideoId } from '../data/siteVideos';
 import { StreamVideo } from '../components/ui/StreamVideo';
-import { ArrowRight, Building2, CalendarCheck, Car, Check, Clock3, MapPinned, PlayCircle, Search, Share2 } from 'lucide-react';
+import { ArrowRight, Building2, CalendarCheck, Car, Check, Clock3, MapPinned, Newspaper, PlayCircle, Search, Share2 } from 'lucide-react';
+import { fetchPublishedPosts, muxPosterUrl, muxStreamUrl, subscribeNewsletter, type BlogPost } from '../lib/blog';
 
 type StoryTag = 'partnerships' | 'protocol' | 'experience';
-type Story = { id: SiteVideoId; video: SiteVideo; tag: StoryTag; title: string; text: string; duration: string; audience: string };
+// `media` cobre as histórias fixas (vídeo local/Mux) e as notícias publicadas pela equipa em /painel/blogue.
+type StoryMedia = { kind: 'video'; video: SiteVideo; poster?: string } | { kind: 'image'; url: string } | { kind: 'none' };
+type Story = { id: string; media: StoryMedia; tag: StoryTag; title: string; text: string; meta: string; audience: string };
 
 // Os textos de cada história vivem em blog.stories.<id> nos ficheiros de tradução.
 const STORY_SOURCES: { id: SiteVideoId; video: SiteVideo; tag: StoryTag }[] = [
@@ -27,13 +30,38 @@ const RESOURCE_SOURCES = [
 
 export const PageBlog: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const stories: Story[] = useMemo(() => STORY_SOURCES.map((source) => ({
-    ...source,
-    title: t(`blog.stories.${source.id}.title`),
-    text: t(`blog.stories.${source.id}.text`),
-    duration: t(`blog.stories.${source.id}.duration`),
-    audience: t(`blog.stories.${source.id}.audience`),
-  })), [t]);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  useEffect(() => {
+    let active = true;
+    // Sem API (p.ex. em pré-visualização local) a página mostra só as histórias fixas.
+    fetchPublishedPosts().then((list) => { if (active) setPosts(list); }).catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
+  const stories: Story[] = useMemo(() => {
+    const dateFormat = new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'long', year: 'numeric' });
+    const published: Story[] = posts.map((post) => ({
+      id: post.slug,
+      tag: post.category,
+      title: post.title,
+      text: post.summary,
+      audience: post.audience,
+      meta: post.publishedAt ? dateFormat.format(new Date(post.publishedAt)) : '',
+      media: post.mediaType === 'video' && post.muxPlaybackId
+        ? { kind: 'video', video: { src: muxStreamUrl(post.muxPlaybackId), muxPlaybackId: post.muxPlaybackId }, poster: muxPosterUrl(post.muxPlaybackId) }
+        : post.mediaType === 'image' && post.imageUrl ? { kind: 'image', url: post.imageUrl } : { kind: 'none' },
+    }));
+    const fixed: Story[] = STORY_SOURCES.map((source) => ({
+      id: source.id,
+      tag: source.tag,
+      media: { kind: 'video', video: source.video },
+      title: t(`blog.stories.${source.id}.title`),
+      text: t(`blog.stories.${source.id}.text`),
+      meta: t(`blog.stories.${source.id}.duration`),
+      audience: t(`blog.stories.${source.id}.audience`),
+    }));
+    return [...published, ...fixed];
+  }, [posts, t, i18n.language]);
   const resources = RESOURCE_SOURCES.map((resource) => ({
     ...resource,
     title: t(`blog.resources.${resource.key}.title`),
@@ -42,6 +70,8 @@ export const PageBlog: React.FC = () => {
   }));
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [subscribing, setSubscribing] = useState(false);
+  const [subscribeError, setSubscribeError] = useState(false);
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>('all');
   const [query, setQuery] = useState('');
   const [copiedStory, setCopiedStory] = useState<string | null>(null);
@@ -55,7 +85,20 @@ export const PageBlog: React.FC = () => {
     });
   }, [activeCategory, query, stories, t, i18n.language]);
 
-  const subscribe = (event: React.FormEvent) => { event.preventDefault(); if (email.trim()) setSubscribed(true); };
+  const subscribe = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!email.trim() || subscribing) return;
+    setSubscribing(true);
+    setSubscribeError(false);
+    try {
+      await subscribeNewsletter(email.trim(), i18n.language);
+      setSubscribed(true);
+    } catch {
+      setSubscribeError(true);
+    } finally {
+      setSubscribing(false);
+    }
+  };
   const shareStory = async (story: Story) => {
     const url = `${window.location.origin}/blogue#${story.id}`;
     try {
@@ -84,9 +127,10 @@ export const PageBlog: React.FC = () => {
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/70">{t('blog.lead')}</p>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65 sm:text-base">{t('blog.tagline')}</p>
           </div>
-          <form onSubmit={subscribe} className="rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur-sm sm:p-8">
+          <form onSubmit={(event) => void subscribe(event)} className="rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur-sm sm:p-8">
             <h2 className="text-xl font-extrabold !text-white sm:text-2xl">{t('blog.newsletterTitle')}</h2><p className="mt-2 text-sm leading-6 text-white/65">{t('blog.newsletterText')}</p>
-            {subscribed ? <div className="mt-6 rounded-xl bg-emerald-500/20 p-4 text-emerald-100" role="status"><p className="flex items-center gap-2 font-bold"><Check className="h-5 w-5" /> {t('blog.subscribed')}</p><p className="mt-1 text-xs text-emerald-100/75">{t('blog.thanks')}</p></div> : <div className="mt-6 flex flex-col gap-3 sm:flex-row"><label htmlFor="newsletter-email" className="sr-only">{t('blog.emailLabel')}</label><input id="newsletter-email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={t('blog.emailPlaceholder')} className="min-h-12 flex-1 rounded-xl border border-white/20 bg-white px-4 text-sm text-[#09172C] outline-none focus:ring-2 focus:ring-[#FEC228]" /><button type="submit" className="min-h-12 rounded-xl bg-[#FEC228] px-5 text-sm font-extrabold text-[#09172C] transition hover:bg-[#FFD45F]">{t('blog.subscribe')}</button></div>}
+            {subscribed ? <div className="mt-6 rounded-xl bg-emerald-500/20 p-4 text-emerald-100" role="status"><p className="flex items-center gap-2 font-bold"><Check className="h-5 w-5" /> {t('blog.subscribed')}</p><p className="mt-1 text-xs text-emerald-100/75">{t('blog.thanks')}</p></div> : <div className="mt-6 flex flex-col gap-3 sm:flex-row"><label htmlFor="newsletter-email" className="sr-only">{t('blog.emailLabel')}</label><input id="newsletter-email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={t('blog.emailPlaceholder')} className="min-h-12 flex-1 rounded-xl border border-white/20 bg-white px-4 text-sm text-[#09172C] outline-none focus:ring-2 focus:ring-[#FEC228]" /><button type="submit" disabled={subscribing} className="min-h-12 rounded-xl bg-[#FEC228] px-5 text-sm font-extrabold text-[#09172C] transition hover:bg-[#FFD45F] disabled:opacity-60">{subscribing ? t('blog.subscribing') : t('blog.subscribe')}</button></div>}
+            {subscribeError && <p className="mt-3 text-xs font-bold text-red-200" role="alert">{t('blog.subscribeError')}</p>}
             <p className="mt-3 text-[11px] leading-5 text-white/50">{t('blog.consent')}</p>
           </form>
         </div>
@@ -99,8 +143,13 @@ export const PageBlog: React.FC = () => {
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1" aria-label={t('blog.filterLabel')}>{categories.map((category) => <button key={category} type="button" onClick={() => setActiveCategory(category)} aria-pressed={activeCategory === category} className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-extrabold transition focus:ring-2 focus:ring-[#236199] ${activeCategory === category ? 'bg-[#001E4A] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>{t(`blog.categories.${category}`)}</button>)}</div>
         </div>
         {filteredStories.length ? <div className="grid gap-7 md:grid-cols-2">{filteredStories.map((story, index) => <article id={story.id} key={story.id} className="scroll-mt-32 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(9,23,44,.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(9,23,44,.16)]">
-          <div className="relative aspect-video bg-[#09172C]"><StreamVideo className="h-full w-full object-cover" video={story.video} controls preload={index === 0 ? 'metadata' : 'none'} playsInline aria-label={t('blog.videoLabel', { title: story.title })} /><span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#001E4A]/90 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#FEC228]"><PlayCircle className="h-3.5 w-3.5" /> {t('blog.videoBadge')}</span></div>
-          <div className="p-6 sm:p-7"><div className="flex flex-wrap items-center justify-between gap-3 text-xs font-bold text-[#236199]"><span>{t(`blog.categories.${story.tag}`)}</span><span className="flex items-center gap-1 text-slate-500"><Clock3 className="h-3.5 w-3.5" /> {story.duration}</span></div><h3 className="mt-3 text-2xl font-extrabold leading-tight">{story.title}</h3><p className="mt-3 text-sm leading-7 text-slate-600">{story.text}</p><div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-5"><span className="text-xs font-semibold text-slate-500">{t('blog.audience', { audience: story.audience })}</span><button type="button" onClick={() => void shareStory(story)} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-extrabold text-[#174B86] hover:bg-blue-50"><Share2 className="h-4 w-4" /> {copiedStory === story.id ? t('blog.linkCopied') : t('blog.share')}</button></div></div>
+          <div className="relative aspect-video bg-[#09172C]">
+            {story.media.kind === 'video' && <StreamVideo className="h-full w-full object-cover" video={story.media.video} poster={story.media.poster} controls preload={index === 0 ? 'metadata' : 'none'} playsInline aria-label={t('blog.videoLabel', { title: story.title })} />}
+            {story.media.kind === 'image' && <img src={story.media.url} alt={story.title} loading={index < 2 ? 'eager' : 'lazy'} className="h-full w-full object-cover" />}
+            {story.media.kind === 'none' && <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#001E4A] to-[#236199]"><Newspaper className="h-14 w-14 text-[#FEC228]/80" /></div>}
+            <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#001E4A]/90 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#FEC228]">{story.media.kind === 'video' ? <><PlayCircle className="h-3.5 w-3.5" /> {t('blog.videoBadge')}</> : <><Newspaper className="h-3.5 w-3.5" /> {t('blog.newsBadge')}</>}</span>
+          </div>
+          <div className="p-6 sm:p-7"><div className="flex flex-wrap items-center justify-between gap-3 text-xs font-bold text-[#236199]"><span>{t(`blog.categories.${story.tag}`)}</span>{story.meta && <span className="flex items-center gap-1 text-slate-500"><Clock3 className="h-3.5 w-3.5" /> {story.meta}</span>}</div><h3 className="mt-3 text-2xl font-extrabold leading-tight">{story.title}</h3><p className="mt-3 whitespace-pre-line text-sm leading-7 text-slate-600">{story.text}</p><div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-5"><span className="text-xs font-semibold text-slate-500">{story.audience ? t('blog.audience', { audience: story.audience }) : ''}</span><button type="button" onClick={() => void shareStory(story)} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-extrabold text-[#174B86] hover:bg-blue-50"><Share2 className="h-4 w-4" /> {copiedStory === story.id ? t('blog.linkCopied') : t('blog.share')}</button></div></div>
         </article>)}</div> : <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center" role="status"><Search className="mx-auto h-9 w-9 text-slate-400" /><h3 className="mt-4 text-xl font-extrabold">{t('blog.noResults')}</h3><p className="mt-2 text-sm text-slate-600">{t('blog.noResultsText')}</p><button type="button" onClick={() => { setQuery(''); setActiveCategory('all'); }} className="mt-5 rounded-xl bg-[#001E4A] px-5 py-3 text-sm font-extrabold text-white">{t('blog.clearSearch')}</button></div>}
       </section>
 

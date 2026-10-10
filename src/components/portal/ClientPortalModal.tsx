@@ -27,8 +27,11 @@ import {
   Wrench,
   LayoutDashboard,
   Mail,
-  BadgeCheck
+  BadgeCheck,
+  Newspaper,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { canManageBlog } from '../../lib/blog';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole, InvoiceItem } from '../../types/auth';
 import { PaymentSimulatorModal } from './PaymentSimulatorModal';
@@ -262,6 +265,18 @@ export const ClientPortalModal: React.FC = () => {
                   <Sparkles className="w-4 h-4 text-[#236199]" />
                   <span>{t('portal.tabRequest')}</span>
                 </button>
+              )}
+
+              {/* Gestão do blogue e da newsletter: página própria, fora do modal */}
+              {canManageBlog(currentUser?.role) && (
+                <Link
+                  to="/painel/blogue"
+                  onClick={() => setIsPortalOpen(false)}
+                  className="pb-3 px-4 text-xs font-bold transition-all border-b-2 border-transparent text-gray-600 hover:text-gray-900 flex items-center gap-2"
+                >
+                  <Newspaper className="w-4 h-4 text-[#236199]" />
+                  <span>{t('portal.tabBlog')}</span>
+                </Link>
               )}
             </div>
 

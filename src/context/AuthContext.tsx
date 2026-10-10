@@ -31,6 +31,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
   motorista: 'Motorista Protocolar',
   contabilista: 'Contabilista',
   gestor_portugal: 'Gestor Portugal',
+  marketing: 'Comunicação & Marketing',
   direcao: 'Direcção Executiva',
 };
 

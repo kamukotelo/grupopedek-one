@@ -1367,7 +1367,10 @@
         "duration": "1 min",
         "audience": "Executivos e delegações VIP"
       }
-    }
+    },
+    "newsBadge": "Notícia",
+    "subscribing": "A enviar…",
+    "subscribeError": "Não foi possível registar a subscrição. Tente novamente."
   },
   "bookingWidget": {
     "operationsDirectorate": "PEPEK GRUPO RENT-A-CAR · DIRECÇÃO DE OPERAÇÕES",
@@ -1739,7 +1742,8 @@
       "motorista": "Motorista Protocolar",
       "contabilista": "Contabilista",
       "gestor_portugal": "Gestor Portugal",
-      "direcao": "Direcção Executiva"
+      "direcao": "Direcção Executiva",
+      "marketing": "Comunicação & Marketing"
     },
     "tiers": {
       "Diplomático": "Diplomático",
@@ -1758,7 +1762,8 @@
     "eventStatus": {
       "success": "sucesso",
       "warning": "aviso"
-    }
+    },
+    "tabBlog": "Gerir blogue"
   },
   "backoffice": {
     "title": "Transferências por conferir",

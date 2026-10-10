@@ -1367,7 +1367,10 @@
         "duration": "1 min",
         "audience": "Executives and VIP delegations"
       }
-    }
+    },
+    "newsBadge": "News",
+    "subscribing": "Sending…",
+    "subscribeError": "We could not register your subscription. Please try again."
   },
   "bookingWidget": {
     "operationsDirectorate": "PEPEK GRUPO RENT-A-CAR · OPERATIONS DIRECTORATE",
@@ -1739,7 +1742,8 @@
       "motorista": "Protocol Chauffeur",
       "contabilista": "Accountant",
       "gestor_portugal": "Portugal Manager",
-      "direcao": "Executive Board"
+      "direcao": "Executive Board",
+      "marketing": "Communications & Marketing"
     },
     "tiers": {
       "Diplomático": "Diplomatic",
@@ -1758,7 +1762,8 @@
     "eventStatus": {
       "success": "success",
       "warning": "warning"
-    }
+    },
+    "tabBlog": "Manage blog"
   },
   "backoffice": {
     "title": "Transfers to verify",

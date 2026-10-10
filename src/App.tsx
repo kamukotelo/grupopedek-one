@@ -25,6 +25,7 @@ const PageContactos = lazy(() => import('./pages/PageContactos').then(module => 
 const PageRotas = lazy(() => import('./pages/PageRotas').then(module => ({ default: module.PageRotas })));
 const PageBlog = lazy(() => import('./pages/PageBlog').then(module => ({ default: module.PageBlog })));
 const PagePainel = lazy(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
+const PageBlogAdmin = lazy(() => import('./pages/PageBlogAdmin').then(module => ({ default: module.PageBlogAdmin })));
 const PagePrivacidade = lazy(() => import('./pages/PagePrivacidade').then(module => ({ default: module.PagePrivacidade })));
 const PageLanding = lazy(() => import('./pages/PageLanding').then(module => ({ default: module.PageLanding })));
 const PageVehicle = lazy(() => import('./pages/PageVehicle').then(module => ({ default: module.PageVehicle })));
@@ -95,6 +96,7 @@ export const App: React.FC = () => {
 
               {/* Management panel — authenticated only, noindex, hidden from public nav */}
               <Route path="/painel" element={<PagePainel />} />
+              <Route path="/painel/blogue" element={<PageBlogAdmin />} />
               <Route path="/privacidade" element={<PagePrivacidade />} />
 
               {/* Páginas de destino SEO (aluguer em Luanda, transfer aeroporto, …) */}

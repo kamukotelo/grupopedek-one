@@ -18,6 +18,7 @@ const PERMISSIONS: Record<UserRole, PortalPermissions> = {
   motorista: { fleet: true, finances: false, operations: false, odoo: false, priorityRequest: false, globalFleet: false },
   contabilista: { fleet: false, finances: true, operations: false, odoo: true, priorityRequest: false, globalFleet: false },
   gestor_portugal: { fleet: true, finances: true, operations: true, odoo: true, priorityRequest: false, globalFleet: true },
+  marketing: { fleet: true, finances: false, operations: false, odoo: false, priorityRequest: false, globalFleet: false },
   direcao: { fleet: true, finances: true, operations: true, odoo: true, priorityRequest: false, globalFleet: true },
 };
 

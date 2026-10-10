@@ -1367,7 +1367,10 @@
         "duration": "1 min",
         "audience": "Cadres et délégations VIP"
       }
-    }
+    },
+    "newsBadge": "Actualité",
+    "subscribing": "Envoi…",
+    "subscribeError": "Impossible d'enregistrer l'abonnement. Veuillez réessayer."
   },
   "bookingWidget": {
     "operationsDirectorate": "PEPEK GRUPO RENT-A-CAR · DIRECTION DES OPÉRATIONS",
@@ -1739,7 +1742,8 @@
       "motorista": "Chauffeur protocolaire",
       "contabilista": "Comptable",
       "gestor_portugal": "Responsable Portugal",
-      "direcao": "Direction générale"
+      "direcao": "Direction générale",
+      "marketing": "Communication & Marketing"
     },
     "tiers": {
       "Diplomático": "Diplomatique",
@@ -1758,7 +1762,8 @@
     "eventStatus": {
       "success": "succès",
       "warning": "avertissement"
-    }
+    },
+    "tabBlog": "Gérer le blog"
   },
   "backoffice": {
     "title": "Virements à vérifier",

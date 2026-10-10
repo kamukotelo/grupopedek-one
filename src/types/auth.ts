@@ -7,6 +7,7 @@ export type UserRole =
   | 'motorista'
   | 'contabilista'
   | 'gestor_portugal'
+  | 'marketing'
   | 'direcao';
 
 export interface UserProfile {
