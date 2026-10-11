@@ -24,6 +24,7 @@ const PageReservar = lazy(() => import('./pages/PageReservar').then(module => ({
 const PageContactos = lazy(() => import('./pages/PageContactos').then(module => ({ default: module.PageContactos })));
 const PageRotas = lazy(() => import('./pages/PageRotas').then(module => ({ default: module.PageRotas })));
 const PageBlog = lazy(() => import('./pages/PageBlog').then(module => ({ default: module.PageBlog })));
+const PageBlogArticle = lazy(() => import('./pages/PageBlogArticle').then(module => ({ default: module.PageBlogArticle })));
 const PagePainel = lazy(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
 const PagePrivacidade = lazy(() => import('./pages/PagePrivacidade').then(module => ({ default: module.PagePrivacidade })));
 const PageLanding = lazy(() => import('./pages/PageLanding').then(module => ({ default: module.PageLanding })));
@@ -92,6 +93,7 @@ export const App: React.FC = () => {
               <Route path="/contactos" element={<PageContactos />} />
               <Route path="/rotas" element={<PageRotas />} />
               <Route path="/blogue" element={<PageBlog />} />
+              <Route path="/blogue/:slug" element={<PageBlogArticle />} />
 
               {/* Management panel — authenticated only, noindex, hidden from public nav */}
               <Route path="/painel" element={<PagePainel />} />
