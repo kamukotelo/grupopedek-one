@@ -1,7 +1,7 @@
 import { applyApiSecurity, takeRateLimit } from './_security.js';
-import { getDatabase, isUniqueViolation } from './_neon.js';
+import { isUniqueViolation } from './_neon.js';
 import {
-  POST_COLUMNS, getMuxUploadState, isMuxConfigured, parseImageDataUrl, parsePostFields,
+  POST_COLUMNS, getBlogDatabase, getMuxUploadState, isMuxConfigured, parseImageDataUrl, parsePostFields,
   requireBlogEditor, slugify, toPublicPost,
 } from './_blog.js';
 
@@ -144,7 +144,7 @@ export default async function handler(req, res) {
 
   let sql;
   try {
-    sql = getDatabase();
+    sql = await getBlogDatabase();
   } catch {
     return res.status(503).json({ error: 'Base de dados não configurada.' });
   }

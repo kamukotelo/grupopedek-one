@@ -1,6 +1,5 @@
 import { applyApiSecurity, takeRateLimit } from './_security.js';
-import { getDatabase } from './_neon.js';
-import { getMuxUploadState, isMuxConfigured, mux, requireBlogEditor } from './_blog.js';
+import { getBlogDatabase, getMuxUploadState, isMuxConfigured, mux, requireBlogEditor } from './_blog.js';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -50,7 +49,7 @@ const serveImage = async (req, res, id) => {
 
   let sql;
   try {
-    sql = getDatabase();
+    sql = await getBlogDatabase();
   } catch {
     return res.status(503).json({ error: 'Base de dados não configurada.' });
   }

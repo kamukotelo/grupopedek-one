@@ -1,6 +1,5 @@
 import { applyApiSecurity, cleanText, takeRateLimit } from './_security.js';
-import { getDatabase } from './_neon.js';
-import { requireBlogEditor } from './_blog.js';
+import { getBlogDatabase, requireBlogEditor } from './_blog.js';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const LANGUAGES = new Set(['pt', 'en', 'fr']);
@@ -12,7 +11,7 @@ export default async function handler(req, res) {
 
   let sql;
   try {
-    sql = getDatabase();
+    sql = await getBlogDatabase();
   } catch {
     return res.status(503).json({ error: 'Base de dados não configurada.' });
   }

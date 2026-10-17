@@ -23,8 +23,9 @@ autenticar novamente por OAuth durante o corte definitivo.
 A equipa publica notícias no blogue (texto + fotografia ou vídeo) e consulta os
 subscritores da newsletter em `https://pepekgrupo.com/painel/blogue`.
 
-1. Aplicar a migração na base de dados de produção (Neon → SQL Editor):
-   `neon/migrations/20261010_blog_newsletter.sql`
+1. As tabelas são criadas automaticamente pela API no primeiro pedido (`getBlogDatabase`
+   em `api/_blog.js`). O ficheiro `neon/migrations/20261010_blog_newsletter.sql` tem o
+   mesmo esquema, caso se prefira aplicá-lo à mão no SQL Editor do Neon.
 2. Dar acesso a quem vai publicar (perfis com acesso: `direcao`, `gestor_portugal`
    e `marketing`):
    ```sql
