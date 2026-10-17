@@ -51,7 +51,7 @@ const correctedFlyerImageHashes = {
   'hyundai-staria-atual': 'd75d3bf6429c96c8aaa7ff48e9a5b3e5621d38d4ddbbcd362a05be5fb95d1e93',
   'nova-toyota-hiace': '8fa9463e8311c4c2d71cdce4e229805b34c1392f7b80aacf4a108d2a3bbc25a7',
   'mercedes-sprinter-atual': '5cdfecdc0d1a1215429b0a6024822d5d3259155bef341e7c4fa652666a522777',
-  'nissan-patrol': '6d7a0e6547d40b1b456279533ada45e1e558a5db8878573b83e57efb28581492',
+  'nissan-patrol': '621d42de9613b1e98da6fe778a1572720bc0048f2b2c63113eefbe6831b42743',
   'novo-toyota-prado': '0800e20a73a2eac983e82da1880d46f73dd639e75ec0838c590a7670d2c45176',
 };
 for (const [folder, expectedHash] of Object.entries(correctedFlyerImageHashes)) {
