@@ -107,7 +107,8 @@ export const StreamVideo = forwardRef<HTMLVideoElement, StreamVideoProps>(({ vid
 
   // Com Mux, a fonte é definida no cliente: o HTML pré-renderizado não traz o MP4,
   // para não se descarregar o mesmo vídeo duas vezes.
-  return <video ref={videoRef} src={muxPlaybackId ? undefined : src} preload={preload} {...props}>{children}</video>;
+  // Capa por omissão do catálogo; quem usa o componente pode passar outra em `poster`.
+  return <video ref={videoRef} src={muxPlaybackId ? undefined : src} preload={preload} poster={video.poster} {...props}>{children}</video>;
 });
 
 StreamVideo.displayName = 'StreamVideo';

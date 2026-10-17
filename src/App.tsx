@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { Routes, Route, useLocation } from 'react-router-dom';
@@ -11,26 +11,28 @@ import { PaymentReturnBanner } from './components/portal/PaymentReturnBanner';
 import { SeoGlobal } from './components/layout/SeoGlobal';
 import { LANDING_LINKS } from './data/seoLandingLinks';
 import { getPrerenderedMain } from './lib/prerenderedMain';
-const ChatBot = lazy(() => import('./components/ui/ChatBot').then(module => ({ default: module.ChatBot })));
-const ClientPortalModal = lazy(() => import('./components/portal/ClientPortalModal').then(module => ({ default: module.ClientPortalModal })));
+import { lazyPage } from './lib/staleBuild';
+import { RouteErrorBoundary } from './components/layout/RouteErrorBoundary';
+const ChatBot = lazyPage(() => import('./components/ui/ChatBot').then(module => ({ default: module.ChatBot })));
+const ClientPortalModal = lazyPage(() => import('./components/portal/ClientPortalModal').then(module => ({ default: module.ClientPortalModal })));
 
 // Pages (each has its own Helmet title, meta description, canonical, schema.org)
-const PageHome = lazy(() => import('./pages/PageHome').then(module => ({ default: module.PageHome })));
-const PageQuemSomos = lazy(() => import('./pages/PageQuemSomos').then(module => ({ default: module.PageQuemSomos })));
-const PageServicos = lazy(() => import('./pages/PageServicos').then(module => ({ default: module.PageServicos })));
-const PageFrota = lazy(() => import('./pages/PageFrota').then(module => ({ default: module.PageFrota })));
-const PageClientes = lazy(() => import('./pages/PageClientes').then(module => ({ default: module.PageClientes })));
-const PageReservar = lazy(() => import('./pages/PageReservar').then(module => ({ default: module.PageReservar })));
-const PageContactos = lazy(() => import('./pages/PageContactos').then(module => ({ default: module.PageContactos })));
-const PageRotas = lazy(() => import('./pages/PageRotas').then(module => ({ default: module.PageRotas })));
-const PageBlog = lazy(() => import('./pages/PageBlog').then(module => ({ default: module.PageBlog })));
-const PageBlogArticle = lazy(() => import('./pages/PageBlogArticle').then(module => ({ default: module.PageBlogArticle })));
-const PagePainel = lazy(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
-const PageBlogAdmin = lazy(() => import('./pages/PageBlogAdmin').then(module => ({ default: module.PageBlogAdmin })));
-const PagePrivacidade = lazy(() => import('./pages/PagePrivacidade').then(module => ({ default: module.PagePrivacidade })));
-const PageLanding = lazy(() => import('./pages/PageLanding').then(module => ({ default: module.PageLanding })));
-const PageVehicle = lazy(() => import('./pages/PageVehicle').then(module => ({ default: module.PageVehicle })));
-const PageNotFound = lazy(() => import('./pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
+const PageHome = lazyPage(() => import('./pages/PageHome').then(module => ({ default: module.PageHome })));
+const PageQuemSomos = lazyPage(() => import('./pages/PageQuemSomos').then(module => ({ default: module.PageQuemSomos })));
+const PageServicos = lazyPage(() => import('./pages/PageServicos').then(module => ({ default: module.PageServicos })));
+const PageFrota = lazyPage(() => import('./pages/PageFrota').then(module => ({ default: module.PageFrota })));
+const PageClientes = lazyPage(() => import('./pages/PageClientes').then(module => ({ default: module.PageClientes })));
+const PageReservar = lazyPage(() => import('./pages/PageReservar').then(module => ({ default: module.PageReservar })));
+const PageContactos = lazyPage(() => import('./pages/PageContactos').then(module => ({ default: module.PageContactos })));
+const PageRotas = lazyPage(() => import('./pages/PageRotas').then(module => ({ default: module.PageRotas })));
+const PageBlog = lazyPage(() => import('./pages/PageBlog').then(module => ({ default: module.PageBlog })));
+const PageBlogArticle = lazyPage(() => import('./pages/PageBlogArticle').then(module => ({ default: module.PageBlogArticle })));
+const PagePainel = lazyPage(() => import('./pages/PagePainel').then(module => ({ default: module.PagePainel })));
+const PageBlogAdmin = lazyPage(() => import('./pages/PageBlogAdmin').then(module => ({ default: module.PageBlogAdmin })));
+const PagePrivacidade = lazyPage(() => import('./pages/PagePrivacidade').then(module => ({ default: module.PagePrivacidade })));
+const PageLanding = lazyPage(() => import('./pages/PageLanding').then(module => ({ default: module.PageLanding })));
+const PageVehicle = lazyPage(() => import('./pages/PageVehicle').then(module => ({ default: module.PageVehicle })));
+const PageNotFound = lazyPage(() => import('./pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
 
 import './i18n';
 
@@ -49,6 +51,12 @@ const RouteFallback: React.FC = () => {
   const html = getPrerenderedMain(pathname, i18n.resolvedLanguage ?? 'pt');
   if (html) return <div dangerouslySetInnerHTML={{ __html: html }} />;
   return <div className="min-h-screen bg-[#001E4A]" aria-label={t('common.loadingPage')} />;
+};
+
+// Uma página que falhe mostra uma mensagem com "Recarregar" em vez de deixar o site em branco.
+const RouteBoundary: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { pathname } = useLocation();
+  return <RouteErrorBoundary resetKey={pathname}>{children}</RouteErrorBoundary>;
 };
 
 // Ao mudar de página, começa no topo (excepto links para uma secção com #).
@@ -80,6 +88,7 @@ export const App: React.FC = () => {
 
           {/* Page router — real URLs, each with individual SEO metadata */}
           <main className="flex-1">
+            <RouteBoundary>
             <Suspense fallback={<RouteFallback />}>
             <Routes>
               {/* Home — Hero + all sections + primary CTA */}
@@ -113,6 +122,7 @@ export const App: React.FC = () => {
               <Route path="*" element={<PageNotFound />} />
             </Routes>
             </Suspense>
+            </RouteBoundary>
           </main>
 
           {/* Corporate footer */}

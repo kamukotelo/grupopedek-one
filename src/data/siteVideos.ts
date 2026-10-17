@@ -10,7 +10,9 @@ export type SiteVideoId =
   | 'viaturas-preparadas'
   | 'hyundai-staria-vip';
 
-export type SiteVideo = { src: string; muxPlaybackId?: string };
+// `poster` é a imagem mostrada antes de o vídeo tocar (sem ela, com preload="none", o
+// telemóvel mostra uma caixa preta). Gerada a partir do vídeo em public/videos/posters/.
+export type SiteVideo = { src: string; muxPlaybackId?: string; poster?: string };
 
 const LOCAL_SOURCES: Record<SiteVideoId, string> = {
   'african-sezs-mobilidade': '/videos/pepek-african-sezs-2-web.mp4',
@@ -23,7 +25,11 @@ const LOCAL_SOURCES: Record<SiteVideoId, string> = {
 const playbackIds = muxPlaybackIds as Partial<Record<SiteVideoId, string>>;
 
 export const SITE_VIDEOS = Object.fromEntries(
-  Object.entries(LOCAL_SOURCES).map(([id, src]) => [id, { src, muxPlaybackId: playbackIds[id as SiteVideoId] || undefined }]),
+  Object.entries(LOCAL_SOURCES).map(([id, src]) => [id, {
+    src,
+    muxPlaybackId: playbackIds[id as SiteVideoId] || undefined,
+    poster: src.replace(/^\/videos\/(.+)\.(mp4|m4v)$/, '/videos/posters/$1.jpg'),
+  }]),
 ) as Record<SiteVideoId, SiteVideo>;
 
 export const SITE_VIDEO_LOCAL_SOURCES = LOCAL_SOURCES;

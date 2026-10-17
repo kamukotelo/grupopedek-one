@@ -5,6 +5,13 @@ import App from './App';
 import { i18nReady } from './i18n';
 import { capturePrerenderedMain } from './lib/prerenderedMain';
 import './index.css';
+import { recoverFromStaleBuild } from './lib/staleBuild';
+
+// O Vite avisa quando um ficheiro JS/CSS de uma versão anterior do site já não existe
+// (depois de um deploy): limpa-se a cache e recarrega-se uma vez para obter a versão nova.
+window.addEventListener('vite:preloadError', (event) => {
+  if (recoverFromStaleBuild()) event.preventDefault();
+});
 
 /**
  * O index.html traz um <title>, uma description e tags og: estáticas para que os

@@ -1903,7 +1903,11 @@
     "paymentQueryError": "The payment could not be checked.",
     "reservationError": "The booking could not be recorded.",
     "reservationsUnavailable": "The booking service is temporarily unavailable. Please try again or contact 24/7 support.",
-    "protectedDataUnavailable": "Protected data unavailable"
+    "protectedDataUnavailable": "Protected data unavailable",
+    "pageErrorTitle": "This page could not be opened",
+    "pageErrorText": "A new version of the site may have been published. Reload to continue.",
+    "pageErrorReload": "Reload",
+    "pageErrorHome": "Go to home page"
   },
   "bookingForm": {
     "title": "Request a booking",

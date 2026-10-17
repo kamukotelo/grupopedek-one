@@ -1903,7 +1903,11 @@
     "paymentQueryError": "Não foi possível consultar o pagamento.",
     "reservationError": "Não foi possível registar a reserva.",
     "reservationsUnavailable": "O serviço de reservas está temporariamente indisponível. Tente novamente ou contacte o apoio 24/7.",
-    "protectedDataUnavailable": "Dados protegidos indisponíveis"
+    "protectedDataUnavailable": "Dados protegidos indisponíveis",
+    "pageErrorTitle": "Não foi possível abrir esta página",
+    "pageErrorText": "Pode ter sido publicada uma versão nova do site. Recarregue para continuar.",
+    "pageErrorReload": "Recarregar",
+    "pageErrorHome": "Ir para o início"
   },
   "bookingForm": {
     "title": "Pedir reserva",

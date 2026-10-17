@@ -28,7 +28,7 @@ export default defineConfig(({ isSsrBuild }) => ({
     tailwindcss(),
     ...(isSsrBuild ? [] : [excludeInternalReviewPages(), VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon-pepek.png', 'robots.txt'],
+      includeAssets: ['favicon-pepek.png', 'favicon.ico', 'apple-touch-icon.png', 'robots.txt'],
       manifest: {
         name: 'PEPEK GRUPO RENT-A-CAR',
         short_name: 'PEPEK GRUPO',
@@ -45,10 +45,17 @@ export default defineConfig(({ isSsrBuild }) => ({
       },
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        // As páginas (HTML) vêm sempre da rede: depois de um deploy, o HTML antigo em cache
+        // apontava para ficheiros JS que já não existem e a página ficava em branco.
+        // Sem rede, usa-se a última cópia guardada (regra 'pepek-pages' abaixo).
+        navigateFallback: null,
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
         // Keep installation light on mobile data. Vehicle and client imagery is
         // loaded when needed instead of forcing every visitor to pre-cache the
         // entire fleet catalogue.
-        globPatterns: ['**/*.{js,css,html,ico,svg}'],
+        globPatterns: ['**/*.{js,css,ico,svg}'],
         // Logótipos de clientes e páginas internas de revisão da frota não fazem
         // parte do esqueleto da app; os logótipos entram na cache de imagens ao serem vistos.
         globIgnores: ['clients-color/**', 'fleet-carousel/**'],
@@ -65,6 +72,16 @@ export default defineConfig(({ isSsrBuild }) => ({
           }
         ],
         runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pepek-pages',
+              networkTimeoutSeconds: 5,
+              expiration: { maxEntries: 40, maxAgeSeconds: 60 * 60 * 24 * 7 },
+              cacheableResponse: { statuses: [200] }
+            }
+          },
           {
             // Ficheiros com hash no nome nunca mudam: servir da cache é seguro.
             urlPattern: /\/assets\/.*\.js$/i,
