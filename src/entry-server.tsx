@@ -8,7 +8,7 @@ import { VEHICLE_PAGES } from './data/seoVehiclePages';
 
 /** Rotas públicas indexáveis, pré-renderizadas e incluídas no sitemap. */
 export const PRERENDER_ROUTES = [
-  '/', '/servicos', '/frota', '/reservar', '/quem-somos', '/clientes', '/rotas', '/contactos', '/blogue', '/privacidade',
+  '/', '/servicos', '/frota', '/reservar', '/quem-somos', '/clientes', '/rotas', '/contactos', '/blogue', '/blogue/pepek-faf-parceria-mobilidade-aliou-cisse', '/privacidade',
   ...LANDING_LINKS.map(({ slug }) => `/${slug}`),
   ...VEHICLE_PAGES.map(({ path }) => path),
 ];

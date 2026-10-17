@@ -6,6 +6,7 @@ import { SITE_VIDEOS, type SiteVideo, type SiteVideoId } from '../data/siteVideo
 import { StreamVideo } from '../components/ui/StreamVideo';
 import { ArrowRight, Building2, CalendarCheck, Car, Check, Clock3, MapPinned, Newspaper, PlayCircle, Search, Share2 } from 'lucide-react';
 import { fetchPublishedPosts, muxPosterUrl, muxStreamUrl, subscribeNewsletter, type BlogPost } from '../lib/blog';
+import { BLOG_ARTICLES } from '../data/blogArticles';
 
 type StoryTag = 'partnerships' | 'protocol' | 'experience';
 // `media` cobre as histórias fixas (vídeo local/Mux) e as notícias publicadas pela equipa em /painel/blogue.
@@ -84,6 +85,14 @@ export const PageBlog: React.FC = () => {
       return inCategory && (!term || content.includes(term));
     });
   }, [activeCategory, query, stories, t, i18n.language]);
+  const featuredArticles = useMemo(() => {
+    const term = query.trim().toLocaleLowerCase(i18n.language);
+    return BLOG_ARTICLES.filter((article) => {
+      const inCategory = activeCategory === 'all' || article.category === activeCategory;
+      const content = `${article.title} ${article.excerpt} ${article.publishedLabel}`.toLocaleLowerCase(i18n.language);
+      return inCategory && (!term || content.includes(term));
+    });
+  }, [activeCategory, query, i18n.language]);
 
   const subscribe = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -142,6 +151,10 @@ export const PageBlog: React.FC = () => {
           <div className="relative"><Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" /><label htmlFor="blog-search" className="sr-only">{t('blog.searchLabel')}</label><input id="blog-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t('blog.searchPlaceholder')} className="min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pl-12 pr-4 text-sm outline-none focus:border-[#236199] focus:ring-2 focus:ring-[#236199]/20" /></div>
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1" aria-label={t('blog.filterLabel')}>{categories.map((category) => <button key={category} type="button" onClick={() => setActiveCategory(category)} aria-pressed={activeCategory === category} className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-extrabold transition focus:ring-2 focus:ring-[#236199] ${activeCategory === category ? 'bg-[#001E4A] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>{t(`blog.categories.${category}`)}</button>)}</div>
         </div>
+        {featuredArticles.map((article) => <article key={article.slug} className="mb-8 grid overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(9,23,44,.10)] md:grid-cols-[minmax(260px,.72fr)_1.28fr]">
+          <Link to={`/blogue/${article.slug}`} className="block bg-[#001E4A]"><img src={article.image} alt={article.imageAlt} width="1080" height="1350" className="aspect-[4/3] h-full max-h-[560px] w-full object-cover object-top md:aspect-auto" /></Link>
+          <div className="flex flex-col justify-center p-6 sm:p-9 lg:p-12"><div className="flex flex-wrap items-center gap-3 text-xs font-extrabold text-[#236199]"><span className="rounded-full bg-blue-50 px-3 py-1.5">{t('blog.categories.partnerships')}</span><time dateTime={article.publishedAt} className="text-slate-500">{article.publishedLabel}</time></div><h3 className="mt-4 text-[1.55rem] font-extrabold leading-[1.18] sm:mt-5 sm:text-3xl lg:text-[2.15rem] [text-wrap:balance]"><Link to={`/blogue/${article.slug}`} className="transition hover:text-[#174B86]">{article.title}</Link></h3><p className="mt-4 hyphens-auto text-justify text-sm leading-7 text-slate-600 sm:text-base">{article.excerpt}</p><div className="mt-6 sm:mt-7"><Link to={`/blogue/${article.slug}`} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#001E4A] px-5 text-sm font-extrabold text-white transition hover:bg-[#174B86]">Ler notícia completa <ArrowRight className="h-4 w-4" /></Link></div></div>
+        </article>)}
         {filteredStories.length ? <div className="grid gap-7 md:grid-cols-2">{filteredStories.map((story, index) => <article id={story.id} key={story.id} className="scroll-mt-32 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(9,23,44,.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(9,23,44,.16)]">
           <div className="relative aspect-video bg-[#09172C]">
             {story.media.kind === 'video' && <StreamVideo className="h-full w-full object-cover" video={story.media.video} poster={story.media.poster} controls preload={index === 0 ? 'metadata' : 'none'} playsInline aria-label={t('blog.videoLabel', { title: story.title })} />}
@@ -150,7 +163,7 @@ export const PageBlog: React.FC = () => {
             <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#001E4A]/90 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#FEC228]">{story.media.kind === 'video' ? <><PlayCircle className="h-3.5 w-3.5" /> {t('blog.videoBadge')}</> : <><Newspaper className="h-3.5 w-3.5" /> {t('blog.newsBadge')}</>}</span>
           </div>
           <div className="p-6 sm:p-7"><div className="flex flex-wrap items-center justify-between gap-3 text-xs font-bold text-[#236199]"><span>{t(`blog.categories.${story.tag}`)}</span>{story.meta && <span className="flex items-center gap-1 text-slate-500"><Clock3 className="h-3.5 w-3.5" /> {story.meta}</span>}</div><h3 className="mt-3 text-2xl font-extrabold leading-tight">{story.title}</h3><p className="mt-3 whitespace-pre-line text-sm leading-7 text-slate-600">{story.text}</p><div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-5"><span className="text-xs font-semibold text-slate-500">{story.audience ? t('blog.audience', { audience: story.audience }) : ''}</span><button type="button" onClick={() => void shareStory(story)} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-extrabold text-[#174B86] hover:bg-blue-50"><Share2 className="h-4 w-4" /> {copiedStory === story.id ? t('blog.linkCopied') : t('blog.share')}</button></div></div>
-        </article>)}</div> : <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center" role="status"><Search className="mx-auto h-9 w-9 text-slate-400" /><h3 className="mt-4 text-xl font-extrabold">{t('blog.noResults')}</h3><p className="mt-2 text-sm text-slate-600">{t('blog.noResultsText')}</p><button type="button" onClick={() => { setQuery(''); setActiveCategory('all'); }} className="mt-5 rounded-xl bg-[#001E4A] px-5 py-3 text-sm font-extrabold text-white">{t('blog.clearSearch')}</button></div>}
+        </article>)}</div> : featuredArticles.length ? null : <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center" role="status"><Search className="mx-auto h-9 w-9 text-slate-400" /><h3 className="mt-4 text-xl font-extrabold">{t('blog.noResults')}</h3><p className="mt-2 text-sm text-slate-600">{t('blog.noResultsText')}</p><button type="button" onClick={() => { setQuery(''); setActiveCategory('all'); }} className="mt-5 rounded-xl bg-[#001E4A] px-5 py-3 text-sm font-extrabold text-white">{t('blog.clearSearch')}</button></div>}
       </section>
 
       <section className="bg-white py-16 sm:py-20"><div className="container-pepek"><div className="max-w-2xl"><span className="text-xs font-extrabold uppercase tracking-[.15em] text-[#236199]">{t('blog.resourcesEyebrow')}</span><h2 className="mt-2 text-2xl sm:text-3xl font-extrabold">{t('blog.resourcesTitle')}</h2><p className="mt-3 text-sm leading-7 text-slate-600">{t('blog.resourcesText')}</p></div><div className="mt-8 grid gap-5 md:grid-cols-3">{resources.map(({ icon: Icon, title, text, to, action }) => <Link key={to} to={to} className="group rounded-3xl border border-slate-200 bg-[#F8F9FA] p-6 transition hover:-translate-y-1 hover:border-[#FEC228] hover:shadow-lg"><span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#001E4A] text-[#FEC228]"><Icon className="h-6 w-6" /></span><h3 className="mt-5 text-xl font-extrabold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{text}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#174B86]">{action} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span></Link>)}</div></div></section>
