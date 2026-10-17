@@ -18,6 +18,13 @@ export const Logo: React.FC<LogoProps> = ({ className = '', variant = 'dark', he
         src={SOURCES[variant]}
         alt="PEPEK GRUPO RENT-A-CAR"
         decoding="async"
+        onError={(event) => {
+          // WebP falhou (cache estragada, rede): tenta uma vez a versão PNG.
+          const img = event.currentTarget;
+          if (img.dataset.fallback) return;
+          img.dataset.fallback = '1';
+          img.src = img.src.replace(/\.webp(\?.*)?$/, '.png');
+        }}
         className="w-auto h-full object-contain transition-all duration-300 group-hover:scale-102"
         style={{ maxHeight: height }}
       />

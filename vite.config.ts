@@ -96,9 +96,10 @@ export default defineConfig(({ isSsrBuild }) => ({
             urlPattern: /\.(?:png|jpe?g|webp|svg)$/i,
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'pepek-visual-assets',
+              // Nome novo: a cache antiga podia guardar HTML no lugar de imagens (ver main.tsx).
+              cacheName: 'pepek-images-v2',
               expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 14 },
-              cacheableResponse: { statuses: [0, 200] }
+              cacheableResponse: { statuses: [200] }
             }
           },
           {

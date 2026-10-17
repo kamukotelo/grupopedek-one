@@ -105,6 +105,146 @@
       "source": "/privacy",
       "destination": "/privacidade",
       "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index.php",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/inicio.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/quem-somos.html",
+      "destination": "/quem-somos",
+      "permanent": true
+    },
+    {
+      "source": "/sobre",
+      "destination": "/quem-somos",
+      "permanent": true
+    },
+    {
+      "source": "/sobre-nos",
+      "destination": "/quem-somos",
+      "permanent": true
+    },
+    {
+      "source": "/empresa",
+      "destination": "/quem-somos",
+      "permanent": true
+    },
+    {
+      "source": "/servicos-item/:slug",
+      "destination": "/servicos",
+      "permanent": true
+    },
+    {
+      "source": "/servico/:slug",
+      "destination": "/servicos",
+      "permanent": true
+    },
+    {
+      "source": "/servicos/:slug",
+      "destination": "/servicos",
+      "permanent": true
+    },
+    {
+      "source": "/viaturas-item/:slug",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/viaturas/:slug",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/viatura/:slug",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/frota/:slug",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/carros",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/viaturas-:n",
+      "destination": "/frota",
+      "permanent": true
+    },
+    {
+      "source": "/parceiros-item/:slug",
+      "destination": "/clientes",
+      "permanent": true
+    },
+    {
+      "source": "/clientes-item/:slug",
+      "destination": "/clientes",
+      "permanent": true
+    },
+    {
+      "source": "/contacto",
+      "destination": "/contactos",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/contactos",
+      "permanent": true
+    },
+    {
+      "source": "/contacts",
+      "destination": "/contactos",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/blogue",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/blogue",
+      "permanent": true
+    },
+    {
+      "source": "/noticias",
+      "destination": "/blogue",
+      "permanent": true
+    },
+    {
+      "source": "/reserva",
+      "destination": "/reservar",
+      "permanent": true
+    },
+    {
+      "source": "/reservas",
+      "destination": "/reservar",
+      "permanent": true
+    },
+    {
+      "source": "/booking",
+      "destination": "/reservar",
+      "permanent": true
     }
   ],
   "rewrites": [

@@ -9,6 +9,11 @@ import { recoverFromStaleBuild } from './lib/staleBuild';
 
 // O Vite avisa quando um ficheiro JS/CSS de uma versão anterior do site já não existe
 // (depois de um deploy): limpa-se a cache e recarrega-se uma vez para obter a versão nova.
+// Até Out/2026 o servidor respondia a ficheiros em falta com o HTML da app (200), e o
+// service worker podia guardá-lo como se fosse uma imagem (logótipo/ícones "partidos").
+// Apaga essa cache antiga; as imagens voltam a ser pedidas e guardadas na 'pepek-images-v2'.
+if ('caches' in window) void caches.delete('pepek-visual-assets').catch(() => undefined);
+
 window.addEventListener('vite:preloadError', (event) => {
   if (recoverFromStaleBuild()) event.preventDefault();
 });

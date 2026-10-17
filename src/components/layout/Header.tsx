@@ -19,6 +19,14 @@ import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { FleetCarIcon } from '../ui/FleetCarIcon';
 import { useAuth } from '../../context/AuthContext';
 
+// Se o WebP do logótipo falhar (cache estragada, rede), tenta uma vez a versão PNG.
+const fallbackToPng = (event: React.SyntheticEvent<HTMLImageElement>) => {
+  const img = event.currentTarget;
+  if (img.dataset.fallback) return;
+  img.dataset.fallback = '1';
+  img.src = img.src.replace(/\.webp(\?.*)?$/, '.png');
+};
+
 export const Header: React.FC = () => {
   const { t } = useTranslation();
   const { currentUser, setIsPortalOpen } = useAuth();
@@ -70,7 +78,7 @@ export const Header: React.FC = () => {
       <div className="border-b border-slate-200 bg-white">
         <div className="container-pepek flex h-[76px] items-center justify-between gap-2 sm:gap-4 lg:h-[92px]">
           <Link to="/" className="flex h-14 w-[clamp(120px,42vw,190px)] shrink-0 items-center justify-center overflow-hidden px-1 py-1 sm:w-[215px] lg:h-[72px] lg:w-[250px]" aria-label={t('common.homeLinkLabel')} data-header-logo>
-            <img src="/logo-pepek-dark.webp" alt={t('common.logoAlt')} width={900} height={300} decoding="async" className="block h-auto max-h-full w-full object-contain object-center" />
+            <img src="/logo-pepek-dark.webp" alt={t('common.logoAlt')} width={900} height={300} decoding="async" onError={fallbackToPng} className="block h-auto max-h-full w-full object-contain object-center" />
           </Link>
 
           <div className="hidden items-stretch lg:flex">
