@@ -16,6 +16,7 @@ export const LANDING_LINKS: { slug: string; label: Record<'pt' | 'en' | 'fr', st
   { slug: 'aluguer-de-4x4-angola', label: { pt: 'Aluguer de 4x4 e pick-ups', en: '4x4 & pick-up rental', fr: 'Location de 4x4 et pick-up' } },
   { slug: 'aluguer-de-carros-benguela-lobito', label: { pt: 'Carros em Benguela e Lobito', en: 'Car rental Benguela & Lobito', fr: 'Voiture à Benguela et Lobito' } },
   { slug: 'aluguer-de-carros-para-casamentos-luanda', label: { pt: 'Carros para casamentos', en: 'Wedding car hire', fr: 'Voitures de mariage' } },
+  { slug: 'como-escolher-rent-a-car-angola', label: { pt: 'Guia: como escolher rent-a-car', en: 'Guide: choosing a car rental', fr: 'Guide : choisir sa location' } },
 ];
 
 export const landingLinkLabel = (slug: string, lang: 'pt' | 'en' | 'fr') =>
