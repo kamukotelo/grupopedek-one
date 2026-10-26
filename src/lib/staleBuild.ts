@@ -51,3 +51,39 @@ export const lazyPage = <T extends ComponentType<any>>(load: () => Promise<{ def
   if (isStaleChunkError(error) && recoverFromStaleBuild()) return new Promise<{ default: T }>(() => undefined);
   throw error;
 }));
+
+// ── Versão nova do site ──────────────────────────────────────────────────────
+
+const CHECK_AFTER_HIDDEN_MS = 5 * 60_000;
+
+/** Pergunta à rede qual é a versão actual (nunca em cache) e recarrega se for diferente. */
+const checkForNewBuild = async () => {
+  try {
+    const response = await fetch(`/version.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok || !(response.headers.get('content-type') || '').includes('json')) return;
+    const { id } = await response.json() as { id?: string };
+    if (id && id !== __BUILD_ID__) recoverFromStaleBuild();
+  } catch { /* sem rede: mantém a versão actual */ }
+};
+
+/**
+ * Ativa as verificações de versão nova: ao abrir o site e ao voltar a um separador
+ * que esteve escondido mais de 5 minutos (o caso típico de um telemóvel com muitos
+ * separadores abertos), e responde ao aviso do service worker novo.
+ */
+export const watchForNewBuild = () => {
+  if (typeof window === 'undefined' || import.meta.env.DEV) return;
+
+  void checkForNewBuild();
+
+  let hiddenAt = 0;
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt > CHECK_AFTER_HIDDEN_MS) void checkForNewBuild();
+  });
+
+  // O service worker novo avisa as páginas abertas; esta versão responde para não ser recarregada.
+  navigator.serviceWorker?.addEventListener('message', (event) => {
+    if (event.data?.type === 'PEPEK_SW_ACTIVATED') (event.source as ServiceWorker | null)?.postMessage({ type: 'PEPEK_OK' });
+  });
+};

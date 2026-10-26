@@ -7,6 +7,9 @@ interface ImportMetaEnv {
   readonly VITE_CONTACT_EMAIL: string;
 }
 
+// Definido em vite.config.ts: identificador desta versão do site.
+declare const __BUILD_ID__: string;
+
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }

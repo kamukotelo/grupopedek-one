@@ -2,7 +2,7 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { readFile, rm } from 'node:fs/promises'
+import { readFile, rm, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 // Páginas internas de revisão da frota (geradas por scripts/generate-fleet-*.mjs).
@@ -21,12 +21,26 @@ const excludeInternalReviewPages = (): Plugin => ({
 
 // O build SSR (`vite build --ssr src/entry-server.tsx`) só serve para pré-renderizar
 // as páginas; não copia public/ nem gera service worker.
+// Identificador desta versão do site. A app compara-o com /version.json (sempre da rede)
+// para saber que há uma versão nova e recarregar (src/lib/staleBuild.ts).
+const BUILD_ID = String(Date.now())
+
+const emitVersionFile = (): Plugin => ({
+  name: 'pepek:emit-version-file',
+  apply: 'build',
+  async writeBundle(options) {
+    const outDir = options.dir ?? resolve(process.cwd(), 'dist')
+    await writeFile(resolve(outDir, 'version.json'), JSON.stringify({ id: BUILD_ID }))
+  }
+})
+
 export default defineConfig(({ isSsrBuild }) => ({
+  define: { __BUILD_ID__: JSON.stringify(BUILD_ID) },
   build: { copyPublicDir: !isSsrBuild },
   plugins: [
     react(),
     tailwindcss(),
-    ...(isSsrBuild ? [] : [excludeInternalReviewPages(), VitePWA({
+    ...(isSsrBuild ? [] : [excludeInternalReviewPages(), emitVersionFile(), VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon-pepek.png', 'favicon.ico', 'apple-touch-icon.png', 'robots.txt'],
       manifest: {
@@ -45,6 +59,9 @@ export default defineConfig(({ isSsrBuild }) => ({
       },
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        // Script do próprio service worker: limpa caches estragadas e recarrega as páginas
+        // abertas que ainda correm uma versão antiga do site (public/sw-heal.js).
+        importScripts: ['sw-heal.js'],
         // As páginas (HTML) vêm sempre da rede: depois de um deploy, o HTML antigo em cache
         // apontava para ficheiros JS que já não existem e a página ficava em branco.
         // Sem rede, usa-se a última cópia guardada (regra 'pepek-pages' abaixo).
